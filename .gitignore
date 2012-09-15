@@ -1,12 +1,21 @@
-# Compiled Object files
+# Compiled source code
+*.o
 *.slo
 *.lo
-*.o
-
-# Compiled Dynamic libraries
 *.so
-
-# Compiled Static libraries
 *.lai
 *.la
 *.a
+*.obj
+*.lib
+*.dll
+*.exe
+
+
+# Log Files
+*.log
+
+
+# Test Programs
+
+tests/test-*
