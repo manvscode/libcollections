@@ -211,7 +211,7 @@ boolean tstring_sconcatenate( tstring_t *p_string, const tchar *s )
 	return FALSE;
 }
 
-void tstring_format( tstring_t *p_string, const char *format, ... )
+void tstring_format( tstring_t *p_string, const tchar *format, ... )
 {
 	va_list args;
 	size_t buffer_length;
@@ -220,7 +220,7 @@ void tstring_format( tstring_t *p_string, const char *format, ... )
 	assert( format );
 
 	va_start( args, format );
-	buffer_length = vsnprintf( NULL, 0, format, args );
+	buffer_length = tvsnprintf( NULL, 0, format, args );
 	va_end( args );
 
 	if( buffer_length > 0 )
@@ -233,77 +233,69 @@ void tstring_format( tstring_t *p_string, const char *format, ... )
 		}
 
 		va_start( args, format );
-		vsnprintf( p_string->s, buffer_length, format, args );
+		tvsnprintf( p_string->s, buffer_length, format, args );
 		p_string->s[ buffer_length ] = '\0';
 		va_end( args );
 	}
 }
 
-void tstring_rtrim( tstring_t *p_string )
+size_t tstring_ltrim( tstring_t *p_string )
 {
 	size_t charsRemoved = 0;
 	assert( p_string );
-
-	while( isspace(*p_string->s) || !isprint(*p_string->s) )
-	{
-		++p_string->s;
-		charsRemoved++;
-	}
-
+	charsRemoved  = ltrim( p_string->s, _T("\n\r\t ") );
 	p_string->length -= charsRemoved;
+	return charsRemoved;
 }
 
-void tstring_ltrim( tstring_t *p_string )
+size_t tstring_rtrim( tstring_t *p_string )
 {
-	assert( p_string );
-	tchar* r = p_string->s;
 	size_t charsRemoved = 0;
+	assert( p_string );
+	charsRemoved = rtrim( p_string->s, _T("\n\r\t ") );
+	p_string->length -= charsRemoved;
+	return charsRemoved;
+}
 
-	if( r != NULL )
+size_t tstring_trim( tstring_t *p_string )
+{
+	return tstring_rtrim( p_string ) + tstring_ltrim( p_string );
+}
+
+size_t ltrim( tchar* s, const tchar* delimeters )
+{
+	tchar* start = s;
+	assert( s );
+
+	while( *s && tstrchr(delimeters, *s) )
 	{
-		tchar *fr = r + p_string->length - 1;
-		while( (isspace(*fr) || !isprint(*fr) || *fr == 0) && fr >= r)
+		++s;
+	}
+
+	tstrcpy( start, s );
+	return s - start; // # of chars removed
+}
+
+size_t rtrim( tchar* s, const tchar* delimeters )
+{
+	tchar *end = s + tstrlen(s) - 1;
+	tchar *new_end = end;
+	assert( s );
+
+	if( s != NULL )
+	{
+		while( tstrchr(delimeters, *new_end) && new_end >= s )
 		{
-			--fr;
-			charsRemoved++;
+			--new_end;
 		}
-		*++fr = 0;
+		*(new_end + 1) = '\0';
 	}
 
-	p_string->length -= charsRemoved;
+	return end - new_end;
 }
 
-void tstring_trim( tstring_t *p_string )
+size_t trim( tchar* s, const tchar* delimeters )
 {
-	tstring_rtrim( p_string );
-	tstring_ltrim( p_string );
-}
-
-tchar *rtrim( const tchar *s )
-{
-	while( isspace(*s) || !isprint(*s) ) ++s;
-	return strdup( s );
-}
-
-tchar *ltrim( const tchar *s )
-{
-	tchar *r = strdup(s);
-
-	if( r != NULL )
-	{
-		tchar *fr = r + strlen(s) - 1;
-		while( (isspace(*fr) || !isprint(*fr) || *fr == 0) && fr >= r) --fr;
-		*++fr = 0;
-	}
-
-	return r;
-}
-
-tchar *trim( const tchar *s )
-{
-	tchar *r = rtrim(s);
-	tchar *f = ltrim(r);
-	free(r);
-	return f;
+	return ltrim( s, delimeters ) + rtrim( s, delimeters );
 }
 

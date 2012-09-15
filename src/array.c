@@ -23,6 +23,9 @@
 #include <stdio.h>
 #include <assert.h>
 #include "array.h"
+#ifdef _DEBUG_VECTOR
+#include <string.h>
+#endif
 
 boolean array_create( array_t *p_array, size_t element_size, size_t size )
 {

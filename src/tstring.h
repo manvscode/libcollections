@@ -26,6 +26,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <ctype.h>
+#include <wchar.h>
+#include <wctype.h>
 #include "types.h"
 #ifdef __cplusplus
 extern "C" {
@@ -54,7 +57,7 @@ extern "C" {
 	#define tstrcoll     wcscoll
 	#define tstrncmp     wcsncmp
 	#define tstrcasecmp  wcscasecmp
-	#define tstrncasecmp strncasecmp
+	#define tstrncasecmp wcsncasecmp
 	#define tstrcpy      wcscpy
 	#define tstrncpy     wcsncpy
 	#define tstrcat      wcscat
@@ -73,8 +76,9 @@ extern "C" {
 	#define tsnprintf    swprintf
 	#define tvprintf     vwprintf
 	#define tvfprintf    vfwprintf
-	#define tvsprintf    #error "There is no wide character equivalent to vsprintf"
-	#define tvsnprintf   vswprintf
+	#define tvsprintf    vswprintf
+	#define tvsnprintf   vswprintf // intentionally missing n
+	#define tmemcpy      wmemcpy
 	#if defined(WIN32)
 		#define _tmain       wmain  /* main() is wmain() */
 	#else
@@ -112,6 +116,7 @@ extern "C" {
 	#define tvfprintf    vfprintf
 	#define tvsprintf    vsprintf
 	#define tvsnprintf   vsnprintf
+	#define tmemcpy      memcpy
 	#define _tmain       main  
 #endif
 	
@@ -146,19 +151,19 @@ boolean tstring_assign       ( tstring_t *p_result, const tchar *p_string );
 boolean tstring_concatenate  ( tstring_t *p_result, const tstring_t *s );
 boolean tstring_nconcatenate    ( tstring_t *p_result, const tstring_t *p_string, size_t n );
 boolean tstring_sconcatenate    ( tstring_t *p_string, const tchar *s );
-void    tstring_format       ( tstring_t *p_string, const char *format, ... );
-void    tstring_rtrim        ( tstring_t *p_string );
-void    tstring_ltrim        ( tstring_t *p_string );
-void    tstring_trim         ( tstring_t *p_string );
+void    tstring_format       ( tstring_t *p_string, const tchar *format, ... );
+size_t  tstring_rtrim        ( tstring_t *p_string );
+size_t  tstring_ltrim        ( tstring_t *p_string );
+size_t  tstring_trim         ( tstring_t *p_string );
 
 #define tstring_get( p_string )            ((p_string)->s)
 #define tstring_string( p_string )         ((p_string)->s)
 #define tstring_length( p_string )         ((p_string)->length)
 #define tstring_size( p_string )           (sizeof(tchar) * ((p_string)->length + 1))
 
-tchar *rtrim ( const tchar *s );
-tchar *ltrim ( const tchar *s );
-tchar *trim  ( const tchar *s );
+size_t ltrim ( tchar* s, const tchar* delimeters );
+size_t rtrim ( tchar* s, const tchar* delimeters );
+size_t trim  ( tchar* s, const tchar* delimeters );
 
 #ifdef __cplusplus
 } /* external C linkage */

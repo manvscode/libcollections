@@ -1,13 +1,10 @@
 #include <locale.h>
 #include <assert.h>
-#ifndef UNICODE
-#define UNICODE /* TODO: Fix this. */
-#endif
+#include "tstring.h"
 
 #ifndef UNICODE
 #error "These tests assume unicode support"
 #endif
-#include "tstring.h"
 
 int main( int argc, char *argv[] )
 {
@@ -41,6 +38,27 @@ int main( int argc, char *argv[] )
 
 	//const tchar *russian_text_utf16 = _T("");
 	//tprintf( _T("UTF-16 Russian text = %S\n"), russian_text_utf16 );
+	//
+	
 
+	tstring_t ltext;
+	tstring_t rtext;
+	tstring_create( &ltext, _T("   \t\n \r This is a test of ltrim().") );
+	tstring_create( &rtext, _T("This is a test of rtrim().   \n\t\t \r ") );
+
+	size_t n = 0;
+
+	n = tstring_ltrim( &ltext );
+	assert( n == 8 );
+	tprintf( _T("[%S] -- %ld chars removed\n"), ltext.s, n );
+	
+	n = tstring_rtrim( &rtext );
+	assert( n == 9 );
+	tprintf( _T("[%S] -- %ld chars removed\n"), rtext.s, n );
+
+	tstring_destroy( &ltext );
+	tstring_destroy( &rtext );
+
+	
 	return 0;
 }

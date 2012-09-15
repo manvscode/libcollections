@@ -9,8 +9,8 @@ AC_C_INLINE
 AC_HEADER_STDC
 
 
-dnlCFLAGS=" -Wall -pedantic -g -ggdb -pg -O0 -D_DEBUG -DUSE_ALLOCATORS "
-CFLAGS=" -Wall -pedantic -O3 "
+dnl CFLAGS=" -Wall -pedantic -g -ggdb -pg -O0 -D_DEBUG_VECTOR -DUSE_ALLOCATORS -DUNICODE"
+CFLAGS=" -Wall -pedantic -O3 -DUNICODE"
 LDFLAGS=""
 
 AC_PROG_RANLIB

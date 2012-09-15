@@ -67,7 +67,7 @@ boolean      vector_unserialize ( vector_t *p_vector, FILE *file, vector_unseria
 #define vector_is_empty( p_vector )      ((p_vector)->size <= 0)
 #define vector_peek( p_vector )          (vector_get(p_vector, vector_size(p_vector) - 1))
 
-#if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L))
+#if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)) || defined(_DEBUG_VECTOR)
 void* vector_get         ( vector_t *p_vector, size_t index );
 void  vector_set         ( vector_t *p_vector, size_t index, void *data );
 #else
@@ -117,7 +117,7 @@ void         pvector_clear      ( pvector_t *p_vector );
 #define pvector_is_empty( p_vector )    ((p_vector)->size <= 0)
 #define pvector_peek( p_vector )        (pvector_get(p_vector, vector_size(p_vector) - 1))
 
-#if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L))
+#if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)) || defined(_DEBUG_VECTOR)
 void* pvector_get        ( pvector_t *p_vector, size_t index );
 void  pvector_set        ( pvector_t *p_vector, size_t index, void *data );
 #else

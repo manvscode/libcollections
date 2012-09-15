@@ -25,18 +25,6 @@
 #include <assert.h>
 #include "vector.h"
 
-/*
-inline void vector_resize( vector_t *p_vector )
-{
-	if( vector_size(p_vector) >= vector_array_size(p_vector) )
-	{
-		size_t new_size      = 2 * p_vector->array_size + 1;
-		p_vector->array_size = new_size;
-		p_vector->array      = realloc( p_vector->array, p_vector->element_size * vector_array_size(p_vector) );
-		assert( p_vector->array );
-	}
-}
-*/
 
 #if defined(VECTOR_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
 	#define DESTROY_CHECK( code ) \
@@ -155,7 +143,7 @@ boolean vector_pop( vector_t *p_vector )
 	return result;
 }
 
-#if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L))
+#if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)) || defined(_DEBUG_VECTOR)
 void* vector_get( vector_t *p_vector, size_t index )
 {
 	assert( index >= 0 );
@@ -332,7 +320,7 @@ boolean pvector_pop( pvector_t *p_vector )
 	return result;
 }
 
-#if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L))
+#if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)) || defined(_DEBUG_VECTOR)
 void* pvector_get( pvector_t *p_vector, size_t index )
 {
 	assert( index >= 0 );
