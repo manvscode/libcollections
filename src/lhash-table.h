@@ -26,6 +26,7 @@ extern "C" {
 #endif 
 
 #include <stddef.h>
+#include "config.h"
 #include "types.h"
 #include "array.h"
 #include "bitset.h"

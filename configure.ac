@@ -9,14 +9,23 @@ AC_C_INLINE
 AC_HEADER_STDC
 
 
-dnl CFLAGS=" -Wall -pedantic -g -ggdb -pg -O0 -D_DEBUG_VECTOR -DUSE_ALLOCATORS -DUNICODE"
-CFLAGS=" -Wall -pedantic -O3 -DUNICODE"
+CFLAGS=" -Wall -pedantic -g -ggdb -pg -O0 -D_DEBUG_VECTOR -DUNICODE"
+dnlCFLAGS=" -Wall -pedantic -O3 -DUNICODE"
 LDFLAGS=""
 
 AC_PROG_RANLIB
 
+AC_ARG_ENABLE([allocators],
+    AS_HELP_STRING([--disable-allocators], [Disable exposed allocators]))
 
-dnl AC_CONFIG_HEADERS([src/config.h])
+AS_IF([test "x$enable_allocators" != "xno"], [
+	CFLAGS="$CFLAGS -DUSE_ALLOCATORS"
+	AC_DEFINE(USE_ALLOCATORS, 1, [Expose memory allocation and deallocation.])
+])
+
+
+
+AC_CONFIG_HEADERS([src/config.h])
 
 AC_PROG_INSTALL
 

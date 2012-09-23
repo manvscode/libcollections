@@ -26,6 +26,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif 
+#include "config.h"
 
 struct bench_mark;
 typedef struct bench_mark* bench_mark_t;
