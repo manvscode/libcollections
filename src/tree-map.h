@@ -46,7 +46,7 @@ typedef struct tree_map_node {
 
 typedef struct tree_map {
 	tree_map_node_t *root;
-	unsigned int size;	
+	size_t size;	
 	tree_map_compare_function compare;
 	tree_map_element_function destroy;
 
@@ -60,8 +60,8 @@ typedef tree_map_node_t* tree_map_iterator_t;
 
 
 #ifdef USE_ALLOCATORS
-tree_map_t* tree_map_create_ex   ( tree_map_element_function destroy, tree_map_compare_function compare, alloc_function alloc );
-void        tree_map_create      ( tree_map_t *p_map, tree_map_element_function destroy, tree_map_compare_function compare, alloc_function alloc );
+tree_map_t* tree_map_create_ex   ( tree_map_element_function destroy, tree_map_compare_function compare, alloc_function alloc, free_function free );
+void        tree_map_create      ( tree_map_t *p_map, tree_map_element_function destroy, tree_map_compare_function compare, alloc_function alloc, free_function free );
 #else
 tree_map_t* tree_map_create_ex   ( tree_map_element_function destroy, tree_map_compare_function compare );
 void        tree_map_create      ( tree_map_t *p_map, tree_map_element_function destroy, tree_map_compare_function compare );

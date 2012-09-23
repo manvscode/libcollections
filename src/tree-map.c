@@ -308,7 +308,7 @@ tree_map_node_t *tree_map_node_predecessor( tree_map_node_t *t )
 }
 
 #ifdef USE_ALLOCATORS
-tree_map_t* tree_map_create_ex( tree_map_element_function destroy, tree_map_compare_function compare, alloc_function alloc )
+tree_map_t* tree_map_create_ex( tree_map_element_function destroy, tree_map_compare_function compare, alloc_function alloc, free_function free )
 #else
 tree_map_t* tree_map_create_ex( tree_map_element_function destroy, tree_map_compare_function compare )
 #endif
@@ -323,7 +323,7 @@ tree_map_t* tree_map_create_ex( tree_map_element_function destroy, tree_map_comp
 	if( p_map )
 	{
 		#ifdef USE_ALLOCATORS
-		tree_map_create( p_map, destroy, compare, alloc );
+		tree_map_create( p_map, destroy, compare, alloc, free );
 		#else
 		tree_map_create( p_map, destroy, compare );
 		#endif
@@ -333,7 +333,7 @@ tree_map_t* tree_map_create_ex( tree_map_element_function destroy, tree_map_comp
 }
 
 #ifdef USE_ALLOCATORS
-void tree_map_create( tree_map_t *p_map, tree_map_element_function destroy, tree_map_compare_function compare, alloc_function alloc )
+void tree_map_create( tree_map_t *p_map, tree_map_element_function destroy, tree_map_compare_function compare, alloc_function alloc, free_function free )
 #else
 void tree_map_create( tree_map_t *p_map, tree_map_element_function destroy, tree_map_compare_function compare )
 #endif
