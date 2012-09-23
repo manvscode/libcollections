@@ -1,5 +1,6 @@
 #AM_CFLAGS = $(DEPS_CFLAGS) -I ../src/ -L ../src/ -L .
-AM_CFLAGS = -std=gnu99 -Wall -pedantic -g -ggdb -pg -O0 -D_DEBUG -DUNICODE -DUSE_ALLOCATORS -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/ -L ../src/ -L . 
+#AM_CFLAGS = -std=gnu99 -Wall -pedantic -g -ggdb -pg -O0 -D_DEBUG -DUNICODE -DUSE_ALLOCATORS -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/ -L ../src/ -L . 
+AM_CFLAGS = -std=gnu99 -Wall -pedantic -O3 -DUNICODE -DUSE_ALLOCATORS -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/ -L ../src/ -L . 
 LDADD     = -lcollections
 
 
@@ -16,6 +17,7 @@ test-lhash-table \
 test-slist \
 test-tstring \
 test-rbtree \
+test-tree-map \
 test-variant \
 test-vector
 
@@ -31,5 +33,6 @@ test_lhash_table_SOURCES = test-lhash-table.c
 test_tstring_SOURCES     = test-tstring.c
 test_slist_SOURCES       = test-slist.c
 test_rbtree_SOURCES      = test-rbtree.c
+test_tree_map_SOURCES    = test-tree-map.c
 test_vector_SOURCES      = test-vector.c
 test_variant_SOURCES     = test-variant.c
