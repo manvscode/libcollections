@@ -1,38 +1,38 @@
 #AM_CFLAGS = $(DEPS_CFLAGS) -I ../src/ -L ../src/ -L .
-#AM_CFLAGS = -std=gnu99 -Wall -pedantic -g -ggdb -pg -O0 -D_DEBUG -DUNICODE -DUSE_ALLOCATORS -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/ -L ../src/ -L . 
-AM_CFLAGS = -std=gnu99 -Wall -pedantic -O3 -DUNICODE -DUSE_ALLOCATORS -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/ -L ../src/ -L . 
+#AM_CFLAGS = -std=gnu99 -Wall -pedantic -g -ggdb -pg -O0 -D_DEBUG -DUNICODE -DUSE_ALLOCATORS -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/ -L../src/ -L. 
+AM_CFLAGS = -std=gnu99 -Wall -pedantic -O3 -DUNICODE -DUSE_ALLOCATORS -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/ -L../src/ -L. 
 LDADD     = -lcollections
 
 
 bin_PROGRAMS = \
-test-array \
-test-bench-mark \
-test-bheap \
-test-bitset \
-test-dlist \
-test-flat-db \
-test-hash-map \
-test-hash-table \
-test-lhash-table \
-test-slist \
-test-tstring \
-test-rbtree \
-test-tree-map \
-test-variant \
-test-vector
+$(top_builddir)/bin/test-array \
+$(top_builddir)/bin/test-bench-mark \
+$(top_builddir)/bin/test-bheap \
+$(top_builddir)/bin/test-bitset \
+$(top_builddir)/bin/test-dlist \
+$(top_builddir)/bin/test-flat-db \
+$(top_builddir)/bin/test-hash-map \
+$(top_builddir)/bin/test-hash-table \
+$(top_builddir)/bin/test-lhash-table \
+$(top_builddir)/bin/test-slist \
+$(top_builddir)/bin/test-tstring \
+$(top_builddir)/bin/test-rbtree \
+$(top_builddir)/bin/test-tree-map \
+$(top_builddir)/bin/test-variant \
+$(top_builddir)/bin/test-vector
 
-test_array_SOURCES       = test-array.c
-test_bench_mark_SOURCES  = test-bench-mark.c
-test_bheap_SOURCES       = test-bheap.c
-test_bitset_SOURCES      = test-bitset.c
-test_dlist_SOURCES       = test-dlist.c
-test_flat_db_SOURCES     = test-flat-db.c
-test_hash_map_SOURCES    = test-hash-map.c
-test_hash_table_SOURCES  = test-hash-table.c
-test_lhash_table_SOURCES = test-lhash-table.c
-test_tstring_SOURCES     = test-tstring.c
-test_slist_SOURCES       = test-slist.c
-test_rbtree_SOURCES      = test-rbtree.c
-test_tree_map_SOURCES    = test-tree-map.c
-test_vector_SOURCES      = test-vector.c
-test_variant_SOURCES     = test-variant.c
+__top_builddir__bin_test_array_SOURCES       = test-array.c
+__top_builddir__bin_test_bench_mark_SOURCES  = test-bench-mark.c
+__top_builddir__bin_test_bheap_SOURCES       = test-bheap.c
+__top_builddir__bin_test_bitset_SOURCES      = test-bitset.c
+__top_builddir__bin_test_dlist_SOURCES       = test-dlist.c
+__top_builddir__bin_test_flat_db_SOURCES     = test-flat-db.c
+__top_builddir__bin_test_hash_map_SOURCES    = test-hash-map.c
+__top_builddir__bin_test_hash_table_SOURCES  = test-hash-table.c
+__top_builddir__bin_test_lhash_table_SOURCES = test-lhash-table.c
+__top_builddir__bin_test_tstring_SOURCES     = test-tstring.c
+__top_builddir__bin_test_slist_SOURCES       = test-slist.c
+__top_builddir__bin_test_rbtree_SOURCES      = test-rbtree.c
+__top_builddir__bin_test_tree_map_SOURCES    = test-tree-map.c
+__top_builddir__bin_test_vector_SOURCES      = test-vector.c
+__top_builddir__bin_test_variant_SOURCES     = test-variant.c

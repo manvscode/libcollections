@@ -13,7 +13,26 @@ CFLAGS=" -Wall -pedantic -g -ggdb -pg -O0 -D_DEBUG_VECTOR -DUNICODE"
 dnlCFLAGS=" -Wall -pedantic -O3 -DUNICODE"
 LDFLAGS=""
 
-AC_PROG_RANLIB
+AC_ARG_ENABLE([shared],
+	AS_HELP_STRING([--enable-shared], [Build shared library]))
+
+LT_INIT
+AC_PROG_LIBTOOL
+
+#AS_IF([test "x$enable_shared" = "xyes"], [
+#LT_INIT
+#AC_PROG_LIBTOOL
+#])
+
+#AS_IF([test "x$enable_shared" = "xno"], [
+#LT_INIT
+#AC_PROG_RANLIB
+#])
+
+AM_CONDITIONAL(SHARED_LIB, test "x$enable_shared" = "xyes")
+AM_CONDITIONAL(STATIC_LIB, test "x$enable_shared" = "xno")
+
+
 
 AC_ARG_ENABLE([allocators],
     AS_HELP_STRING([--disable-allocators], [Disable exposed allocators]))
