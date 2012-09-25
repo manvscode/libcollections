@@ -20,6 +20,7 @@ AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL
 AC_PROG_RANLIB
 
+
 AC_ARG_ENABLE([allocators],
     AS_HELP_STRING([--disable-allocators], [Disable exposed allocators]))
 
@@ -27,7 +28,6 @@ AS_IF([test "x$enable_allocators" != "xno"], [
 	CFLAGS="$CFLAGS -DUSE_ALLOCATORS"
 	AC_DEFINE(USE_ALLOCATORS, 1, [Expose memory allocation and deallocation.])
 ])
-
 
 
 AC_CONFIG_HEADERS([src/config.h])
