@@ -4,11 +4,7 @@ libcollections_src = array.c bench-mark.c bheap.c bitset.c dlist.c flat-db.c has
 
 include_HEADERS = config.h
 
-# Static Library
-#noinst_LIBRARIES = $(top_builddir)/lib/libcollections.a
-#__top_builddir__lib_libcollections_a_SOURCES = $(libcollections_src)
-
-# Dynamic Library
+# Library
 lib_LTLIBRARIES = $(top_builddir)/lib/libcollections.la 
 __top_builddir__lib_libcollections_la_SOURCES = $(libcollections_src)
 
