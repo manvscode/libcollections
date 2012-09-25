@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-#include "config.h"
+#include "libcollections-config.h"
 #include "types.h"
 #include "tstring.h"
 #ifdef __cplusplus

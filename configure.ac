@@ -30,7 +30,7 @@ AS_IF([test "x$enable_allocators" != "xno"], [
 ])
 
 
-AC_CONFIG_HEADERS([src/config.h])
+AC_CONFIG_HEADERS([src/libcollections-config.h])
 
 AC_PROG_INSTALL
 

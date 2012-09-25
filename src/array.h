@@ -27,7 +27,7 @@ extern "C" {
 
 #include <stddef.h>
 #include "types.h"
-#include "config.h"
+#include "libcollections-config.h"
 
 typedef boolean (*array_serialize_function)( void *p_array );
 typedef boolean (*array_unserialize_function)( void *p_array );

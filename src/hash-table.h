@@ -26,7 +26,7 @@ extern "C" {
 #endif 
 
 #include <stddef.h>
-#include "config.h"
+#include "libcollections-config.h"
 #include "types.h"
 #include "slist.h"
 #ifdef USE_ALLOCATORS

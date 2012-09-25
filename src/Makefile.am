@@ -25,7 +25,7 @@ array.h \
 bench-mark.h \
 bheap.h \
 bitset.h \
-config.h \
+libcollections-config.h \
 dlist.h \
 flat-db.h \
 hash-functions.h \

@@ -24,7 +24,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif 
-#include "config.h"
+#include "libcollections-config.h"
 #include "types.h"
 #include "vector.h"
 

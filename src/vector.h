@@ -27,7 +27,7 @@ extern "C" {
 
 #include <stddef.h>
 #include <string.h>
-#include "config.h"
+#include "libcollections-config.h"
 #include "types.h"
 
 #ifndef VECTOR_INITIAL_ARRAY_SIZE
