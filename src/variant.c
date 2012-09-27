@@ -21,6 +21,7 @@
  */
 #include <string.h>
 #include <assert.h>
+#include "tstring.h"
 #include "variant.h"
 
 
@@ -48,6 +49,44 @@ void variant_initialize( variant_t* p_variant, variant_type_t type, value_t valu
 	assert( p_variant );
 	p_variant->type  = type;
 	p_variant->value = value;
+}
+
+int variant_compare( const variant_t* p_left, const variant_t* p_right )
+{
+	assert( p_left );
+	assert( p_right );
+	int result;
+
+	if( p_left->type != p_right->type )
+	{
+		result = p_left->type - p_right->type;
+	}
+	else // types match
+	{
+		switch( p_left->type )
+		{
+			case VARIANT_STRING:
+				result = tstrcmp( variant_string(p_left), variant_string(p_right) );
+				break;
+			case VARIANT_DECIMAL:
+				result = variant_decimal(p_left) - variant_decimal(p_right);
+				break;
+			case VARIANT_INTEGER:
+				result = variant_integer(p_left) - variant_integer(p_right);
+				break;
+			case VARIANT_UNSIGNED_INTEGER:
+				result = variant_unsigned_integer(p_left) - variant_unsigned_integer(p_right);
+				break;
+			case VARIANT_POINTER:
+				result = (unsigned char*) variant_pointer(p_left) - (unsigned char*) variant_pointer(p_right);
+				break;
+			default:
+				assert( FALSE ); // Did someone add a new variant type?
+				break;
+		}
+	}
+
+	return result;
 }
 
 boolean variant_is_type( const variant_t *p_variant, variant_type_t type )

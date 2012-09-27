@@ -56,6 +56,7 @@ typedef struct variant {
 variant_t*     variant_create     ( variant_type_t type );
 void           variant_destroy    ( variant_t* p_variant );
 void           variant_initialize ( variant_t* p_variant, variant_type_t type, value_t value );
+int            variant_compare    ( const variant_t* p_left, const variant_t* p_right ); 
 boolean        variant_is_type    ( const variant_t* p_variant, variant_type_t type );
 variant_type_t variant_type       ( const variant_t* p_variant );
 void           variant_set_type   ( variant_t* p_variant, variant_type_t type );
