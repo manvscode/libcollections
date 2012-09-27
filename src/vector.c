@@ -40,15 +40,25 @@
 /*
  * vector - A growable array of elements.
  */
+#ifdef USE_ALLOCATORS
+boolean vector_create( vector_t *p_vector, size_t element_size, size_t size, vector_element_function destroy_callback, alloc_function alloc, free_function free )
+#else
 boolean vector_create( vector_t *p_vector, size_t element_size, size_t size, vector_element_function destroy_callback )
+#endif
 {
 	assert( p_vector );
 
 	p_vector->element_size = element_size;
 	p_vector->array_size   = size;
 	p_vector->size         = 0L;
-	p_vector->array        = malloc( vector_element_size(p_vector) * vector_array_size(p_vector) );
 	p_vector->destroy      = destroy_callback;
+	#ifdef USE_ALLOCATORS
+	p_vector->alloc        = alloc;
+	p_vector->free         = free;
+	p_vector->array        = p_vector->alloc( vector_element_size(p_vector) * vector_array_size(p_vector) );
+	#else
+	p_vector->array        = malloc( vector_element_size(p_vector) * vector_array_size(p_vector) );
+	#endif
 
 	#ifdef _DEBUG_VECTOR
 	memset( p_vector->array, 0, vector_element_size(p_vector) * vector_array_size(p_vector) );
@@ -64,7 +74,13 @@ void vector_destroy( vector_t *p_vector )
 	assert( p_vector );
 
 	vector_clear( p_vector );
+
+	#ifdef USE_ALLOCATORS
+	p_vector->free( p_vector->array );
+	#else
 	free( p_vector->array );
+	#endif
+	
 
 	#ifdef _DEBUG_VECTOR
 	p_vector->element_size = 0L;
@@ -240,17 +256,27 @@ boolean vector_unserialize( vector_t *p_vector, FILE *file, vector_unserialize_f
 /*
  * pvector - A growable array of pointers.
  */
+#ifdef USE_ALLOCATORS
+boolean pvector_create( pvector_t *p_vector, size_t size, pvector_element_function destroy_callback, alloc_function alloc, free_function free )
+#else
 boolean pvector_create( pvector_t *p_vector, size_t size, pvector_element_function destroy_callback )
+#endif
 {
 	assert( p_vector );
 
 	p_vector->array_size = size;
 	p_vector->size       = 0L;
-	p_vector->array      = malloc( sizeof(void *) * vector_array_size(p_vector) );
 	p_vector->destroy    = destroy_callback;
+	#ifdef USE_ALLOCATORS
+	p_vector->alloc        = alloc;
+	p_vector->free         = free;
+	p_vector->array      = p_vector->alloc( sizeof(void *) * pvector_array_size(p_vector) );
+	#else
+	p_vector->array      = malloc( sizeof(void *) * pvector_array_size(p_vector) );
+	#endif
 
 	#ifdef _DEBUG_VECTOR
-	memset( p_vector->array, 0, sizeof(void *) * vector_array_size(p_vector) );
+	memset( p_vector->array, 0, sizeof(void *) * pvector_array_size(p_vector) );
 	#endif
 
 	assert( p_vector->array );
@@ -267,7 +293,11 @@ void pvector_destroy( pvector_t *p_vector )
 		pvector_pop( p_vector );
 	}
 
+	#ifdef USE_ALLOCATORS
+	p_vector->free( p_vector->array );
+	#else
 	free( p_vector->array );
+	#endif
 
 	#ifdef _DEBUG_VECTOR
 	p_vector->array      = NULL;

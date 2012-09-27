@@ -26,19 +26,31 @@ extern "C" {
 #endif 
 
 #include <stddef.h>
-#include "types.h"
 #include "libcollections-config.h"
+#include "types.h"
+#ifdef USE_ALLOCATORS
+#include "alloc.h"
+#endif
 
 typedef boolean (*array_serialize_function)( void *p_array );
 typedef boolean (*array_unserialize_function)( void *p_array );
 
 typedef struct array {
+	#ifdef USE_ALLOCATORS
+	alloc_function  alloc;
+	free_function   free;
+	#endif
+
 	byte*  arr;
 	size_t element_size;
 	size_t size;
 } array_t;
 
+#ifdef USE_ALLOCATORS
+boolean   array_create      ( array_t *p_array, size_t element_size, size_t size, alloc_function alloc, free_function free );
+#else
 boolean   array_create      ( array_t *p_array, size_t element_size, size_t size );
+#endif
 void      array_destroy     ( array_t *p_array );
 boolean   array_resize      ( array_t *p_array, size_t new_size );
 boolean   array_serialize   ( array_t *p_array, FILE *file, array_serialize_function func );

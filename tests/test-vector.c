@@ -54,7 +54,11 @@ int main( int argc, char *argv[] )
 	char names[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	srand( 0 );
+	#ifdef USE_ALLOCATORS
+	vector_create( &collection, sizeof(point), 1, point_destroy, malloc, free );
+	#else
 	vector_create( &collection, sizeof(point), 1, point_destroy );
+	#endif
 
 	for( i = 0; i < SIZE; i++ )
 	{
@@ -84,7 +88,11 @@ int main( int argc, char *argv[] )
 	char names[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	srand( 0 );
+	#ifdef USE_ALLOCATORS
+	pvector_create( &collection, 1, point_destroy, malloc, free );
+	#else
 	pvector_create( &collection, 1, point_destroy );
+	#endif
 
 	for( i = 0; i < SIZE; i++ )
 	{
