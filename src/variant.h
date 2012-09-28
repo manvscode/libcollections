@@ -29,6 +29,10 @@
 extern "C" {
 #endif
 
+struct variant;
+typedef struct variant variant_t;
+
+
 typedef enum _variant_type {
 	VARIANT_NOT_INITIALIZED = 0,
 	VARIANT_STRING,
@@ -48,10 +52,6 @@ typedef union value {
 	void*           pointer; /* must be last one */
 } value_t;
 
-typedef struct variant {
-	variant_type_t type;
-	value_t        value;
-} variant_t;
 
 variant_t*     variant_create     ( variant_type_t type );
 void           variant_destroy    ( variant_t* p_variant );
