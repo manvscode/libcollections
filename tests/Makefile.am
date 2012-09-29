@@ -1,6 +1,6 @@
 #AM_CFLAGS = $(DEPS_CFLAGS) -I ../src/ -L ../src/ -L .
-AM_CFLAGS = -std=gnu99 -Wall -pedantic -g -ggdb -pg -O0 -D_DEBUG -DUNICODE -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/ -L../lib/ -L. 
-#AM_CFLAGS = -std=gnu99 -Wall -pedantic -O3 -DUNICODE -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/ -L../lib/ 
+#AM_CFLAGS = -std=gnu99 -Wall -pedantic -g -ggdb -pg -O0 -D_DEBUG -DUNICODE -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/ -L../lib/ -L. 
+AM_CFLAGS = -std=gnu99 -Wall -pedantic -O3 -DUNICODE -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/ -L../lib/ 
 LDADD     = -lcollections
 
 

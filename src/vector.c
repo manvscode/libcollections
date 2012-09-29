@@ -147,23 +147,6 @@ boolean vector_pop( vector_t *p_vector )
 	return result;
 }
 
-#if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)) || defined(_DEBUG_VECTOR)
-void* vector_get( vector_t *p_vector, size_t index )
-{
-	assert( index >= 0 );
-	assert( index < vector_size(p_vector) );
-	return (void*)(vector_array(p_vector) + vector_element_size(p_vector) * (index));
-}
-
-void vector_set( vector_t *p_vector, size_t index, void *data )
-{
-	assert( p_vector && data );
-	assert( index >= 0 );
-	assert( index < vector_size(p_vector) );
-	memcpy( vector_array(p_vector) + (vector_size(p_vector) * vector_element_size(p_vector)), data, vector_element_size(p_vector) );
-}
-#endif
-
 boolean vector_resize( vector_t *p_vector, size_t new_size )
 {
 	boolean result = TRUE;
@@ -325,23 +308,6 @@ boolean pvector_pop( pvector_t *p_vector )
 	p_vector->size--;
 	return result;
 }
-
-#if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)) || defined(_DEBUG_VECTOR)
-void* pvector_get( pvector_t *p_vector, size_t index )
-{
-	assert( index >= 0 );
-	assert( index < pvector_size(p_vector) );
-	return p_vector->array[ index ];
-}
-
-void pvector_set( pvector_t *p_vector, size_t index, void *data )
-{
-	assert( p_vector && data );
-	assert( index >= 0 );
-	assert( index < pvector_size(p_vector) );
-	p_vector->array[ index ] = data;
-}
-#endif
 
 boolean pvector_resize( pvector_t *p_vector, size_t new_size )
 {
