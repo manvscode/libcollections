@@ -14,6 +14,7 @@ $(top_builddir)/bin/test-flat-db \
 $(top_builddir)/bin/test-hash-map \
 $(top_builddir)/bin/test-hash-table \
 $(top_builddir)/bin/test-lhash-table \
+$(top_builddir)/bin/test-pvector \
 $(top_builddir)/bin/test-slist \
 $(top_builddir)/bin/test-tstring \
 $(top_builddir)/bin/test-rbtree \
@@ -30,6 +31,7 @@ __top_builddir__bin_test_flat_db_SOURCES     = test-flat-db.c
 __top_builddir__bin_test_hash_map_SOURCES    = test-hash-map.c
 __top_builddir__bin_test_hash_table_SOURCES  = test-hash-table.c
 __top_builddir__bin_test_lhash_table_SOURCES = test-lhash-table.c
+__top_builddir__bin_test_pvector_SOURCES     = test-pvector.c
 __top_builddir__bin_test_tstring_SOURCES     = test-tstring.c
 __top_builddir__bin_test_slist_SOURCES       = test-slist.c
 __top_builddir__bin_test_rbtree_SOURCES      = test-rbtree.c

@@ -52,10 +52,9 @@ typedef struct vector {
 /*
  * vector - A growable array of elements.
  */
-#define vector_simple_create( p_vector, element_size, VECTOR_INITIAL_ARRAY_SIZE, destroy_callback )\
-	vector_create( p_vector, element_size, size, destroy_callback )
-
-boolean      vector_create      ( vector_t *p_vector, size_t element_size, size_t size, vector_element_function destroy_callback, alloc_function alloc, free_function free );
+boolean      vector_create      ( vector_t *p_vector, size_t element_size, 
+                                  size_t size, vector_element_function destroy_callback, 
+                                  alloc_function alloc, free_function free );
 void         vector_destroy     ( vector_t *p_vector );
 void*        vector_pushx       ( vector_t *p_vector );
 boolean      vector_push        ( vector_t *p_vector, void *data );

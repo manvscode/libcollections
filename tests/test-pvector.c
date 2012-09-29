@@ -35,6 +35,7 @@ boolean point_destroy( void *data )
  	 * data on the array. There is nothing
  	 * to free.
  	 */
+	free( data );
 	return TRUE;
 }
 
@@ -45,34 +46,35 @@ boolean point_destroy( void *data )
 
 int main( int argc, char *argv[] )
 {
-	vector_t collection;
+	pvector_t collection;
 	int i;
 	char names[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	srand( 0 );
-	vector_create( &collection, sizeof(point_t), 1, point_destroy, malloc, free );
+
+	pvector_create( &collection, 1, point_destroy, malloc, free );
 
 	for( i = 0; i < SIZE; i++ )
 	{
-		point_t pt;
+		point_t *p_pt = create_point( );
 
-		pt.x    = ((rand( ) % 100) - 50.0);
-		pt.y    = ((rand( ) % 100) - 50.0);
-		pt.name = names[ i % (sizeof(names) - 1) ];
+		p_pt->x    = ((rand( ) % 100) - 50.0);
+		p_pt->y    = ((rand( ) % 100) - 50.0);
+		p_pt->name = names[ i % (sizeof(names) - 1) ];
 
-		vector_push( &collection, &pt );
+		pvector_push( &collection, p_pt );
 	}
 
 	for( i = 0; i < SIZE; i++ )
 	{
-		point_t *p_pt = (point_t *) vector_get( &collection, i );
+		const point_t *p_pt = pvector_get( &collection, i );
 
-		printf( "%c = (%03.2f, %03.2f)\n", 
+		printf( "%c = (%3.0f, %3.0f)\n", 
 			p_pt->name, 
 			p_pt->x, 
 			p_pt->y );
 	}
 
-	vector_destroy( &collection );
+	pvector_destroy( &collection );
 	return 0;
 }
