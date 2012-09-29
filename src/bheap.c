@@ -120,8 +120,19 @@ void bheap_clear( bheap_t* p_bheap )
 	vector_clear( &p_bheap->heap );
 }
 
+void bheap_reheapify( bheap_t* p_bheap )
+{
+	heap_make( &p_bheap->heap, p_bheap->compare, p_bheap->tmp );
+}
+
 void heap_make( vector_t* heap, heap_compare_function compare, byte* swap_buffer )
 {
+	size_t index = vector_size( heap ) - 1;
+
+	while( index >= 1 )
+	{
+		heapify( heap, compare, swap_buffer, index );
+	}
 }
 
 void heap_push( vector_t* heap, heap_compare_function compare, byte* swap_buffer )
