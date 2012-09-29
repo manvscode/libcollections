@@ -31,10 +31,10 @@ extern "C" {
 #include "alloc.h"
 #endif
 
-typedef boolean (*bheap_serialize_function)   ( void *p_array );
-typedef boolean (*bheap_unserialize_function) ( void *p_array );
-typedef boolean (*bheap_element_function)     ( void *data );
-typedef int     (*bheap_compare_function)     ( const void *p_data_left, const void *p_data_right );
+typedef boolean (*heap_serialize_function)   ( void *p_array );
+typedef boolean (*heap_unserialize_function) ( void *p_array );
+typedef boolean (*heap_element_function)     ( void *data );
+typedef int     (*heap_compare_function)     ( const void *p_data_left, const void *p_data_right );
 
 
 typedef struct bheap {
@@ -43,18 +43,18 @@ typedef struct bheap {
 	free_function   free;
 	#endif
 
-	bheap_compare_function compare;
+	heap_compare_function compare;
 	vector_t  heap;
 	byte*     tmp;
 } bheap_t;
 
 #ifdef USE_ALLOCATORS
 boolean         bheap_create      ( bheap_t* p_bheap, size_t element_size, size_t size, 
-                                    bheap_compare_function compare_callback, bheap_element_function destroy_callback,
+                                    heap_compare_function compare_callback, heap_element_function destroy_callback,
                                     alloc_function alloc, free_function free );
 #else
 boolean         bheap_create      ( bheap_t* p_bheap, size_t element_size, size_t size, 
-                                    bheap_compare_function compare_callback, bheap_element_function destroy_callback );
+                                    heap_compare_function compare_callback, heap_element_function destroy_callback );
 #endif
 void            bheap_destroy     ( bheap_t* p_bheap );
 void*           bheap_peek        ( bheap_t* p_bheap );
@@ -62,7 +62,12 @@ boolean         bheap_push        ( bheap_t* p_bheap, void* data );
 boolean         bheap_pop         ( bheap_t* p_bheap );
 size_t          bheap_size        ( const bheap_t* p_bheap );
 void            bheap_clear       ( bheap_t* p_bheap );
+void            bheap_reheapify   ( bheap_t* p_bheap );
 
+
+void            heap_make         ( vector_t* heap, heap_compare_function compare, byte* swap_buffer );
+void            heap_push         ( vector_t* heap, heap_compare_function compare, byte* swap_buffer );
+void            heap_pop          ( vector_t* heap, heap_compare_function compare, byte* swap_buffer );
 
 #ifdef __cplusplus
 }
