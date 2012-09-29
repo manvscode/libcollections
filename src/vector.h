@@ -123,7 +123,7 @@ void         pvector_clear      ( pvector_t *p_vector );
 #define pvector_array_size( p_vector )  ((p_vector)->array_size)
 #define pvector_size( p_vector )        ((p_vector)->size)
 #define pvector_is_empty( p_vector )    ((p_vector)->size <= 0)
-#define pvector_peek( p_vector )        (pvector_get(p_vector, vector_size(p_vector) - 1))
+#define pvector_peek( p_vector )        (pvector_get(p_vector, pvector_size(p_vector) - 1))
 
 #if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)) || defined(_DEBUG_VECTOR)
 void* pvector_get        ( pvector_t *p_vector, size_t index );

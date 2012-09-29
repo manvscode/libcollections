@@ -76,7 +76,10 @@ typedef struct hash_map {
 	free_function   free;
 } hash_map_t;
 
-boolean   hash_map_create      ( hash_map_t *p_map, size_t table_size, hash_map_hash_function hash_function, hash_map_element_function destroy, hash_map_compare_function compare, alloc_function alloc, free_function free );
+boolean   hash_map_create      ( hash_map_t *p_map, size_t table_size, 
+                                 hash_map_hash_function hash_function, hash_map_element_function destroy, 
+                                 hash_map_compare_function compare, 
+                                 alloc_function alloc, free_function free );
 void      hash_map_destroy     ( hash_map_t *p_map );
 boolean   hash_map_insert      ( hash_map_t *p_map, const void *key, const void *value );
 boolean   hash_map_remove      ( hash_map_t *p_map, const void *key );
