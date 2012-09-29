@@ -168,12 +168,7 @@ int main( int argc, char *argv[] )
 	hash_table_t table;
 	int          i;
 
-	#if defined(USE_ALLOCATORS)
 	hash_table_create( &table, 1, ip_hash, ip_destroy, (hash_table_compare_function) strcmp, malloc, free );
-	#else
-	hash_table_create( &table, 1, ip_hash, ip_destroy, (hash_table_compare_function) strcmp );
-	#endif
-
 
 	srand( 0 );
 

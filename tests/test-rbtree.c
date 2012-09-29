@@ -55,11 +55,7 @@ int main( int argc, char *argv[] )
 	rbtree_t tree;
 	int i;
 
-	#if defined(USE_ALLOCATORS)
 	rbtree_create( &tree, destroy, compare, malloc, free );
-	#else
-	rbtree_create( &tree, destroy, compare );
-	#endif
 
 	srand( 0 );
 

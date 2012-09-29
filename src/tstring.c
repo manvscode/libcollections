@@ -182,7 +182,7 @@ boolean tstring_nconcatenate( tstring_t *p_result, const tstring_t *p_string, si
 	size_t size;
 	assert( p_result && p_string );
 
-	size        = tstring_length( p_result ) + n + 1;
+	size        = tstring_size( p_result ) + sizeof(tchar) * (n + 1);
 	p_result->s = (tchar *) realloc( p_result->s, size );
 
 	if( p_result->s )
@@ -199,12 +199,14 @@ boolean tstring_sconcatenate( tstring_t *p_string, const tchar *s )
 	size_t size;
 	assert( p_string && s );
 
-	size         = tstring_length( p_string ) + tstrlen( s ) + 1;
+	size_t len = tstrlen( s );
+
+	size        = tstring_size( p_string ) + sizeof(tchar) * (len + 1);
 	p_string->s = (tchar *) realloc( p_string->s, size );
 
 	if( p_string->s )
 	{
-		tstrncat( tstring_string(p_string), s, size ); 
+		tstrncat( tstring_string(p_string), s, len ); 
 		return TRUE;
 	}
 

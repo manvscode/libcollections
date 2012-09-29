@@ -62,11 +62,7 @@ int main( int argc, char *argv[] )
 
 	srand( time(NULL) );
 
-	#if defined(USE_ALLOCATORS)
 	tree_map_create( &map, ip_destroy, (tree_map_compare_function) strcmp, malloc, free );
-	#else
-	tree_map_create( &map, ip_destroy, (tree_map_compare_function) strcmp );
-	#endif
 
 	for( i = 0; ips[ i ]; i++ )
 	{

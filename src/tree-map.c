@@ -307,36 +307,20 @@ tree_map_node_t *tree_map_node_predecessor( tree_map_node_t *t )
 	return y;
 }
 
-#ifdef USE_ALLOCATORS
 tree_map_t* tree_map_create_ex( tree_map_element_function destroy, tree_map_compare_function compare, alloc_function alloc, free_function free )
-#else
-tree_map_t* tree_map_create_ex( tree_map_element_function destroy, tree_map_compare_function compare )
-#endif
 {
-	//#ifdef USE_ALLOCATORS
-	//tree_map_t *p_map = (tree_map_t *) alloc( sizeof(tree_map_t) );
-	//#else
 	tree_map_t *p_map = (tree_map_t *) malloc( sizeof(tree_map_t) );
-	//#endif
 	assert( p_map );
 	
 	if( p_map )
 	{
-		#ifdef USE_ALLOCATORS
 		tree_map_create( p_map, destroy, compare, alloc, free );
-		#else
-		tree_map_create( p_map, destroy, compare );
-		#endif
 	}
 
 	return p_map;
 }
 
-#ifdef USE_ALLOCATORS
 void tree_map_create( tree_map_t *p_map, tree_map_element_function destroy, tree_map_compare_function compare, alloc_function alloc, free_function free )
-#else
-void tree_map_create( tree_map_t *p_map, tree_map_element_function destroy, tree_map_compare_function compare )
-#endif
 {
 	assert( p_map );
 #ifndef TREE_MAP_CHECK_FOR_DESTROY
@@ -347,10 +331,8 @@ void tree_map_create( tree_map_t *p_map, tree_map_element_function destroy, tree
 	p_map->size    = 0;
 	p_map->compare = compare;
 	p_map->destroy = destroy;
-	#ifdef USE_ALLOCATORS
 	p_map->_alloc  = alloc;
 	p_map->_free   = free;
-	#endif
 }
 
 void tree_map_destroy( tree_map_t *p_map )
@@ -392,11 +374,7 @@ boolean tree_map_insert( tree_map_t *p_map, const void *key, const void *value )
 	tree_map_node_t *y       = (tree_map_node_t *) &TREE_MAP_NODE_NIL;
 	tree_map_node_t *x       = p_map->root;
 	
-	#ifdef USE_ALLOCATORS
 	tree_map_node_t *newNode = (tree_map_node_t *) p_map->_alloc( sizeof(tree_map_node_t) );
-	#else
-	tree_map_node_t *newNode = (tree_map_node_t *) malloc( sizeof(tree_map_node_t) );
-	#endif
 	if( !newNode ) return FALSE;
 
 	/* Find where to insert the new node--y points the parent. */
@@ -489,11 +467,7 @@ boolean tree_map_remove( tree_map_t *p_map, const void *key )
 			p_map->destroy( t->key, t->value );
 		);
 
-		#ifdef USE_ALLOCATORS
 		p_map->_free( y );
-		#else
-		free( y );
-		#endif
 
 		t->key   = y->key;
 		t->value = y->value;
@@ -503,11 +477,7 @@ boolean tree_map_remove( tree_map_t *p_map, const void *key )
 		DESTROY_CHECK( 
 			p_map->destroy( y->key, y->value );
 		);
-		#ifdef USE_ALLOCATORS
 		p_map->_free( y );
-		#else
-		free( y );
-		#endif
 	}
 
 	if( y->is_red == FALSE ) /* y is black */
@@ -574,11 +544,7 @@ void tree_map_clear( tree_map_t *p_map )
 				p_map->destroy( y->key, y->value );
 			);
 
-			#ifdef USE_ALLOCATORS
 			p_map->_free( y );
-			#else
-			free( y );
-			#endif
 			
 			p_map->size--;
 		}
@@ -600,11 +566,7 @@ void tree_map_clear( tree_map_t *p_map )
 				p_map->destroy( y->key, y->value );
 			);
 
-			#ifdef USE_ALLOCATORS
 			p_map->_free( y );
-			#else
-			free( y );
-			#endif
 			p_map->size--;
 		}
 
@@ -680,39 +642,22 @@ boolean tree_map_unserialize( tree_map_t *p_map, size_t key_size, size_t value_s
 		void *p_key;
 		void *p_val;
 
-		#ifdef USE_ALLOCATORS
 		p_key = p_map->_alloc( key_size );
-		#else
-		p_key = malloc( key_size );
-		#endif
 
 		if( fread( p_key, key_size, 1, file ) != 1 )
 		{
-			#ifdef USE_ALLOCATORS
 			p_map->_free( p_key );
-			#else
-			free( p_key );
-			#endif
 
 			result = FALSE;
 			goto done;
 		}
 
-		#ifdef USE_ALLOCATORS
 		p_val = p_map->_alloc( value_size );
-		#else
-		p_val = malloc( value_size );
-		#endif
 
 		if( fread( p_val, value_size, 1, file ) != 1 )
 		{
-			#ifdef USE_ALLOCATORS
 			p_map->_free( p_key );
 			p_map->_free( p_val );
-			#else
-			free( p_key );
-			free( p_val );
-			#endif
 
 			result = FALSE;
 			goto done;
@@ -727,7 +672,6 @@ done:
 }
 
 
-#ifdef USE_ALLOCATORS
 void tree_map_alloc_set( tree_map_t *p_map, alloc_function alloc )
 {
 	assert( p_map );
@@ -741,7 +685,6 @@ void tree_map_free_set( tree_map_t *p_map, free_function free )
 	assert( free );
 	p_map->_free = free;
 }
-#endif
 
 /* ------------------------------------- */
 

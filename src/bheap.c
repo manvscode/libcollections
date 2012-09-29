@@ -31,35 +31,21 @@
 
 static void heapify( vector_t* heap, heap_compare_function compare, byte* swap_buffer, size_t index );
 
-#ifdef USE_ALLOCATORS
 boolean bheap_create( bheap_t* p_bheap, size_t element_size, size_t size, 
                       heap_compare_function compare_callback, heap_element_function destroy_callback,
                       alloc_function alloc, free_function free )
-#else
-boolean bheap_create( bheap_t* p_bheap, size_t element_size, size_t size, 
-                      heap_compare_function compare_callback, heap_element_function destroy_callback )
-#endif
 {
 	boolean result = FALSE;
 	assert( p_bheap );
 
-	#ifdef USE_ALLOCATORS
 	p_bheap->alloc   = alloc;
 	p_bheap->free    = free;
 	p_bheap->compare = compare_callback;
 	p_bheap->tmp     = p_bheap->alloc( element_size );
-	#else
-	p_bheap->compare = compare_callback;
-	p_bheap->tmp     = malloc( element_size );
-	#endif
 
 	if( p_bheap->tmp )
 	{
-		#ifdef USE_ALLOCATORS
 		result = vector_create( &p_bheap->heap, element_size, size, destroy_callback, p_bheap->alloc, p_bheap->free );
-		#else
-		result = vector_create( &p_bheap->heap, element_size, size, destroy_callback );
-		#endif
 	}
 
 	return result;
@@ -68,11 +54,7 @@ boolean bheap_create( bheap_t* p_bheap, size_t element_size, size_t size,
 void bheap_destroy( bheap_t* p_bheap )
 {
 	assert( p_bheap );
-	#ifdef USE_ALLOCATORS
 	p_bheap->free( p_bheap->tmp );
-	#else
-	free( p_bheap->tmp );
-	#endif
 	vector_destroy( &p_bheap->heap );
 }
 

@@ -40,11 +40,7 @@ int main( int argc, char *argv[] )
 	time_t t = time(NULL);
 
 	srand( t );
-	#ifdef USE_ALLOCATORS
 	bheap_create( &heap, sizeof(int), 1, int_compare, heap_elem_destroy, malloc, free );
-	#else
-	bheap_create( &heap, sizeof(int), 1, int_compare, heap_elem_destroy );
-	#endif
 
 	printf( "seed = %ld\n", t );
 

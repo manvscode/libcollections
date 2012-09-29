@@ -66,11 +66,7 @@ int main( int argc, char *argv[] )
 	boolean result;
 	hash_map_iterator_t itr;
 
-	#if defined(USE_ALLOCATORS)
 	hash_map_create( &map, 1, ip_hash, ip_destroy, (hash_map_compare_function) strcmp, malloc, free );
-	#else
-	hash_map_create( &map, 1, ip_hash, ip_destroy, (hash_map_compare_function) strcmp );
-	#endif
 
 	for( i = 0; ips[ i ]; i++ )
 	{

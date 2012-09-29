@@ -38,17 +38,11 @@ static boolean lhash_table_find_bucket( lhash_table_t *p_table, const void *data
 #define bucket_mark_deleted( p_table, bucket )   bitset_set( &(p_table)->deleted, bucket )
 #define bucket_mark_available( p_table, bucket ) bitset_unset( &(p_table)->deleted, bucket )
 
-#ifdef USE_ALLOCATORS
 boolean   lhash_table_create  ( lhash_table_t *p_table, size_t element_size, size_t table_size, 
                                 lhash_table_hash_function hash_function, 
                                 lhash_table_compare_function compare_function,
 								alloc_function alloc,
 								free_function free )
-#else
-boolean lhash_table_create( lhash_table_t *p_table, size_t element_size, size_t table_size, 
-				lhash_table_hash_function hash_function, 
-				lhash_table_compare_function compare_function )
-#endif
 {
 	assert( p_table );
 
@@ -59,11 +53,7 @@ boolean lhash_table_create( lhash_table_t *p_table, size_t element_size, size_t 
 		p_table->hash_callback    = hash_function;
 		p_table->compare_callback = compare_function;
 
-		#ifdef USE_ALLOCATORS
 		return array_create( &p_table->table, element_size, table_size, alloc, free );
-		#else
-		return array_create( &p_table->table, element_size, table_size );
-		#endif
 	}
 
 	return FALSE;
@@ -234,11 +224,7 @@ boolean lhash_table_resize( lhash_table_t *p_table, size_t new_size )
 	{
 		lhash_table_t new_table;
 
-		#ifdef USE_ALLOCATORS
 		if( lhash_table_create( &new_table, array_element_size(&p_table->table), new_size, p_table->hash_callback, p_table->compare_callback, p_table->alloc, p_table->free ) )
-		#else
-		if( lhash_table_create( &new_table, array_element_size(&p_table->table), new_size, p_table->hash_callback, p_table->compare_callback ) )
-		#endif
 		{
 			size_t i;
 

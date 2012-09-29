@@ -36,11 +36,7 @@
 #endif
 
 
-#ifdef USE_ALLOCATORS
 void slist_create( slist_t *p_list, slist_element_function destroy_callback, alloc_function alloc, free_function free )
-#else
-void slist_create( slist_t *p_list, slist_element_function destroy_callback ) 
-#endif
 {
 	assert( p_list );
 
@@ -48,10 +44,8 @@ void slist_create( slist_t *p_list, slist_element_function destroy_callback )
 	p_list->size    = 0;
 	p_list->destroy = destroy_callback;
 
-	#ifdef USE_ALLOCATORS
 	p_list->alloc = alloc;
 	p_list->free  = free;
-	#endif
 }
 
 void slist_destroy( slist_t *p_list ) 
@@ -70,13 +64,8 @@ boolean slist_insert_front( slist_t *p_list, const void *data ) /* O(1) */
 	slist_node_t *p_node;
 	assert( p_list );
 
-	#ifdef USE_ALLOCATORS
 	p_node = p_list->alloc( sizeof(slist_node_t) );
 	assert( p_node );
-	#else
-	p_node = (slist_node_t *) malloc( sizeof(slist_node_t) );
-	assert( p_node );
-	#endif
 
 	if( p_node != NULL ) 
 	{
@@ -105,11 +94,7 @@ boolean slist_remove_front( slist_t *p_list ) /* O(1) */
 		result = p_list->destroy( p_list->head->data );
 	);
 
-	#ifdef USE_ALLOCATORS
 	p_list->free( p_list->head );
-	#else
-	free( p_list->head );
-	#endif
 
 	p_list->head = p_node;
 	p_list->size--;
@@ -124,13 +109,8 @@ boolean slist_insert_next( slist_t *p_list, slist_node_t *p_front_node, const vo
 
 	if( p_front_node ) 
 	{
-		#ifdef USE_ALLOCATORS
 		slist_node_t *p_node = p_list->alloc( sizeof(slist_node_t) );
 		assert( p_node );
-		#else
-		slist_node_t *p_node = (slist_node_t*) malloc( sizeof(slist_node_t) );
-		assert( p_node );
-		#endif
 
 		if( p_node != NULL )
 		{
@@ -168,11 +148,7 @@ boolean slist_remove_next( slist_t *p_list, slist_node_t *p_front_node ) /* O(1)
 			result = p_list->destroy( p_node->data );
 		);
 	
-		#ifdef USE_ALLOCATORS
 		p_list->free( p_node );
-		#else
-		free( p_node );
-		#endif
 
 		p_front_node->next = p_new_next;
 		p_list->size--;
@@ -191,7 +167,6 @@ void slist_clear( slist_t *p_list )
 	}
 }
 
-#ifdef USE_ALLOCATORS
 void slist_alloc_set( slist_t *p_list, alloc_function alloc )
 {
 	assert( p_list );
@@ -205,7 +180,6 @@ void slist_free_set( slist_t *p_list, free_function free )
 	assert( free );
 	p_list->free = free;
 }
-#endif
 
 slist_iterator_t slist_begin( const slist_t *p_list )
 {

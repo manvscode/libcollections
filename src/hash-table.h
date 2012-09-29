@@ -26,12 +26,9 @@ extern "C" {
 #endif 
 
 #include <stddef.h>
-#include "libcollections-config.h"
 #include "types.h"
 #include "slist.h"
-#ifdef USE_ALLOCATORS
 #include "alloc.h"
-#endif
 
 /* Each size is a prime number */
 #ifndef HASH_TABLE_SIZE_SMALL 
@@ -70,17 +67,11 @@ typedef struct hash_table {
 	hash_table_compare_function compare; 	
 	hash_table_element_function destroy; 	
 
-	#ifdef USE_ALLOCATORS
 	alloc_function  alloc;
 	free_function   free;
-	#endif
 } hash_table_t;
 
-#ifdef USE_ALLOCATORS
 boolean   hash_table_create      ( hash_table_t *p_table, size_t table_size, hash_table_hash_function hash_function, hash_table_element_function destroy_callback, hash_table_compare_function compare_callback, alloc_function alloc, free_function free );
-#else
-boolean   hash_table_create      ( hash_table_t *p_table, size_t table_size, hash_table_hash_function hash_function, hash_table_element_function destroy_callback, hash_table_compare_function compare_callback );
-#endif
 void      hash_table_destroy     ( hash_table_t *p_table );
 boolean   hash_table_insert      ( hash_table_t *p_table, const void *data );
 boolean   hash_table_remove      ( hash_table_t *p_table, const void *data );

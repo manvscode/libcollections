@@ -318,31 +318,19 @@ rbnode_t *rbnode_predecessor( const rbnode_t *t )
 	return y;
 }
 
-#ifdef USE_ALLOCATORS
 rbtree_t* rbtree_create_ex( rbtree_element_function destroy, rbtree_compare_function compare, alloc_function alloc, free_function free )
-#else
-rbtree_t* rbtree_create_ex( rbtree_element_function destroy, rbtree_compare_function compare )
-#endif
 {
 	rbtree_t *p_tree = (rbtree_t *) malloc( sizeof(rbtree_t) );
 	
 	if( p_tree )
 	{
-		#ifdef USE_ALLOCATORS
 		rbtree_create( p_tree, destroy, compare, alloc, free );
-		#else
-		rbtree_create( p_tree, destroy, compare );
-		#endif
 	}
 
 	return p_tree;
 }
 
-#ifdef USE_ALLOCATORS
 void rbtree_create( rbtree_t *p_tree, rbtree_element_function destroy, rbtree_compare_function compare, alloc_function alloc, free_function free )
-#else
-void rbtree_create( rbtree_t *p_tree, rbtree_element_function destroy, rbtree_compare_function compare )
-#endif
 {
 	assert( p_tree );
 	#ifndef RBTREE_CHECK_FOR_DESTROY
@@ -355,10 +343,8 @@ void rbtree_create( rbtree_t *p_tree, rbtree_element_function destroy, rbtree_co
 	p_tree->_destroy = destroy;
 
 
-	#ifdef USE_ALLOCATORS
 	p_tree->_alloc = malloc;
 	p_tree->_free  = free;
-	#endif
 }
 
 void rbtree_destroy( rbtree_t *p_tree )
@@ -405,11 +391,7 @@ boolean rbtree_insert( rbtree_t *p_tree, const void *key )
 	assert( p_tree );
 	y   = (rbnode_t *) &RBNIL;
 	x   = p_tree->root;
-	#ifdef USE_ALLOCATORS
 	newNode = p_tree->_alloc( sizeof(rbnode_t) );
-	#else
-	newNode = (rbnode_t *) malloc( sizeof(rbnode_t) );
-	#endif
 	if( !newNode ) return FALSE;
 
 	/* Find where to insert the new node--y points the parent. */
@@ -508,11 +490,7 @@ boolean rbtree_remove( rbtree_t *p_tree, const void *key )
 			p_tree->_destroy( t->data );
 		);
 
-		#ifdef USE_ALLOCATORS
 		p_tree->_free( y );
-		#else
-		free( y );
-		#endif
 
 		t->data = y->data;
 	}
@@ -522,11 +500,7 @@ boolean rbtree_remove( rbtree_t *p_tree, const void *key )
 			p_tree->_destroy( y->data );
 		);
 
-		#ifdef USE_ALLOCATORS
 		p_tree->_free( y );
-		#else
-		free( y );
-		#endif
 	}
 
 	if( y->is_red == FALSE ) /* y is black */
@@ -595,11 +569,7 @@ void rbtree_clear( rbtree_t *p_tree )
 				p_tree->_destroy( y->data );
 			);
 
-			#ifdef USE_ALLOCATORS
 			p_tree->_free( y );
-			#else
-			free( y );
-			#endif
 			
 			p_tree->size--;
 		}
@@ -621,11 +591,7 @@ void rbtree_clear( rbtree_t *p_tree )
 				p_tree->_destroy( y->data );
 			);
 
-			#ifdef USE_ALLOCATORS
 			p_tree->_free( y );
-			#else
-			free( y );
-			#endif
 
 			p_tree->size--;
 		}
@@ -736,19 +702,11 @@ boolean rbtree_unserialize( rbtree_t *p_tree, size_t element_size, FILE *file )
 
 	while( count > 0 && feof(file) == 0 )
 	{
-		#ifdef USE_ALLOCATORS
 		void *p_data = p_tree->_alloc( element_size );
-		#else
-		void *p_data = malloc( element_size );
-		#endif
 
 		if( fread( p_data, element_size, 1, file ) != 1 )
 		{
-			#ifdef USE_ALLOCATORS
 			p_tree->_free( p_data );
-			#else
-			free( p_data );
-			#endif
 
 			result = FALSE;
 			goto done;
@@ -763,7 +721,6 @@ done:
 }
 
 
-#ifdef USE_ALLOCATORS
 void rbtree_alloc_set( rbtree_t *p_tree, alloc_function alloc )
 {
 	assert( p_tree );
@@ -777,9 +734,6 @@ void rbtree_free_set( rbtree_t *p_tree, free_function free )
 	assert( free );
 	p_tree->_free = free;
 }
-#endif
-
-
 
 
 #ifdef _DEBUG_RBTREE 

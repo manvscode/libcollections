@@ -25,7 +25,6 @@
 extern "C" {
 #endif 
 
-#include "libcollections-config.h"
 #include <stdio.h>
 #include <limits.h>
 #include "tstring.h"

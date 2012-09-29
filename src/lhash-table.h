@@ -26,13 +26,10 @@ extern "C" {
 #endif 
 
 #include <stddef.h>
-#include "libcollections-config.h"
 #include "types.h"
 #include "array.h"
 #include "bitset.h"
-#ifdef USE_ALLOCATORS
 #include "alloc.h"
-#endif
 
 /*
  *    Open Addressing Hash Table
@@ -67,10 +64,8 @@ typedef boolean (*lhash_table_element_function) ( void *element );
 typedef int     (*lhash_table_compare_function) ( const void *left, const void *right );
 
 typedef struct lhash_table {
-	#ifdef USE_ALLOCATORS
 	alloc_function  alloc;
 	free_function   free;
-	#endif
 
 	array_t  table;
 	bitset_t occupied;
@@ -81,17 +76,11 @@ typedef struct lhash_table {
 	lhash_table_compare_function compare_callback; 	
 } lhash_table_t;
 
-#ifdef USE_ALLOCATORS
 boolean   lhash_table_create  ( lhash_table_t *p_table, size_t element_size, size_t table_size, 
                                 lhash_table_hash_function hash_function, 
                                 lhash_table_compare_function compare_function,
 								alloc_function alloc,
 								free_function free );
-#else
-boolean   lhash_table_create  ( lhash_table_t *p_table, size_t element_size, size_t table_size, 
-                                lhash_table_hash_function hash_function, 
-                                lhash_table_compare_function compare_function );
-#endif
 void      lhash_table_destroy ( lhash_table_t *p_table );
 boolean   lhash_table_insert  ( lhash_table_t *p_table, const void *data );
 boolean   lhash_table_remove  ( lhash_table_t *p_table, const void *data );

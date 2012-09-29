@@ -36,11 +36,7 @@
 #endif
 
 
-#ifdef USE_ALLOCATORS
 void dlist_create( dlist_t *p_list, dlist_element_function destroy_callback, alloc_function alloc, free_function free )
-#else
-void dlist_create( dlist_t *p_list, dlist_element_function destroy_callback ) 
-#endif
 {
 	assert( p_list );
 
@@ -49,10 +45,8 @@ void dlist_create( dlist_t *p_list, dlist_element_function destroy_callback )
 	p_list->size    = 0;
 	p_list->destroy = destroy_callback;
 
-	#ifdef USE_ALLOCATORS
 	p_list->alloc = alloc;
 	p_list->free  = free;
-	#endif
 }
 
 void dlist_destroy( dlist_t *p_list ) 
@@ -72,13 +66,8 @@ boolean dlist_insert_front( dlist_t *p_list, const void *data ) /* O(1) */
 	dlist_node_t *p_node;
 	assert( p_list );
 
-	#ifdef USE_ALLOCATORS
 	p_node = p_list->alloc( sizeof(dlist_node_t) );
 	assert( p_node );
-	#else
-	p_node = (dlist_node_t *) malloc( sizeof(dlist_node_t) );
-	assert( p_node );
-	#endif
 
 	if( p_node != NULL ) 
 	{
@@ -132,11 +121,7 @@ boolean dlist_remove_front( dlist_t *p_list ) /* O(1) */
 		result = p_list->destroy( p_list->head->data );
 	);
 
-	#ifdef USE_ALLOCATORS
 	p_list->free( p_list->head );
-	#else
-	free( p_list->head );
-	#endif
 
 	p_list->head = p_node;
 	p_list->size--;
@@ -149,13 +134,8 @@ boolean dlist_insert_back( dlist_t *p_list, const void *data ) /* O(1) */
 	dlist_node_t *p_node;
 	assert( p_list );
 
-	#ifdef USE_ALLOCATORS
 	p_node = p_list->alloc( sizeof(dlist_node_t) );
 	assert( p_node );
-	#else
-	p_node = (dlist_node_t *) malloc( sizeof(dlist_node_t) );
-	assert( p_node );
-	#endif
 
 	if( p_node != NULL ) 
 	{
@@ -208,11 +188,7 @@ boolean dlist_remove_back( dlist_t *p_list ) /* O(1) */
 		result = p_list->destroy( p_list->tail->data );
 	);
 	
-	#ifdef USE_ALLOCATORS
 	p_list->free( p_list->tail );
-	#else
-	free( p_list->tail );
-	#endif
 
 	p_list->tail = p_node;
 	p_list->size--;
@@ -227,13 +203,8 @@ boolean dlist_insert_next( dlist_t *p_list, dlist_node_t *p_front_node, const vo
 
 	if( p_front_node ) 
 	{
-		#ifdef USE_ALLOCATORS
 		dlist_node_t *p_node = p_list->alloc( sizeof(dlist_node_t) );
 		assert( p_node );
-		#else
-		dlist_node_t *p_node = (dlist_node_t*) malloc( sizeof(dlist_node_t) );
-		assert( p_node );
-		#endif
 
 		if( p_node != NULL )
 		{
@@ -290,11 +261,7 @@ boolean dlist_remove_next( dlist_t *p_list, dlist_node_t *p_front_node ) /* O(1)
 			result = p_list->destroy( p_node->data );
 		);
 	
-		#ifdef USE_ALLOCATORS
 		p_list->free( p_node );
-		#else
-		free( p_node );
-		#endif
 
 		p_front_node->next = p_new_next;
 		p_list->size--;
@@ -313,7 +280,6 @@ void dlist_clear( dlist_t *p_list )
 	}
 }
 
-#ifdef USE_ALLOCATORS
 void dlist_alloc_set( dlist_t *p_list, alloc_function alloc )
 {
 	assert( p_list );
@@ -327,7 +293,6 @@ void dlist_free_set( dlist_t *p_list, free_function free )
 	assert( free );
 	p_list->free = free;
 }
-#endif
 
 dlist_iterator_t dlist_begin( const dlist_t *p_list )
 {

@@ -27,23 +27,15 @@
 #include <string.h>
 #endif
 
-#ifdef USE_ALLOCATORS
 boolean array_create( array_t *p_array, size_t element_size, size_t size, alloc_function alloc, free_function free )
-#else
-boolean array_create( array_t *p_array, size_t element_size, size_t size )
-#endif
 {
 	assert( p_array );
 	
 	p_array->element_size = element_size;
 	p_array->size         = size;
-	#ifdef USE_ALLOCATORS
 	p_array->alloc        = alloc;
 	p_array->free         = free;
 	p_array->arr          = p_array->alloc( array_element_size(p_array) * array_size(p_array) );
-	#else
-	p_array->arr          = malloc( array_element_size(p_array) * array_size(p_array) );
-	#endif
 
 	#ifdef _DEBUG_VECTOR
 	memset( p_array->arr, 0, array_element_size(p_array) * array_size(p_array) );
@@ -58,11 +50,7 @@ void array_destroy( array_t *p_array )
 {
 	assert( p_array );
 
-	#ifdef USE_ALLOCATORS
 	p_array->free( p_array->arr );
-	#else
-	free( p_array->arr );
-	#endif
 
 	#ifdef _DEBUG_VECTOR
 	p_array->element_size = 0L;

@@ -25,11 +25,8 @@
 extern "C" {
 #endif 
 
-#include "libcollections-config.h"
 #include "types.h"
-#ifdef USE_ALLOCATORS
 #include "alloc.h"
-#endif
 
 typedef int     (*tree_map_compare_function) ( const void *p_key_left, const void *p_key_right );
 typedef boolean (*tree_map_element_function) ( void *p_key, void *p_value );
@@ -51,22 +48,15 @@ typedef struct tree_map {
 	tree_map_compare_function compare;
 	tree_map_element_function destroy;
 
-	#ifdef USE_ALLOCATORS
 	alloc_function  _alloc;
 	free_function   _free;
-	#endif
 } tree_map_t;
 
 typedef tree_map_node_t* tree_map_iterator_t;
 
 
-#ifdef USE_ALLOCATORS
 tree_map_t* tree_map_create_ex   ( tree_map_element_function destroy, tree_map_compare_function compare, alloc_function alloc, free_function free );
 void        tree_map_create      ( tree_map_t *p_map, tree_map_element_function destroy, tree_map_compare_function compare, alloc_function alloc, free_function free );
-#else
-tree_map_t* tree_map_create_ex   ( tree_map_element_function destroy, tree_map_compare_function compare );
-void        tree_map_create      ( tree_map_t *p_map, tree_map_element_function destroy, tree_map_compare_function compare );
-#endif
 void        tree_map_destroy     ( tree_map_t *p_map );
 void        tree_map_copy        ( tree_map_t const *p_srcTree, tree_map_t *p_dstTree );
 boolean     tree_map_insert      ( tree_map_t *p_map, const void *key, const void *value );
@@ -75,10 +65,8 @@ boolean     tree_map_find        ( const tree_map_t *p_map, const void *key, voi
 void        tree_map_clear       ( tree_map_t *p_map );
 boolean     tree_map_serialize   ( tree_map_t *p_map, size_t key_size, size_t value_size, FILE *file );
 boolean     tree_map_unserialize ( tree_map_t *p_map, size_t key_size, size_t value_size, FILE *file );
-#ifdef USE_ALLOCATORS
 void        tree_map_alloc_set   ( tree_map_t *p_map, alloc_function alloc );
 void        tree_map_free_set    ( tree_map_t *p_map, free_function free );
-#endif
 
 tree_map_node_t* tree_map_node_minimum     ( tree_map_node_t *t );
 tree_map_node_t* tree_map_node_maximum     ( tree_map_node_t *t );

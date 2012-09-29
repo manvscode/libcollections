@@ -26,11 +26,8 @@ extern "C" {
 #endif 
 
 #include <stddef.h>
-#include "libcollections-config.h"
 #include "types.h"
-#ifdef USE_ALLOCATORS
 #include "alloc.h"
-#endif
 
 /* Each size is a prime number */
 #ifndef HASH_MAP_SIZE_SMALL 
@@ -75,17 +72,11 @@ typedef struct hash_map {
 	hash_map_compare_function compare; 	
 	hash_map_element_function destroy; 	
 
-	#ifdef USE_ALLOCATORS
 	alloc_function  alloc;
 	free_function   free;
-	#endif
 } hash_map_t;
 
-#ifdef USE_ALLOCATORS
 boolean   hash_map_create      ( hash_map_t *p_map, size_t table_size, hash_map_hash_function hash_function, hash_map_element_function destroy, hash_map_compare_function compare, alloc_function alloc, free_function free );
-#else
-boolean   hash_map_create      ( hash_map_t *p_map, size_t table_size, hash_map_hash_function hash_function, hash_map_element_function destroy, hash_map_compare_function compare );
-#endif
 void      hash_map_destroy     ( hash_map_t *p_map );
 boolean   hash_map_insert      ( hash_map_t *p_map, const void *key, const void *value );
 boolean   hash_map_remove      ( hash_map_t *p_map, const void *key );
@@ -95,10 +86,8 @@ boolean   hash_map_resize      ( hash_map_t *p_map, size_t new_size );
 boolean   hash_map_rehash      ( hash_map_t *p_map, float load_factor );
 boolean   hash_map_serialize   ( hash_map_t *p_map, size_t key_size, size_t value_size, FILE *file );
 boolean   hash_map_unserialize ( hash_map_t *p_map, size_t key_size, size_t value_size, FILE *file );
-#ifdef USE_ALLOCATORS
 void      hash_map_alloc_set   ( hash_map_t *p_map, alloc_function alloc );
 void      hash_map_free_set    ( hash_map_t *p_map, free_function free );
-#endif
 
 #define   hash_map_size(p_map)         ((p_map)->size)
 #define   hash_map_table_size(p_map)   ((p_map)->table_size)

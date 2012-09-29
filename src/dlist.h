@@ -28,9 +28,7 @@ extern "C" {
 #include <stddef.h>
 #include "libcollections-config.h"
 #include "types.h"
-#ifdef USE_ALLOCATORS
 #include "alloc.h"
-#endif
 
 typedef boolean (*dlist_element_function)( void *element );
 
@@ -46,19 +44,13 @@ typedef struct dlist {
 	size_t size;
 	dlist_element_function destroy;
 
-	#ifdef USE_ALLOCATORS
 	alloc_function  alloc;
 	free_function   free;
-	#endif
 } dlist_t;
 
 typedef dlist_node_t* dlist_iterator_t;
 
-#ifdef USE_ALLOCATORS
 void    dlist_create        ( dlist_t *p_list, dlist_element_function destroy_callback, alloc_function alloc, free_function free );
-#else
-void    dlist_create        ( dlist_t *p_list, dlist_element_function destroy_callback );
-#endif
 void    dlist_destroy       ( dlist_t *p_list );
 boolean dlist_insert_front  ( dlist_t *p_list, const void *data ); /* O(1) */
 boolean dlist_remove_front  ( dlist_t *p_list ); /* O(1) */
@@ -68,10 +60,8 @@ boolean dlist_insert_next   ( dlist_t *p_list, dlist_node_t *p_front_node, const
 boolean dlist_remove_next   ( dlist_t *p_list, dlist_node_t *p_front_node ); /* O(1) */ 
 void    dlist_clear         ( dlist_t *p_list ); /* O(N) */
 
-#ifdef USE_ALLOCATORS
 void    dlist_alloc_set     ( dlist_t *p_list, alloc_function alloc );
 void    dlist_free_set      ( dlist_t *p_list, free_function free );
-#endif
 
 dlist_iterator_t dlist_begin    ( const dlist_t *p_list );
 dlist_iterator_t dlist_rbegin   ( const dlist_t *p_list );

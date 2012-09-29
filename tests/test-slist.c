@@ -85,11 +85,7 @@ int main( int argc, char *argv[] )
 	tprintf( _T("seed: %ld\n"), ts );
 	srand( ts );
 
-	#if defined(USE_ALLOCATORS)
 	slist_create( &list, national_park_destroy, malloc, free );
-	#else
-	slist_create( &list, national_park_destroy );
-	#endif
 
 	for( i = 0; national_parks[ i ] != NULL; i++ )
 	{

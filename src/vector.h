@@ -29,9 +29,7 @@ extern "C" {
 #include <string.h>
 #include "libcollections-config.h"
 #include "types.h"
-#ifdef USE_ALLOCATORS
 #include "alloc.h"
-#endif
 
 #ifndef VECTOR_INITIAL_ARRAY_SIZE
 #define VECTOR_INITIAL_ARRAY_SIZE    250
@@ -41,10 +39,8 @@ typedef boolean (*vector_unserialize_function) ( void *p_array );
 typedef boolean (*vector_element_function)     ( void *data );
 
 typedef struct vector {
-	#ifdef USE_ALLOCATORS
 	alloc_function  alloc;
 	free_function   free;
-	#endif
 
 	size_t element_size;
 	byte*  array;
@@ -59,11 +55,7 @@ typedef struct vector {
 #define vector_simple_create( p_vector, element_size, VECTOR_INITIAL_ARRAY_SIZE, destroy_callback )\
 	vector_create( p_vector, element_size, size, destroy_callback )
 
-#ifdef USE_ALLOCATORS
 boolean      vector_create      ( vector_t *p_vector, size_t element_size, size_t size, vector_element_function destroy_callback, alloc_function alloc, free_function free );
-#else
-boolean      vector_create      ( vector_t *p_vector, size_t element_size, size_t size, vector_element_function destroy_callback );
-#endif
 void         vector_destroy     ( vector_t *p_vector );
 void*        vector_pushx       ( vector_t *p_vector );
 boolean      vector_push        ( vector_t *p_vector, void *data );
@@ -111,10 +103,8 @@ inline void vector_set( vector_t *p_vector, size_t index, void *data )
 typedef boolean (*pvector_element_function)( void *data );
 
 typedef struct pvector {
-	#ifdef USE_ALLOCATORS
 	alloc_function  alloc;
 	free_function   free;
-	#endif
 
 	void** array;
 	size_t array_size;
@@ -122,11 +112,7 @@ typedef struct pvector {
 	vector_element_function destroy;
 } pvector_t;
 
-#ifdef USE_ALLOCATORS
 boolean      pvector_create     ( pvector_t *p_vector, size_t size, pvector_element_function destroy_callback, alloc_function alloc, free_function free );
-#else
-boolean      pvector_create     ( pvector_t *p_vector, size_t size, pvector_element_function destroy_callback );
-#endif
 void         pvector_destroy    ( pvector_t *p_vector );
 boolean      pvector_push       ( pvector_t *p_vector, void *data );
 boolean      pvector_pop        ( pvector_t *p_vector );

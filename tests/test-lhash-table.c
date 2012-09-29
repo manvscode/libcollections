@@ -62,11 +62,7 @@ int main( int argc, char *argv[] )
 	boolean result;
 	int i;
 
-	#ifdef USE_ALLOCATORS
 	result = lhash_table_create( &table, sizeof(char *), 68, (lhash_table_hash_function) ip_hash, (lhash_table_compare_function) ip_compare, malloc, free );
-	#else
-	result = lhash_table_create( &table, sizeof(char *), 68, (lhash_table_hash_function) ip_hash, (lhash_table_compare_function) ip_compare );
-	#endif
 	assert( result );
 
 	srand( 0 );

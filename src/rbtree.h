@@ -27,9 +27,7 @@ extern "C" {
 
 #include "libcollections-config.h"
 #include "types.h"
-#ifdef USE_ALLOCATORS
 #include "alloc.h"
-#endif
 
 typedef int     (*rbtree_compare_function) ( const void *p_data_left, const void *p_data_right );
 typedef boolean (*rbtree_element_function) ( void *p_data );
@@ -53,22 +51,15 @@ typedef struct rbtree {
 	rbtree_compare_function _compare;
 	rbtree_element_function _destroy;
 
-	#ifdef USE_ALLOCATORS
 	alloc_function  _alloc;
 	free_function   _free;
-	#endif
 } rbtree_t;
 
 typedef rbnode_t* rbtree_iterator_t;
 
 
-#ifdef USE_ALLOCATORS
 rbtree_t* rbtree_create_ex   ( rbtree_element_function destroy, rbtree_compare_function compare, alloc_function alloc, free_function free );
 void      rbtree_create      ( rbtree_t *p_tree, rbtree_element_function destroy, rbtree_compare_function compare, alloc_function alloc, free_function free );
-#else
-rbtree_t* rbtree_create_ex   ( rbtree_element_function destroy, rbtree_compare_function compare );
-void      rbtree_create      ( rbtree_t *p_tree, rbtree_element_function destroy, rbtree_compare_function compare );
-#endif
 void      rbtree_destroy     ( rbtree_t *p_tree );
 void      rbtree_copy        ( rbtree_t const *p_srcTree, rbtree_t *p_dstTree );
 boolean   rbtree_insert      ( rbtree_t *p_tree, const void *data );
@@ -78,10 +69,8 @@ void      rbtree_clear       ( rbtree_t *p_tree );
 boolean   rbtree_serialize   ( rbtree_t *p_tree, size_t element_size, FILE *file );
 boolean   rbtree_unserialize ( rbtree_t *p_tree, size_t element_size, FILE *file );
 
-#ifdef USE_ALLOCATORS
 void    rbtree_alloc_set   ( rbtree_t *p_tree, alloc_function alloc );
 void    rbtree_free_set    ( rbtree_t *p_tree, free_function free );
-#endif
 
 rbnode_t* rbnode_minimum     ( rbnode_t *t );
 rbnode_t* rbnode_maximum     ( rbnode_t *t );

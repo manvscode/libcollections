@@ -29,23 +29,15 @@
 /*
  * Hash Table Functions
  */
-#ifdef USE_ALLOCATORS
 boolean hash_table_create( hash_table_t *p_table, size_t table_size, hash_table_hash_function hash_function, hash_table_element_function destroy, hash_table_compare_function compare, alloc_function alloc, free_function free )
-#else
-boolean hash_table_create( hash_table_t *p_table, size_t table_size, hash_table_hash_function hash_function, hash_table_element_function destroy, hash_table_compare_function compare ) 
-#endif
 {
 	assert( p_table );
 
 	p_table->size       = 0;
 	p_table->table_size = table_size;
-	#ifdef USE_ALLOCATORS
 	p_table->alloc      = alloc;
 	p_table->free       = free;
 	p_table->table      = (slist_t *) p_table->alloc( hash_table_table_size(p_table) * sizeof(slist_t) );
-	#else
-	p_table->table      = (slist_t *) malloc( hash_table_table_size(p_table) * sizeof(slist_t) );
-	#endif
 	p_table->hash       = hash_function;
 	p_table->compare    = compare;
 	p_table->destroy    = destroy;
@@ -58,11 +50,7 @@ boolean hash_table_create( hash_table_t *p_table, size_t table_size, hash_table_
 		int i;
 		for( i = 0; i < hash_table_table_size(p_table); i++ ) 
 		{
-			#ifdef USE_ALLOCATORS
 			slist_create( &p_table->table[ i ], p_table->destroy, p_table->alloc, p_table->free );
-			#else
-			slist_create( &p_table->table[ i ], p_table->destroy );
-			#endif
 		}
 		#else
 		memset( p_table->table, 0, hash_table_table_size(p_table) * sizeof(slist_t) );
@@ -89,11 +77,7 @@ void hash_table_destroy( hash_table_t *p_table )
 		#endif
 	}
 
-	#ifdef USE_ALLOCATORS
 	p_table->free( p_table->table );
-	#else
-	free( p_table->table );
-	#endif
 }
 
 boolean hash_table_insert( hash_table_t *p_table, const void *data ) 
@@ -104,11 +88,7 @@ boolean hash_table_insert( hash_table_t *p_table, const void *data )
 	#ifndef HASH_TABLE_PREALLOC
 	if( !p_list->head ) /* uninitialized list */
 	{
-		#ifdef USE_ALLOCATORS
 		slist_create( p_list, p_table->destroy, p_table->alloc, p_table->free );
-		#else
-		slist_create( p_list, p_table->destroy );
-		#endif
 	}
 	#endif
 
@@ -207,11 +187,7 @@ boolean hash_table_resize( hash_table_t *p_table, size_t new_size )
 {
 	if( new_size != hash_table_size(p_table) )
 	{
-		#ifdef USE_ALLOCATORS
 		slist_t *p_new_table = (slist_t *) p_table->alloc( new_size * sizeof(slist_t) );
-		#else
-		slist_t *p_new_table = (slist_t *) malloc( new_size * sizeof(slist_t) );
-		#endif
 		slist_t *p_old_table = p_table->table;
 		size_t old_size    = p_table->table_size;	
 		size_t i;
@@ -230,11 +206,7 @@ boolean hash_table_resize( hash_table_t *p_table, size_t new_size )
 		#ifdef HASH_TABLE_PREALLOC
 		for( i = 0; i < hash_table_table_size(p_table); i++ ) 
 		{
-			#ifdef USE_ALLOCATORS
 			slist_create( &p_table->table[ i ], p_table->destroy, p_table->alloc, p_table->free );
-			#else
-			slist_create( &p_table->table[ i ], p_table->destroy );
-			#endif
 		}
 		#else
 		memset( p_table->table, 0, new_size * sizeof(slist_t) );
@@ -259,20 +231,12 @@ boolean hash_table_resize( hash_table_t *p_table, size_t new_size )
 					p_previous = p_node;
 					p_node     = p_node->next;
 
-					#ifdef USE_ALLOCATORS
 					p_table->free( p_previous );
-					#else
-					free( p_previous );
-					#endif
 				}
 			}
 		}
 
-		#ifdef USE_ALLOCATORS
 		p_table->free( p_old_table );
-		#else
-		free( p_old_table );
-		#endif
 
 		return TRUE;
 	}
@@ -368,19 +332,11 @@ boolean hash_table_unserialize( hash_table_t *p_table, size_t element_size, FILE
 
 	while( count > 0 && feof(file) == 0 )
 	{
-		#ifdef USE_ALLOCATORS
 		void *p_data = p_table->alloc( element_size );
-		#else
-		void *p_data = malloc( element_size );
-		#endif
 
 		if( fread( p_data, element_size, 1, file ) != 1 )
 		{
-			#ifdef USE_ALLOCATORS
 			p_table->free( p_data );
-			#else
-			free( p_data );
-			#endif
 			result = FALSE;
 			goto done;
 		}

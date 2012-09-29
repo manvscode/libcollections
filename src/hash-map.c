@@ -65,29 +65,19 @@ static void    hm_list_clear         ( hash_map_t *p_map, hash_map_list_t *p_lis
 /*
  * Hash Map Functions
  */
-#ifdef USE_ALLOCATORS
 boolean hash_map_create( hash_map_t *p_map, size_t table_size, hash_map_hash_function hash_function, hash_map_element_function destroy, hash_map_compare_function compare, alloc_function alloc, free_function free )
-#else
-boolean hash_map_create( hash_map_t *p_map, size_t table_size, hash_map_hash_function hash_function, hash_map_element_function destroy, hash_map_compare_function compare )
-#endif
 {
 	assert( p_map );
 	#ifdef HASH_MAP_PREALLOC
 	int i;
 	#endif
 
-	#ifdef USE_ALLOCATORS
 	p_map->alloc = alloc;
 	p_map->free  = free;
-	#endif
 
 	p_map->size       = 0;
 	p_map->table_size = table_size;
-	#ifdef USE_ALLOCATORS
 	p_map->table      = (hash_map_list_t *) p_map->alloc( hash_map_table_size(p_map) * sizeof(hash_map_list_t) );
-	#else
-	p_map->table      = (hash_map_list_t *) malloc( hash_map_table_size(p_map) * sizeof(hash_map_list_t) );
-	#endif
 	p_map->hash       = hash_function;
 	p_map->compare    = compare;
 	p_map->destroy    = destroy;
@@ -127,11 +117,7 @@ void hash_map_destroy( hash_map_t *p_map )
 		#endif
 	}
 
-	#ifdef USE_ALLOCATORS
 	p_map->free( p_map->table );
-	#else
-	free( p_map->table );
-	#endif
 }
 
 boolean hash_map_insert( hash_map_t *p_map, const void *key, const void *value )
@@ -280,11 +266,7 @@ boolean hm_list_insert_front( hash_map_t *p_map, hash_map_list_t *p_list, const 
 	hash_map_node_t *p_node;
 	assert( p_list );
 
-	#ifdef USE_ALLOCATORS
 	p_node = (hash_map_node_t *) p_map->alloc( sizeof(hash_map_node_t) );
-	#else
-	p_node = (hash_map_node_t *) malloc( sizeof(hash_map_node_t) );
-	#endif
 	assert( p_node );
 
 	if( p_node != NULL )
@@ -314,11 +296,7 @@ boolean hm_list_remove_front( hash_map_t *p_map, hash_map_list_t *p_list ) /* O(
 		result = p_list->destroy( p_list->head->key, p_list->head->value );
 	);
 
-	#ifdef USE_ALLOCATORS
 	p_map->free( p_list->head );
-	#else
-	free( p_list->head );
-	#endif
 
 	p_list->head = p_node;
 
@@ -339,11 +317,7 @@ boolean hm_list_remove_next( hash_map_t *p_map, hash_map_list_t *p_list, hash_ma
 			result = p_list->destroy( p_node->key, p_node->value );
 		);
 
-		#ifdef USE_ALLOCATORS
 		p_map->free( p_node );
-		#else
-		free( p_node );
-		#endif
 
 		p_front_node->next = p_new_next;
 
@@ -365,11 +339,7 @@ boolean hash_map_resize( hash_map_t *p_map, size_t new_size )
 {
 	if( new_size != hash_map_size(p_map) )
 	{
-		#ifdef USE_ALLOCATORS
 		hash_map_list_t *p_new_table = (hash_map_list_t *) p_map->alloc( new_size * sizeof(hash_map_list_t) );
-		#else
-		hash_map_list_t *p_new_table = (hash_map_list_t *) malloc( new_size * sizeof(hash_map_list_t) );
-		#endif
 		hash_map_list_t *p_old_table = p_map->table;
 		size_t old_size              = p_map->table_size;	
 		size_t i;
@@ -413,20 +383,12 @@ boolean hash_map_resize( hash_map_t *p_map, size_t new_size )
 					p_previous = p_node;
 					p_node     = p_node->next;
 
-					#ifdef USE_ALLOCATORS
 					p_map->free( p_previous );
-					#else
-					free( p_previous );
-					#endif
 				}
 			}
 		}
 
-		#ifdef USE_ALLOCATORS
 		p_map->free( p_old_table );
-		#else
-		free( p_old_table );
-		#endif
 
 		return TRUE;
 	}
@@ -533,38 +495,21 @@ boolean hash_map_unserialize( hash_map_t *p_map, size_t key_size, size_t value_s
 		void *p_key;
 		void *p_val;
 
-		#ifdef USE_ALLOCATORS
 		p_key = p_map->alloc( key_size );
-		#else
-		p_key = malloc( key_size );
-		#endif
 
 		if( fread( p_key, key_size, 1, file ) != 1 )
 		{
-			#ifdef USE_ALLOCATORS
 			p_map->free( p_key );
-			#else
-			free( p_key );
-			#endif
 			result = FALSE;
 			goto done;
 		}
 
-		#ifdef USE_ALLOCATORS
 		p_val = p_map->alloc( value_size );
-		#else
-		p_val = malloc( value_size );
-		#endif
 
 		if( fread( p_val, value_size, 1, file ) != 1 )
 		{
-			#ifdef USE_ALLOCATORS
 			p_map->free( p_key );
 			p_map->free( p_val );
-			#else
-			free( p_key );
-			free( p_val );
-			#endif
 			result = FALSE;
 			goto done;
 		}
@@ -577,7 +522,6 @@ done:
 	return result;
 }
 
-#ifdef USE_ALLOCATORS
 void hash_map_alloc_set( hash_map_t *p_map, alloc_function alloc )
 {
 	assert( p_map );
@@ -591,7 +535,6 @@ void hash_map_free_set( hash_map_t *p_map, free_function free )
 	assert( free );
 	p_map->free = free;
 }
-#endif
 
 void hash_map_iterator( const hash_map_t* p_map, hash_map_iterator_t* iter )
 {

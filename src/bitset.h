@@ -23,7 +23,6 @@
 #define _BITSET_H_
 
 #include <limits.h>
-#include "libcollections-config.h"
 #include "types.h"
 #ifdef __cplusplus
 extern "C" {
