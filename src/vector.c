@@ -121,7 +121,9 @@ boolean vector_push( vector_t *p_vector, void *data )
 	memset( vector_array(p_vector) + vector_size(p_vector) * vector_element_size(p_vector), 0, vector_element_size(p_vector) );
 	#endif
 
-	memcpy( vector_array(p_vector) + (vector_size(p_vector) * vector_element_size(p_vector)), data, vector_element_size(p_vector) );
+	byte* dst = vector_array(p_vector) + (vector_size(p_vector) * vector_element_size(p_vector));
+
+	memcpy( dst, data, vector_element_size(p_vector) );
 	p_vector->size++;
 
 	return p_vector->array != NULL;
@@ -135,13 +137,13 @@ boolean vector_pop( vector_t *p_vector )
 
 	element = vector_array(p_vector) + (vector_size(p_vector) - 1) * vector_element_size(p_vector);
 
-	#ifdef _DEBUG_VECTOR
-	memset( vector_array(p_vector) + vector_size(p_vector) * vector_element_size(p_vector), 0, vector_element_size(p_vector) );
-	#endif
-
 	DESTROY_CHECK(
 		result  = p_vector->destroy( element );
 	);
+	
+	#ifdef _DEBUG_VECTOR
+	memset( vector_array(p_vector) + (vector_size(p_vector) - 1) * vector_element_size(p_vector), 0, vector_element_size(p_vector) );
+	#endif
 
 	p_vector->size--;
 	return result;
@@ -279,10 +281,6 @@ boolean pvector_push( pvector_t *p_vector, void *element )
 		assert( p_vector->array );
 	}
 
-	#ifdef _DEBUG_VECTOR
-	memset( pvector_array(p_vector) + pvector_size(p_vector) * sizeof(void *), 0, sizeof(void **) );
-	#endif
-
 	p_vector->array[ p_vector->size++ ] = element;
 
 	return p_vector->array != NULL;
@@ -300,10 +298,6 @@ boolean pvector_pop( pvector_t *p_vector )
 	DESTROY_CHECK(
 		result  = p_vector->destroy( element );
 	);
-
-	#ifdef _DEBUG_VECTOR
-	memset( pvector_array(p_vector) + pvector_size(p_vector) * sizeof(void *), 0, sizeof(void *) );
-	#endif
 
 	p_vector->size--;
 	return result;
