@@ -484,26 +484,29 @@ boolean rbtree_remove( rbtree_t *p_tree, const void *key )
 		}
 	}
 
+	boolean y_is_red = FALSE;
+
 	if( y != t )
 	{
 		DESTROY_CHECK( 
 			p_tree->_destroy( t->data );
 		);
 
-		p_tree->_free( y );
-
 		t->data = y->data;
+		y_is_red = y->is_red;
+		p_tree->_free( y );
 	}
 	else
 	{
 		DESTROY_CHECK( 
 			p_tree->_destroy( y->data );
 		);
-
+		
+		y_is_red = y->is_red;
 		p_tree->_free( y );
 	}
 
-	if( y->is_red == FALSE ) /* y is black */
+	if( y_is_red == FALSE ) /* y is black */
 	{
 		rbtree_delete_fixup( p_tree, &x );
 	}
