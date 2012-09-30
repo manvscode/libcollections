@@ -29,7 +29,8 @@
 #define left_child_of( index )     (((index) << 1) + 0) /* 2 * index */
 #define right_child_of( index )    (((index) << 1) + 1) /* 2 * index + 1 */
 
-static void heapify( vector_t* heap, heap_compare_function compare, byte* swap_buffer, size_t index );
+static void heapify  ( vector_t* heap, heap_compare_function compare, byte* swap_buffer, size_t index );
+static void pheapify( pvector_t* heap, heap_compare_function compare, size_t index );
 
 boolean bheap_create( bheap_t* p_bheap, size_t element_size, size_t size, 
                       heap_compare_function compare_callback, heap_element_function destroy_callback,
@@ -80,10 +81,13 @@ boolean bheap_pop( bheap_t* p_bheap )
 	assert( p_bheap );
 	boolean result = FALSE;
 
-	memcpy( vector_get( &p_bheap->heap, 0 ), 
-	        vector_get( &p_bheap->heap, vector_size(&p_bheap->heap) - 1 ), 
-			vector_element_size( &p_bheap->heap ) 
-	);
+	if( vector_size(&p_bheap->heap) > 1 )
+	{
+		memcpy( vector_get( &p_bheap->heap, 0 ), 
+				vector_get( &p_bheap->heap, vector_size(&p_bheap->heap) - 1 ), 
+				vector_element_size( &p_bheap->heap ) 
+		);
+	}
 
 	result = vector_pop( &p_bheap->heap );
 	heap_pop( &p_bheap->heap, p_bheap->compare, p_bheap->tmp );
@@ -190,3 +194,160 @@ void heapify( vector_t* heap, heap_compare_function compare, byte* swap_buffer, 
 	}
 }
 
+
+
+
+boolean pbheap_create( pbheap_t* p_bheap, size_t size, 
+                       heap_compare_function compare_callback, heap_element_function destroy_callback,
+                       alloc_function alloc, free_function free )
+{
+	boolean result = FALSE;
+	assert( p_bheap );
+
+	p_bheap->compare = compare_callback;
+	result = pvector_create( &p_bheap->heap, size, destroy_callback, alloc, free );
+
+	return result;
+}
+
+void pbheap_destroy( pbheap_t* p_bheap )
+{
+	assert( p_bheap );
+	pvector_destroy( &p_bheap->heap );
+}
+
+void* pbheap_peek( pbheap_t* p_bheap )
+{
+	assert( p_bheap );
+	return pvector_get( &p_bheap->heap, 0 );
+}
+
+boolean pbheap_push( pbheap_t* p_bheap, void* data )
+{
+	boolean result = FALSE;
+
+	assert( p_bheap );
+	result = pvector_push( &p_bheap->heap, data );
+	pheap_push( &p_bheap->heap, p_bheap->compare );
+
+	return result;
+}
+
+boolean pbheap_pop( pbheap_t* p_bheap )
+{
+	assert( p_bheap );
+	boolean result = FALSE;
+	             
+	if( pvector_size(&p_bheap->heap) > 1 )
+	{
+		void* last_elem  = pvector_get( &p_bheap->heap, pvector_size(&p_bheap->heap) - 1 );
+		void* first_elem = pvector_get( &p_bheap->heap, 0 );
+
+		pvector_set( &p_bheap->heap, pvector_size(&p_bheap->heap) - 1, first_elem );
+		pvector_set( &p_bheap->heap, 0, last_elem );
+	}
+
+	result = pvector_pop( &p_bheap->heap );
+	pheap_pop( &p_bheap->heap, p_bheap->compare );
+
+	return result;	
+}
+
+size_t pbheap_size( const pbheap_t* p_bheap )
+{
+	return pvector_size( &p_bheap->heap );
+}
+
+void pbheap_clear( pbheap_t* p_bheap )
+{
+	assert( p_bheap );
+	pvector_clear( &p_bheap->heap );
+}
+
+void pbheap_reheapify( pbheap_t* p_bheap )
+{
+	pheap_make( &p_bheap->heap, p_bheap->compare );
+}
+
+void pheap_make( pvector_t* heap, heap_compare_function compare )
+{
+	size_t index = pvector_size( heap ) - 1;
+
+	while( index >= 1 )
+	{
+		pheapify( heap, compare, index );
+	}
+}
+
+void pheap_push( pvector_t* heap, heap_compare_function compare )
+{
+	boolean done = FALSE;
+	size_t index = pvector_size( heap ) - 1;
+
+	while( !done )
+	{
+		size_t parent_index = parent_of( index );
+
+		assert( index >= 0 );
+		assert( parent_index >= 0 );
+		
+		void* parent  = pvector_get( heap, parent_index );
+		void* element = pvector_get( heap, index );
+
+		if( compare( parent, element ) < 0 )
+		{
+			void* tmp = parent;
+			pvector_set( heap, parent_index, element );
+			pvector_set( heap, index, tmp );
+
+			index = parent_index;
+		}
+		else
+		{
+			done = TRUE;
+		}			
+	}
+}
+
+void pheap_pop( pvector_t* heap, heap_compare_function compare )
+{
+	pheapify( heap, compare, 0 );
+}
+
+void pheapify( pvector_t* heap, heap_compare_function compare, size_t index )
+{
+	boolean done = FALSE;
+	//size_t index = 0;
+	size_t size  = pvector_size( heap );
+
+	while( !done && index < size )
+	{
+		size_t left_index  = left_child_of( index );
+		size_t right_index = right_child_of( index );
+		size_t optimal_idx = index;
+
+		if( left_index < size && compare( pvector_get(heap, optimal_idx), pvector_get(heap, left_index) ) < 0 )
+		{
+			optimal_idx = left_index;
+		}
+		if( right_index < size && compare( pvector_get(heap, optimal_idx), pvector_get(heap, right_index) ) < 0 )
+		{
+			optimal_idx = right_index;
+		}
+
+		if( optimal_idx != index )
+		{
+			void* parent = pvector_get( heap, index );
+
+			void* tmp = parent;
+			pvector_set( heap, index, pvector_get(heap, optimal_idx) );
+			pvector_set( heap, optimal_idx, tmp );
+
+			index = optimal_idx;
+		}			
+		else
+		{
+			done = TRUE;
+		}
+	}
+}

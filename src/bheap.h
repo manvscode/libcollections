@@ -43,6 +43,7 @@ typedef struct bheap {
 	byte*     tmp;
 } bheap_t;
 
+
 boolean         bheap_create      ( bheap_t* p_bheap, size_t element_size, size_t size, 
                                     heap_compare_function compare_callback, heap_element_function destroy_callback,
                                     alloc_function alloc, free_function free );
@@ -58,6 +59,31 @@ void            bheap_reheapify   ( bheap_t* p_bheap );
 void            heap_make         ( vector_t* heap, heap_compare_function compare, byte* swap_buffer );
 void            heap_push         ( vector_t* heap, heap_compare_function compare, byte* swap_buffer );
 void            heap_pop          ( vector_t* heap, heap_compare_function compare, byte* swap_buffer );
+
+
+/*
+ *  Pointer Binary Heap
+ */
+typedef struct pbheap {
+	heap_compare_function compare;
+	pvector_t  heap;
+} pbheap_t;
+
+boolean         pbheap_create      ( pbheap_t* p_bheap, size_t size, 
+                                     heap_compare_function compare_callback, heap_element_function destroy_callback,
+                                     alloc_function alloc, free_function free );
+void            pbheap_destroy     ( pbheap_t* p_bheap );
+void*           pbheap_peek        ( pbheap_t* p_bheap );
+boolean         pbheap_push        ( pbheap_t* p_bheap, void* data );
+boolean         pbheap_pop         ( pbheap_t* p_bheap );
+size_t          pbheap_size        ( const pbheap_t* p_bheap );
+void            pbheap_clear       ( pbheap_t* p_bheap );
+void            pbheap_reheapify   ( pbheap_t* p_bheap );
+
+void            pheap_make         ( pvector_t* heap, heap_compare_function compare );
+void            pheap_push         ( pvector_t* heap, heap_compare_function compare );
+void            pheap_pop          ( pvector_t* heap, heap_compare_function compare );
+	
 
 #ifdef __cplusplus
 }
