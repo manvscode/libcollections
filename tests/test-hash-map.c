@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include "hash-map.h"
+#include <libcollections/hash-map.h>
 			
 #define TEST_REHASH
 

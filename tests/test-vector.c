@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include "vector.h"
+#include <libcollections/vector.h>
 
 typedef struct point {
 	double x;

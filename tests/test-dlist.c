@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "dlist.h"
-#include "tstring.h"
-#include "alloc.h"
+#include <libcollections/dlist.h>
+#include <libcollections/tstring.h>
+#include <libcollections/alloc.h>
 
 
 static boolean national_park_destroy( void *element );

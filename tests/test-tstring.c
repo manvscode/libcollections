@@ -1,6 +1,6 @@
 #include <locale.h>
 #include <assert.h>
-#include "tstring.h"
+#include <libcollections/tstring.h>
 
 #ifndef UNICODE
 #error "These tests assume unicode support"

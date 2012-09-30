@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include "lhash-table.h"
+#include <libcollections/lhash-table.h>
 
 #define IP_HASHING_TEST
 			

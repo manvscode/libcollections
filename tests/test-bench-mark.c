@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "bench-mark.h"
+#include <libcollections/bench-mark.h>
 
 #define MAX 200
 #define macro_test(a, b) ((a)+(b))

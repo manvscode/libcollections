@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include "array.h"
+#include <libcollections/array.h>
 
 #define MAX 20
 
