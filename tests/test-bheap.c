@@ -46,7 +46,7 @@ int main( int argc, char *argv[] )
 
 	for( i = 0; i < SIZE; i++ )
 	{
-		int num = rand() % 44;
+		int num = rand() % 100;
 		bheap_push( &heap, &num );
 	}
 	
@@ -57,7 +57,7 @@ int main( int argc, char *argv[] )
 	
 	for( i = 0; i < SIZE; i++ )
 	{
-		int num = rand() % 44;
+		int num = rand() % 100;
 		bheap_push( &heap, &num );
 	}
 	
