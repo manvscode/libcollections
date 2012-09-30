@@ -21,6 +21,7 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include <time.h>
 #include <libcollections/bheap.h>
 
@@ -29,18 +30,18 @@
 //#define MAX_HEAP	
 
 static int     int_compare( const void* left, const void* right );
-static boolean heap_elem_destroy( void *data );
-
+static boolean num_destroy( void *data );
 
 int main( int argc, char *argv[] )
 {
-	pbheap_t heap;
 	int i;
 
 	time_t t = time(NULL);
 
 	srand( t );
-	pbheap_create( &heap, 1, int_compare, heap_elem_destroy, malloc, free );
+#if 0
+	pbheap_t heap;
+	pbheap_create( &heap, 1, int_compare, num_destroy, malloc, free );
 
 	printf( "seed = %ld\n", t );
 
@@ -85,6 +86,40 @@ int main( int argc, char *argv[] )
 	}
 
 	pbheap_destroy( &heap );
+#else
+	pvector_t collection;
+	pvector_create( &collection, 1, num_destroy, malloc, free );
+
+	for( i = 0; i < SIZE; i++ )
+	{
+		int *num = (int*) malloc( sizeof(int) );
+		*num = (rand() % 130) + (rand() % 100)* pow(-1.0, i);
+		pvector_push( &collection, num );
+	}
+
+	printf( "unsorted = {" );
+	for( i = 0; i < pvector_size(&collection); i++ )
+	{
+		int* p_num = pvector_get( &collection, i );
+		printf( "%d%s", *p_num, i < pvector_size(&collection) - 1 ? ", " : "" );
+	}
+	printf( "}\n" );
+	
+	pheap_make( &collection, int_compare );
+
+	printf( "  sorted = {" );
+	for( i = 0; i < pvector_size(&collection); i++ )
+	{
+		int* p_num = pvector_get( &collection, 0 );
+		printf( "%d%s", *p_num, i < pvector_size(&collection) - 1 ? ", " : "" );
+
+		pvector_pop( &collection );
+		pheap_pop( &collection, int_compare );
+	}
+	printf( "}\n" );
+
+	pvector_destroy( &collection );
+#endif
 	return 0;
 }
 
@@ -101,7 +136,7 @@ int int_compare( const void* left, const void* right )
 	#endif
 }
 
-boolean heap_elem_destroy( void *data )
+boolean num_destroy( void *data )
 {
 	free( data );
 	return TRUE;

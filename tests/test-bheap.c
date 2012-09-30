@@ -21,6 +21,7 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include <time.h>
 #include <libcollections/bheap.h>
 
@@ -34,12 +35,12 @@ static boolean heap_elem_destroy( void *data );
 
 int main( int argc, char *argv[] )
 {
+	time_t t = time(NULL);
+	srand( t );
+#if 0
 	bheap_t heap;
 	int i;
 
-	time_t t = time(NULL);
-
-	srand( t );
 	bheap_create( &heap, sizeof(int), 1, int_compare, heap_elem_destroy, malloc, free );
 
 	printf( "seed = %ld\n", t );
@@ -76,6 +77,41 @@ int main( int argc, char *argv[] )
 	}
 
 	bheap_destroy( &heap );
+#else
+	int i;
+	vector_t collection;
+	vector_create( &collection, sizeof(int), 1, heap_elem_destroy, malloc, free );
+
+	for( i = 0; i < SIZE; i++ )
+	{
+		int num = (rand() % 130) + (rand() % 100)* pow(-1.0, i);
+		vector_push( &collection, &num );
+	}
+
+	printf( "unsorted = {" );
+	for( i = 0; i < vector_size(&collection); i++ )
+	{
+		int* p_num = vector_get( &collection, i );
+		printf( "%d%s", *p_num, i < vector_size(&collection) - 1 ? ", " : "" );
+	}
+	printf( "}\n" );
+
+	int tmp;	
+	heap_make( &collection, int_compare, (byte*) &tmp );
+
+	printf( "  sorted = {" );
+	for( i = 0; i < vector_size(&collection); i++ )
+	{
+		int* p_num = vector_get( &collection, 0 );
+		printf( "%d%s", *p_num, i < vector_size(&collection) - 1 ? ", " : "" );
+
+		vector_pop( &collection );
+		heap_pop( &collection, int_compare, (byte*) &tmp );
+	}
+	printf( "}\n" );
+
+	vector_destroy( &collection );
+#endif
 	return 0;
 }
 

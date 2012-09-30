@@ -29,7 +29,7 @@
 #define left_child_of( index )     (((index) << 1) + 0) /* 2 * index */
 #define right_child_of( index )    (((index) << 1) + 1) /* 2 * index + 1 */
 
-static void heapify  ( vector_t* heap, heap_compare_function compare, byte* swap_buffer, size_t index );
+static void heapify  ( vector_t* heap, heap_compare_function compare, void* swap_buffer, size_t index );
 static void pheapify( pvector_t* heap, heap_compare_function compare, size_t index );
 
 boolean bheap_create( bheap_t* p_bheap, size_t element_size, size_t size, 
@@ -111,17 +111,18 @@ void bheap_reheapify( bheap_t* p_bheap )
 	heap_make( &p_bheap->heap, p_bheap->compare, p_bheap->tmp );
 }
 
-void heap_make( vector_t* heap, heap_compare_function compare, byte* swap_buffer )
+void heap_make( vector_t* heap, heap_compare_function compare, void* swap_buffer )
 {
-	size_t index = vector_size( heap ) - 1;
+	ssize_t index = parent_of( vector_size( heap ) - 1 );
 
-	while( index >= 1 )
+	while( index >= 0 )
 	{
 		heapify( heap, compare, swap_buffer, index );
+		index = parent_of( index );
 	}
 }
 
-void heap_push( vector_t* heap, heap_compare_function compare, byte* swap_buffer )
+void heap_push( vector_t* heap, heap_compare_function compare, void* swap_buffer )
 {
 	boolean done = FALSE;
 	size_t index = vector_size( heap ) - 1;
@@ -151,12 +152,12 @@ void heap_push( vector_t* heap, heap_compare_function compare, byte* swap_buffer
 	}
 }
 
-void heap_pop( vector_t* heap, heap_compare_function compare, byte* swap_buffer )
+void heap_pop( vector_t* heap, heap_compare_function compare, void* swap_buffer )
 {
 	heapify( heap, compare, swap_buffer, 0 );
 }
 
-void heapify( vector_t* heap, heap_compare_function compare, byte* swap_buffer, size_t index )
+void heapify( vector_t* heap, heap_compare_function compare, void* swap_buffer, size_t index )
 {
 	boolean done = FALSE;
 	//size_t index = 0;
@@ -271,11 +272,12 @@ void pbheap_reheapify( pbheap_t* p_bheap )
 
 void pheap_make( pvector_t* heap, heap_compare_function compare )
 {
-	size_t index = pvector_size( heap ) - 1;
+	size_t index = parent_of( pvector_size( heap ) - 1 );
 
 	while( index >= 1 )
 	{
 		pheapify( heap, compare, index );
+		index = parent_of( index );
 	}
 }
 

@@ -56,9 +56,9 @@ void            bheap_clear       ( bheap_t* p_bheap );
 void            bheap_reheapify   ( bheap_t* p_bheap );
 
 
-void            heap_make         ( vector_t* heap, heap_compare_function compare, byte* swap_buffer );
-void            heap_push         ( vector_t* heap, heap_compare_function compare, byte* swap_buffer );
-void            heap_pop          ( vector_t* heap, heap_compare_function compare, byte* swap_buffer );
+void            heap_make         ( vector_t* heap, heap_compare_function compare, void* swap_buffer );
+void            heap_push         ( vector_t* heap, heap_compare_function compare, void* swap_buffer );
+void            heap_pop          ( vector_t* heap, heap_compare_function compare, void* swap_buffer );
 
 
 /*
