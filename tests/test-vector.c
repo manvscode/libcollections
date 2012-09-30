@@ -21,6 +21,7 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "vector.h"
 
 typedef struct point {
@@ -47,9 +48,9 @@ int main( int argc, char *argv[] )
 {
 	vector_t collection;
 	int i;
-	char names[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	char names[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	srand( 0 );
+	srand( time(NULL) );
 	vector_create( &collection, sizeof(point_t), 1, point_destroy, malloc, free );
 
 	for( i = 0; i < SIZE; i++ )
@@ -58,12 +59,33 @@ int main( int argc, char *argv[] )
 
 		pt.x    = ((rand( ) % 100) - 50.0);
 		pt.y    = ((rand( ) % 100) - 50.0);
-		pt.name = names[ i % (sizeof(names) - 1) ];
+		pt.name = names[ rand( ) % (sizeof(names) - 1) ];
 
 		vector_push( &collection, &pt );
 	}
 
-	for( i = 0; i < SIZE; i++ )
+	for( i = 0; i < 0.25 * SIZE; i++ )
+	{
+		vector_pop( &collection );
+	}
+	
+	for( i = 0; i < 0.5 * SIZE; i++ )
+	{
+		point_t pt;
+
+		pt.x    = ((rand( ) % 100) - 50.0);
+		pt.y    = ((rand( ) % 100) - 50.0);
+		pt.name = names[ rand( ) % (sizeof(names) - 1) ];
+
+		vector_push( &collection, &pt );
+	}
+
+	for( i = 0; i < 0.25 * SIZE; i++ )
+	{
+		vector_pop( &collection );
+	}
+	
+	for( i = 0; i < vector_size(&collection); i++ )
 	{
 		point_t *p_pt = (point_t *) vector_get( &collection, i );
 
