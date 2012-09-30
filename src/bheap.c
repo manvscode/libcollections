@@ -81,7 +81,7 @@ boolean bheap_pop( bheap_t* p_bheap )
 	assert( p_bheap );
 	boolean result = FALSE;
 
-	if( vector_size(&p_bheap->heap) > 1 )
+	if( vector_size(&p_bheap->heap) > 0 )
 	{
 		memcpy( vector_get( &p_bheap->heap, 0 ), 
 				vector_get( &p_bheap->heap, vector_size(&p_bheap->heap) - 1 ), 
@@ -118,7 +118,7 @@ void heap_make( vector_t* heap, heap_compare_function compare, void* swap_buffer
 	while( index >= 0 )
 	{
 		heapify( heap, compare, swap_buffer, index );
-		index = parent_of( index );
+		index--;
 	}
 }
 
@@ -160,7 +160,6 @@ void heap_pop( vector_t* heap, heap_compare_function compare, void* swap_buffer 
 void heapify( vector_t* heap, heap_compare_function compare, void* swap_buffer, size_t index )
 {
 	boolean done = FALSE;
-	//size_t index = 0;
 	size_t size  = vector_size( heap );
 
 	while( !done && index < size )
@@ -180,11 +179,12 @@ void heapify( vector_t* heap, heap_compare_function compare, void* swap_buffer, 
 
 		if( optimal_idx != index )
 		{
-			void* parent = vector_get( heap, index );
+			void* parent  = vector_get( heap, index );
+			void* optimal = vector_get( heap, optimal_idx );
 
 			memcpy( swap_buffer, parent, vector_element_size(heap) );
-			memcpy( parent, vector_get(heap, optimal_idx), vector_element_size(heap) );
-			memcpy( vector_get(heap, optimal_idx), swap_buffer, vector_element_size(heap) );
+			memcpy( parent, optimal, vector_element_size(heap) );
+			memcpy( optimal, swap_buffer, vector_element_size(heap) );
 
 			index = optimal_idx;
 		}			
@@ -272,12 +272,12 @@ void pbheap_reheapify( pbheap_t* p_bheap )
 
 void pheap_make( pvector_t* heap, heap_compare_function compare )
 {
-	size_t index = parent_of( pvector_size( heap ) - 1 );
+	ssize_t index = parent_of( pvector_size( heap ) - 1 );
 
-	while( index >= 1 )
+	while( index >= 0 )
 	{
 		pheapify( heap, compare, index );
-		index = parent_of( index );
+		index--;
 	}
 }
 
@@ -319,7 +319,6 @@ void pheap_pop( pvector_t* heap, heap_compare_function compare )
 void pheapify( pvector_t* heap, heap_compare_function compare, size_t index )
 {
 	boolean done = FALSE;
-	//size_t index = 0;
 	size_t size  = pvector_size( heap );
 
 	while( !done && index < size )
@@ -339,10 +338,11 @@ void pheapify( pvector_t* heap, heap_compare_function compare, size_t index )
 
 		if( optimal_idx != index )
 		{
-			void* parent = pvector_get( heap, index );
+			void* parent  = pvector_get( heap, index );
+			void* optimal = pvector_get( heap, optimal_idx );
 
 			void* tmp = parent;
-			pvector_set( heap, index, pvector_get(heap, optimal_idx) );
+			pvector_set( heap, index, optimal );
 			pvector_set( heap, optimal_idx, tmp );
 
 			index = optimal_idx;

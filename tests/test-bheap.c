@@ -25,7 +25,7 @@
 #include <time.h>
 #include <libcollections/bheap.h>
 
-#define SIZE  		30
+#define SIZE  		12
 
 //#define MAX_HEAP	
 
@@ -47,7 +47,7 @@ int main( int argc, char *argv[] )
 
 	for( i = 0; i < SIZE; i++ )
 	{
-		int num = rand() % 100;
+		int num = (rand() % 130) + (rand() % 100)* pow(-1.0, i);
 		bheap_push( &heap, &num );
 	}
 	
@@ -58,7 +58,7 @@ int main( int argc, char *argv[] )
 	
 	for( i = 0; i < SIZE; i++ )
 	{
-		int num = rand() % 100;
+		int num = (rand() % 130) + (rand() % 100)* pow(-1.0, i);
 		bheap_push( &heap, &num );
 	}
 	
@@ -92,19 +92,26 @@ int main( int argc, char *argv[] )
 	for( i = 0; i < vector_size(&collection); i++ )
 	{
 		int* p_num = vector_get( &collection, i );
-		printf( "%d%s", *p_num, i < vector_size(&collection) - 1 ? ", " : "" );
+		printf( "%4d%s", *p_num, i < vector_size(&collection) - 1 ? ", " : "" );
 	}
 	printf( "}\n" );
 
-	int tmp;	
+	int tmp = 0;
 	heap_make( &collection, int_compare, (byte*) &tmp );
 
 	printf( "  sorted = {" );
-	for( i = 0; i < vector_size(&collection); i++ )
+	while( vector_size(&collection) > 0 )
 	{
 		int* p_num = vector_get( &collection, 0 );
-		printf( "%d%s", *p_num, i < vector_size(&collection) - 1 ? ", " : "" );
+		printf( "%4d%s", *p_num, vector_size(&collection) > 1 ? ", " : "" );
 
+		if( vector_size(&collection) > 1 )
+		{
+			memcpy( vector_get( &collection, 0 ), 
+					vector_get( &collection, vector_size(&collection) - 1 ), 
+					vector_element_size( &collection ) 
+			);
+		}
 		vector_pop( &collection );
 		heap_pop( &collection, int_compare, (byte*) &tmp );
 	}

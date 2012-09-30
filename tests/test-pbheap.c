@@ -25,7 +25,7 @@
 #include <time.h>
 #include <libcollections/bheap.h>
 
-#define SIZE  		20
+#define SIZE  		12
 
 //#define MAX_HEAP	
 
@@ -37,7 +37,6 @@ int main( int argc, char *argv[] )
 	int i;
 
 	time_t t = time(NULL);
-
 	srand( t );
 #if 0
 	pbheap_t heap;
@@ -101,17 +100,27 @@ int main( int argc, char *argv[] )
 	for( i = 0; i < pvector_size(&collection); i++ )
 	{
 		int* p_num = pvector_get( &collection, i );
-		printf( "%d%s", *p_num, i < pvector_size(&collection) - 1 ? ", " : "" );
+		printf( "%4d%s", *p_num, i < pvector_size(&collection) - 1 ? ", " : "" );
 	}
 	printf( "}\n" );
 	
 	pheap_make( &collection, int_compare );
 
 	printf( "  sorted = {" );
-	for( i = 0; i < pvector_size(&collection); i++ )
+	while( pvector_size(&collection) > 0 )
 	{
 		int* p_num = pvector_get( &collection, 0 );
-		printf( "%d%s", *p_num, i < pvector_size(&collection) - 1 ? ", " : "" );
+		//int* p_num = pvector_get( &collection, pvector_size(&collection) - 1 );
+		printf( "%4d%s", *p_num, pvector_size(&collection) > 1 ? ", " : "" );
+
+		if( pvector_size(&collection) > 1 )
+		{
+			void* last_elem  = pvector_get( &collection, pvector_size(&collection) - 1 );
+			void* first_elem = pvector_get( &collection, 0 );
+
+			pvector_set( &collection, pvector_size(&collection) - 1, first_elem );
+			pvector_set( &collection, 0, last_elem );
+		}
 
 		pvector_pop( &collection );
 		pheap_pop( &collection, int_compare );
