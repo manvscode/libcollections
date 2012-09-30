@@ -21,6 +21,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <assert.h>
 
 #define _DEBUG_RBTREE 1
@@ -57,7 +58,7 @@ int main( int argc, char *argv[] )
 
 	rbtree_create( &tree, destroy, compare, malloc, free );
 
-	srand( 0 );
+	srand( time(NULL) );
 
 
 	for( i = 0; i < 30; i++ )

@@ -21,6 +21,7 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "array.h"
 
 #define MAX 20
@@ -31,7 +32,7 @@ int main( int argc, char *argv[] )
 	int i;
 
 	array_create( &a, sizeof(double), 1 /* initial size */, malloc, free );
-	srand( 0 );
+	srand( time(NULL) );
 
 	array_resize( &a, MAX );
 

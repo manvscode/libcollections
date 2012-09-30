@@ -24,7 +24,7 @@
 #include <time.h>
 #include "bheap.h"
 
-#define SIZE  		40
+#define SIZE  		30
 
 //#define MAX_HEAP	
 
@@ -48,11 +48,26 @@ int main( int argc, char *argv[] )
 	{
 		int num = rand() % 44;
 		bheap_push( &heap, &num );
-		//printf( "Pushed %d\n", num );
+	}
+	
+	for( i = 0; i < 0.25 * SIZE; i++ )
+	{
+		bheap_pop( &heap );
+	}
+	
+	for( i = 0; i < SIZE; i++ )
+	{
+		int num = rand() % 44;
+		bheap_push( &heap, &num );
+	}
+	
+	for( i = 0; i < 0.25 * SIZE; i++ )
+	{
+		bheap_pop( &heap );
 	}
 
 	printf( "   ----- Sorted Output -----\n" );
-	for( i = 0; i < SIZE; i++ )
+	while( bheap_size(&heap) > 0 )
 	{
 		int* p_num = bheap_peek( &heap );
 		printf( "%10d (size = %02ld) \n", *p_num, bheap_size(&heap) );
