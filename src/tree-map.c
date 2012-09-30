@@ -461,26 +461,31 @@ boolean tree_map_remove( tree_map_t *p_map, const void *key )
 		}
 	}
 
+	boolean y_is_red = FALSE;
+
 	if( y != t )
 	{
 		DESTROY_CHECK( 
 			p_map->destroy( t->key, t->value );
 		);
 
-		p_map->_free( y );
-
 		t->key   = y->key;
 		t->value = y->value;
+
+		y_is_red = y->is_red;
+
+		p_map->_free( y );
 	}
 	else
 	{
 		DESTROY_CHECK( 
 			p_map->destroy( y->key, y->value );
 		);
+		y_is_red = y->is_red;
 		p_map->_free( y );
 	}
 
-	if( y->is_red == FALSE ) /* y is black */
+	if( y_is_red == FALSE ) /* y is black */
 	{
 		tree_map_delete_fixup( p_map, &x );
 	}
