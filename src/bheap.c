@@ -198,15 +198,14 @@ void heapify( vector_t* heap, heap_compare_function compare, void* swap_buffer, 
 
 
 
-boolean pbheap_create( pbheap_t* p_bheap, size_t size, 
-                       heap_compare_function compare_callback, heap_element_function destroy_callback,
+boolean pbheap_create( pbheap_t* p_bheap, size_t size, heap_compare_function compare_callback,
                        alloc_function alloc, free_function free )
 {
 	boolean result = FALSE;
 	assert( p_bheap );
 
 	p_bheap->compare = compare_callback;
-	result = pvector_create( &p_bheap->heap, size, destroy_callback, alloc, free );
+	result = pvector_create( &p_bheap->heap, size, alloc, free );
 
 	return result;
 }

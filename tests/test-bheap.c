@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
-#include <libcollections/bheap.h>
+#include <bheap.h>
 
 #define SIZE  		12
 

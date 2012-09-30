@@ -22,7 +22,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <libcollections/variant.h>
+#include <variant.h>
 
 int main( int argc, char *argv[] )
 {

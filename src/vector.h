@@ -102,20 +102,18 @@ inline void vector_set( vector_t *p_vector, size_t index, void *data )
 
 /*
  * pvector - A growable array of pointers.
+ * pvector does not own the pointers.
  */
-typedef boolean (*pvector_element_function)( void *data );
-
 typedef struct pvector {
 	alloc_function  alloc;
 	free_function   free;
 	size_t array_size;
 	size_t size;
-	vector_element_function destroy;
 
 	void** array;
 } pvector_t;
 
-boolean      pvector_create     ( pvector_t *p_vector, size_t size, pvector_element_function destroy_callback, alloc_function alloc, free_function free );
+boolean      pvector_create     ( pvector_t *p_vector, size_t size, alloc_function alloc, free_function free );
 void         pvector_destroy    ( pvector_t *p_vector );
 boolean      pvector_push       ( pvector_t *p_vector, void *data );
 boolean      pvector_pop        ( pvector_t *p_vector );

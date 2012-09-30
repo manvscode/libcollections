@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
-#include <libcollections/bheap.h>
+#include <bheap.h>
 
 #define SIZE  		12
 
@@ -38,9 +38,9 @@ int main( int argc, char *argv[] )
 
 	time_t t = time(NULL);
 	srand( t );
-#if 0
+#if 1 
 	pbheap_t heap;
-	pbheap_create( &heap, 1, int_compare, num_destroy, malloc, free );
+	pbheap_create( &heap, 1, int_compare, malloc, free );
 
 	printf( "seed = %ld\n", t );
 
@@ -53,6 +53,9 @@ int main( int argc, char *argv[] )
 
 	for( i = 0; i < 0.25 * SIZE; i++ )
 	{
+		int *num = pbheap_peek( &heap );
+		num_destroy( num );
+
 		pbheap_pop( &heap );
 	}
 	
@@ -65,6 +68,9 @@ int main( int argc, char *argv[] )
 
 	for( i = 0; i < 0.25 * SIZE; i++ )
 	{
+		int *num = pbheap_peek( &heap );
+		num_destroy( num );
+
 		pbheap_pop( &heap );
 	}
 
@@ -80,6 +86,9 @@ int main( int argc, char *argv[] )
 	{
 		int* p_num = pbheap_peek( &heap );
 		printf( "%10d (size = %02ld) \n", *p_num, pbheap_size(&heap) );
+		
+		num_destroy( p_num );
+
 
 		pbheap_pop( &heap );
 	}

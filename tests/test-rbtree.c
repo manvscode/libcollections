@@ -23,7 +23,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <assert.h>
-#include <libcollections/rbtree.h>
+#include <rbtree.h>
 
 int compare( const void *num1, const void *num2 )
 {

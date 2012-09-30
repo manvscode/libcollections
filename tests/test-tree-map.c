@@ -24,7 +24,7 @@
 #include <string.h>
 #include <assert.h>
 #include <time.h>
-#include <libcollections/tree-map.h>
+#include <tree-map.h>
 			
 
 boolean ip_destroy  ( void *key, void *value );

@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <libcollections/vector.h>
+#include <vector.h>
 
 typedef struct point {
 	double x;
@@ -30,13 +30,13 @@ typedef struct point {
 	char name;
 } point_t;
 
-boolean point_destroy( void *data )
+boolean point_destroy( point_t *pt )
 {
 	/* vector makes a shallow copy of the
  	 * data on the array. There is nothing
  	 * to free.
  	 */
-	free( data );
+	free( pt );
 	return TRUE;
 }
 
@@ -53,7 +53,7 @@ int main( int argc, char *argv[] )
 
 	srand( time(NULL) );
 
-	pvector_create( &collection, 1, point_destroy, malloc, free );
+	pvector_create( &collection, 1, malloc, free );
 
 	for( i = 0; i < SIZE; i++ )
 	{
@@ -68,6 +68,9 @@ int main( int argc, char *argv[] )
 	
 	for( i = 0; i < 0.25 * SIZE; i++ )
 	{
+		point_t *p_pt = pvector_peek( &collection );
+		point_destroy( p_pt );
+
 		pvector_pop( &collection );
 	}
 	
@@ -84,18 +87,23 @@ int main( int argc, char *argv[] )
 
 	for( i = 0; i < 0.25 * SIZE; i++ )
 	{
+		point_t *p_pt = pvector_peek( &collection );
+		point_destroy( p_pt );
+
 		pvector_pop( &collection );
 	}
 
 
 	for( i = 0; i < pvector_size(&collection); i++ )
 	{
-		const point_t *p_pt = pvector_get( &collection, i );
+		point_t *p_pt = pvector_get( &collection, i );
 
 		printf( "%c = (%3.0f, %3.0f)\n", 
 			p_pt->name, 
 			p_pt->x, 
 			p_pt->y );
+
+		point_destroy( p_pt );
 	}
 
 	pvector_destroy( &collection );

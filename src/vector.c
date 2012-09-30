@@ -47,7 +47,6 @@ boolean vector_create( vector_t *p_vector, size_t element_size, size_t size, vec
 	p_vector->element_size = element_size;
 	p_vector->array_size   = size;
 	p_vector->size         = 0L;
-	p_vector->destroy      = destroy_callback;
 	p_vector->alloc        = alloc;
 	p_vector->free         = free;
 	p_vector->array        = p_vector->alloc( vector_element_size(p_vector) * vector_array_size(p_vector) );
@@ -228,14 +227,14 @@ boolean vector_unserialize( vector_t *p_vector, FILE *file, vector_unserialize_f
 
 /*
  * pvector - A growable array of pointers.
+ * pvector does not own the pointers.
  */
-boolean pvector_create( pvector_t *p_vector, size_t size, pvector_element_function destroy_callback, alloc_function alloc, free_function free )
+boolean pvector_create( pvector_t *p_vector, size_t size, alloc_function alloc, free_function free )
 {
 	assert( p_vector );
 
 	p_vector->array_size = size;
 	p_vector->size       = 0L;
-	p_vector->destroy    = destroy_callback;
 	p_vector->alloc        = alloc;
 	p_vector->free         = free;
 	p_vector->array      = p_vector->alloc( sizeof(void *) * pvector_array_size(p_vector) );
@@ -264,7 +263,6 @@ void pvector_destroy( pvector_t *p_vector )
 	p_vector->array      = NULL;
 	p_vector->array_size = 0L;
 	p_vector->size       = 0L;
-	p_vector->destroy    = NULL;
 	#endif
 }
 
@@ -288,17 +286,12 @@ boolean pvector_push( pvector_t *p_vector, void *element )
 
 boolean pvector_pop( pvector_t *p_vector )
 {
-	void *element;
+	//void *element;
 	boolean result = TRUE;
 	assert( p_vector );
 	assert( pvector_size(p_vector) > 0 );
 
-	element = p_vector->array[ pvector_size(p_vector) - 1 ];
-
-	DESTROY_CHECK(
-		result  = p_vector->destroy( element );
-	);
-
+	//element = p_vector->array[ pvector_size(p_vector) - 1 ];
 	p_vector->size--;
 	return result;
 }

@@ -24,9 +24,9 @@
 #include <sys/time.h>
 #include <string.h>
 #include <assert.h>
-#include "flat-db.h"
-#include "tstring.h"
-#include "types.h"
+#include <flat-db.h>
+#include <tstring.h>
+#include <types.h>
 
 #define CONTACTS_DAT        _T("./contacts.dat")
 #define CONTACT_TYPE        FLDB_AUX_01     

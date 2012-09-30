@@ -69,8 +69,7 @@ typedef struct pbheap {
 	pvector_t  heap;
 } pbheap_t;
 
-boolean         pbheap_create      ( pbheap_t* p_bheap, size_t size, 
-                                     heap_compare_function compare_callback, heap_element_function destroy_callback,
+boolean         pbheap_create      ( pbheap_t* p_bheap, size_t size, heap_compare_function compare_callback,
                                      alloc_function alloc, free_function free );
 void            pbheap_destroy     ( pbheap_t* p_bheap );
 void*           pbheap_peek        ( pbheap_t* p_bheap );

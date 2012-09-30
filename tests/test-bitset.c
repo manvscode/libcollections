@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
-#include "bitset.h"
+#include <bitset.h>
 
 void print_bits( );
 
