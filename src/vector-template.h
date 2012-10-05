@@ -37,10 +37,10 @@ extern "C" {
  * vector - A growable array of type.
  */
 
-#define define_vector_type( name, type ) \
+#define declare_vector_type( name, type ) \
 	typedef boolean (*vector_##name##_element_function)( type* data );\
-	typedef boolean (*vector_##name##_serialize_function)   ( const type *p_array ); \
-	typedef boolean (*vector_##name##_unserialize_function) ( const type *p_array ); \
+	typedef boolean (*vector_##name##_serialize_function)   ( const type* p_array ); \
+	typedef boolean (*vector_##name##_unserialize_function) ( const type* p_array ); \
 	\
 	typedef struct vector_##name { \
 		size_t array_size; \
@@ -54,7 +54,53 @@ extern "C" {
 	#define vector_##name##_array( p_vector )         ((p_vector)->array) \
 	#define vector_##name##_peek( p_vector )          (vector_##name##_get(p_vector, vector_##name##_size(p_vector) - 1)) \
 	\
-	static inline boolean vector_##name##_create( vector_##name##_t *p_vector, size_t size ) \
+	boolean vector_##name##_create( vector_##name##_t *p_vector, size_t size ); \
+	void vector_##name##_destroy( vector_##name##_t *p_vector ); \
+	boolean vector_##name##_resize( vector_##name##_t *p_vector, size_t new_size ); \
+	type* vector_##name##_pushx( vector_##name##_t *p_vector ); \
+	boolean vector_##name##_push( vector_##name##_t *p_vector, const type* data ); \
+	boolean vector_##name##_serialize( vector_##name##_t *p_vector, FILE *file, vector_##name##_serialize_function func ); \
+	boolean vector_##name##_unserialize( vector_##name##_t *p_vector, FILE *file, vector_##name##_unserialize_function func ); \
+	\
+	\
+	inline void vector_##name##_pop( vector_##name##_t *p_vector ) \
+	{ \
+		assert( p_vector ); \
+		if( vector_##name##_size(p_vector) > 0 ) \
+		{ \
+			#ifdef _DEBUG_VECTOR \
+			type* element = vector_##name##_array(p_vector) + vector_##name##_size(p_vector) - 1); \
+			memset( element, 0, sizeof(type) ); \
+			#endif \
+			p_vector->size--; \
+		} \
+	} \
+	\
+	inline type* vector_##name##_get( vector_##name##_t *p_vector, size_t index ) \
+	{ \
+		assert( index >= 0 ); \
+		assert( index < vector_##name##_size(p_vector) ); \
+		return vector_##name##_array(p_vector) + index; \
+	} \
+ 	\
+	inline void vector_##name##_set( vector_##name##_t *p_vector, size_t index, const type* data ) \
+	{ \
+		assert( data != NULL ); \
+		assert( index >= 0 ); \
+		assert( index < vector_##name##_size(p_vector) ); \
+		type* dst = vector_##name##_array(p_vector) + vector_##name##_size(p_vector); \
+		*dst = *data; \
+		/*memcpy( vector_##name##_array(p_vector) + vector_##name##_size(p_vector), data, sizeof(type) );*/ \
+	} \
+	\
+	inline void vector_##name##_clear( vector_##name##_t *p_vector ) \
+	{ \
+		assert( p_vector ); \
+		p_vector->size = 0; \
+	} \
+
+#define implement_vector_type( name, type ) \
+	boolean vector_##name##_create( vector_##name##_t *p_vector, size_t size ) \
 	{ \
 		assert( p_vector ); \
 		p_vector->array_size   = size; \
@@ -64,7 +110,7 @@ extern "C" {
 		return p_vector->array != NULL; \
 	} \
 	\
-	static inline void vector_##name##_destroy( vector_##name##_t *p_vector ) \
+	void vector_##name##_destroy( vector_##name##_t *p_vector ) \
 	{ \
 		assert( p_vector ); \
 		vector_##name##_clear( p_vector ); \
@@ -76,9 +122,21 @@ extern "C" {
 		#endif \
 	} \
 	\
-	static inline type* vector_##name##_pushx( vector_##name##_t *p_vector ) \
+	boolean vector_##name##_resize( vector_##name##_t *p_vector, size_t new_size ) \
 	{ \
-		type *result; \
+		boolean result = TRUE; \
+		if( vector_##name##_size(p_vector) > new_size ) \
+		{ \
+			p_vector->array_size = new_size; \
+			p_vector->array      = realloc( p_vector->array, sizeof(type) * vector_##name##_array_size(p_vector) ); \
+			result               = p_vector->array != NULL; \
+		} \
+		return result; \
+	} \
+	\
+	type* vector_##name##_pushx( vector_##name##_t *p_vector ) \
+	{ \
+		type* result; \
 		assert( p_vector ); \
 		/* grow the array if needed */ \
 		if( vector_##name##_size(p_vector) >= vector_##name##_array_size(p_vector) ) \
@@ -96,7 +154,7 @@ extern "C" {
 		return result; \
 	} \
 	\
-	static inline boolean vector_##name##_push( vector_##name##_t *p_vector, const type *data ) \
+	boolean vector_##name##_push( vector_##name##_t *p_vector, const type* data ) \
 	{ \
 		assert( p_vector ); \
 		/* grow the array if needed */ \
@@ -114,64 +172,6 @@ extern "C" {
 		*dst = *data; /*memcpy( dst, data, sizeof(type) );*/ \
 		p_vector->size++; \
 		return p_vector->array != NULL; \
-	} \
-	\
-	static inline boolean vector_##name##_pop( vector_##name##_t *p_vector ) \
-	{ \
-		boolean result = FALSE; \
-		assert( p_vector ); \
-		if( vector_##name##_size(p_vector) > 0 ) \
-		{ \
-			type *element = vector_##name##_array(p_vector) + vector_##name##_size(p_vector) - 1); \
-			#ifdef _DEBUG_VECTOR \
-			memset( vector_##name##_array(p_vector) + (vector_##name##_size(p_vector) - 1), 0, sizeof(type) ); \
-			#endif \
-			p_vector->size--; \
-			result = TRUE; \
-		} \
-		return result; \
-	} \
-	\
-	static inline type* vector_##name##_get( vector_##name##_t *p_vector, size_t index ) \
-	{ \
-		assert( index >= 0 ); \
-		assert( index < vector_##name##_size(p_vector) ); \
-		return vector_##name##_array(p_vector) + index; \
-	} \
- 	\
-	static inline void vector_##name##_set( vector_##name##_t *p_vector, size_t index, const type* data ) \
-	{ \
-		assert( data != NULL ); \
-		assert( index >= 0 ); \
-		assert( index < vector_##name##_size(p_vector) ); \
-		type* dst = vector_##name##_array(p_vector) + vector_##name##_size(p_vector); \
-		*dst = *data; \
-		/*memcpy( vector_##name##_array(p_vector) + vector_##name##_size(p_vector), data, sizeof(type) );*/ \
-	} \
-	\
-	boolean vector_##name##_resize( vector_##name##_t *p_vector, size_t new_size ) \
-	{ \
-		boolean result = TRUE; \
-		if( vector_##name##_size(p_vector) > new_size ) \
-		{ \
-			while( vector_##name##_size(p_vector) > new_size ) \
-			{ \
-				vector_##name##_pop( p_vector ); \
-			} \
-			p_vector->array_size = new_size; \
-			p_vector->array      = realloc( p_vector->array, sizeof(type) * vector_##name##_array_size(p_vector) ); \
-			result               = p_vector->array != NULL; \
-		} \
-		return result; \
-	} \
-	\
-	void vector_##name##_clear( vector_##name##_t *p_vector ) \
-	{ \
-		assert( p_vector ); \
-		while( !vector_##name##_is_empty(p_vector) ) \
-		{ \
-			vector_##name##_pop( p_vector ); \
-		} \
 	} \
 	\
 	boolean vector_##name##_serialize( vector_##name##_t *p_vector, FILE *file, vector_##name##_serialize_function func ) \
@@ -218,6 +218,7 @@ extern "C" {
 		} \
 		return result; \
 	}
+	
 
 #ifdef __cplusplus
 }
