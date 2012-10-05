@@ -19,9 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+#include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <wchar.h>
+#include <ctype.h>
+#include <wctype.h>
 #include <assert.h>
 #ifndef WIN32
 #include <sys/types.h>
