@@ -67,7 +67,7 @@ slist_iterator_t slist_next   ( const slist_iterator_t iter );
 #define slist_pop                slist_remove_front
 
 #define slist_head(p_list)       ((p_list)->head)
-#define slist_front(p_list)      ((p_list)->front)
+#define slist_front(p_list)      ((p_list)->head)
 #define slist_size(p_list)       ((p_list)->size)
 #define slist_is_empty(p_list)   ((p_list)->size <= 0)
 

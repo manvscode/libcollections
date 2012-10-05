@@ -19,9 +19,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _TSTRING_H_
-#define _TSTRING_H_
-
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,6 +26,9 @@
 #include <ctype.h>
 #include <wchar.h>
 #include <wctype.h>
+#ifndef _TSTRING_H_
+#define _TSTRING_H_
+
 #include "types.h"
 #ifdef __cplusplus
 extern "C" {

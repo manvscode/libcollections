@@ -79,7 +79,11 @@
 
 inline unsigned int fast_abs( unsigned int v )
 {
+	#ifdef HAVE_SIGN_EXTENDING_BITSHIFT
 	int const mask = v >> sizeof(int) * CHAR_BIT - 1;
+	#else
+	int const mask = -((unsigned)v >> sizeof(int) * CHAR_BIT - 1);
+	#endif
 	return (v + mask) ^ mask;
 }
 

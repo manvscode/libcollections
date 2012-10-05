@@ -235,8 +235,8 @@ boolean pvector_create( pvector_t *p_vector, size_t size, alloc_function alloc, 
 
 	p_vector->array_size = size;
 	p_vector->size       = 0L;
-	p_vector->alloc        = alloc;
-	p_vector->free         = free;
+	p_vector->alloc      = alloc;
+	p_vector->free       = free;
 	p_vector->array      = p_vector->alloc( sizeof(void *) * pvector_array_size(p_vector) );
 
 	#ifdef _DEBUG_VECTOR
@@ -251,11 +251,6 @@ boolean pvector_create( pvector_t *p_vector, size_t size, alloc_function alloc, 
 void pvector_destroy( pvector_t *p_vector )
 {
 	assert( p_vector );
-
-	while( !pvector_is_empty(p_vector) )
-	{
-		pvector_pop( p_vector );
-	}
 
 	p_vector->free( p_vector->array );
 
@@ -286,13 +281,16 @@ boolean pvector_push( pvector_t *p_vector, void *element )
 
 boolean pvector_pop( pvector_t *p_vector )
 {
-	//void *element;
-	boolean result = TRUE;
+	boolean result = FALSE;
 	assert( p_vector );
 	assert( pvector_size(p_vector) > 0 );
 
-	//element = p_vector->array[ pvector_size(p_vector) - 1 ];
-	p_vector->size--;
+	if( p_vector->size )
+	{
+		p_vector->size--;
+		result = TRUE;
+	}
+
 	return result;
 }
 
@@ -320,10 +318,7 @@ boolean pvector_resize( pvector_t *p_vector, size_t new_size )
 void pvector_clear( pvector_t *p_vector )
 {
 	assert( p_vector );
-
-	while( !pvector_is_empty(p_vector) )
-	{
-		pvector_pop( p_vector );
-	}
+	
+	p_vector->size = 0;
 }
 

@@ -69,7 +69,7 @@ dlist_iterator_t dlist_rbegin   ( const dlist_t *p_list );
 dlist_iterator_t dlist_next     ( const dlist_iterator_t iter );
 dlist_iterator_t dlist_previous ( const dlist_iterator_t iter );
 
-#define dlist_push               dlist_insert_front
+#define dlist_push               dlist_insert_back
 #define dlist_pop                dlist_remove_front
 
 #define dlist_head(p_list)       ((p_list)->head)
