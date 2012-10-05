@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include <assert.h>
 #include <hash-map.h>
 			
@@ -65,6 +66,8 @@ int main( int argc, char *argv[] )
 	unsigned int i;
 	boolean result;
 	hash_map_iterator_t itr;
+
+	srand( time(NULL) );
 
 	hash_map_create( &map, 1, ip_hash, ip_destroy, (hash_map_compare_function) strcmp, malloc, free );
 
