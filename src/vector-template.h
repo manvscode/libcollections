@@ -146,7 +146,7 @@ extern "C" {
 		/* grow the array if needed */ \
 		if( vector_##name##_size(p_vector) >= vector_##name##_array_size(p_vector) ) \
 		{ \
-			size_t new_size      = 2 * p_vector->array_size + 1; \
+			size_t new_size      = VECTOR_GROWTH_FACTOR * p_vector->array_size + 1; \
 			p_vector->array_size = new_size; \
 			p_vector->array      = realloc( p_vector->array, sizeof(type) * vector_##name##_array_size(p_vector) ); \
 			assert( p_vector->array ); \
@@ -162,7 +162,7 @@ extern "C" {
 		/* grow the array if needed */ \
 		if( vector_##name##_size(p_vector) >= vector_##name##_array_size(p_vector) ) \
 		{ \
-			size_t new_size      = 2 * p_vector->array_size + 1; \
+			size_t new_size      = VECTOR_GROWTH_FACTOR * p_vector->array_size + 1; \
 			p_vector->array_size = new_size; \
 			p_vector->array      = realloc( p_vector->array, sizeof(type) * vector_##name##_array_size(p_vector) ); \
 			assert( p_vector->array ); \

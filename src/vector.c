@@ -87,7 +87,7 @@ void *vector_pushx( vector_t *p_vector )
 	/* grow the array if needed */
 	if( vector_size(p_vector) >= vector_array_size(p_vector) )
 	{
-		size_t new_size      = 2 * p_vector->array_size + 1;
+		size_t new_size      = VECTOR_GROWTH_FACTOR * p_vector->array_size + 1;
 		p_vector->array_size = new_size;
 		p_vector->array      = realloc( p_vector->array, p_vector->element_size * vector_array_size(p_vector) );
 		assert( p_vector->array );
@@ -110,7 +110,7 @@ boolean vector_push( vector_t *p_vector, void *data )
 	/* grow the array if needed */
 	if( vector_size(p_vector) >= vector_array_size(p_vector) )
 	{
-		size_t new_size      = 2 * p_vector->array_size + 1;
+		size_t new_size      = VECTOR_GROWTH_FACTOR * p_vector->array_size + 1;
 		p_vector->array_size = new_size;
 		p_vector->array      = realloc( p_vector->array, p_vector->element_size * vector_array_size(p_vector) );
 		assert( p_vector->array );
@@ -268,7 +268,7 @@ boolean pvector_push( pvector_t *p_vector, void *element )
 	/* grow the array if needed */
 	if( pvector_size(p_vector) >= pvector_array_size(p_vector) )
 	{
-		size_t new_size      = 2 * p_vector->array_size + 1;
+		size_t new_size      = VECTOR_GROWTH_FACTOR * p_vector->array_size + 1;
 		p_vector->array_size = new_size;
 		p_vector->array      = realloc( p_vector->array, sizeof(void*) * pvector_array_size(p_vector) );
 		assert( p_vector->array );

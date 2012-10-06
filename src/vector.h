@@ -36,6 +36,15 @@ extern "C" {
 #ifndef VECTOR_INITIAL_ARRAY_SIZE
 #define VECTOR_INITIAL_ARRAY_SIZE    250
 #endif
+
+#ifndef VECTOR_GROWTH_FACTOR
+#if 1
+#define VECTOR_GROWTH_FACTOR	1.5
+#else
+#define VECTOR_GROWTH_FACTOR	2
+#endif
+#endif
+
 typedef boolean (*vector_serialize_function)   ( void *p_array );
 typedef boolean (*vector_unserialize_function) ( void *p_array );
 typedef boolean (*vector_element_function)     ( void *data );
