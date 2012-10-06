@@ -92,16 +92,15 @@ extern "C" {
 	{ \
 		assert( index >= 0 ); \
 		assert( index < vector_##name##_size(p_vector) ); \
-		return vector_##name##_array(p_vector) + index; \
+		return &p_vector->array[ index ]; \
 	} \
  	\
-	inline void vector_##name##_set( vector_##name##_t *p_vector, size_t index, const type* data ) \
+	inline void vector_##name##_set( vector_##name##_t* restrict p_vector, size_t index, const type* restrict data ) \
 	{ \
 		assert( data != NULL ); \
 		assert( index >= 0 ); \
 		assert( index < vector_##name##_size(p_vector) ); \
-		type* dst = vector_##name##_array(p_vector) + vector_##name##_size(p_vector); \
-		*dst = *data; \
+		p_vector->array[ index ] = *data; \
 	} \
 	\
 	inline void vector_##name##_clear( vector_##name##_t *p_vector ) \
@@ -152,7 +151,7 @@ extern "C" {
 			p_vector->array      = realloc( p_vector->array, sizeof(type) * vector_##name##_array_size(p_vector) ); \
 			assert( p_vector->array ); \
 		} \
-		result = vector_##name##_array(p_vector) + vector_##name##_size(p_vector);  \
+		result = &p_vector->array[ p_vector->size ]; \
 		p_vector->size++; \
 		return result; \
 	} \
