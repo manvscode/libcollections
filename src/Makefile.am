@@ -24,6 +24,7 @@ alloc.h \
 array.h \
 bench-mark.h \
 bheap.h \
+bheap-template.h \
 bitset.h \
 libcollections-config.h \
 dlist.h \
@@ -39,7 +40,8 @@ tree-map.h \
 tstring.h \
 types.h \
 variant.h \
-vector.h
+vector.h \
+vector-template.h
 
 library_includedir = $(includedir)/libcollections/
 library_include_HEADERS = $(libcollections_headers)
