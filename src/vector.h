@@ -31,6 +31,7 @@ extern "C" {
 #include "libcollections-config.h"
 #include "types.h"
 #include "alloc.h"
+#include "vector-template.h"
 
 #ifndef VECTOR_INITIAL_ARRAY_SIZE
 #define VECTOR_INITIAL_ARRAY_SIZE    250
