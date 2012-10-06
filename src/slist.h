@@ -32,8 +32,8 @@ extern "C" {
 typedef boolean (*slist_element_function)( void *element );
 
 typedef struct slist_node {
-	void* data;
 	struct slist_node* next;	
+	void* data;
 } slist_node_t;
 
 typedef struct slist {

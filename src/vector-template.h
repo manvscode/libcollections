@@ -29,7 +29,6 @@ extern "C" {
 #include <stddef.h>
 #include <string.h>
 #include <assert.h>
-#include "libcollections-config.h"
 #include "types.h"
 
 
@@ -47,13 +46,13 @@ extern "C" {
 		type*  array; \
 	} vector_##name##_t; \
 	\
-	boolean vector_##name##_create( vector_##name##_t *p_vector, size_t size ); \
-	void vector_##name##_destroy( vector_##name##_t *p_vector ); \
-	boolean vector_##name##_resize( vector_##name##_t *p_vector, size_t new_size ); \
-	type* vector_##name##_pushx( vector_##name##_t *p_vector ); \
-	boolean vector_##name##_push( vector_##name##_t *p_vector, const type* data ); \
-	boolean vector_##name##_serialize( vector_##name##_t *p_vector, FILE *file, vector_##name##_serialize_function func ); \
-	boolean vector_##name##_unserialize( vector_##name##_t *p_vector, FILE *file, vector_##name##_unserialize_function func ); \
+	boolean vector_##name##_create( vector_##name##_t* p_vector, size_t size ); \
+	void vector_##name##_destroy( vector_##name##_t* p_vector ); \
+	boolean vector_##name##_resize( vector_##name##_t* p_vector, size_t new_size ); \
+	type* vector_##name##_pushx( vector_##name##_t* p_vector ); \
+	boolean vector_##name##_push( vector_##name##_t* restrict p_vector, const type* restrict data ); \
+	boolean vector_##name##_serialize( vector_##name##_t* p_vector, FILE *file, vector_##name##_serialize_function func ); \
+	boolean vector_##name##_unserialize( vector_##name##_t* p_vector, FILE *file, vector_##name##_unserialize_function func ); \
 	\
 	inline size_t vector_##name##_array_size( vector_##name##_t *p_vector ) \
 	{ \
@@ -158,7 +157,7 @@ extern "C" {
 		return result; \
 	} \
 	\
-	boolean vector_##name##_push( vector_##name##_t *p_vector, const type* data ) \
+	boolean vector_##name##_push( vector_##name##_t* restrict p_vector, const type* restrict data ) \
 	{ \
 		assert( p_vector ); \
 		/* grow the array if needed */ \
@@ -169,8 +168,7 @@ extern "C" {
 			p_vector->array      = realloc( p_vector->array, sizeof(type) * vector_##name##_array_size(p_vector) ); \
 			assert( p_vector->array ); \
 		} \
-		type* dst = vector_##name##_array(p_vector) + vector_##name##_size(p_vector); \
-		*dst = *data; /*memcpy( dst, data, sizeof(type) );*/ \
+		p_vector->array[ vector_##name##_size(p_vector) ] = *data; \
 		p_vector->size++; \
 		return p_vector->array != NULL; \
 	} \

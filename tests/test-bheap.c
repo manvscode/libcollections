@@ -25,109 +25,65 @@
 #include <time.h>
 #include <bheap.h>
 
-#define SIZE  		12
+#define SIZE  		100
 
-//#define MAX_HEAP	
+#define MAX_HEAP	
 
-static int     int_compare( const void* left, const void* right );
-static boolean heap_elem_destroy( void *data );
+static int     int_compare( const int* restrict left, const int* restrict right );
+
+DECLARE_BHEAP_TYPE( num, int )
+IMPLEMENT_BHEAP_TYPE( num, int )
 
 
 int main( int argc, char *argv[] )
 {
 	time_t t = time(NULL);
 	srand( t );
-#if 0
-	bheap_t heap;
+	bheap_num_t heap;
 	int i;
 
-	bheap_create( &heap, sizeof(int), 1, int_compare, heap_elem_destroy, malloc, free );
+	bheap_num_create( &heap, 1, int_compare );
 
 	printf( "seed = %ld\n", t );
 
 	for( i = 0; i < SIZE; i++ )
 	{
-		int num = (rand() % 130) + (rand() % 100)* pow(-1.0, i);
-		bheap_push( &heap, &num );
+		int num = (rand() % SIZE) + (rand() % (SIZE / 5))* pow(-1.0, i);
+		bheap_num_push( &heap, &num );
 	}
 	
 	for( i = 0; i < 0.25 * SIZE; i++ )
 	{
-		bheap_pop( &heap );
+		bheap_num_pop( &heap );
 	}
 	
 	for( i = 0; i < SIZE; i++ )
 	{
-		int num = (rand() % 130) + (rand() % 100)* pow(-1.0, i);
-		bheap_push( &heap, &num );
+		int num = (rand() % SIZE) + (rand() % (SIZE / 3))* pow(-1.0, i);
+		bheap_num_push( &heap, &num );
 	}
 	
 	for( i = 0; i < 0.25 * SIZE; i++ )
 	{
-		bheap_pop( &heap );
+		bheap_num_pop( &heap );
 	}
 
 	printf( "   ----- Sorted Output -----\n" );
-	while( bheap_size(&heap) > 0 )
+	while( bheap_num_size(&heap) > 0 )
 	{
-		int* p_num = bheap_peek( &heap );
-		printf( "%10d (size = %02ld) \n", *p_num, bheap_size(&heap) );
+		int* p_num = bheap_num_peek( &heap );
+		printf( "%10d (size = %02ld) \n", *p_num, bheap_num_size(&heap) );
 
-		bheap_pop( &heap );
+		bheap_num_pop( &heap );
 	}
 
-	bheap_destroy( &heap );
-#else
-	int i;
-	vector_t collection;
-	vector_create( &collection, sizeof(int), 1, heap_elem_destroy, malloc, free );
-
-	for( i = 0; i < SIZE; i++ )
-	{
-		int num = (rand() % 130) + (rand() % 100)* pow(-1.0, i);
-		vector_push( &collection, &num );
-	}
-
-	printf( "unsorted = {" );
-	for( i = 0; i < vector_size(&collection); i++ )
-	{
-		int* p_num = vector_get( &collection, i );
-		printf( "%4d%s", *p_num, i < vector_size(&collection) - 1 ? ", " : "" );
-	}
-	printf( "}\n" );
-
-	int tmp = 0;
-	heap_make( &collection, int_compare, (byte*) &tmp );
-
-	printf( "  sorted = {" );
-	while( vector_size(&collection) > 0 )
-	{
-		int* p_num = vector_get( &collection, 0 );
-		printf( "%4d%s", *p_num, vector_size(&collection) > 1 ? ", " : "" );
-
-		if( vector_size(&collection) > 1 )
-		{
-			memcpy( vector_get( &collection, 0 ), 
-					vector_get( &collection, vector_size(&collection) - 1 ), 
-					vector_element_size( &collection ) 
-			);
-		}
-		vector_pop( &collection );
-		heap_pop( &collection, int_compare, (byte*) &tmp );
-	}
-	printf( "}\n" );
-
-	vector_destroy( &collection );
-#endif
+	bheap_num_destroy( &heap );
 	return 0;
 }
 
 
-int int_compare( const void* left, const void* right )
+int int_compare( const int* restrict p_left, const int* restrict p_right )
 {
-	const int* p_left = left;
-	const int* p_right = right;
-
 	#ifdef MAX_HEAP	
 	return (*p_left) - (*p_right); // max-heap
 	#else
@@ -135,7 +91,3 @@ int int_compare( const void* left, const void* right )
 	#endif
 }
 
-boolean heap_elem_destroy( void *data )
-{
-	return TRUE;
-}
