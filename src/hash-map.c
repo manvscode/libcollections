@@ -41,16 +41,6 @@ struct hash_map_list {
 	hash_map_element_function destroy;
 };
 
-static void    hm_list_create        ( hash_map_list_t *p_list, hash_map_element_function destroy );
-static void    hm_list_destroy       ( hash_map_t *p_map, hash_map_list_t *p_list );
-static boolean hm_list_insert_front  ( hash_map_t *p_map, hash_map_list_t *p_list, const void *key, const void *value ); /* O(1) */
-static boolean hm_list_remove_front  ( hash_map_t *p_map, hash_map_list_t *p_list ); /* O(1) */
-static boolean hm_list_remove_next   ( hash_map_t *p_map, hash_map_list_t *p_list, hash_map_node_t *p_front_node ); /* O(1) */ 
-static void    hm_list_clear         ( hash_map_t *p_map, hash_map_list_t *p_list ); /* O(N) */
-#define hm_list_head(p_list)       ((p_list)->head)
-#define hm_list_size(p_list)       ((p_list)->size)
-#define hm_list_is_empty(p_list)   ((p_list)->size <= 0)
-
 #if defined(HASH_MAP_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
 	#define DESTROY_CHECK( code ) \
 		if( p_list->destroy ) \
@@ -61,6 +51,109 @@ static void    hm_list_clear         ( hash_map_t *p_map, hash_map_list_t *p_lis
 	#define DESTROY_CHECK( code ) \
 		code 
 #endif
+
+static inline void    hm_list_create        ( hash_map_list_t *p_list, hash_map_element_function destroy );
+static inline void    hm_list_destroy       ( hash_map_t *p_map, hash_map_list_t *p_list );
+static inline boolean hm_list_insert_front  ( hash_map_t *p_map, hash_map_list_t *p_list, const void *key, const void *value ); /* O(1) */
+static inline boolean hm_list_remove_front  ( hash_map_t *p_map, hash_map_list_t *p_list ); /* O(1) */
+static inline boolean hm_list_remove_next   ( hash_map_t *p_map, hash_map_list_t *p_list, hash_map_node_t *p_front_node ); /* O(1) */ 
+static inline void    hm_list_clear         ( hash_map_t *p_map, hash_map_list_t *p_list ); /* O(N) */
+#define hm_list_head(p_list)       ((p_list)->head)
+#define hm_list_size(p_list)       ((p_list)->size)
+#define hm_list_is_empty(p_list)   ((p_list)->size <= 0)
+/*
+ * List Functions
+ */
+static inline void hm_list_create( hash_map_list_t *p_list, hash_map_element_function destroy )
+{
+	assert( p_list );
+	p_list->head    = NULL;
+	p_list->destroy = destroy;
+}
+
+static inline void hm_list_destroy( hash_map_t *p_map, hash_map_list_t *p_list )
+{
+	hm_list_clear( p_map, p_list );
+
+	#ifdef _HASH_MAP_DEBUG
+	p_list->head = NULL;
+	#endif
+}
+
+static inline boolean hm_list_insert_front( hash_map_t *p_map, hash_map_list_t *p_list, const void *key, const void *value ) /* O(1) */ 
+{
+	hash_map_node_t *p_node;
+	assert( p_list );
+
+	p_node = (hash_map_node_t *) p_map->alloc( sizeof(hash_map_node_t) );
+	assert( p_node );
+
+	if( p_node != NULL )
+	{
+		p_node->key   = (void *) key;
+		p_node->value = (void *) value;
+		p_node->next  = p_list->head;
+
+		p_list->head = p_node;
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static inline boolean hm_list_remove_front( hash_map_t *p_map, hash_map_list_t *p_list ) /* O(1) */
+{
+	boolean result = TRUE;
+	hash_map_node_t *p_node;
+
+	assert( p_list );
+
+	p_node = p_list->head->next;
+
+	DESTROY_CHECK( 
+		result = p_list->destroy( p_list->head->key, p_list->head->value );
+	);
+
+	p_map->free( p_list->head );
+
+	p_list->head = p_node;
+
+	return result;
+}
+
+static inline boolean hm_list_remove_next( hash_map_t *p_map, hash_map_list_t *p_list, hash_map_node_t *p_front_node ) /* O(1) */ 
+{
+	assert( p_list );
+
+	if( p_front_node )
+	{
+		boolean result            = TRUE;
+		hash_map_node_t *p_node     = p_front_node->next;
+		hash_map_node_t *p_new_next = p_node->next;
+
+		DESTROY_CHECK( 
+			result = p_list->destroy( p_node->key, p_node->value );
+		);
+
+		p_map->free( p_node );
+
+		p_front_node->next = p_new_next;
+
+		return result;
+	}
+
+	return hm_list_remove_front( p_map, p_list );
+}
+
+static inline void hm_list_clear( hash_map_t *p_map, hash_map_list_t *p_list )
+{
+	while( hm_list_head(p_list) )
+	{
+		hm_list_remove_front( p_map, p_list );
+	}
+}
+
 
 /*
  * Hash Map Functions
@@ -239,100 +332,6 @@ void hash_map_clear( hash_map_t *p_map )
 	}
 
 	p_map->size = 0;
-}
-
-
-/*
- * List Functions
- */
-void hm_list_create( hash_map_list_t *p_list, hash_map_element_function destroy )
-{
-	assert( p_list );
-	p_list->head    = NULL;
-	p_list->destroy = destroy;
-}
-
-void hm_list_destroy( hash_map_t *p_map, hash_map_list_t *p_list )
-{
-	hm_list_clear( p_map, p_list );
-
-	#ifdef _HASH_MAP_DEBUG
-	p_list->head = NULL;
-	#endif
-}
-
-boolean hm_list_insert_front( hash_map_t *p_map, hash_map_list_t *p_list, const void *key, const void *value ) /* O(1) */ 
-{
-	hash_map_node_t *p_node;
-	assert( p_list );
-
-	p_node = (hash_map_node_t *) p_map->alloc( sizeof(hash_map_node_t) );
-	assert( p_node );
-
-	if( p_node != NULL )
-	{
-		p_node->key   = (void *) key;
-		p_node->value = (void *) value;
-		p_node->next  = p_list->head;
-
-		p_list->head = p_node;
-
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-boolean hm_list_remove_front( hash_map_t *p_map, hash_map_list_t *p_list ) /* O(1) */
-{
-	boolean result = TRUE;
-	hash_map_node_t *p_node;
-
-	assert( p_list );
-
-	p_node = p_list->head->next;
-
-	DESTROY_CHECK( 
-		result = p_list->destroy( p_list->head->key, p_list->head->value );
-	);
-
-	p_map->free( p_list->head );
-
-	p_list->head = p_node;
-
-	return result;
-}
-
-boolean hm_list_remove_next( hash_map_t *p_map, hash_map_list_t *p_list, hash_map_node_t *p_front_node ) /* O(1) */ 
-{
-	assert( p_list );
-
-	if( p_front_node )
-	{
-		boolean result            = TRUE;
-		hash_map_node_t *p_node     = p_front_node->next;
-		hash_map_node_t *p_new_next = p_node->next;
-
-		DESTROY_CHECK( 
-			result = p_list->destroy( p_node->key, p_node->value );
-		);
-
-		p_map->free( p_node );
-
-		p_front_node->next = p_new_next;
-
-		return result;
-	}
-
-	return hm_list_remove_front( p_map, p_list );
-}
-
-void hm_list_clear( hash_map_t *p_map, hash_map_list_t *p_list )
-{
-	while( hm_list_head(p_list) )
-	{
-		hm_list_remove_front( p_map, p_list );
-	}
 }
 
 boolean hash_map_resize( hash_map_t *p_map, size_t new_size )

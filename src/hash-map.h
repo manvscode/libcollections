@@ -31,7 +31,7 @@ extern "C" {
 
 /* Each size is a prime number */
 #ifndef HASH_MAP_SIZE_SMALL 
-#define HASH_MAP_SIZE_SMALL         (37)
+#define HASH_MAP_SIZE_SMALL         (101)
 #endif
 #ifndef HASH_MAP_SIZE_MEDIUM 
 #define HASH_MAP_SIZE_MEDIUM        (1031)
