@@ -55,7 +55,7 @@ extern "C" {
 
 typedef size_t  (*hash_map_hash_function)    ( const void *key );
 typedef boolean (*hash_map_element_function) ( void *key, void *value );
-typedef int     (*hash_map_compare_function) ( const void *left, const void *right );
+typedef int     (*hash_map_compare_function) ( const void* restrict left, const void* restrict right );
 
 struct hash_map_node;
 typedef struct hash_map_node hash_map_node_t;
@@ -80,10 +80,10 @@ boolean   hash_map_create      ( hash_map_t *p_map, size_t table_size,
                                  hash_map_hash_function hash_function, hash_map_element_function destroy, 
                                  hash_map_compare_function compare, 
                                  alloc_function alloc, free_function free );
-void      hash_map_destroy     ( hash_map_t *p_map );
-boolean   hash_map_insert      ( hash_map_t *p_map, const void *key, const void *value );
-boolean   hash_map_remove      ( hash_map_t *p_map, const void *key );
-boolean   hash_map_find        ( const hash_map_t *p_map, const void *key, void **value );
+void      hash_map_destroy     ( hash_map_t* p_map );
+boolean   hash_map_insert      ( hash_map_t* restrict p_map, const void* restrict key, const void* restrict value );
+boolean   hash_map_remove      ( hash_map_t* restrict p_map, const void* restrict key );
+boolean   hash_map_find        ( const hash_map_t* restrict p_map, const void* restrict key, void ** restrict value );
 void      hash_map_clear       ( hash_map_t *p_map );
 boolean   hash_map_resize      ( hash_map_t *p_map, size_t new_size );
 boolean   hash_map_rehash      ( hash_map_t *p_map, float load_factor );

@@ -120,7 +120,7 @@ void hash_map_destroy( hash_map_t *p_map )
 	p_map->free( p_map->table );
 }
 
-boolean hash_map_insert( hash_map_t *p_map, const void *key, const void *value )
+boolean hash_map_insert( hash_map_t* restrict p_map, const void* restrict key, const void* restrict value )
 {
 	size_t index;
 	hash_map_list_t *p_list;
@@ -147,7 +147,7 @@ boolean hash_map_insert( hash_map_t *p_map, const void *key, const void *value )
 	return FALSE;
 }
 
-boolean hash_map_remove( hash_map_t *p_map, const void *key )
+boolean hash_map_remove( hash_map_t* restrict p_map, const void* restrict key )
 {
 	size_t index;
 	hash_map_node_t *p_prev;
@@ -188,7 +188,7 @@ boolean hash_map_remove( hash_map_t *p_map, const void *key )
 	return FALSE;
 }
 
-boolean hash_map_find( const hash_map_t *p_map, const void *key, void **value )
+boolean hash_map_find( const hash_map_t* restrict p_map, const void* restrict key, void** restrict value )
 {
 	size_t index;
 	hash_map_list_t *p_list;
