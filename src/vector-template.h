@@ -37,8 +37,7 @@ extern "C" {
  * vector - A growable array of type.
  */
 
-#define declare_vector_type( name, type ) \
-	typedef boolean (*vector_##name##_element_function)( type* data );\
+#define DECLARE_VECTOR_TYPE( name, type ) \
 	typedef boolean (*vector_##name##_serialize_function)   ( const type* p_array ); \
 	typedef boolean (*vector_##name##_unserialize_function) ( const type* p_array ); \
 	\
@@ -48,12 +47,6 @@ extern "C" {
 		type*  array; \
 	} vector_##name##_t; \
 	\
-	#define vector_##name##_array_size( p_vector )    ((p_vector)->array_size) \
-	#define vector_##name##_size( p_vector )          ((p_vector)->size) \
-	#define vector_##name##_is_empty( p_vector )      ((p_vector)->size <= 0) \
-	#define vector_##name##_array( p_vector )         ((p_vector)->array) \
-	#define vector_##name##_peek( p_vector )          (vector_##name##_get(p_vector, vector_##name##_size(p_vector) - 1)) \
-	\
 	boolean vector_##name##_create( vector_##name##_t *p_vector, size_t size ); \
 	void vector_##name##_destroy( vector_##name##_t *p_vector ); \
 	boolean vector_##name##_resize( vector_##name##_t *p_vector, size_t new_size ); \
@@ -62,16 +55,36 @@ extern "C" {
 	boolean vector_##name##_serialize( vector_##name##_t *p_vector, FILE *file, vector_##name##_serialize_function func ); \
 	boolean vector_##name##_unserialize( vector_##name##_t *p_vector, FILE *file, vector_##name##_unserialize_function func ); \
 	\
+	inline size_t vector_##name##_array_size( vector_##name##_t *p_vector ) \
+	{ \
+		return p_vector->array_size; \
+	} \
+	\
+	inline size_t vector_##name##_size( vector_##name##_t *p_vector ) \
+	{\
+		return p_vector->size;\
+	}\
+	\
+	inline boolean vector_##name##_is_empty( vector_##name##_t *p_vector ) \
+	{ \
+		return p_vector->size == 0; \
+	} \
+	\
+	inline type* vector_##name##_array( vector_##name##_t *p_vector ) \
+	{ \
+		return p_vector->array; \
+	} \
+	\
+	inline type* vector_##name##_peek( vector_##name##_t *p_vector ) \
+	{ \
+  		return &p_vector->array[ p_vector->size - 1 ]; \
+	} \
 	\
 	inline void vector_##name##_pop( vector_##name##_t *p_vector ) \
 	{ \
 		assert( p_vector ); \
 		if( vector_##name##_size(p_vector) > 0 ) \
 		{ \
-			#ifdef _DEBUG_VECTOR \
-			type* element = vector_##name##_array(p_vector) + vector_##name##_size(p_vector) - 1); \
-			memset( element, 0, sizeof(type) ); \
-			#endif \
 			p_vector->size--; \
 		} \
 	} \
@@ -90,16 +103,15 @@ extern "C" {
 		assert( index < vector_##name##_size(p_vector) ); \
 		type* dst = vector_##name##_array(p_vector) + vector_##name##_size(p_vector); \
 		*dst = *data; \
-		/*memcpy( vector_##name##_array(p_vector) + vector_##name##_size(p_vector), data, sizeof(type) );*/ \
 	} \
 	\
 	inline void vector_##name##_clear( vector_##name##_t *p_vector ) \
 	{ \
 		assert( p_vector ); \
 		p_vector->size = 0; \
-	} \
+	}
 
-#define implement_vector_type( name, type ) \
+#define IMPLEMENT_VECTOR_TYPE( name, type ) \
 	boolean vector_##name##_create( vector_##name##_t *p_vector, size_t size ) \
 	{ \
 		assert( p_vector ); \
@@ -115,11 +127,6 @@ extern "C" {
 		assert( p_vector ); \
 		vector_##name##_clear( p_vector ); \
 		free( p_vector->array ); \
-		#ifdef _DEBUG_VECTOR \
-		p_vector->array        = NULL; \
-		p_vector->array_size   = 0L; \
-		p_vector->size         = 0L; \
-		#endif \
 	} \
 	\
 	boolean vector_##name##_resize( vector_##name##_t *p_vector, size_t new_size ) \
@@ -146,9 +153,6 @@ extern "C" {
 			p_vector->array      = realloc( p_vector->array, sizeof(type) * vector_##name##_array_size(p_vector) ); \
 			assert( p_vector->array ); \
 		} \
-		#ifdef _DEBUG_VECTOR \
-		memset( vector_array(p_vector) + vector_##name##_size(p_vector), 0, vector_##name##_element_size(p_vector) ); \
-		#endif \
 		result = vector_##name##_array(p_vector) + vector_##name##_size(p_vector);  \
 		p_vector->size++; \
 		return result; \
@@ -165,9 +169,6 @@ extern "C" {
 			p_vector->array      = realloc( p_vector->array, sizeof(type) * vector_##name##_array_size(p_vector) ); \
 			assert( p_vector->array ); \
 		} \
-		#ifdef _DEBUG_VECTOR \
-		memset( vector_##name##_array(p_vector) + vector_##name##_size(p_vector), 0, sizeof(type) ); \
-		#endif \
 		type* dst = vector_##name##_array(p_vector) + vector_##name##_size(p_vector); \
 		*dst = *data; /*memcpy( dst, data, sizeof(type) );*/ \
 		p_vector->size++; \
@@ -201,7 +202,7 @@ extern "C" {
 		size_t new_size = 0; \
 		if( fread( &new_size, sizeof(size_t), 1, file ) == 1 ) \
 		{ \
-			vector_resize( p_vector, new_size ); \
+			vector_##name##_resize( p_vector, new_size ); \
 		 	\
 			if( !func )	 \
 			{ \

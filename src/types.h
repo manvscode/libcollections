@@ -68,7 +68,7 @@
 #endif
 
 #ifndef boolean
-typedef char                boolean; /* FALSE = 0, otherwise TRUE */
+typedef int                boolean; /* FALSE = 0, otherwise TRUE */
 #endif
 #ifndef byte
 typedef unsigned char  byte;

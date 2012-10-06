@@ -24,6 +24,8 @@
 #include <time.h>
 #include <vector.h>
 
+
+
 typedef struct point {
 	double x;
 	double y;
@@ -43,15 +45,69 @@ boolean point_destroy( void *data )
 
 #define create_point( )  ((point_t *) malloc( sizeof(point_t) ))
 
+DECLARE_VECTOR_TYPE   ( point, point_t )
+IMPLEMENT_VECTOR_TYPE ( point, point_t )
 
 int main( int argc, char *argv[] )
 {
+#if 1 // inlined vector type
+	vector_point_t collection;
+	int i;
+	char names[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	srand( time(NULL) );
+	vector_point_create( &collection, 1 );
+
+	for( i = 0; i < SIZE; i++ )
+	{
+		point_t pt;
+
+		pt.x    = ((rand( ) % 100) - 50.0);
+		pt.y    = ((rand( ) % 100) - 50.0);
+		pt.name = names[ rand( ) % (sizeof(names) - 1) ];
+
+		vector_point_push( &collection, &pt );
+	}
+
+	for( i = 0; i < 0.25 * SIZE; i++ )
+	{
+		vector_point_pop( &collection );
+	}
+	
+	for( i = 0; i < 0.5 * SIZE; i++ )
+	{
+		point_t *p_pt = vector_point_pushx( &collection );
+
+		p_pt->x    = ((rand( ) % 100) - 50.0);
+		p_pt->y    = ((rand( ) % 100) - 50.0);
+		p_pt->name = names[ rand( ) % (sizeof(names) - 1) ];
+
+	}
+
+	for( i = 0; i < 0.25 * SIZE; i++ )
+	{
+		vector_point_pop( &collection );
+	}
+	
+	for( i = 0; i < vector_point_size(&collection); i++ )
+	{
+		point_t *p_pt = (point_t *) vector_point_get( &collection, i );
+
+		printf( "%c = (%03.2f, %03.2f)\n", 
+			p_pt->name, 
+			p_pt->x, 
+			p_pt->y );
+	}
+
+	vector_point_destroy( &collection );
+#else
 	vector_t collection;
 	int i;
 	char names[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	srand( time(NULL) );
 	vector_create( &collection, sizeof(point_t), 1, point_destroy, malloc, free );
+
 
 	for( i = 0; i < SIZE; i++ )
 	{
@@ -96,5 +152,6 @@ int main( int argc, char *argv[] )
 	}
 
 	vector_destroy( &collection );
+#endif
 	return 0;
 }
