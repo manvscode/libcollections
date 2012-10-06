@@ -27,6 +27,10 @@ extern "C" {
 #include "types.h"
 #include "vector.h"
 #include "alloc.h"
+#define parent_of( index )         ((index) >> 1)       /* index / 2 */
+#define left_child_of( index )     (((index) << 1) + 0) /* 2 * index */
+#define right_child_of( index )    (((index) << 1) + 1) /* 2 * index + 1 */
+#include "bheap-template.h"
 
 typedef boolean (*heap_serialize_function)   ( void *p_array );
 typedef boolean (*heap_unserialize_function) ( void *p_array );

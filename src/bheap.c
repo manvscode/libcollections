@@ -25,10 +25,6 @@
 #include "vector.h"
 #include "bheap.h"
 
-#define parent_of( index )         ((index) >> 1)       /* index / 2 */
-#define left_child_of( index )     (((index) << 1) + 0) /* 2 * index */
-#define right_child_of( index )    (((index) << 1) + 1) /* 2 * index + 1 */
-
 static void heapify  ( vector_t* heap, heap_compare_function compare, void* swap_buffer, size_t index );
 static void pheapify( pvector_t* heap, heap_compare_function compare, size_t index );
 
