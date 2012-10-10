@@ -38,7 +38,7 @@ int main( int argc, char *argv[] )
 
 	time_t t = time(NULL);
 	srand( t );
-#if 1 
+#if 0 
 	pbheap_t heap;
 	pbheap_create( &heap, 1, int_compare, malloc, free );
 
@@ -96,7 +96,7 @@ int main( int argc, char *argv[] )
 	pbheap_destroy( &heap );
 #else
 	pvector_t collection;
-	pvector_create( &collection, 1, num_destroy, malloc, free );
+	pvector_create( &collection, 1, malloc, free );
 
 	for( i = 0; i < SIZE; i++ )
 	{
@@ -131,6 +131,7 @@ int main( int argc, char *argv[] )
 			pvector_set( &collection, 0, last_elem );
 		}
 
+		num_destroy( p_num );
 		pvector_pop( &collection );
 		pheap_pop( &collection, int_compare );
 	}
