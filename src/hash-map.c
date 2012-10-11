@@ -258,7 +258,7 @@ boolean hash_map_remove( hash_map_t* restrict p_map, const void* restrict key )
 
 	while( p_node != NULL )
 	{
-		if( strcmp(p_node->key, key) == 0 )
+		if( p_map->compare(p_node->key, key) == 0 )
 		{
 			/* Usually this returns TRUE */
 			if( hm_list_remove_next( p_map, p_list, p_prev ) )
@@ -298,7 +298,7 @@ boolean hash_map_find( const hash_map_t* restrict p_map, const void* restrict ke
 
 	while( p_node != NULL )
 	{
-		if( strcmp(p_node->key, key) == 0 )
+		if( p_map->compare(p_node->key, key) == 0 )
 		{
 			*value = p_node->value;	
 			return TRUE;
