@@ -196,6 +196,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\bheap-template.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\bheap.c"
+				>
+			</File>
+			<File
+				RelativePath=".\src\bheap.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\bitset.c"
 				>
 			</File>
