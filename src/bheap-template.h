@@ -37,7 +37,7 @@ extern "C" {
 #define DECLARE_BHEAP_TYPE( name, type ) \
 	typedef boolean (*bheap_##name##_serialize_function)   ( type *p_array ); \
 	typedef boolean (*bheap_##name##_unserialize_function) ( type *p_array ); \
-	typedef int     (*bheap_##name##_compare_function)     ( const type* restrict p_data_left, const type* restrict p_data_right ); \
+	typedef int     (*bheap_##name##_compare_function)     ( const type* __restrict p_data_left, const type* __restrict p_data_right ); \
 	\
 	typedef struct bheap##name {\
 		bheap_##name##_compare_function compare;\
@@ -49,7 +49,7 @@ extern "C" {
 	boolean    bheap_##name##_create     ( bheap_##name##_t* p_bheap, size_t size, bheap_##name##_compare_function compare ); \
 	void       bheap_##name##_destroy    ( bheap_##name##_t* p_bheap ); \
 	type*      bheap_##name##_peek       ( bheap_##name##_t* p_bheap ); \
-	boolean    bheap_##name##_push       ( bheap_##name##_t* restrict p_bheap, const type* restrict data ); \
+	boolean    bheap_##name##_push       ( bheap_##name##_t* __restrict p_bheap, const type* __restrict data ); \
 	boolean    bheap_##name##_pop        ( bheap_##name##_t* p_bheap ); \
 	void       bheap_##name##_reheapify  ( bheap_##name##_t* p_bheap ); \
  	\
@@ -117,8 +117,8 @@ extern "C" {
 	\
 	boolean bheap_##name##_pop( bheap_##name##_t* p_bheap ) \
 	{ \
-		assert( p_bheap ); \
 		boolean result = FALSE; \
+		assert( p_bheap ); \
 		if( p_bheap->size > 1 ) \
 		{ \
 			p_bheap->array[ 0 ] = p_bheap->array[ p_bheap->size - 1 ]; \

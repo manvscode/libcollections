@@ -30,11 +30,11 @@
  */
 static inline size_t int64_hash( int64_t key )
 {
-	key = (~key) + (key << 21); // key = (key << 21) - key - 1;
+	key = (~key) + (key << 21); /* key = (key << 21) - key - 1;*/
 	key = key ^ (key >> 24);
-	key = (key + (key << 3)) + (key << 8); // key * 265
+	key = (key + (key << 3)) + (key << 8); /* key * 265 */
 	key = key ^ (key >> 14);
-	key = (key + (key << 2)) + (key << 4); // key * 21
+	key = (key + (key << 2)) + (key << 4); /* key * 21 */
 	key = key ^ (key >> 28);
 	key = key + (key << 31);
 	return key;	
@@ -53,11 +53,11 @@ static inline size_t int32_hash( uint32_t a )
 
 size_t pointer_hash( const void *data )
 {
-#if 0
+	#if 0
 	return (size_t) data;
-#else
+	#else
 	return int64_hash( (int64_t) data );
-#endif
+	#endif
 }
 
 
@@ -98,9 +98,9 @@ size_t ip_address_hash( const void *data )
 	char *in_ip;
 	char ip[ 24 ];
 	char *token;
-#ifdef THREAD_SAFE
+	#ifdef THREAD_SAFE
 	char* context = NULL;
-#endif
+	#endif
 
 	assert( data );
 	
@@ -111,11 +111,11 @@ size_t ip_address_hash( const void *data )
 	strncpy( ip, in_ip, sizeof(ip) );
 	ip[ sizeof(ip) - 1 ] = '\0';
 
-#ifdef THREAD_SAFE
+	#ifdef THREAD_SAFE
 	token = strtok_s( (char *) ip, ".", &context );
-#else
+	#else
 	token = strtok( (char *) ip, "." );
-#endif
+	#endif
 
 	while( token != NULL )
 	{
@@ -123,11 +123,11 @@ size_t ip_address_hash( const void *data )
 
 		hash |= (part << 8 * (3 - count));
 	
-#ifdef THREAD_SAFE
+		#ifdef THREAD_SAFE
 		token = strtok_s( NULL, ".", &context );
-#else
+		#else
 		token = strtok( NULL, "." );
-#endif
+		#endif
 	}
 
 	return hash;

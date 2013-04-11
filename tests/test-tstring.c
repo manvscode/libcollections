@@ -3,7 +3,7 @@
 #include <tstring.h>
 
 #ifndef UNICODE
-#error "These tests assume unicode support"
+#error "The tstring tests assume unicode and C99 support"
 #endif
 
 int main( int argc, char *argv[] )
@@ -35,11 +35,6 @@ int main( int argc, char *argv[] )
 
 	const tchar *russian_text_utf8  = _T("В России тест принадлежит вам.");
 	tprintf( _T(" UTF-8 Russian text = %S\n"), russian_text_utf8 );
-
-	//const tchar *russian_text_utf16 = _T("");
-	//tprintf( _T("UTF-16 Russian text = %S\n"), russian_text_utf16 );
-	//
-	
 
 	tstring_t ltext;
 	tstring_t rtext;

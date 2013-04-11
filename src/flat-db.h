@@ -123,7 +123,7 @@ typedef struct flatdb_version {
 } flatdb_version;
 
 typedef struct _flatdb_header {
-	byte           marker[ 4 ]; // usually 0xF147DB00
+	byte           marker[ 4 ]; /* usually 0xF147DB00 */
 	flatdb_version version;
 	uint16_t       max_tables;
 	uint16_t       max_records;

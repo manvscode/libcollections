@@ -46,7 +46,7 @@ int main( int argc, char *argv[] )
 	{
 		double *p_num = array_elem( &a, i, double );
 
-		printf( "array[%2d] = %lf\n", i, *p_num );
+		printf( "array[%2d] = %f\n", i, *p_num );
 	}
 
 	array_destroy( &a );

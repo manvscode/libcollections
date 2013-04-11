@@ -37,7 +37,7 @@ struct hash_map_node {
 
 struct hash_map_list {
 	hash_map_node_t* head;
-	//size_t size;
+	/*size_t size;*/
 	hash_map_element_function destroy;
 };
 
@@ -213,7 +213,7 @@ void hash_map_destroy( hash_map_t *p_map )
 	p_map->free( p_map->table );
 }
 
-boolean hash_map_insert( hash_map_t* restrict p_map, const void* restrict key, const void* restrict value )
+boolean hash_map_insert( hash_map_t* __restrict p_map, const void* __restrict key, const void* __restrict value )
 {
 	size_t index;
 	hash_map_list_t *p_list;
@@ -240,7 +240,7 @@ boolean hash_map_insert( hash_map_t* restrict p_map, const void* restrict key, c
 	return FALSE;
 }
 
-boolean hash_map_remove( hash_map_t* restrict p_map, const void* restrict key )
+boolean hash_map_remove( hash_map_t* __restrict p_map, const void* __restrict key )
 {
 	size_t index;
 	hash_map_node_t *p_prev;
@@ -281,13 +281,12 @@ boolean hash_map_remove( hash_map_t* restrict p_map, const void* restrict key )
 	return FALSE;
 }
 
-boolean hash_map_find( const hash_map_t* restrict p_map, const void* restrict key, void** restrict value )
+boolean hash_map_find( const hash_map_t* __restrict p_map, const void* __restrict key, void** __restrict value )
 {
 	size_t index;
-	hash_map_list_t *p_list;
-	hash_map_node_t *p_node;
+	hash_map_list_t* __restrict p_list;
+	hash_map_node_t* __restrict p_node;
 
-	
 	assert( p_map );
 
 	index  = p_map->hash( key ) % hash_map_table_size(p_map);

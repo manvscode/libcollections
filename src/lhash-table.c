@@ -181,7 +181,7 @@ boolean lhash_table_remove( lhash_table_t *p_table, const void *data )
 	if( lhash_table_find_bucket( p_table, data, &index ) )
 	{
 		/* Mark the bucket as unoccupied and deleted */
-		//bucket_mark_empty( p_table, index ); // not sure if needed
+		/*bucket_mark_empty( p_table, index ); // not sure if needed*/
 		bucket_mark_deleted( p_table, index );
 		p_table->size--;
 		result = TRUE;

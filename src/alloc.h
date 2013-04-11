@@ -29,8 +29,10 @@ typedef void  (*free_function)  ( void *data );
 
 #define alloc_type( type )      ((type *) malloc( sizeof(type) ))
 #define free_type( ptr )        (free( ptr ))
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
 #define construct( var, ... )   var##_initialize( __VA_ARGS__ )
 #define destruct( var, ... )    var##_deinitialize( __VA_ARGS__ )
+#endif
 
 
 #endif /* _ALLOC_H_ */

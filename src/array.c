@@ -74,7 +74,7 @@ boolean array_resize( array_t *p_array, size_t new_size )
 	return result;
 }
 
-#if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)
+#if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L) /* Not C99 */
 void* array_element( array_t *p_array, size_t index )
 {
 	assert( index >= 0 );

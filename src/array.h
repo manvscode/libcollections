@@ -50,7 +50,7 @@ boolean   array_unserialize ( array_t *p_array, FILE *file, array_unserialize_fu
 #define   array_element_size( p_array )  ((p_array)->element_size)
 #define   array_size( p_array )          ((p_array)->size)
 
-#if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)
+#if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L) /* Not C99 */
 void*     array_element     ( array_t *p_array, size_t index );
 #else
 #include <assert.h>

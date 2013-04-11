@@ -69,12 +69,12 @@ int main( int argc, char *argv[] )
 	boolean result = TRUE;
 	boolean done   = FALSE;
 	flatdb_t db    = NULL; 
+	char selection;
 
 
 	do {
 		printf( "Menu\n-------------------------\n" );
 
-		char selection;
 		printf( "   O - Open database\n" );
 		printf( "   C - Create database\n" );
 		printf( "   A - Add contact record\n" );
@@ -138,6 +138,7 @@ int main( int argc, char *argv[] )
 				assert( result );
 				#else
 				{
+					struct tm time_parts;
 					memset( &c, 0, sizeof(contact) );
 					tstrcpy( c.first_name, _T("Bob") );
 					tstrcpy( c.last_name, _T("Dylan") );
@@ -151,7 +152,7 @@ int main( int argc, char *argv[] )
 					tstrcpy( c.phone1, _T("(202) 555-4345") );
 					tstrcpy( c.phone2, _T("1 (888) 555-1232") );
 					tstrcpy( c.website, _T("http://www.acme.com/") );
-					struct tm time_parts; strptime( "01/28/1977", "%D", &time_parts);
+					strptime( "01/28/1977", "%D", &time_parts);
 					c.date_of_birth = mktime( &time_parts );
 
 					result = flatdb_record_add( db, CONTACTS, (flat_record *) &c );
@@ -160,12 +161,13 @@ int main( int argc, char *argv[] )
 				}
 
 				{
+					struct tm time_parts;
 					expense e;
 					memset( &e, 0, sizeof(expense) );
 					e.type = 0;
 					e.cost = 4.22;
 					tstrcpy( e.description, _T("Gasoline for car.") );
-					struct tm time_parts; strptime( "05/8/2011", "%D", &time_parts);
+					strptime( "05/8/2011", "%D", &time_parts);
 					e.date = mktime( &time_parts );
 
 					result = flatdb_record_add( db, EXPENSES, (flat_record *) &e );
@@ -174,6 +176,7 @@ int main( int argc, char *argv[] )
 				}
 
 				{
+					struct tm time_parts;
 					tstrcpy( c.first_name, _T("Joe") );
 					tstrcpy( c.last_name, _T("Marrero") );
 					tstrcpy( c.middle_name, _T("Alexander") );
@@ -184,7 +187,7 @@ int main( int argc, char *argv[] )
 					tstrcpy( c.postal_code, _T("33020") );
 					tstrcpy( c.phone1, _T("(954) 803-9157") );
 					tstrcpy( c.website, _T("http://www.manvscode.com/") );
-					struct tm time_parts; strptime( "06/15/1984", "%D", &time_parts);
+					strptime( "06/15/1984", "%D", &time_parts);
 					c.date_of_birth = mktime( &time_parts );
 
 					result = flatdb_record_add( db, CONTACTS, (flat_record *) &c );
@@ -193,12 +196,13 @@ int main( int argc, char *argv[] )
 				}
 
 				{
+					struct tm time_parts;
 					expense e;
 					memset( &e, 0, sizeof(expense) );
 					e.type = 2;
 					e.cost = 425.22;
 					tstrcpy( e.description, _T("Web hosting at Rackspace.") );
-					struct tm time_parts; strptime( "08/3/2011", "%D", &time_parts);
+					strptime( "08/3/2011", "%D", &time_parts);
 					e.date = mktime( &time_parts );
 
 					result = flatdb_record_add( db, EXPENSES, (flat_record *) &e );
@@ -207,6 +211,7 @@ int main( int argc, char *argv[] )
 				}
 
 				{
+					struct tm time_parts;
 					memset( &c, 0, sizeof(contact) );
 					tstrcpy( c.first_name, _T("Mary") );
 					tstrcpy( c.last_name, _T("Poppins") );
@@ -216,7 +221,7 @@ int main( int argc, char *argv[] )
 					tstrcpy( c.state, _T("Florida") );
 					tstrcpy( c.postal_code, _T("33402") );
 					tstrcpy( c.website, _T("http://www.apple-wax.com/") );
-					struct tm time_parts; strptime( "09/18/1969", "%D", &time_parts);
+					strptime( "09/18/1969", "%D", &time_parts);
 					c.date_of_birth = mktime( &time_parts );
 
 					result = flatdb_record_add( db, CONTACTS, (flat_record *) &c );
@@ -236,26 +241,29 @@ int main( int argc, char *argv[] )
 				#endif
 				db = flatdb_create( CONTACTS_DAT, 2, 2 );
 
-				// create contact table
+				/* create contact table */
 				{
 					flat_id_t table_id;
+					flat_table *p_table;
+
 					result = flatdb_table_create( db, &table_id );
 					assert( result );
 					assert( table_id == CONTACTS );
 
-					flat_table *p_table = flatdb_table_get( db, table_id );
+					p_table = flatdb_table_get( db, table_id );
 					p_table->record_size = sizeof(contact);
 					result = flatdb_table_save( db, table_id );
 				}
 	
-				// create expense table
+				/* create expense table */
 				{
 					flat_id_t table_id;
+					flat_table *p_table;
 					result = flatdb_table_create( db, &table_id );
 					assert( result );
 					assert( table_id == EXPENSES );
 
-					flat_table *p_table = flatdb_table_get( db, table_id );
+					p_table = flatdb_table_get( db, table_id );
 					p_table->record_size = sizeof(expense);
 					result = flatdb_table_save( db, table_id );
 				}
@@ -268,13 +276,14 @@ int main( int argc, char *argv[] )
 			{
 				printf( "Deleting expense table.\n" );
 				flatdb_table_delete( db, EXPENSES );
-				//flatdb_record_delete( db, CONTACTS, 0 );
+				/* flatdb_record_delete( db, CONTACTS, 0 ); */
 				break;
 			}
 			case 'l':
 			case 'L':
 			{
 				flat_table *p_contact_table = flatdb_table_get( db, CONTACTS );
+				flat_table *p_expense_table;
 				printf( "Contacts (size = %d):\n", p_contact_table->count  );
 				{
 					flat_record* p_record = flatdb_record_first( db, CONTACTS );
@@ -292,7 +301,7 @@ int main( int argc, char *argv[] )
 					}
 				}
 	
-				flat_table *p_expense_table = flatdb_table_get( db, EXPENSES );
+				p_expense_table = flatdb_table_get( db, EXPENSES );
 				printf( "Expenses (size = %d):\n", p_expense_table->count );
 				{
 					flat_record* p_record = flatdb_record_first( db, EXPENSES );

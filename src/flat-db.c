@@ -242,6 +242,8 @@ boolean flatdb_shrink( flatdb_t db )
 	boolean result = TRUE;
 	flat_id_t table_id;
 	flatdb_t temp_db = flatdb_create_temporary( db );
+	void *new_tables;
+	void *new_indices;
 
 	if( !temp_db )
 	{
@@ -251,6 +253,7 @@ boolean flatdb_shrink( flatdb_t db )
 	
 	for( table_id = 0; result && table_id < flatdb_max_tables(db); table_id++ )
 	{
+		flat_record* p_record;
 		flat_table* p_old_table = flatdb_table_get(      db, table_id );
 		flat_table* p_table     = flatdb_table_get( temp_db, table_id );
 
@@ -266,7 +269,7 @@ boolean flatdb_shrink( flatdb_t db )
 
 		flatdb_table_save( temp_db, table_id );
 
-		flat_record* p_record = flatdb_record_first( db, table_id );
+		p_record = flatdb_record_first( db, table_id );
 
 		while( p_record )
 		{
@@ -286,14 +289,14 @@ boolean flatdb_shrink( flatdb_t db )
 	#endif
 
 	/* Swap the tables */
-	void *new_tables = temp_db->tables;
-	temp_db->tables  = db->tables;
-	db->tables       = new_tables;
+	new_tables      = temp_db->tables;
+	temp_db->tables = db->tables;
+	db->tables      = new_tables;
 
 	/* Swap the indices */
-	void *new_indices = temp_db->indices;
-	temp_db->indices  = db->indices;
-	db->indices       = new_indices;
+	new_indices      = temp_db->indices;
+	temp_db->indices = db->indices;
+	db->indices      = new_indices;
 
 	if( !file_copy( db->file, temp_db->file ) )
 	{
@@ -316,7 +319,7 @@ boolean flatdb_shrink( flatdb_t old_db )
 	const char *filename = tmpnam( NULL );
 	flatdb_t new_db      = flatdb_create( filename, flatdb_max_tables(old_db), flatdb_max_records(old_db) );
 
-	//memcpy( &new_db->tables, &old_db->tables, sizeof(new_db->tables) );
+	/*memcpy( &new_db->tables, &old_db->tables, sizeof(new_db->tables) );*/
 
 	for( table_id = 0; result && table_id < flatdb_max_tables(old_db); table_id++ )
 	{
@@ -547,6 +550,7 @@ boolean flatdb_create_empty_database( flatdb_t db, uint16_t max_tables, uint16_t
 {
 	boolean result = TRUE;
 	flat_id_t table_id;
+	flatdb_header *p_header;
 
 	if( !db || !db->file )
 	{
@@ -564,7 +568,7 @@ boolean flatdb_create_empty_database( flatdb_t db, uint16_t max_tables, uint16_t
 		max_records = FLDB_MAX_RECORDS; 
 	}
 
-	flatdb_header *p_header = &db->header;
+	p_header = &db->header;
 
 	memcpy( p_header->marker, FLDB_MARKER, sizeof(p_header->marker) );
 	p_header->version.major = FLDB_MAJOR_VERSION;
@@ -616,6 +620,7 @@ boolean flatdb_create_empty_database( flatdb_t db, uint16_t max_tables, uint16_t
 	for( table_id = 0; table_id < flatdb_max_tables(db); table_id++ )
 	{
 		offset_t position = ftell( db->file );
+		flat_table *p_table;
 
 		if( position < 0 )
 		{
@@ -627,7 +632,7 @@ boolean flatdb_create_empty_database( flatdb_t db, uint16_t max_tables, uint16_t
 			goto done;
 		}
 
-		flat_table *p_table = flatdb_table_get( db, table_id );
+		p_table = flatdb_table_get( db, table_id );
 
 		/* initialize with defaults */
 		p_table->base.flags      = FLDB_UNUSED | FLDB_TABLE_TYPE;
@@ -667,11 +672,13 @@ done:
 
 boolean flatdb_next_id( flatdb_t db, flat_id_t table_id, const flat_record *p_record, flat_id_t *p_next_record_id )
 {
+	flat_hasher hash_func;
+	boolean result = FALSE;
+
 	assert( p_next_record_id );
 	assert( table_id < flatdb_max_tables(db) );
 
-	flat_hasher hash_func = db->hashers[ table_id ];
-	boolean result = FALSE;
+	hash_func = db->hashers[ table_id ];
 
 	if( hash_func )
 	{
@@ -793,8 +800,9 @@ boolean flatdb_table_save( flatdb_t db, flat_id_t table_id )
 
 flat_table* flatdb_table_get( flatdb_t db, flat_id_t table_id )
 {
+	flat_table *p_table;
 	assert( table_id < flatdb_max_tables(db) );
-	flat_table *p_table = &db->tables[ table_id ];
+	p_table = &db->tables[ table_id ];
 	return p_table;
 }
 
@@ -803,6 +811,9 @@ boolean flatdb_record_add( flatdb_t db, flat_id_t table_id, flat_record *p_recor
 	boolean result      = FALSE;
 	flat_table *p_table = flatdb_table_get( db, table_id );
 	flat_id_t next_record_id;
+	offset_t start_position;
+	offset_t next;
+	offset_t prev;
 
 	if( p_table->count >= flatdb_max_records(db) )
 	{
@@ -811,20 +822,20 @@ boolean flatdb_record_add( flatdb_t db, flat_id_t table_id, flat_record *p_recor
 		goto done;
 	}
 	
-	offset_t start_position;
 
 	/* Reuse any previously deleted record */
 	if( p_table->deleted_record > 0L )
 	{
 		flat_record deleted_record;
+		offset_t next_deleted_record;
 		
 		flatdb_read( db, p_table->deleted_record, (flat_object *) &deleted_record, sizeof(flat_record) );
 
 		assert( flat_object_is( &deleted_record, FLDB_UNUSED ) );
 		assert( flat_object_id( &deleted_record ) != 0 );
 
-		start_position = p_table->deleted_record;
-		offset_t next_deleted_record = deleted_record.next;
+		start_position      = p_table->deleted_record;
+		next_deleted_record = deleted_record.next;
 	
 		if( next_deleted_record > 0 )
 		{
@@ -860,8 +871,8 @@ boolean flatdb_record_add( flatdb_t db, flat_id_t table_id, flat_record *p_recor
  	 * inserting a new record requires these values be
  	 * changed.
  	 */
-	offset_t next = p_record->next;
-	offset_t prev = p_record->prev;
+	next = p_record->next;
+	prev = p_record->prev;
 
 	if( p_table->first_record == 0L )
 	{
@@ -907,11 +918,14 @@ done:
 boolean flatdb_record_delete( flatdb_t db, flat_id_t table_id, flat_id_t record_id )
 {
 	boolean result = FALSE;
+	flat_table *p_table;
+	offset_t record_pos;
+
 	assert( table_id < flatdb_max_tables(db) );
 	assert( record_id < flatdb_max_records(db) );
 
-	flat_table *p_table = flatdb_table_get( db, table_id );
-	offset_t record_pos = flatdb_record_position( db, table_id, record_id );
+	p_table = flatdb_table_get( db, table_id );
+	record_pos = flatdb_record_position( db, table_id, record_id );
 
 	if( record_pos )
 	{
@@ -925,10 +939,11 @@ boolean flatdb_record_delete( flatdb_t db, flat_id_t table_id, flat_id_t record_
 
 		if( flat_object_not( p_record, FLDB_UNUSED ) )
 		{
+			flat_record previous_record;
+
 			/* mark the record as deleted (i.e. unused) */
 			flat_object_set( p_record, FLDB_UNUSED );
 
-			flat_record previous_record;
 			flatdb_read( db, p_record->prev, (flat_object *) &previous_record, sizeof(flat_record) );
 			previous_record.next = p_record->next;
 			flatdb_write( db, p_record->prev, (const flat_object *) &previous_record, sizeof(flat_record) );
@@ -940,7 +955,7 @@ boolean flatdb_record_delete( flatdb_t db, flat_id_t table_id, flat_id_t record_
 			p_table->deleted_record = record_pos;
 		
 			/* reset index */
-			//flatdb_index_update( db, table_id, record_id, 0L );	
+			/*flatdb_index_update( db, table_id, record_id, 0L );*/
 
 			flatdb_write( db, record_pos, (const flat_object *) p_record, sizeof(flat_record) );
 			flatdb_table_save( db, table_id );
@@ -956,11 +971,14 @@ done:
 
 flat_record* flatdb_record_get( flatdb_t db, flat_id_t table_id, flat_id_t record_id )
 {
+	flat_table *p_table;
+	offset_t record_pos;
+
 	assert( table_id < flatdb_max_tables(db) );
 	assert( record_id < flatdb_max_records(db) );
 
-	flat_table *p_table = flatdb_table_get( db, table_id );
-	offset_t record_pos = flatdb_record_position( db, table_id, record_id );
+	p_table = flatdb_table_get( db, table_id );
+	record_pos = flatdb_record_position( db, table_id, record_id );
 
 	if( record_pos )
 	{
@@ -994,13 +1012,18 @@ boolean flatdb_record_search( flatdb_t db, flat_id_t table_id, flat_record *p_re
 boolean flatdb_record_search( flatdb_t db, flat_id_t table_id, const flat_record *p_record, flat_id_t *p_id )
 #endif
 {
+	flat_hasher hash_func;
+	flat_comparer compare_func;
+	boolean result;
+	flat_table *p_table;
+
 	assert( table_id < flatdb_max_tables(db) );
 
-	flat_hasher hash_func      = db->hashers[ table_id ];
-	flat_comparer compare_func = db->comparers[ table_id ];
-	boolean result             = FALSE;
+	hash_func    = db->hashers[ table_id ];
+	compare_func = db->comparers[ table_id ];
+	result       = FALSE;
 	#ifndef FLDB_NO_COPY_ON_SEARCH
-	flat_table *p_table        = flatdb_table_get( db, table_id );
+	p_table      = flatdb_table_get( db, table_id );
 	#endif
 
 	if( hash_func )
@@ -1072,10 +1095,13 @@ void flatdb_record_comparer( flatdb_t db, flat_id_t table_id, flat_comparer comp
 
 flat_record* flatdb_record_first( flatdb_t db, flat_id_t table_id )
 {
+	flat_table *p_table;
+	offset_t record_pos;
+
 	assert( table_id < flatdb_max_tables(db) );
 
-	flat_table *p_table = flatdb_table_get( db, table_id );
-	offset_t record_pos = p_table->first_record;
+	p_table = flatdb_table_get( db, table_id );
+	record_pos = p_table->first_record;
 
 	if( record_pos )
 	{
@@ -1095,10 +1121,13 @@ flat_record* flatdb_record_first( flatdb_t db, flat_id_t table_id )
 
 flat_record* flatdb_record_next( flatdb_t db, flat_id_t table_id, flat_record *p_record )
 {
+	flat_table *p_table;
+	offset_t record_pos;
+
 	assert( table_id < flatdb_max_tables(db) );
 
-	flat_table *p_table = flatdb_table_get( db, table_id );
-	offset_t record_pos = p_record->next;
+	p_table = flatdb_table_get( db, table_id );
+	record_pos = p_record->next;
 
 	if( record_pos )
 	{
@@ -1114,10 +1143,13 @@ flat_record* flatdb_record_next( flatdb_t db, flat_id_t table_id, flat_record *p
 
 flat_record* flatdb_record_prev( flatdb_t db, flat_id_t table_id, flat_record *p_record )
 {
+	flat_table *p_table;
+	offset_t record_pos;
+
 	assert( table_id < flatdb_max_tables(db) );
 
-	flat_table *p_table = flatdb_table_get( db, table_id );
-	offset_t record_pos = p_record->prev;
+	p_table = flatdb_table_get( db, table_id );
+	record_pos = p_record->prev;
 
 	if( record_pos )
 	{
@@ -1162,6 +1194,8 @@ boolean file_copy( FILE *dst, FILE *src )
 {
 	static byte buffer[ 4096 ];
 	boolean result = TRUE;
+	offset_t dst_position;
+	offset_t src_position;
 
 	if( !dst || !src )
 	{
@@ -1170,8 +1204,8 @@ boolean file_copy( FILE *dst, FILE *src )
 	}
 
 	memset( buffer, 0, sizeof(buffer) );
-	offset_t dst_position = ftell( dst );
-	offset_t src_position = ftell( src );
+	dst_position = ftell( dst );
+	src_position = ftell( src );
 
 	if( fseek( dst, 0L, SEEK_SET ) )
 	{
