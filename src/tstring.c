@@ -1,16 +1,16 @@
 /*
  * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -73,7 +73,7 @@ void tstring_tolower( tstring_t *p_string )
 
 	assert( p_string );
 	p_s = p_string->s;
-	
+
 	while( p_s )
 	{
 		*p_s = tchar_lower( *p_s );
@@ -87,7 +87,7 @@ void tstring_toupper( tstring_t *p_string )
 
 	assert( p_string );
 	p_s = p_string->s;
-	
+
 	while( p_s )
 	{
 		*p_s = tchar_upper( *p_s );
@@ -104,11 +104,11 @@ boolean tstring_copy( tstring_t *p_result, const tstring_t *p_string )
 
 	if( p_result->s )
 	{
-		tstrncpy( 
-			tstring_string( p_result ), 
-			tstring_string( p_string ), 
-			tstring_length( p_string ) + 1 
-		); 
+		tstrncpy(
+			tstring_string( p_result ),
+			tstring_string( p_string ),
+			tstring_length( p_string ) + 1
+		);
 		return TRUE;
 	}
 
@@ -125,11 +125,11 @@ boolean tstring_ncopy( tstring_t *p_result, const tstring_t *p_string, size_t n 
 
 	if( p_result->s )
 	{
-		tstrncpy( 
-			tstring_string( p_result ), 
-			tstring_string( p_string ), 
+		tstrncpy(
+			tstring_string( p_result ),
+			tstring_string( p_string ),
 			n
-		); 
+		);
 		return TRUE;
 	}
 
@@ -145,11 +145,11 @@ boolean tstring_assign( tstring_t *p_result, const tchar *p_string )
 
 	if( p_result->s )
 	{
-		tstrncpy( 
-			tstring_string( p_result ), 
-			p_string, 
-			tstring_length( p_result ) + 1 
-		); 
+		tstrncpy(
+			tstring_string( p_result ),
+			p_string,
+			tstring_length( p_result ) + 1
+		);
 		return TRUE;
 	}
 
@@ -166,11 +166,11 @@ boolean tstring_concatenate( tstring_t *p_result, const tstring_t *p_string )
 
 	if( p_result->s )
 	{
-		tstrncat( 
-			tstring_string( p_result ), 
-			tstring_string( p_string ), 
-			tstring_length( p_string ) 
-		); 
+		tstrncat(
+			tstring_string( p_result ),
+			tstring_string( p_string ),
+			tstring_length( p_string )
+		);
 		return TRUE;
 	}
 
@@ -187,7 +187,7 @@ boolean tstring_nconcatenate( tstring_t *p_result, const tstring_t *p_string, si
 
 	if( p_result->s )
 	{
-		tstrncat( tstring_string( p_result ), tstring_string( p_string ), n ); 
+		tstrncat( tstring_string( p_result ), tstring_string( p_string ), n );
 		return TRUE;
 	}
 
@@ -197,16 +197,17 @@ boolean tstring_nconcatenate( tstring_t *p_result, const tstring_t *p_string, si
 boolean tstring_sconcatenate( tstring_t *p_string, const tchar *s )
 {
 	size_t size;
-	assert( p_string && s );
+	size_t len;
 
-	size_t len = tstrlen( s );
+	assert( p_string && s );
+	len = tstrlen( s );
 
 	size        = tstring_size( p_string ) + sizeof(tchar) * (len + 1);
 	p_string->s = (tchar *) realloc( p_string->s, size );
 
 	if( p_string->s )
 	{
-		tstrncat( tstring_string(p_string), s, len ); 
+		tstrncat( tstring_string(p_string), s, len );
 		return TRUE;
 	}
 
@@ -217,7 +218,7 @@ void tstring_format( tstring_t *p_string, const tchar *format, ... )
 {
 	va_list args;
 	size_t buffer_length;
-	
+
 	assert( p_string );
 	assert( format );
 
@@ -275,7 +276,7 @@ size_t ltrim( tchar* s, const tchar* delimeters )
 	}
 
 	tstrcpy( start, s );
-	return s - start; // # of chars removed
+	return s - start; /* # of chars removed */
 }
 
 size_t rtrim( tchar* s, const tchar* delimeters )

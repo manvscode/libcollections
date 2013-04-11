@@ -61,13 +61,13 @@ int main( int argc, char *argv[] )
 	lhash_table_t table;
 	boolean result;
 	int i;
+	unsigned int L = 2;
 
 	result = lhash_table_create( &table, sizeof(char *), 68, (lhash_table_hash_function) ip_hash, (lhash_table_compare_function) ip_compare, malloc, free );
 	assert( result );
 
 	srand( 0 );
 
-	unsigned int L = 2;
 
 	while( L-- > 0 )
 	{
@@ -77,7 +77,7 @@ int main( int argc, char *argv[] )
 
 			result = lhash_table_insert( &table, &ip );
 			assert( result );
-			printf( "   Added (%03d): %-16s      %4.1lf  (%03ld) ", i, ip, lhash_table_load_factor(&table), lhash_table_size(&table) );
+			printf( "   Added (%03d): %-16s      %4.1f  (%03ld) ", i, ip, lhash_table_load_factor(&table), lhash_table_size(&table) );
 
 			lhash_table_debug( &table );
 		
@@ -100,7 +100,7 @@ int main( int argc, char *argv[] )
 			{
 				result = lhash_table_remove( &table, found_ip );
 				assert( result );
-				printf( " Removed (%03d): %-16s      %4.1lf  (%03ld) ", i, ip, lhash_table_load_factor(&table), lhash_table_size(&table) );
+				printf( " Removed (%03d): %-16s      %4.1f  (%03ld) ", i, ip, lhash_table_load_factor(&table), lhash_table_size(&table) );
 			
 				lhash_table_debug( &table );
 
@@ -114,7 +114,7 @@ int main( int argc, char *argv[] )
 				printf( "\n" );
 			}
 		}
-	} // end while
+	} /* end while */
 
 	lhash_table_destroy( &table );
 	return 0;
@@ -241,16 +241,19 @@ boolean data_destroy( void *data )
 
 size_t ip_hash( const void *data )
 {
-	assert( data );
 	unsigned short count = 0;
 	size_t hash = 0;
-
-	char *in_ip = *((char **) data);
 	char ip[ 24 ];
+	char *token;
+	char *in_ip;
+	
+	assert( data );
+
+	in_ip = *((char **) data);
 	strncpy( ip, in_ip, sizeof(ip) );
 	ip[ sizeof(ip) - 1 ] = '\0';
 
-	char *token = strtok( (char *) ip, "." );
+	token = strtok( (char *) ip, "." );
 
 	while( token != NULL )
 	{

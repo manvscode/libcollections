@@ -54,21 +54,21 @@ void    bitset_set     ( bitset_t *p_bitset, size_t bit );
 void    bitset_unset   ( bitset_t *p_bitset, size_t bit );
 boolean bitset_test    ( const bitset_t *p_bitset, size_t bit );
 #else
-static inline void bitset_set( bitset_t *p_bitset, size_t bit )
+static __inline void bitset_set( bitset_t *p_bitset, size_t bit )
 {
 	assert( p_bitset );
 	assert( bit < p_bitset->bit_size );
 	p_bitset->array[ bit_to_index(bit) ] |= (0x01 << (bit % CHAR_BIT));
 }
 
-static inline void bitset_unset( bitset_t *p_bitset, size_t bit )
+static __inline void bitset_unset( bitset_t *p_bitset, size_t bit )
 {
 	assert( p_bitset );
 	assert( bit < p_bitset->bit_size );
 	p_bitset->array[ bit_to_index(bit) ] &= ~(0x01 << (bit % CHAR_BIT));
 }
 
-static inline boolean bitset_test( const bitset_t *p_bitset, size_t bit )
+static __inline boolean bitset_test( const bitset_t *p_bitset, size_t bit )
 {
 	assert( p_bitset );
 	return p_bitset->array[ bit_to_index(bit) ] & (0x01 << (bit % CHAR_BIT));

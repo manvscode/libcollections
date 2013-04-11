@@ -77,7 +77,7 @@ extern "C" {
 	#define tvprintf     vwprintf
 	#define tvfprintf    vfwprintf
 	#define tvsprintf    vswprintf
-	#define tvsnprintf   vswprintf // intentionally missing n
+	#define tvsnprintf   vswprintf /* intentionally missing n */
 	#define tmemcpy      wmemcpy
 	#if defined(WIN32)
 		#define _tmain       wmain  /* main() is wmain() */

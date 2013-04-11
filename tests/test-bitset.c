@@ -30,6 +30,7 @@ bitset_t bits;
 
 int main( int argc, char *argv[] )
 {
+	int i;
 	boolean r = TRUE;
 
 	r = bitset_create( &bits, 8 );
@@ -73,7 +74,6 @@ int main( int argc, char *argv[] )
 	assert( r );
 
 
-	int i;
 	for( i = 64; i < bitset_bits(&bits); i++ )
 	{
 		bitset_set( &bits, i );

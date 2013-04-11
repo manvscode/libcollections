@@ -27,7 +27,9 @@
 
 #define SIZE  		12
 
-//#define MAX_HEAP	
+/*
+#define MAX_HEAP
+*/
 
 static int     int_compare( const void* left, const void* right );
 static boolean num_destroy( void *data );
@@ -35,6 +37,7 @@ static boolean num_destroy( void *data );
 int main( int argc, char *argv[] )
 {
 	int i;
+	pvector_t collection;
 
 	time_t t = time(NULL);
 	srand( t );
@@ -95,7 +98,6 @@ int main( int argc, char *argv[] )
 
 	pbheap_destroy( &heap );
 #else
-	pvector_t collection;
 	pvector_create( &collection, 1, malloc, free );
 
 	for( i = 0; i < SIZE; i++ )
@@ -119,7 +121,7 @@ int main( int argc, char *argv[] )
 	while( pvector_size(&collection) > 0 )
 	{
 		int* p_num = pvector_get( &collection, 0 );
-		//int* p_num = pvector_get( &collection, pvector_size(&collection) - 1 );
+		/*int* p_num = pvector_get( &collection, pvector_size(&collection) - 1 );*/
 		printf( "%4d%s", *p_num, pvector_size(&collection) > 1 ? ", " : "" );
 
 		if( pvector_size(&collection) > 1 )

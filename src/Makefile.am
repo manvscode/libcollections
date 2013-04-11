@@ -43,10 +43,10 @@ variant.h \
 vector.h \
 vector-template.h
 
-library_includedir = $(includedir)/libcollections/
+library_includedir      = $(includedir)/libcollections/
 library_include_HEADERS = $(libcollections_headers)
 
 # Library
-lib_LTLIBRARIES = $(top_builddir)/lib/libcollections.la 
+lib_LTLIBRARIES                               = $(top_builddir)/lib/libcollections.la
 __top_builddir__lib_libcollections_la_SOURCES = $(libcollections_src)
 

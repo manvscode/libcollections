@@ -40,50 +40,37 @@
 
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
 	#include <stdint.h>
-
-	typedef int8_t    int8;
-	typedef uint8_t   uint8;
-	typedef int16_t   int16;
-	typedef uint16_t  uint16;
-	typedef int32_t   int32;
-	typedef uint32_t  uint32;
-	typedef int64_t   int64;
-	typedef uint64_t  uint64;
-	typedef wchar_t   wchar;
-	//typedef bool      boolean; /* FALSE = 0, otherwise TRUE */
-	#define __inline   inline
+	typedef wchar_t     wchar;
+	#define __inline    inline
+	#define __restrict  restrict
 #else /* Not C99 compliant */
-	typedef signed char         int8;
-	typedef unsigned char       uint8;
-	typedef signed short        int16;
-	typedef unsigned short      uint16;
-	typedef signed int          int32;
-	typedef unsigned int        uint32;
-	/*
-	typedef signed long long    int64;
-	typedef unsigned long long  uint64; 
-	*/
-	//typedef char                boolean; /* FALSE = 0, otherwise TRUE */
-	#define __inline  
+	typedef signed char         int8_t;
+	typedef unsigned char       uint8_t;
+	typedef signed short        int16_t;
+	typedef unsigned short      uint16_t;
+	typedef signed int          int32_t;
+	typedef unsigned int        uint32_t;
+	typedef signed long         int64_t;
+	typedef unsigned long       uint64_t;
+	#define __inline
+	#define __restrict
 #endif
 
+#if 1
 #ifndef boolean
 typedef int                boolean; /* FALSE = 0, otherwise TRUE */
+#endif
 #endif
 #ifndef byte
 typedef unsigned char  byte;
 #endif
-typedef uint16         ushort;
-typedef uint32         uint;
-#ifdef ulong
-typedef uint64         ulong;
-#endif
 
-
-typedef uint32         ui32;
-typedef int32          i32;
-typedef uint16         ui16;
-typedef int16          i16;
+typedef uint16_t         ushort;
+typedef uint32_t         uint;
+typedef uint32_t         ui32;
+typedef int32_t          i32;
+typedef uint16_t         ui16;
+typedef int16_t          i16;
 typedef float          f32;
 typedef double         f64;
 typedef unsigned char  uc8;

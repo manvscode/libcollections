@@ -29,7 +29,7 @@
 
 #define MAX_HEAP	
 
-static int     int_compare( const int* restrict left, const int* restrict right );
+static int     int_compare( const int* __restrict left, const int* __restrict right );
 
 DECLARE_BHEAP_TYPE( num, int )
 IMPLEMENT_BHEAP_TYPE( num, int )
@@ -37,10 +37,11 @@ IMPLEMENT_BHEAP_TYPE( num, int )
 
 int main( int argc, char *argv[] )
 {
+	int i;
+	bheap_num_t heap;
+
 	time_t t = time(NULL);
 	srand( t );
-	bheap_num_t heap;
-	int i;
 
 	bheap_num_create( &heap, 1, int_compare );
 
@@ -82,12 +83,12 @@ int main( int argc, char *argv[] )
 }
 
 
-int int_compare( const int* restrict p_left, const int* restrict p_right )
+int int_compare( const int* __restrict p_left, const int* __restrict p_right )
 {
 	#ifdef MAX_HEAP	
-	return (*p_left) - (*p_right); // max-heap
+	return (*p_left) - (*p_right); /* max-heap */
 	#else
-	return (*p_right) - (*p_left); // min-heap
+	return (*p_right) - (*p_left); /* min-heap */
 	#endif
 }
 

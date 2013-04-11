@@ -437,6 +437,8 @@ boolean rbtree_remove( rbtree_t *p_tree, const void *key )
 	rbnode_t *t;
 	rbnode_t *x;
 	rbnode_t *y;
+
+	boolean y_is_red = FALSE;
 	
 	assert( p_tree );
 	
@@ -483,8 +485,6 @@ boolean rbtree_remove( rbtree_t *p_tree, const void *key )
 			y->parent->right = x;
 		}
 	}
-
-	boolean y_is_red = FALSE;
 
 	if( y != t )
 	{

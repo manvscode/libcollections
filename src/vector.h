@@ -28,7 +28,7 @@ extern "C" {
 #include <stdio.h>
 #include <stddef.h>
 #include <string.h>
-#include "libcollections-config.h"
+//#include "libcollections-config.h"
 #include "types.h"
 #include "alloc.h"
 #include "vector-template.h"
@@ -94,14 +94,14 @@ boolean      vector_unserialize ( vector_t *p_vector, FILE *file, vector_unseria
 
 #else
 #include <assert.h>
-static inline void* vector_get( vector_t *p_vector, size_t index )
+static __inline void* vector_get( vector_t *p_vector, size_t index )
 {
 	assert( index >= 0 );
 	assert( index < vector_size(p_vector) );
 	return (void*)(vector_array(p_vector) + vector_element_size(p_vector) * (index));
 }
 
-static inline void vector_set( vector_t *p_vector, size_t index, void *data )
+static __inline void vector_set( vector_t *p_vector, size_t index, void *data )
 {
 	assert( data != NULL );
 	assert( index >= 0 );
@@ -148,14 +148,14 @@ void         pvector_clear      ( pvector_t *p_vector );
 
 #else 
 #include <assert.h>
-static inline void* pvector_get( pvector_t *p_vector, size_t index )
+static __inline void* pvector_get( pvector_t *p_vector, size_t index )
 {
 	assert( index >= 0 );
 	assert( index < pvector_size(p_vector) );
 	return p_vector->array[ index ];
 }
 
-static inline void pvector_set( pvector_t *p_vector, size_t index, void *data )
+static __inline void pvector_set( pvector_t *p_vector, size_t index, void *data )
 {
 	assert( p_vector && data );
 	assert( index >= 0 );

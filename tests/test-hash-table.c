@@ -179,7 +179,7 @@ int main( int argc, char *argv[] )
 
 		result = hash_table_insert( &table, strdup(ip) );
 		assert( result );
-		printf( "   Added (%03d): %-16s      %4.1lf  (%ld)", i, ip, hash_table_load_factor(&table), hash_table_size(&table) );
+		printf( "   Added (%03d): %-16s      %4.1f  (%ld)", i, ip, hash_table_load_factor(&table), hash_table_size(&table) );
 	
 		#ifdef TEST_REHASH
 		if( hash_table_rehash( &table, LOAD_FACTOR ) )
@@ -202,7 +202,7 @@ int main( int argc, char *argv[] )
 
 			result = hash_table_remove( &table, found_ip );
 			assert( result );
-			printf( " Removed (%03d): %-16s      %4.1lf  (%ld)", i, ip, hash_table_load_factor(&table), hash_table_size(&table) );
+			printf( " Removed (%03d): %-16s      %4.1f  (%ld)", i, ip, hash_table_load_factor(&table), hash_table_size(&table) );
 
 			#ifdef TEST_REHASH
 			if( hash_table_rehash( &table, LOAD_FACTOR ) )
@@ -225,14 +225,15 @@ size_t ip_hash( const void *data )
 {
 	unsigned short count = 0;
 	size_t hash          = 0;
+	char ip[ 24 ];
+	char *token;
 
 	assert( data );
 
-	char ip[ 24 ];
 	strncpy( ip, data, sizeof(ip) );
 	ip[ sizeof(ip) - 1 ] = '\0';
 
-	char *token = strtok( (char *) ip, "." );
+	token = strtok( (char *) ip, "." );
 
 	while( token != NULL )
 	{

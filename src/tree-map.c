@@ -420,6 +420,8 @@ boolean tree_map_remove( tree_map_t *p_map, const void *key )
 	tree_map_node_t *t = tree_map_node_find( p_map, key );
 	tree_map_node_t *x;
 	tree_map_node_t *y;
+	boolean y_is_red = FALSE;
+
 	if( t == NULL ) return FALSE; /* item is not even in the tree! */
 
 	if( t->left == &TREE_MAP_NODE_NIL || t->right == &TREE_MAP_NODE_NIL ) 
@@ -460,8 +462,6 @@ boolean tree_map_remove( tree_map_t *p_map, const void *key )
 			y->parent->right = x;
 		}
 	}
-
-	boolean y_is_red = FALSE;
 
 	if( y != t )
 	{

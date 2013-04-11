@@ -80,7 +80,7 @@ int main( int argc, char *argv[] )
 		result = hash_map_insert( &map, ip, p_sent );
 		assert( result );
 		
-		printf( "         Added (%03d): %-16s      %4.1lf  (%02ld)", i, ip, hash_map_load_factor(&map), hash_map_size(&map) );
+		printf( "         Added (%03d): %-16s      %4.1f  (%02ld)", i, ip, hash_map_load_factor(&map), hash_map_size(&map) );
 
 		#ifdef TEST_REHASH
 		if( hash_map_rehash( &map, LOAD_FACTOR ) )
@@ -132,7 +132,7 @@ int main( int argc, char *argv[] )
 
 		hash_map_find( &map, ip, (void **) &is_sent );
 
-		printf( "       Removed (%03d): %-16s      %4.1lf  (%02ld)   %s", i, ip, hash_map_load_factor(&map), hash_map_size(&map), is_sent && *is_sent ? "sent" : "not sent" );
+		printf( "       Removed (%03d): %-16s      %4.1f  (%02ld)   %s", i, ip, hash_map_load_factor(&map), hash_map_size(&map), is_sent && *is_sent ? "sent" : "not sent" );
 
 		result = hash_map_remove( &map, ip );
 		assert( result );
@@ -156,15 +156,17 @@ int main( int argc, char *argv[] )
 
 size_t ip_hash( const void *data )
 {
-	assert( data );
 	unsigned short count = 0;
 	size_t hash = 0;
-
 	char ip[ 24 ];
+	char *token;
+
+	assert( data );
+
 	strncpy( ip, data, sizeof(ip) );
 	ip[ sizeof(ip) - 1 ] = '\0';
 
-	char *token = strtok( (char *) ip, "." );
+	token = strtok( (char *) ip, "." );
 
 	while( token != NULL )
 	{

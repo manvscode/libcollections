@@ -105,6 +105,7 @@ void *vector_pushx( vector_t *p_vector )
 
 boolean vector_push( vector_t *p_vector, void *data )
 {
+	byte* dst;
 	assert( p_vector );
 
 	/* grow the array if needed */
@@ -120,7 +121,7 @@ boolean vector_push( vector_t *p_vector, void *data )
 	memset( vector_array(p_vector) + vector_size(p_vector) * vector_element_size(p_vector), 0, vector_element_size(p_vector) );
 	#endif
 
-	byte* dst = vector_array(p_vector) + (vector_size(p_vector) * vector_element_size(p_vector));
+	dst = vector_array(p_vector) + (vector_size(p_vector) * vector_element_size(p_vector));
 
 	memcpy( dst, data, vector_element_size(p_vector) );
 	p_vector->size++;

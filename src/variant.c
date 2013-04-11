@@ -59,15 +59,15 @@ void variant_initialize( variant_t* p_variant, variant_type_t type, value_t valu
 
 int variant_compare( const variant_t* p_left, const variant_t* p_right )
 {
+	int result;
 	assert( p_left );
 	assert( p_right );
-	int result;
 
 	if( p_left->type != p_right->type )
 	{
 		result = p_left->type - p_right->type;
 	}
-	else // types match
+	else /* types match */
 	{
 		switch( p_left->type )
 		{
@@ -87,7 +87,7 @@ int variant_compare( const variant_t* p_left, const variant_t* p_right )
 				result = (unsigned char*) variant_pointer(p_left) - (unsigned char*) variant_pointer(p_right);
 				break;
 			default:
-				assert( FALSE ); // Did someone add a new variant type?
+				assert( FALSE ); /* Did someone add a new variant type? */
 				break;
 		}
 	}
