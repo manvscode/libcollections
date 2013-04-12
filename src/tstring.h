@@ -45,6 +45,9 @@ extern "C" {
 #endif
 #endif 
 
+#ifndef wcsdup
+wchar* wcsdup( const wchar* s );
+#endif
 
 #if defined(UNICODE)
 	typedef wchar_t      tchar;
@@ -161,9 +164,11 @@ size_t  tstring_trim         ( tstring_t *p_string );
 #define tstring_length( p_string )         ((p_string)->length)
 #define tstring_size( p_string )           (sizeof(tchar) * ((p_string)->length + 1))
 
-size_t ltrim ( tchar* s, const tchar* delimeters );
-size_t rtrim ( tchar* s, const tchar* delimeters );
-size_t trim  ( tchar* s, const tchar* delimeters );
+size_t ltrim   ( tchar* s, const tchar* delimeters );
+size_t rtrim   ( tchar* s, const tchar* delimeters );
+size_t trim    ( tchar* s, const tchar* delimeters );
+tchar* tstrtolower ( tchar* s );
+tchar* tstrtoupper ( tchar* s );
 
 #ifdef __cplusplus
 } /* external C linkage */

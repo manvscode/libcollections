@@ -91,8 +91,8 @@ void bench_mark_report( bench_mark_t bm )
 	/*printf( "%30s -- Start: %ld.%06ld s, End: %ld.%06ld s, Total: %lf ms \n", */
 	printf( "%30s -- Start: %ld.%06ld s, End: %ld.%06ld s, Total: %f ms \n", 
 		bm->description,
-		bm->start.tv_sec, bm->start.tv_usec,
-		bm->end.tv_sec, bm->end.tv_usec,
+		bm->start.tv_sec, (long int) bm->start.tv_usec,
+		bm->end.tv_sec, (long int) bm->end.tv_usec,
 		1000.0 * (bm->end.tv_sec - bm->start.tv_sec) + ((bm->end.tv_usec - bm->start.tv_usec) / 1000.0)
 	);
 	#endif

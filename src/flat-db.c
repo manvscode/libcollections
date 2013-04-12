@@ -520,11 +520,13 @@ boolean flatdb_load_file( flatdb_t db )
 		goto done;
 	}
 
+	/* // this is a pointless check -- it's always false
 	if( db->header.max_records > FLDB_MAX_RECORDS )
 	{
 		result = FALSE;
 		goto done;
 	}
+	*/
 
 	if( fread( db->tables, flatdb_max_tables(db) * sizeof(flat_table), 1, db->file ) != 1 )
 	{
@@ -563,10 +565,12 @@ boolean flatdb_create_empty_database( flatdb_t db, uint16_t max_tables, uint16_t
 		max_tables = FLDB_MAX_TABLES; 
 	}
 
+	/* // this is a pointless check -- it's always false
 	if( max_records > FLDB_MAX_RECORDS || max_records <= 0 )
 	{
 		max_records = FLDB_MAX_RECORDS; 
 	}
+	*/
 
 	p_header = &db->header;
 

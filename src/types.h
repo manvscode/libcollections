@@ -64,8 +64,9 @@ typedef int                boolean; /* FALSE = 0, otherwise TRUE */
 #ifndef byte
 typedef unsigned char  byte;
 #endif
-#ifndef ssize_t
-#define ssize_t long
+#if !defined(_SSIZE_T)
+#define _SSIZE_T
+typedef long ssize_t;
 #endif
 typedef uint16_t         ushort;
 typedef uint32_t         uint;

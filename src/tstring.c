@@ -58,13 +58,31 @@ int tstring_ncompare( const tstring_t *left, const tstring_t *right, size_t n )
 int tstring_casecompare( const tstring_t *left, const tstring_t *right )
 {
 	assert( left && right );
+	#if !defined(wcsncasecmp) && defined(UNICODE)
+	tchar* tmp_left  = tstrtolower( tstrdup( left->s ) );
+	tchar* tmp_right = tstrtolower( tstrdup( right->s ) );
+	int result = tstrcmp( tmp_left, tmp_right );
+	free( tmp_left );
+	free( tmp_right );
+	return result;
+	#else
 	return tstrncasecmp( left->s, right->s, left->length );
+	#endif
 }
 
 int tstring_ncasecompare( const tstring_t *left, const tstring_t *right, size_t n )
 {
 	assert( left && right );
+	#if !defined(wcsncasecmp) && defined(UNICODE)
+	tchar* tmp_left  = tstrtolower( tstrdup( left->s ) );
+	tchar* tmp_right = tstrtolower( tstrdup( right->s ) );
+	int result = tstrncmp( tmp_left, tmp_right, n );
+	free( tmp_left );
+	free( tmp_right );
+	return result;
+	#else
 	return tstrncasecmp( left->s, right->s, n );
+	#endif
 }
 
 void tstring_tolower( tstring_t *p_string )
@@ -302,3 +320,37 @@ size_t trim( tchar* s, const tchar* delimeters )
 	return ltrim( s, delimeters ) + rtrim( s, delimeters );
 }
 
+tchar* tstrtolower( tchar* s )
+{
+	tchar* p_s = s;
+	while( p_s )
+	{
+		*p_s = tchar_lower( *p_s );
+		p_s++;
+	}
+
+	return s;
+}
+
+tchar* tstrtoupper( tchar* s )
+{
+	tchar* p_s = s;
+
+	while( p_s )
+	{
+		*p_s = tchar_upper( *p_s );
+		p_s++;
+	}
+
+	return s;
+}
+
+#ifndef wcsdup
+wchar* wcsdup( const wchar* s )
+{
+	size_t size = wcslen(s) + 1;
+	wchar* result = (wchar*) malloc( sizeof(wchar) * size );
+	memcpy( result, s, size );
+	return result;
+}
+#endif
