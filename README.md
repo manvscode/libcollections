@@ -26,3 +26,8 @@ Supported Types and Utilities
  * Wrapper for Unicode and ASCII strings
  * Variant Data Type
  * Common Types
+
+OS Support
+==============
+ * Compiles on Linux using gcc
+ * Microsoft Windows Vista using Visual Studio 2008
