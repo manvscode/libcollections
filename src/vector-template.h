@@ -50,7 +50,7 @@ extern "C" {
 	void vector_##name##_destroy( vector_##name##_t* p_vector ); \
 	boolean vector_##name##_resize( vector_##name##_t* p_vector, size_t new_size ); \
 	type* vector_##name##_pushx( vector_##name##_t* p_vector ); \
-	boolean vector_##name##_push( vector_##name##_t* restrict p_vector, const type* restrict data ); \
+	boolean vector_##name##_push( vector_##name##_t* __restrict p_vector, const type* __restrict data ); \
 	boolean vector_##name##_serialize( vector_##name##_t* p_vector, FILE *file, vector_##name##_serialize_function func ); \
 	boolean vector_##name##_unserialize( vector_##name##_t* p_vector, FILE *file, vector_##name##_unserialize_function func ); \
 	\
