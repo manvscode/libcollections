@@ -1,16 +1,16 @@
 /*
  * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,7 +28,7 @@
 /*
  *   Hash Functions
  */
-static __inline size_t int64_hash( int64_t key )
+static __inline size_t int64_hash( uint64_t key )
 {
 	key = (~key) + (key << 21); /* key = (key << 21) - key - 1;*/
 	key = key ^ (key >> 24);
@@ -37,7 +37,7 @@ static __inline size_t int64_hash( int64_t key )
 	key = (key + (key << 2)) + (key << 4); /* key * 21 */
 	key = key ^ (key >> 28);
 	key = key + (key << 31);
-	return key;	
+	return key;
 }
 
 static __inline size_t int32_hash( uint32_t a )
@@ -54,9 +54,13 @@ static __inline size_t int32_hash( uint32_t a )
 size_t pointer_hash( const void *data )
 {
 	#if 0
-	return (size_t) data;
+		return (size_t) data;
 	#else
-	return int64_hash( (int64_t) data );
+		#if UINTPTR_MAX == (18446744073709551615UL)
+		return int64_hash( (int64_t) data );
+		#else
+		return int32_hash( (int32_t) data );
+		#endif
 	#endif
 }
 
@@ -70,7 +74,7 @@ size_t string_hash( const void *string_addr )
 
 	for( i = 0; i < length; i++ )
 	{
-		hash_code = 31 * hash_code + str[ i ]; 
+		hash_code = 31 * hash_code + str[ i ];
 	}
 
 	return hash_code;
@@ -85,7 +89,7 @@ size_t memory_hash( const void *p_memory, size_t size )
 
 	for( i = 0; i < size; i++ )
 	{
-		hash_code = 31 * hash_code + bytes[ i ]; 
+		hash_code = 31 * hash_code + bytes[ i ];
 	}
 
 	return hash_code;
@@ -103,7 +107,7 @@ size_t ip_address_hash( const void *data )
 	#endif
 
 	assert( data );
-	
+
 	count = 0;
 	hash  = 0;
 
@@ -122,7 +126,7 @@ size_t ip_address_hash( const void *data )
 		int part = atoi( token );
 
 		hash |= (part << 8 * (3 - count));
-	
+
 		#ifdef THREAD_SAFE
 		token = strtok_s( NULL, ".", &context );
 		#else
