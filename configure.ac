@@ -9,7 +9,6 @@ AC_PROG_CC_C99
 AC_C_INLINE
 AC_HEADER_STDC
 
-
 AH_TOP([
 #ifndef _LIBCOLLECTIONS_CONFIG_H_
 #define _LIBCOLLECTIONS_CONFIG_H_
@@ -23,11 +22,11 @@ CFLAGS="-std=gnu99 -Wall -pedantic -pg -O3 -DUNICODE"
 LDFLAGS=""
 
 
+AM_PROG_AR
 LT_INIT([shared static])
 
 AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL
-AC_PROG_RANLIB
 
 # -------------------------------------------------
 AC_C_RESTRICT
