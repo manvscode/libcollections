@@ -53,6 +53,27 @@ typedef union value {
 } value_t;
 
 
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
+	/* untested */
+	#define variant_get( p_variant )  _Generic( variant_type(p_variant), \
+		VARIANT_STRING: variant_value(p_variant).string,  \
+		VARIANT_DECIMAL: variant_value(p_variant).decimal,  \
+		VARIANT_INTEGER: variant_value(p_variant).integer,  \
+		VARIANT_UNSIGNED_INTEGER: variant_value(p_variant).unsigned_integer,  \
+		VARIANT_POINTER: variant_value(p_variant).pointer,  \
+		default: 0 \
+		) (p_variant )
+	#define variant_set( p_variant, value )  _Generic( (value), \
+		tchar*: variant_set_string, \
+		double:  variant_set_decimal, \
+		long: variant_set_integer, \
+		unsigned long: variant_set_unsigned_integer, \
+		void*: variant_set_pointer,  \
+		default:  variant_set_unsigned_integer\
+		) (p_variant, value )
+#endif
+
+
 variant_t*     variant_create     ( variant_type_t type );
 void           variant_destroy    ( variant_t* p_variant );
 void           variant_initialize ( variant_t* p_variant, variant_type_t type, value_t value );
@@ -62,6 +83,12 @@ variant_type_t variant_type       ( const variant_t* p_variant );
 void           variant_set_type   ( variant_t* p_variant, variant_type_t type );
 value_t        variant_value      ( const variant_t* p_variant );
 void           variant_set_value  ( variant_t* p_variant, value_t value );
+void           variant_set_string( variant_t* p_variant, const tchar* value );
+void           variant_set_decimal( variant_t* p_variant, double value );
+void           variant_set_integer( variant_t* p_variant, long value );
+void           variant_set_unsigned_integer( variant_t* p_variant, unsigned long value );
+void           variant_set_pointer( variant_t* p_variant, const void* value );
+
 
 #define    variant_create_string( )                  variant_create( VARIANT_STRING )
 #define    variant_is_string( p_variant )            variant_is_type( p_variant, VARIANT_STRING )

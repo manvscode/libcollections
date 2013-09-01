@@ -126,3 +126,33 @@ void variant_set_value( variant_t *p_variant, value_t value )
 	p_variant->value = value;
 }
 
+void variant_set_string( variant_t* p_variant, const tchar* value )
+{
+	assert( p_variant );
+	p_variant->value.string = (tchar*) value;
+}
+
+void variant_set_decimal( variant_t* p_variant, double value )
+{
+	assert( p_variant );
+	p_variant->value.decimal = value;
+}
+
+void variant_set_integer( variant_t* p_variant, long value )
+{
+	assert( p_variant );
+	p_variant->value.integer = value;
+}
+
+void variant_set_unsigned_integer( variant_t* p_variant, unsigned long value )
+{
+	assert( p_variant );
+	p_variant->value.unsigned_integer = value;
+}
+
+void variant_set_pointer( variant_t* p_variant, const void* value )
+{
+	assert( p_variant );
+	p_variant->value.pointer = (void*) value;
+}
+
