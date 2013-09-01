@@ -1,4 +1,4 @@
-AC_INIT([libcollections], [0.1], [manvscode@gmail.com], [libcollections], [http://www.shrewdcreative.com/])
+AC_INIT([libcollections], [0.1], [manvscode@gmail.com], [libcollections], [http://www.manvscode.com/])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 
 AM_SILENT_RULES([yes])
