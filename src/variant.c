@@ -25,11 +25,6 @@
 #include "variant.h"
 
 
-struct variant {
-	variant_type_t type;
-	value_t        value;
-};
-
 
 variant_t* variant_create( variant_type_t type )
 {

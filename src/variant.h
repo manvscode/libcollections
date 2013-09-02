@@ -29,8 +29,6 @@
 extern "C" {
 #endif
 
-struct variant;
-typedef struct variant variant_t;
 
 
 typedef enum _variant_type {
@@ -39,6 +37,7 @@ typedef enum _variant_type {
 	VARIANT_DECIMAL,
 	VARIANT_INTEGER, 
 	VARIANT_UNSIGNED_INTEGER, 
+	/*TODO: Add VARIANT_BOOLEAN, */
 	VARIANT_POINTER,
 	/* must be last one */
 	VARIANT_TYPE_COUNT
@@ -51,6 +50,12 @@ typedef union value {
 	unsigned long   unsigned_integer; 
 	void*           pointer; /* must be last one */
 } value_t;
+
+typedef struct variant {
+	variant_type_t type;
+	value_t        value;
+} variant_t;
+
 
 
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
