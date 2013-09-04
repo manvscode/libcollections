@@ -78,6 +78,9 @@ int variant_compare( const variant_t* p_left, const variant_t* p_right )
 			case VARIANT_UNSIGNED_INTEGER:
 				result = variant_unsigned_integer(p_left) - variant_unsigned_integer(p_right);
 				break;
+			case VARIANT_BOOLEAN:
+				result = variant_boolean(p_left) == variant_boolean(p_right);
+				break;
 			case VARIANT_POINTER:
 				result = (unsigned char*) variant_pointer(p_left) - (unsigned char*) variant_pointer(p_right);
 				break;
@@ -143,6 +146,12 @@ void variant_set_unsigned_integer( variant_t* p_variant, unsigned long value )
 {
 	assert( p_variant );
 	p_variant->value.unsigned_integer = value;
+}
+
+void variant_set_boolean( variant_t* p_variant, boolean value )
+{
+	assert( p_variant );
+	p_variant->value.boolean = value;
 }
 
 void variant_set_pointer( variant_t* p_variant, const void* value )

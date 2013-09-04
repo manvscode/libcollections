@@ -37,7 +37,7 @@ typedef enum _variant_type {
 	VARIANT_DECIMAL,
 	VARIANT_INTEGER, 
 	VARIANT_UNSIGNED_INTEGER, 
-	/*TODO: Add VARIANT_BOOLEAN, */
+	VARIANT_BOOLEAN,
 	VARIANT_POINTER,
 	/* must be last one */
 	VARIANT_TYPE_COUNT
@@ -48,6 +48,11 @@ typedef union value {
 	double          decimal;
 	long            integer;
 	unsigned long   unsigned_integer; 
+	#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+	boolean         boolean;
+	#else
+	bool            boolean;
+	#endif
 	void*           pointer; /* must be last one */
 } value_t;
 
@@ -65,6 +70,7 @@ typedef struct variant {
 		VARIANT_DECIMAL: variant_value(p_variant).decimal,  \
 		VARIANT_INTEGER: variant_value(p_variant).integer,  \
 		VARIANT_UNSIGNED_INTEGER: variant_value(p_variant).unsigned_integer,  \
+		VARIANT_BOOLEAN: variant_value(p_variant).boolean,  \
 		VARIANT_POINTER: variant_value(p_variant).pointer,  \
 		default: 0 \
 		) (p_variant )
@@ -73,26 +79,28 @@ typedef struct variant {
 		double:  variant_set_decimal, \
 		long: variant_set_integer, \
 		unsigned long: variant_set_unsigned_integer, \
+		boolean: variant_set_boolean, \
 		void*: variant_set_pointer,  \
 		default:  variant_set_unsigned_integer\
 		) (p_variant, value )
 #endif
 
 
-variant_t*     variant_create     ( variant_type_t type );
-void           variant_destroy    ( variant_t* p_variant );
-void           variant_initialize ( variant_t* p_variant, variant_type_t type, value_t value );
-int            variant_compare    ( const variant_t* p_left, const variant_t* p_right ); 
-boolean        variant_is_type    ( const variant_t* p_variant, variant_type_t type );
-variant_type_t variant_type       ( const variant_t* p_variant );
-void           variant_set_type   ( variant_t* p_variant, variant_type_t type );
-value_t        variant_value      ( const variant_t* p_variant );
-void           variant_set_value  ( variant_t* p_variant, value_t value );
-void           variant_set_string( variant_t* p_variant, const tchar* value );
-void           variant_set_decimal( variant_t* p_variant, double value );
-void           variant_set_integer( variant_t* p_variant, long value );
-void           variant_set_unsigned_integer( variant_t* p_variant, unsigned long value );
-void           variant_set_pointer( variant_t* p_variant, const void* value );
+variant_t*     variant_create               ( variant_type_t type );
+void           variant_destroy              ( variant_t* p_variant );
+void           variant_initialize           ( variant_t* p_variant, variant_type_t type, value_t value );
+int            variant_compare              ( const variant_t* p_left, const variant_t* p_right ); 
+boolean        variant_is_type              ( const variant_t* p_variant, variant_type_t type );
+variant_type_t variant_type                 ( const variant_t* p_variant );
+void           variant_set_type             ( variant_t* p_variant, variant_type_t type );
+value_t        variant_value                ( const variant_t* p_variant );
+void           variant_set_value            ( variant_t* p_variant, value_t value );
+void           variant_set_string           ( variant_t* p_variant, const tchar* value );
+void           variant_set_decimal          ( variant_t* p_variant, double value );
+void           variant_set_integer          ( variant_t* p_variant, long value );
+void           variant_set_unsigned_integer ( variant_t* p_variant, unsigned long value );
+void           variant_set_boolean          ( variant_t* p_variant, boolean value );
+void           variant_set_pointer          ( variant_t* p_variant, const void* value );
 
 
 #define    variant_create_string( )                  variant_create( VARIANT_STRING )
@@ -110,6 +118,10 @@ void           variant_set_pointer( variant_t* p_variant, const void* value );
 #define    variant_create_unsigned_integer( )        variant_create( VARIANT_UNSIGNED_INTEGER )
 #define    variant_is_unsigned_integer( p_variant )  variant_is_type( p_variant, VARIANT_UNSIGNED_INTEGER )
 #define    variant_unsigned_integer( p_variant )     (variant_value(p_variant).unsigned_integer)
+
+#define    variant_create_boolean( )                 variant_create( VARIANT_BOOLEAN )
+#define    variant_is_boolean( p_variant )           variant_is_type( p_variant, VARIANT_BOOLEAN )
+#define    variant_boolean( p_variant )              (variant_value(p_variant).boolean)
 
 #define    variant_create_pointer( )                 variant_create( VARIANT_POINTER )
 #define    variant_is_pointer( p_variant )           variant_is_type( p_variant, VARIANT_POINTER )
