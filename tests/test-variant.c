@@ -1,16 +1,16 @@
 /*
  * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,6 +22,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <types.h>
 #include <variant.h>
 
 int main( int argc, char *argv[] )
@@ -29,11 +30,13 @@ int main( int argc, char *argv[] )
 	variant_t* integer;
 	variant_t* decimal;
 	variant_t* string;
+	variant_t* boolean;
 	value_t    value;
 
 	integer = variant_create_integer( );
 	decimal = variant_create_decimal( );
 	string  = variant_create_string( );
+	boolean = variant_create_boolean( );
 
 	value.integer = 42;
 	variant_set_value( integer, value );
@@ -41,6 +44,8 @@ int main( int argc, char *argv[] )
 	variant_set_value( decimal, value );
 	value.string = _T("This is a test string.");
 	variant_set_value( string, value );
+	value.boolean = TRUE;
+	variant_set_value( boolean, value );
 
 
 	printf( "  Integer value is \"%ld\"\n", variant_integer(integer) );
@@ -50,10 +55,12 @@ int main( int argc, char *argv[] )
 	#else
 	printf( "   String value is \"%s\"\n", variant_string(string) );
 	#endif
+	printf( "  Boolean value is \"%s\"\n", variant_boolean(boolean) ? "TRUE" : "FALSE" );
 
 	variant_destroy( integer );
 	variant_destroy( decimal );
 	variant_destroy( string );
+	variant_destroy( boolean );
 
 	return 0;
 }

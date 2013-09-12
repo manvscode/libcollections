@@ -29,12 +29,6 @@
 	#define NULL ((void *) 0)
 #endif
 
-#ifndef FALSE
-	#define FALSE 0
-#endif
-#ifndef TRUE
-	#define TRUE  1 
-#endif
 
 
 
@@ -56,13 +50,30 @@
 	#define __restrict
 #endif
 
-#if 1
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+#include <stdbool.h>
 #ifndef boolean
-typedef int                boolean; /* FALSE = 0, otherwise TRUE */
+typedef unsigned char    boolean; /* FALSE = 0, otherwise TRUE */
+#endif
+#ifndef FALSE
+#define FALSE 0
+#endif
+#ifndef TRUE
+#define TRUE  1 
+#endif
+#else
+#ifndef boolean
+typedef bool             boolean; /* FALSE = 0, otherwise TRUE */
+#endif
+#ifndef FALSE
+#define FALSE false
+#endif
+#ifndef TRUE
+#define TRUE  true 
 #endif
 #endif
 #ifndef byte
-typedef unsigned char  byte;
+typedef unsigned char    byte;
 #endif
 #if !defined(_SSIZE_T)
 #define _SSIZE_T
@@ -74,8 +85,8 @@ typedef uint32_t         ui32;
 typedef int32_t          i32;
 typedef uint16_t         ui16;
 typedef int16_t          i16;
-typedef float          f32;
-typedef double         f64;
-typedef unsigned char  uc8;
+typedef float            f32;
+typedef double           f64;
+typedef unsigned char    uc8;
 
 #endif /* _TYPES_H_ */
