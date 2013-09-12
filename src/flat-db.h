@@ -89,7 +89,7 @@ extern "C" {
 #define flat_object_id( p_obj )             (to_flat_object(p_obj)->id)
 
 typedef uint16_t flat_id_t;
-typedef uint64_t offset_t;
+typedef int64_t  offset_t;
 typedef uint32_t flag_t;
 
 
