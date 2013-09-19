@@ -1,16 +1,16 @@
 /*
  * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,7 +27,7 @@
 
 static void heapify  ( vector_t* heap, heap_compare_function compare, void* swap_buffer, size_t index );
 
-boolean bheap_create( bheap_t* p_bheap, size_t element_size, size_t size, 
+boolean bheap_create( bheap_t* p_bheap, size_t element_size, size_t size,
                       heap_compare_function compare_callback, heap_element_function destroy_callback,
                       alloc_function alloc, free_function free )
 {
@@ -41,7 +41,11 @@ boolean bheap_create( bheap_t* p_bheap, size_t element_size, size_t size,
 
 	if( p_bheap->tmp )
 	{
+		#if defined(VECTOR_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
 		result = vector_create( &p_bheap->heap, element_size, size, destroy_callback, p_bheap->alloc, p_bheap->free );
+		#else
+		result = vector_create( &p_bheap->heap, element_size, size, p_bheap->alloc, p_bheap->free );
+		#endif
 	}
 
 	return result;
@@ -78,16 +82,16 @@ boolean bheap_pop( bheap_t* p_bheap )
 
 	if( vector_size(&p_bheap->heap) > 0 )
 	{
-		memcpy( vector_get( &p_bheap->heap, 0 ), 
-				vector_get( &p_bheap->heap, vector_size(&p_bheap->heap) - 1 ), 
-				vector_element_size( &p_bheap->heap ) 
+		memcpy( vector_get( &p_bheap->heap, 0 ),
+				vector_get( &p_bheap->heap, vector_size(&p_bheap->heap) - 1 ),
+				vector_element_size( &p_bheap->heap )
 		);
 	}
 
 	result = vector_pop( &p_bheap->heap );
 	heap_pop( &p_bheap->heap, p_bheap->compare, p_bheap->tmp );
 
-	return result;	
+	return result;
 }
 
 size_t bheap_size( const bheap_t* p_bheap )
@@ -145,7 +149,7 @@ void heap_push( vector_t* heap, heap_compare_function compare, void* swap_buffer
 		else
 		{
 			done = TRUE;
-		}			
+		}
 	}
 }
 
@@ -184,7 +188,7 @@ void heapify( vector_t* heap, heap_compare_function compare, void* swap_buffer, 
 			memcpy( optimal, swap_buffer, vector_element_size(heap) );
 
 			index = optimal_idx;
-		}			
+		}
 		else
 		{
 			done = TRUE;

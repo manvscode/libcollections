@@ -1,16 +1,16 @@
 /*
  * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,14 +33,17 @@
 			code \
 		}
 #else
-	#define DESTROY_CHECK( code ) \
-		code 
+	#define DESTROY_CHECK( code )
 #endif
 
 /*
  * vector - A growable array of elements.
  */
+#if defined(VECTOR_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
 boolean vector_create( vector_t *p_vector, size_t element_size, size_t size, vector_element_function destroy_callback, alloc_function alloc, free_function free )
+#else
+boolean vector_create( vector_t *p_vector, size_t element_size, size_t size, alloc_function alloc, free_function free )
+#endif
 {
 	assert( p_vector );
 
@@ -50,6 +53,9 @@ boolean vector_create( vector_t *p_vector, size_t element_size, size_t size, vec
 	p_vector->alloc        = alloc;
 	p_vector->free         = free;
 	p_vector->array        = p_vector->alloc( vector_element_size(p_vector) * vector_array_size(p_vector) );
+	#if defined(VECTOR_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
+	p_vector->destroy      = destroy_callback;
+	#endif
 
 	#ifdef _DEBUG_VECTOR
 	memset( p_vector->array, 0, vector_element_size(p_vector) * vector_array_size(p_vector) );
@@ -67,7 +73,7 @@ void vector_destroy( vector_t *p_vector )
 	vector_clear( p_vector );
 
 	p_vector->free( p_vector->array );
-	
+
 
 	#ifdef _DEBUG_VECTOR
 	p_vector->element_size = 0L;
@@ -96,7 +102,7 @@ void *vector_pushx( vector_t *p_vector )
 	#ifdef _DEBUG_VECTOR
 	memset( vector_array(p_vector) + vector_size(p_vector) * vector_element_size(p_vector), 0, vector_element_size(p_vector) );
 	#endif
-	
+
 	result = (void *)( vector_array(p_vector) + vector_size(p_vector) * vector_element_size(p_vector));
 
 	p_vector->size++;
@@ -140,7 +146,7 @@ boolean vector_pop( vector_t *p_vector )
 	DESTROY_CHECK(
 		result  = p_vector->destroy( element );
 	);
-	
+
 	#ifdef _DEBUG_VECTOR
 	memset( vector_array(p_vector) + (vector_size(p_vector) - 1) * vector_element_size(p_vector), 0, vector_element_size(p_vector) );
 	#endif
@@ -187,7 +193,7 @@ boolean vector_serialize( vector_t *p_vector, FILE *file, vector_serialize_funct
 		{
 			if( fwrite( p_vector->array, p_vector->element_size, p_vector->size, file ) == p_vector->size )
 			{
-				return TRUE;	
+				return TRUE;
 			}
 		}
 		else
@@ -207,8 +213,8 @@ boolean vector_unserialize( vector_t *p_vector, FILE *file, vector_unserialize_f
 	if( fread( &new_size, sizeof(size_t), 1, file ) == 1 )
 	{
 		vector_resize( p_vector, new_size );
-	
-		if( !func )	
+
+		if( !func )
 		{
 			if( fread( p_vector->array, p_vector->element_size, p_vector->size, file ) == p_vector->size )
 			{
@@ -319,7 +325,7 @@ boolean pvector_resize( pvector_t *p_vector, size_t new_size )
 void pvector_clear( pvector_t *p_vector )
 {
 	assert( p_vector );
-	
+
 	p_vector->size = 0;
 }
 

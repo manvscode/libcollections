@@ -55,7 +55,9 @@ typedef struct vector {
 	size_t element_size;
 	size_t array_size;
 	size_t size;
+	#if defined(VECTOR_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
 	vector_element_function destroy;
+	#endif
 
 	byte*  array;
 } vector_t;
@@ -63,9 +65,14 @@ typedef struct vector {
 /*
  * vector - A growable array of elements.
  */
+#if defined(VECTOR_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
 boolean      vector_create      ( vector_t *p_vector, size_t element_size, 
                                   size_t size, vector_element_function destroy_callback, 
                                   alloc_function alloc, free_function free );
+#else
+boolean      vector_create      ( vector_t *p_vector, size_t element_size, 
+                                  size_t size, alloc_function alloc, free_function free );
+#endif
 void         vector_destroy     ( vector_t *p_vector );
 void*        vector_pushx       ( vector_t *p_vector );
 boolean      vector_push        ( vector_t *p_vector, void *data );
