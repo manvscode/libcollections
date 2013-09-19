@@ -57,13 +57,13 @@ extern "C" {
 	void       heap_##name##_push        ( type* array, size_t size, bheap_##name##_compare_function compare ); \
 	void       heap_##name##_pop         ( type* array, size_t size, bheap_##name##_compare_function compare ); \
 	\
-	inline size_t bheap_##name##_size( bheap_##name##_t* p_bheap ) \
+	static __inline size_t bheap_##name##_size( bheap_##name##_t* p_bheap ) \
 	{ \
 		assert( p_bheap ); \
 		return p_bheap->size; \
 	} \
 	\
-	inline void bheap_##name##_clear( bheap_##name##_t* p_bheap ) \
+	static __inline void bheap_##name##_clear( bheap_##name##_t* p_bheap ) \
 	{ \
 		assert( p_bheap ); \
 		p_bheap->size = 0;  \
@@ -71,7 +71,7 @@ extern "C" {
 
 
 #define IMPLEMENT_BHEAP_TYPE( name, type ) \
-	static inline void heapify_##name( type* array, size_t size, bheap_##name##_compare_function compare, size_t index ); \
+	static __inline void heapify_##name( type* array, size_t size, bheap_##name##_compare_function compare, size_t index ); \
 	\
 	boolean bheap_##name##_create( bheap_##name##_t* p_bheap, size_t size, bheap_##name##_compare_function compare ) \
 	{ \

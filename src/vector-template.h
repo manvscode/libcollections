@@ -54,32 +54,32 @@ extern "C" {
 	boolean vector_##name##_serialize( vector_##name##_t* p_vector, FILE *file, vector_##name##_serialize_function func ); \
 	boolean vector_##name##_unserialize( vector_##name##_t* p_vector, FILE *file, vector_##name##_unserialize_function func ); \
 	\
-	inline size_t vector_##name##_array_size( vector_##name##_t *p_vector ) \
+	static __inline size_t vector_##name##_array_size( vector_##name##_t *p_vector ) \
 	{ \
 		return p_vector->array_size; \
 	} \
 	\
-	inline size_t vector_##name##_size( vector_##name##_t *p_vector ) \
+	static __inline size_t vector_##name##_size( vector_##name##_t *p_vector ) \
 	{\
 		return p_vector->size;\
 	}\
 	\
-	inline boolean vector_##name##_is_empty( vector_##name##_t *p_vector ) \
+	static __inline boolean vector_##name##_is_empty( vector_##name##_t *p_vector ) \
 	{ \
 		return p_vector->size == 0; \
 	} \
 	\
-	inline type* vector_##name##_array( vector_##name##_t *p_vector ) \
+	static __inline type* vector_##name##_array( vector_##name##_t *p_vector ) \
 	{ \
 		return p_vector->array; \
 	} \
 	\
-	inline type* vector_##name##_peek( vector_##name##_t *p_vector ) \
+	static __inline type* vector_##name##_peek( vector_##name##_t *p_vector ) \
 	{ \
   		return &p_vector->array[ p_vector->size - 1 ]; \
 	} \
 	\
-	inline void vector_##name##_pop( vector_##name##_t *p_vector ) \
+	static __inline void vector_##name##_pop( vector_##name##_t *p_vector ) \
 	{ \
 		assert( p_vector ); \
 		if( vector_##name##_size(p_vector) > 0 ) \
@@ -88,14 +88,14 @@ extern "C" {
 		} \
 	} \
 	\
-	inline type* vector_##name##_get( vector_##name##_t *p_vector, size_t index ) \
+	static __inline type* vector_##name##_get( vector_##name##_t *p_vector, size_t index ) \
 	{ \
 		assert( index >= 0 ); \
 		assert( index < vector_##name##_size(p_vector) ); \
 		return &p_vector->array[ index ]; \
 	} \
  	\
-	inline void vector_##name##_set( vector_##name##_t* restrict p_vector, size_t index, const type* restrict data ) \
+	static __inline void vector_##name##_set( vector_##name##_t* restrict p_vector, size_t index, const type* restrict data ) \
 	{ \
 		assert( data != NULL ); \
 		assert( index >= 0 ); \
@@ -103,7 +103,7 @@ extern "C" {
 		p_vector->array[ index ] = *data; \
 	} \
 	\
-	inline void vector_##name##_clear( vector_##name##_t *p_vector ) \
+	static __inline void vector_##name##_clear( vector_##name##_t *p_vector ) \
 	{ \
 		assert( p_vector ); \
 		p_vector->size = 0; \

@@ -17,8 +17,8 @@ AH_BOTTOM([
 #endif /* _LIBCOLLECTIONS_CONFIG_H_ */
 ])
 
-#CFLAGS="-std=gnu99 -Wall -pedantic -pg -ggdb -pg -O0 -D_DEBUG_VECTOR -DUNICODE -L../lib/ -L."
-CFLAGS="-std=gnu99 -Wall -pedantic -pg -O3 -DUNICODE"
+#CFLAGS="-std=gnu99 -Wall -pedantic -g -ggdb -O0 -D_DEBUG_VECTOR -DUNICODE"
+CFLAGS="-std=gnu99 -Wall -pedantic -O3 -DUNICODE"
 LDFLAGS=""
 
 
