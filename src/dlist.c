@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -32,7 +32,7 @@
 		}
 #else
 	#define DESTROY_CHECK( code ) \
-		code 
+		code
 #endif
 
 
@@ -49,7 +49,7 @@ void dlist_create( dlist_t *p_list, dlist_element_function destroy_callback, all
 	p_list->free  = free;
 }
 
-void dlist_destroy( dlist_t *p_list ) 
+void dlist_destroy( dlist_t *p_list )
 {
 	dlist_clear( p_list );
 
@@ -61,7 +61,7 @@ void dlist_destroy( dlist_t *p_list )
 	#endif
 }
 
-boolean dlist_insert_front( dlist_t *p_list, const void *data ) /* O(1) */ 
+boolean dlist_insert_front( dlist_t *p_list, const void *data ) /* O(1) */
 {
 	dlist_node_t *p_node;
 	assert( p_list );
@@ -69,13 +69,13 @@ boolean dlist_insert_front( dlist_t *p_list, const void *data ) /* O(1) */
 	p_node = p_list->alloc( sizeof(dlist_node_t) );
 	assert( p_node );
 
-	if( p_node != NULL ) 
+	if( p_node != NULL )
 	{
 		if( p_list->head )
 		{
 			p_list->head->prev = p_node;
 		}
-		
+
 		p_node->data = (void *) data;
 		p_node->next = p_list->head;
 		p_node->prev = NULL;
@@ -93,7 +93,7 @@ boolean dlist_insert_front( dlist_t *p_list, const void *data ) /* O(1) */
 	return FALSE;
 }
 
-boolean dlist_remove_front( dlist_t *p_list ) /* O(1) */ 
+boolean dlist_remove_front( dlist_t *p_list ) /* O(1) */
 {
 	dlist_node_t *p_node;
 	boolean result = TRUE;
@@ -117,7 +117,7 @@ boolean dlist_remove_front( dlist_t *p_list ) /* O(1) */
 		p_list->tail = NULL;
 	}
 
-	DESTROY_CHECK( 
+	DESTROY_CHECK(
 		result = p_list->destroy( p_list->head->data );
 	);
 
@@ -137,7 +137,7 @@ boolean dlist_insert_back( dlist_t *p_list, const void *data ) /* O(1) */
 	p_node = p_list->alloc( sizeof(dlist_node_t) );
 	assert( p_node );
 
-	if( p_node != NULL ) 
+	if( p_node != NULL )
 	{
 		if( p_list->tail )
 		{
@@ -184,10 +184,10 @@ boolean dlist_remove_back( dlist_t *p_list ) /* O(1) */
 		p_list->head = NULL;
 	}
 
-	DESTROY_CHECK( 
+	DESTROY_CHECK(
 		result = p_list->destroy( p_list->tail->data );
 	);
-	
+
 	p_list->free( p_list->tail );
 
 	p_list->tail = p_node;
@@ -196,12 +196,12 @@ boolean dlist_remove_back( dlist_t *p_list ) /* O(1) */
 	return result;
 }
 
-boolean dlist_insert_next( dlist_t *p_list, dlist_node_t *p_front_node, const void *data ) /* O(1) */ 
+boolean dlist_insert_next( dlist_t *p_list, dlist_node_t *p_front_node, const void *data ) /* O(1) */
 {
 	assert( p_list );
 	assert( p_front_node );
 
-	if( p_front_node ) 
+	if( p_front_node )
 	{
 		dlist_node_t *p_node = p_list->alloc( sizeof(dlist_node_t) );
 		assert( p_node );
@@ -229,7 +229,7 @@ boolean dlist_insert_next( dlist_t *p_list, dlist_node_t *p_front_node, const vo
 		return FALSE;
 	}
 
-	return dlist_insert_front( p_list, data );	
+	return dlist_insert_front( p_list, data );
 }
 
 boolean dlist_remove_next( dlist_t *p_list, dlist_node_t *p_front_node ) /* O(1) */
@@ -257,10 +257,10 @@ boolean dlist_remove_next( dlist_t *p_list, dlist_node_t *p_front_node ) /* O(1)
 			p_list->tail = p_front_node;
 		}
 
-		DESTROY_CHECK( 
+		DESTROY_CHECK(
 			result = p_list->destroy( p_node->data );
 		);
-	
+
 		p_list->free( p_node );
 
 		p_front_node->next = p_new_next;

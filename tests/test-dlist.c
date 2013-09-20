@@ -1,3 +1,24 @@
+/*
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -96,8 +117,8 @@ int main( int argc, char *argv[] )
 		dlist_insert_front( &list, p_string );
 	}
 
-	
-	tprintf( _T("Initial Size: %ld\n"), dlist_size(&list) );	
+
+	tprintf( _T("Initial Size: %ld\n"), dlist_size(&list) );
 
 	delete_random_park( );
 	delete_random_park( );
@@ -124,8 +145,8 @@ int main( int argc, char *argv[] )
 	print_national_parks( );
 
 	dlist_destroy( &list );
-	
-	tprintf( _T("====================================\n") );	
+
+	tprintf( _T("====================================\n") );
 	return 0;
 }
 
@@ -144,9 +165,9 @@ void print_national_parks( void )
 	dlist_iterator_t iter;
 
 	#if defined(UNICODE)
-	tprintf( _T("   # %30ls\n====================================\n"), _T("National Park") );	
+	tprintf( _T("   # %30ls\n====================================\n"), _T("National Park") );
 	#else
-	tprintf( _T("   # %30s\n====================================\n"), _T("National Park") );	
+	tprintf( _T("   # %30s\n====================================\n"), _T("National Park") );
 	#endif
 
 	i = 1;
@@ -156,9 +177,9 @@ void print_national_parks( void )
 
 		const tchar *national_park = tstring_string( p_string );
 		#if defined(UNICODE)
-		tprintf( _T("%4ld %30ls\n"), i++, national_park );	
+		tprintf( _T("%4ld %30ls\n"), i++, national_park );
 		#else
-		tprintf( _T("%4ld %30s\n"), i++, national_park );	
+		tprintf( _T("%4ld %30s\n"), i++, national_park );
 		#endif
 	}
 }
@@ -168,7 +189,7 @@ void delete_random_park( void )
 	dlist_iterator_t iter;
 	size_t r = rand() % dlist_size( &list );
 	size_t i = 0;
-	
+
 	if( r + 1 >= dlist_size(&list) )
 	{
 		r--;
@@ -216,7 +237,7 @@ void insert_random_park( void )
 				tstring_t *p_string = alloc_type( tstring_t );
 				tstring_create( p_string, national_park );
 
-				tstring_sconcatenate( p_string, _T(" (Copy)") ); 
+				tstring_sconcatenate( p_string, _T(" (Copy)") );
 
 				printf( "Inserting %ld (f)\n", r + 1);
 				dlist_insert_next( &list, iter, p_string );
@@ -234,7 +255,7 @@ void insert_random_park( void )
 				tstring_t *p_string = alloc_type( tstring_t );
 				tstring_create( p_string, national_park );
 
-				tstring_sconcatenate( p_string, _T(" (Copy)") ); 
+				tstring_sconcatenate( p_string, _T(" (Copy)") );
 
 				printf( "Inserting %ld (r)\n", r + 1 );
 				dlist_insert_next( &list, iter, p_string );

@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,7 +26,7 @@
 #include <lhash-table.h>
 
 #define IP_HASHING_TEST
-			
+
 void    lhash_table_debug ( lhash_table_t *p_table );
 boolean data_destroy      ( void *data );
 
@@ -80,7 +80,7 @@ int main( int argc, char *argv[] )
 			printf( "   Added (%03d): %-16s      %4.1f  (%03ld) ", i, ip, lhash_table_load_factor(&table), lhash_table_size(&table) );
 
 			lhash_table_debug( &table );
-		
+
 			#ifdef TEST_REHASH
 			if( lhash_table_rehash( &table, LHASH_TABLE_LOAD_FACTOR ) )
 			{
@@ -101,7 +101,7 @@ int main( int argc, char *argv[] )
 				result = lhash_table_remove( &table, found_ip );
 				assert( result );
 				printf( " Removed (%03d): %-16s      %4.1f  (%03ld) ", i, ip, lhash_table_load_factor(&table), lhash_table_size(&table) );
-			
+
 				lhash_table_debug( &table );
 
 				#ifdef TEST_REHASH
@@ -154,7 +154,7 @@ int main( int argc, char *argv[] )
 		printf( "   Added (%03d): %16d      %4.1lf  (%03ld) ", i, *p_num, lhash_table_load_factor(&table), lhash_table_size(&table) );
 
 		lhash_table_debug( &table );
-	
+
 		#ifdef TEST_REHASH
 		if( lhash_table_rehash( &table, LHASH_TABLE_LOAD_FACTOR ) )
 		{
@@ -214,7 +214,7 @@ int main( int argc, char *argv[] )
 			result = lhash_table_remove( &table, p_found_num );
 			assert( result );
 			printf( " Removed (%03d): %16d      %4.1lf  (%03ld) ", i, *p_num, lhash_table_load_factor(&table), lhash_table_size(&table) );
-		
+
 			lhash_table_debug( &table );
 
 			#ifdef TEST_REHASH
@@ -246,7 +246,7 @@ size_t ip_hash( const void *data )
 	char ip[ 24 ];
 	char *token;
 	char *in_ip;
-	
+
 	assert( data );
 
 	in_ip = *((char **) data);
@@ -260,7 +260,7 @@ size_t ip_hash( const void *data )
 		int part = atoi( token );
 
 		hash |= (part << 8 * (3 - count));
-	
+
 		token = strtok( NULL, "." );
 	}
 

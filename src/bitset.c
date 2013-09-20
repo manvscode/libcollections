@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -97,7 +97,7 @@ boolean bitset_resize( bitset_t *p_bitset, size_t bits )
 
 		memset( p_bitset->array + size, 0, sizeof(byte) * (new_size - size) );
 	}
-	
+
 	return p_bitset->array != NULL;
 }
 
@@ -113,7 +113,7 @@ char *bitset_string( bitset_t *p_bitset )
 		{
 			result[ i ] = bitset_test(p_bitset, i) ? '1' : '0';
 		}
-		
+
 		result[ i ] = '\0';
 	}
 

@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -38,8 +38,8 @@ static boolean lhash_table_find_bucket( lhash_table_t *p_table, const void *data
 #define bucket_mark_deleted( p_table, bucket )   bitset_set( &(p_table)->deleted, bucket )
 #define bucket_mark_available( p_table, bucket ) bitset_unset( &(p_table)->deleted, bucket )
 
-boolean   lhash_table_create  ( lhash_table_t *p_table, size_t element_size, size_t table_size, 
-                                lhash_table_hash_function hash_function, 
+boolean   lhash_table_create  ( lhash_table_t *p_table, size_t element_size, size_t table_size,
+                                lhash_table_hash_function hash_function,
                                 lhash_table_compare_function compare_function,
 								alloc_function alloc,
 								free_function free )
@@ -109,7 +109,7 @@ boolean lhash_table_find_bucket( lhash_table_t *p_table, const void *data, size_
 		{
 			/* Save the deleted index so that if we find an occupied matching element
  			 * we can move them into the deleted bucket and mark the original bucket
- 			 * as 
+ 			 * as
  			 */
 			deleted = *p_index;
 			*p_index  = (*p_index + LHASH_TABLE_LINEAR_CONSTANT) % array_size( &p_table->table );
@@ -124,14 +124,14 @@ boolean lhash_table_find_bucket( lhash_table_t *p_table, const void *data, size_
 			if( found_deleted )
 			{
 				memmove( array_element(&p_table->table, deleted), array_element(&p_table->table, *p_index), array_element_size(&p_table->table) );
-				
+
 				assert( !bucket_is_deleted( p_table, *p_index ) );
 				bucket_mark_deleted( p_table, *p_index );
 				bucket_mark_available( p_table, deleted );
 				bucket_mark_occupied( p_table, deleted );
 
 				*p_index = deleted;
-			}	
+			}
 
 			result = TRUE;
 		}
@@ -175,7 +175,7 @@ boolean lhash_table_remove( lhash_table_t *p_table, const void *data )
 {
 	size_t index;
 	boolean result = FALSE;
-	
+
 	assert( p_table );
 
 	if( lhash_table_find_bucket( p_table, data, &index ) )
@@ -193,16 +193,16 @@ boolean lhash_table_remove( lhash_table_t *p_table, const void *data )
 boolean lhash_table_find( lhash_table_t *p_table, const void *data, void **found_data )
 {
 	size_t index;
-	
+
 	*found_data = NULL;
-	
+
 	assert( p_table );
 
 	if( lhash_table_find_bucket( p_table, data, &index ) )
 	{
 		if( bucket_is_occupied( p_table, index ) )
-		{	
-			*found_data = array_element( &p_table->table, index );	
+		{
+			*found_data = array_element( &p_table->table, index );
 			return TRUE;
 		}
 	}
@@ -212,7 +212,7 @@ boolean lhash_table_find( lhash_table_t *p_table, const void *data, void **found
 
 void lhash_table_clear( lhash_table_t *p_table )
 {
-	bitset_clear( &p_table->occupied );	
+	bitset_clear( &p_table->occupied );
 	bitset_clear( &p_table->deleted );
 }
 
@@ -252,11 +252,11 @@ boolean lhash_table_resize( lhash_table_t *p_table, size_t new_size )
 
 boolean lhash_table_rehash( lhash_table_t *p_table, double load_factor )
 {
-#if defined(LHASH_GROW_AND_SHRINK) 
+#if defined(LHASH_GROW_AND_SHRINK)
 	double current_load;
 	double upper_limit;
 	double lower_limit;
-	
+
 	assert( load_factor > 0.0 );
 	assert( load_factor < 1.0 );
 
@@ -270,7 +270,7 @@ boolean lhash_table_rehash( lhash_table_t *p_table, double load_factor )
 		/*  Load exceeds load factor threshold. We must increase the
  		 *  size to return the hash table to the desired load factor.
  		 */
-		return lhash_table_resize( p_table, size ); 
+		return lhash_table_resize( p_table, size );
 	}
 	else if( current_load < lower_limit )
 	{
@@ -278,12 +278,12 @@ boolean lhash_table_rehash( lhash_table_t *p_table, double load_factor )
 		/*  Load exceeds load factor threshold. We must decrease the
  		 *  size to return the hash table to the desired load factor.
  		 */
-		return lhash_table_resize( p_table, size ); 
+		return lhash_table_resize( p_table, size );
 	}
 #else
 	double current_load;
 	double upper_limit;
-	
+
 	assert( load_factor > 0.0 );
 	assert( load_factor < 1.0 );
 
@@ -296,7 +296,7 @@ boolean lhash_table_rehash( lhash_table_t *p_table, double load_factor )
 		/*  Load exceeds load factor threshold. We must increase the
  		 *  size to return the hash table to the desired load factor.
  		 */
-		return lhash_table_resize( p_table, size ); 
+		return lhash_table_resize( p_table, size );
 	}
 #endif
 

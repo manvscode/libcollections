@@ -1,7 +1,5 @@
-#ifndef _VARIANT_H_
-#define _VARIANT_H_
 /*
- * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+#ifndef _VARIANT_H_
+#define _VARIANT_H_
 
 //#include "libcollections-config.h"
 #include "types.h"

@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,7 +29,7 @@
 #include <types.h>
 
 #define CONTACTS_DAT        _T("./contacts.dat")
-#define CONTACT_TYPE        FLDB_AUX_01     
+#define CONTACT_TYPE        FLDB_AUX_01
 
 typedef struct _contact {
 	flat_record base;
@@ -46,7 +46,7 @@ typedef struct _contact {
 	tchar postal_code[ 12 ];
 
 	tchar phone1[ 20 ];
-	tchar phone2[ 20 ]; 
+	tchar phone2[ 20 ];
 
 	tchar website[ 256 ];
 
@@ -68,7 +68,7 @@ int main( int argc, char *argv[] )
 {
 	boolean result = TRUE;
 	boolean done   = FALSE;
-	flatdb_t db    = NULL; 
+	flatdb_t db    = NULL;
 	char selection;
 
 
@@ -102,7 +102,7 @@ int main( int argc, char *argv[] )
 			case 'a':
 			case 'A':
 			{
-				contact c;	
+				contact c;
 				memset( &c, 0, sizeof(contact) );
 				#if 0
 				char buffer[ 256 ];
@@ -232,8 +232,8 @@ int main( int argc, char *argv[] )
 				break;
 			}
 			case 'c':
-			case 'C':	
-			{ 
+			case 'C':
+			{
 				#if defined(UNICODE)
 				printf( "Created %ls\n", CONTACTS_DAT );
 				#else
@@ -254,7 +254,7 @@ int main( int argc, char *argv[] )
 					p_table->record_size = sizeof(contact);
 					result = flatdb_table_save( db, table_id );
 				}
-	
+
 				/* create expense table */
 				{
 					flat_id_t table_id;
@@ -290,7 +290,7 @@ int main( int argc, char *argv[] )
 
 					while( p_record )
 					{
-						contact *p_contact = (contact *) p_record; 
+						contact *p_contact = (contact *) p_record;
 						#if defined(UNICODE)
 						printf( "  - %ls %ls\n", p_contact->first_name, p_contact->last_name );
 						#else
@@ -300,7 +300,7 @@ int main( int argc, char *argv[] )
 						p_record = flatdb_record_next( db, CONTACTS, p_record );
 					}
 				}
-	
+
 				p_expense_table = flatdb_table_get( db, EXPENSES );
 				printf( "Expenses (size = %d):\n", p_expense_table->count );
 				{
@@ -308,7 +308,7 @@ int main( int argc, char *argv[] )
 
 					while( p_record )
 					{
-						expense *p_expense = (expense *) p_record; 
+						expense *p_expense = (expense *) p_record;
 						#if defined(UNICODE)
 						printf( "  - %ls \n", p_expense->description );
 						#else
@@ -336,12 +336,12 @@ int main( int argc, char *argv[] )
 			}
 			case 'x':
 			case 'X':
-				done = TRUE;	
+				done = TRUE;
 			default:
 				break;
 		}
 	} while( !done );
-	
+
 
 	flatdb_close( &db );
 

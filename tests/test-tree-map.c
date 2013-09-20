@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,7 +25,7 @@
 #include <assert.h>
 #include <time.h>
 #include <tree-map.h>
-			
+
 
 boolean ip_destroy  ( void *key, void *value );
 
@@ -67,12 +67,12 @@ int main( int argc, char *argv[] )
 	for( i = 0; ips[ i ]; i++ )
 	{
 		char *ip = strdup( ips[ i ] );
-		boolean *p_sent = malloc( sizeof(boolean) );		
+		boolean *p_sent = malloc( sizeof(boolean) );
 		*p_sent = FALSE;
 
 		result = tree_map_insert( &map, ip, p_sent );
 		assert( result );
-		
+
 		printf( "         Added (%03d): %-16s      (%02ld)", i, ip, tree_map_size(&map) );
 
 		printf( "\n" );
@@ -103,7 +103,7 @@ int main( int argc, char *argv[] )
 
 	i = 0;
 
-	for( itr = tree_map_begin( &map ); 
+	for( itr = tree_map_begin( &map );
 		 itr != tree_map_end( );
 		 itr = tree_map_next( itr ) )
 	{

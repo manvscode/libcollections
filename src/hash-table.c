@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -48,7 +48,7 @@ boolean hash_table_create( hash_table_t *p_table, size_t table_size, hash_table_
 	{
 		#ifdef HASH_TABLE_PREALLOC
 		int i;
-		for( i = 0; i < hash_table_table_size(p_table); i++ ) 
+		for( i = 0; i < hash_table_table_size(p_table); i++ )
 		{
 			slist_create( &p_table->table[ i ], p_table->destroy, p_table->alloc, p_table->free );
 		}
@@ -60,11 +60,11 @@ boolean hash_table_create( hash_table_t *p_table, size_t table_size, hash_table_
 	return p_table->table != NULL;
 }
 
-void hash_table_destroy( hash_table_t *p_table ) 
+void hash_table_destroy( hash_table_t *p_table )
 {
 	size_t i;
 
-	for( i = 0; i < hash_table_table_size(p_table); i++ ) 
+	for( i = 0; i < hash_table_table_size(p_table); i++ )
 	{
 		#ifdef HASH_TABLE_PREALLOC
 		slist_destroy( &p_table->table[ i ] );
@@ -80,7 +80,7 @@ void hash_table_destroy( hash_table_t *p_table )
 	p_table->free( p_table->table );
 }
 
-boolean hash_table_insert( hash_table_t *p_table, const void *data ) 
+boolean hash_table_insert( hash_table_t *p_table, const void *data )
 {
 	size_t index     = p_table->hash( data ) % hash_table_table_size(p_table);
 	slist_t *p_list  = &p_table->table[ index ];
@@ -97,11 +97,11 @@ boolean hash_table_insert( hash_table_t *p_table, const void *data )
 		p_table->size++;
 		return TRUE;
 	}
-	
+
 	return FALSE;
 }
 
-boolean hash_table_remove( hash_table_t *p_table, const void *data ) 
+boolean hash_table_remove( hash_table_t *p_table, const void *data )
 {
 	size_t index         = p_table->hash( data ) % hash_table_table_size(p_table);
 	slist_t *p_list      = &p_table->table[ index ];
@@ -109,17 +109,17 @@ boolean hash_table_remove( hash_table_t *p_table, const void *data )
 	slist_node_t *p_node;
 
 	assert( p_list );
-	p_node = p_list->head;	
+	p_node = p_list->head;
 
-	while( p_node != NULL ) 
+	while( p_node != NULL )
 	{
-		if( p_table->compare( p_node->data, data ) == 0 ) 
+		if( p_table->compare( p_node->data, data ) == 0 )
 		{
 			/* Usually this returns TRUE */
 			if( slist_remove_next( p_list, p_prev ) )
 			{
 				p_table->size--;
-				return TRUE;	
+				return TRUE;
 			}
 			else
 			{
@@ -129,13 +129,13 @@ boolean hash_table_remove( hash_table_t *p_table, const void *data )
 
 		p_prev = p_node;
 		p_node = p_node->next;
-	}	
+	}
 
 	/* nothing found */
 	return FALSE;
 }
 
-boolean hash_table_find( const hash_table_t *p_table, const void *data, void **found_data ) 
+boolean hash_table_find( const hash_table_t *p_table, const void *data, void **found_data )
 {
 	size_t index    = p_table->hash( data ) % hash_table_table_size(p_table);
 	slist_t *p_list = &p_table->table[ index ];
@@ -143,31 +143,31 @@ boolean hash_table_find( const hash_table_t *p_table, const void *data, void **f
 
 	assert( found_data );
 	assert( p_list );
-	
-	p_node = p_list->head;	
 
-	while( p_node != NULL ) 
+	p_node = p_list->head;
+
+	while( p_node != NULL )
 	{
-		if( p_table->compare( p_node->data, data ) == 0 ) 
+		if( p_table->compare( p_node->data, data ) == 0 )
 		{
-			*found_data = p_node->data;	
+			*found_data = p_node->data;
 			assert( *found_data );
 			return TRUE;
 		}
 
 		p_node = p_node->next;
-	}	
+	}
 
 	/* nothing found */
 	*found_data = NULL;
 	return FALSE;
 }
 
-void hash_table_clear( hash_table_t *p_table ) 
+void hash_table_clear( hash_table_t *p_table )
 {
 	size_t i;
 
-	for( i = 0; i < hash_table_table_size(p_table); i++ ) 
+	for( i = 0; i < hash_table_table_size(p_table); i++ )
 	{
 		#ifdef HASH_TABLE_PREALLOC
 		slist_clear( &p_table->table[ i ] );
@@ -189,9 +189,9 @@ boolean hash_table_resize( hash_table_t *p_table, size_t new_size )
 	{
 		slist_t *p_new_table = (slist_t *) p_table->alloc( new_size * sizeof(slist_t) );
 		slist_t *p_old_table = p_table->table;
-		size_t old_size    = p_table->table_size;	
+		size_t old_size    = p_table->table_size;
 		size_t i;
-		
+
 		assert( new_size > 0 );
 
 		if( !p_new_table )
@@ -199,12 +199,12 @@ boolean hash_table_resize( hash_table_t *p_table, size_t new_size )
 			return FALSE;
 		}
 
-		p_table->size       = 0;	
+		p_table->size       = 0;
 		p_table->table      = p_new_table;
 		p_table->table_size = new_size;
 
 		#ifdef HASH_TABLE_PREALLOC
-		for( i = 0; i < hash_table_table_size(p_table); i++ ) 
+		for( i = 0; i < hash_table_table_size(p_table); i++ )
 		{
 			slist_create( &p_table->table[ i ], p_table->destroy, p_table->alloc, p_table->free );
 		}
@@ -212,7 +212,7 @@ boolean hash_table_resize( hash_table_t *p_table, size_t new_size )
 		memset( p_table->table, 0, new_size * sizeof(slist_t) );
 		#endif
 
-		for( i = 0; i < old_size; i++ ) 
+		for( i = 0; i < old_size; i++ )
 		{
 			slist_t *p_list = &p_old_table[ i ];
 			p_list->destroy = NULL; /* prevent the data from being freed */
@@ -223,7 +223,7 @@ boolean hash_table_resize( hash_table_t *p_table, size_t new_size )
 				while( p_node )
 				{
 					slist_node_t *p_previous;
-					void *data = p_node->data;	
+					void *data = p_node->data;
 
 					/* Re-insert data into new table */
 					hash_table_insert( p_table, data );
@@ -257,7 +257,7 @@ boolean hash_table_rehash( hash_table_t *p_table, double load_factor )
 		/*  Load exceeds load factor threshold. We must increase the
  		 *  size to return the hash table to the desired load factor.
  		 */
-		return hash_table_resize( p_table, size ); 
+		return hash_table_resize( p_table, size );
 	}
 	else if( current_load < lower_limit )
 	{
@@ -265,7 +265,7 @@ boolean hash_table_rehash( hash_table_t *p_table, double load_factor )
 		/*  Load exceeds load factor threshold. We must decrease the
  		 *  size to return the hash table to the desired load factor.
  		 */
-		return hash_table_resize( p_table, size ); 
+		return hash_table_resize( p_table, size );
 	}
 
 	return FALSE;
@@ -295,7 +295,7 @@ boolean hash_table_serialize( hash_table_t *p_table, size_t element_size, FILE *
 		slist_t *p_list = &p_table->table[ i ];
 		if( p_list )
 		{
-			slist_node_t *p_node = p_list->head;	
+			slist_node_t *p_node = p_list->head;
 
 			while( p_node != NULL )
 			{
@@ -306,10 +306,10 @@ boolean hash_table_serialize( hash_table_t *p_table, size_t element_size, FILE *
 				}
 
 				p_node = p_node->next;
-			}	
+			}
 		}
 	}
-done:	
+done:
 	return result;
 }
 
@@ -345,7 +345,7 @@ boolean hash_table_unserialize( hash_table_t *p_table, size_t element_size, FILE
 		count--;
 	}
 
-done:	
+done:
 	return result;
 }
 
@@ -390,7 +390,7 @@ boolean hash_table_iterator_next( hash_table_iterator_t* iter )
 				iter->current = p_list->head;
 				break;
 			}
-			
+
 			iter->index++;
 		}
 	}

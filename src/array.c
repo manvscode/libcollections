@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,7 +30,7 @@
 boolean array_create( array_t *p_array, size_t element_size, size_t size, alloc_function alloc, free_function free )
 {
 	assert( p_array );
-	
+
 	p_array->element_size = element_size;
 	p_array->size         = size;
 	p_array->alloc        = alloc;
@@ -91,7 +91,7 @@ boolean array_serialize( array_t *p_array, FILE *file, array_serialize_function 
 		{
 			if( fwrite( p_array->arr, p_array->element_size, p_array->size, file ) == p_array->size )
 			{
-				return TRUE;	
+				return TRUE;
 			}
 		}
 		else
@@ -111,9 +111,9 @@ boolean array_unserialize( array_t *p_array, FILE *file, array_unserialize_funct
 	if( fread( &new_size, sizeof(size_t), 1, file ) == 1 )
 	{
 		array_resize( p_array, new_size );
-	
+
 		if( !func )
-		{	
+		{
 			if( fread( p_array->arr, p_array->element_size, p_array->size, file ) == p_array->size )
 			{
 				return TRUE;

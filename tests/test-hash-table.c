@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,7 +24,7 @@
 #include <string.h>
 #include <assert.h>
 #include <hash-table.h>
-			
+
 #define TEST_REHASH
 
 #if defined(TEST_REHASH)
@@ -180,7 +180,7 @@ int main( int argc, char *argv[] )
 		result = hash_table_insert( &table, strdup(ip) );
 		assert( result );
 		printf( "   Added (%03d): %-16s      %4.1f  (%ld)", i, ip, hash_table_load_factor(&table), hash_table_size(&table) );
-	
+
 		#ifdef TEST_REHASH
 		if( hash_table_rehash( &table, LOAD_FACTOR ) )
 		{
@@ -240,7 +240,7 @@ size_t ip_hash( const void *data )
 		int part = atoi( token );
 
 		hash |= (part << 8 * count);
-	
+
 		token = strtok( NULL, "." );
 	}
 

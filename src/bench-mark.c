@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010 by Joseph A. Marrero and Shrewd LLC. http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,7 +33,7 @@
 #include "bench-mark.h"
 
 struct bench_mark {
-	
+
 	#if defined(WIN32) || defined(WIN64)
 	double start;
 	double end;
@@ -46,7 +46,7 @@ struct bench_mark {
 
 bench_mark_t bench_mark_create( const char *description )
 {
-	bench_mark_t bm = (bench_mark_t) malloc( sizeof(struct bench_mark) );	
+	bench_mark_t bm = (bench_mark_t) malloc( sizeof(struct bench_mark) );
 	bm->description = strdup( description );
 	return bm;
 }
@@ -81,7 +81,7 @@ void bench_mark_end( bench_mark_t bm )
 void bench_mark_report( bench_mark_t bm )
 {
 	#if defined(WIN32) || defined(WIN64)
-	printf( "%30s -- Start: %.6lf s, End: %.6lf s, Total: %.3lf ms \n", 
+	printf( "%30s -- Start: %.6lf s, End: %.6lf s, Total: %.3lf ms \n",
 		bm->description,
 		bm->start,
 		bm->end,
@@ -89,7 +89,7 @@ void bench_mark_report( bench_mark_t bm )
 	);
 	#else
 	/*printf( "%30s -- Start: %ld.%06ld s, End: %ld.%06ld s, Total: %lf ms \n", */
-	printf( "%30s -- Start: %ld.%06ld s, End: %ld.%06ld s, Total: %f ms \n", 
+	printf( "%30s -- Start: %ld.%06ld s, End: %ld.%06ld s, Total: %f ms \n",
 		bm->description,
 		bm->start.tv_sec, (long int) bm->start.tv_usec,
 		bm->end.tv_sec, (long int) bm->end.tv_usec,

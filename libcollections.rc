@@ -70,11 +70,11 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "Comments", "Coded by Joseph Marrero.  http://www.manvscode.com/"
-            VALUE "CompanyName", "Shrewd LLC"
+            VALUE "CompanyName", "Joseph Marrero"
             VALUE "FileDescription", "Collections Dynamic Link Library"
             VALUE "FileVersion", "1, 0, 0, 1"
             VALUE "InternalName", "libcolle"
-            VALUE "LegalCopyright", "Shrewd LLC. Copyright (C) 2012"
+            VALUE "LegalCopyright", "Joseph Marrero. Copyright (C) 2012"
             VALUE "OriginalFilename", "libcollections.dll"
             VALUE "ProductName", "Collections Library"
             VALUE "ProductVersion", "1, 0, 0, 1"
