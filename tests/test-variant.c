@@ -27,11 +27,11 @@
 
 int main( int argc, char *argv[] )
 {
-	variant_t* integer;
-	variant_t* decimal;
-	variant_t* string;
-	variant_t* boolean;
-	value_t    value;
+	lc_variant_t* integer;
+	lc_variant_t* decimal;
+	lc_variant_t* string;
+	lc_variant_t* boolean;
+	lc_value_t    value;
 
 	integer = variant_create_integer( );
 	decimal = variant_create_decimal( );

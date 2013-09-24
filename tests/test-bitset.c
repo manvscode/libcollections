@@ -26,7 +26,7 @@
 
 void print_bits( );
 
-bitset_t bits;
+lc_bitset_t bits;
 
 int main( int argc, char *argv[] )
 {

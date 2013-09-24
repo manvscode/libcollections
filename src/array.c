@@ -27,7 +27,7 @@
 #include <string.h>
 #endif
 
-boolean array_create( array_t *p_array, size_t element_size, size_t size, alloc_function alloc, free_function free )
+boolean array_create( lc_array_t* p_array, size_t element_size, size_t size, alloc_function alloc, free_function free )
 {
 	assert( p_array );
 
@@ -46,7 +46,7 @@ boolean array_create( array_t *p_array, size_t element_size, size_t size, alloc_
 	return p_array->arr != NULL;
 }
 
-void array_destroy( array_t *p_array )
+void array_destroy( lc_array_t* p_array )
 {
 	assert( p_array );
 
@@ -59,7 +59,7 @@ void array_destroy( array_t *p_array )
 	#endif
 }
 
-boolean array_resize( array_t *p_array, size_t new_size )
+boolean array_resize( lc_array_t* p_array, size_t new_size )
 {
 	boolean result = TRUE;
 
@@ -75,7 +75,7 @@ boolean array_resize( array_t *p_array, size_t new_size )
 }
 
 #if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L) /* Not C99 */
-void* array_element( array_t *p_array, size_t index )
+void* array_element( lc_array_t* p_array, size_t index )
 {
 	assert( index >= 0 );
 	assert( index < array_size(p_array) );
@@ -83,7 +83,7 @@ void* array_element( array_t *p_array, size_t index )
 }
 #endif
 
-boolean array_serialize( array_t *p_array, FILE *file, array_serialize_function func )
+boolean array_serialize( lc_array_t* p_array, FILE* file, array_serialize_function func )
 {
 	if( fwrite( &p_array->size, sizeof(size_t), 1, file ) == 1 )
 	{
@@ -104,7 +104,7 @@ boolean array_serialize( array_t *p_array, FILE *file, array_serialize_function 
 	return FALSE;
 }
 
-boolean array_unserialize( array_t *p_array, FILE *file, array_unserialize_function func )
+boolean array_unserialize( lc_array_t* p_array, FILE* file, array_unserialize_function func )
 {
 	size_t new_size = 0;
 

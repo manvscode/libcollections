@@ -43,7 +43,7 @@ typedef struct bheap {
 	free_function   free;
 
 	heap_compare_function compare;
-	vector_t  heap;
+	lc_vector_t  heap;
 	byte*     tmp;
 } bheap_t;
 
@@ -59,9 +59,9 @@ size_t          bheap_size        ( const bheap_t* p_bheap );
 void            bheap_clear       ( bheap_t* p_bheap );
 void            bheap_reheapify   ( bheap_t* p_bheap );
 
-void            heap_make         ( vector_t* heap, heap_compare_function compare, void* swap_buffer );
-void            heap_push         ( vector_t* heap, heap_compare_function compare, void* swap_buffer );
-void            heap_pop          ( vector_t* heap, heap_compare_function compare, void* swap_buffer );
+void            heap_make         ( lc_vector_t* heap, heap_compare_function compare, void* swap_buffer );
+void            heap_push         ( lc_vector_t* heap, heap_compare_function compare, void* swap_buffer );
+void            heap_pop          ( lc_vector_t* heap, heap_compare_function compare, void* swap_buffer );
 
 
 /*
@@ -69,7 +69,7 @@ void            heap_pop          ( vector_t* heap, heap_compare_function compar
  */
 typedef struct pbheap {
 	heap_compare_function compare;
-	pvector_t  heap;
+	lc_pvector_t  heap;
 } pbheap_t;
 
 boolean         pbheap_create      ( pbheap_t* p_bheap, size_t size, heap_compare_function compare_callback,
@@ -82,9 +82,9 @@ size_t          pbheap_size        ( const pbheap_t* p_bheap );
 void            pbheap_clear       ( pbheap_t* p_bheap );
 void            pbheap_reheapify   ( pbheap_t* p_bheap );
 
-void            pheap_make         ( pvector_t* heap, heap_compare_function compare );
-void            pheap_push         ( pvector_t* heap, heap_compare_function compare );
-void            pheap_pop          ( pvector_t* heap, heap_compare_function compare );
+void            pheap_make         ( lc_pvector_t* heap, heap_compare_function compare );
+void            pheap_push         ( lc_pvector_t* heap, heap_compare_function compare );
+void            pheap_pop          ( lc_pvector_t* heap, heap_compare_function compare );
 
 
 #ifdef __cplusplus

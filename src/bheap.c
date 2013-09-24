@@ -25,7 +25,7 @@
 #include "vector.h"
 #include "bheap.h"
 
-static void heapify  ( vector_t* heap, heap_compare_function compare, void* swap_buffer, size_t index );
+static void heapify  ( lc_vector_t* heap, heap_compare_function compare, void* swap_buffer, size_t index );
 
 boolean bheap_create( bheap_t* p_bheap, size_t element_size, size_t size,
                       heap_compare_function compare_callback, heap_element_function destroy_callback,
@@ -110,7 +110,7 @@ void bheap_reheapify( bheap_t* p_bheap )
 	heap_make( &p_bheap->heap, p_bheap->compare, p_bheap->tmp );
 }
 
-void heap_make( vector_t* heap, heap_compare_function compare, void* swap_buffer )
+void heap_make( lc_vector_t* heap, heap_compare_function compare, void* swap_buffer )
 {
 	ssize_t index = parent_of( vector_size( heap ) - 1 );
 
@@ -121,7 +121,7 @@ void heap_make( vector_t* heap, heap_compare_function compare, void* swap_buffer
 	}
 }
 
-void heap_push( vector_t* heap, heap_compare_function compare, void* swap_buffer )
+void heap_push( lc_vector_t* heap, heap_compare_function compare, void* swap_buffer )
 {
 	boolean done = FALSE;
 	size_t index = vector_size( heap ) - 1;
@@ -153,12 +153,12 @@ void heap_push( vector_t* heap, heap_compare_function compare, void* swap_buffer
 	}
 }
 
-void heap_pop( vector_t* heap, heap_compare_function compare, void* swap_buffer )
+void heap_pop( lc_vector_t* heap, heap_compare_function compare, void* swap_buffer )
 {
 	heapify( heap, compare, swap_buffer, 0 );
 }
 
-void heapify( vector_t* heap, heap_compare_function compare, void* swap_buffer, size_t index )
+void heapify( lc_vector_t* heap, heap_compare_function compare, void* swap_buffer, size_t index )
 {
 	boolean done = FALSE;
 	size_t size  = vector_size( heap );
@@ -198,7 +198,7 @@ void heapify( vector_t* heap, heap_compare_function compare, void* swap_buffer, 
 
 
 
-static void pheapify( pvector_t* heap, heap_compare_function compare, size_t index );
+static void pheapify( lc_pvector_t* heap, heap_compare_function compare, size_t index );
 
 
 boolean pbheap_create( pbheap_t* p_bheap, size_t size, heap_compare_function compare_callback,
@@ -272,7 +272,7 @@ void pbheap_reheapify( pbheap_t* p_bheap )
 	pheap_make( &p_bheap->heap, p_bheap->compare );
 }
 
-void pheap_make( pvector_t* heap, heap_compare_function compare )
+void pheap_make( lc_pvector_t* heap, heap_compare_function compare )
 {
 	long index = parent_of( pvector_size( heap ) - 1 );
 
@@ -283,7 +283,7 @@ void pheap_make( pvector_t* heap, heap_compare_function compare )
 	}
 }
 
-void pheap_push( pvector_t* heap, heap_compare_function compare )
+void pheap_push( lc_pvector_t* heap, heap_compare_function compare )
 {
 	boolean done = FALSE;
 	size_t index = pvector_size( heap ) - 1;
@@ -315,7 +315,7 @@ void pheap_push( pvector_t* heap, heap_compare_function compare )
 	}
 }
 
-void pheap_pop( pvector_t* heap, heap_compare_function compare )
+void pheap_pop( lc_pvector_t* heap, heap_compare_function compare )
 {
 	pheapify( heap, compare, 0 );
 }
@@ -323,7 +323,7 @@ void pheap_pop( pvector_t* heap, heap_compare_function compare )
 
 
 
-static void pheapify( pvector_t* heap, heap_compare_function compare, size_t index )
+static void pheapify( lc_pvector_t* heap, heap_compare_function compare, size_t index )
 {
 	boolean done = FALSE;
 	size_t size  = pvector_size( heap );

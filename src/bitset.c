@@ -25,7 +25,7 @@
 #include <assert.h>
 #include "bitset.h"
 
-boolean bitset_create( bitset_t *p_bitset, size_t bits )
+boolean bitset_create( lc_bitset_t* p_bitset, size_t bits )
 {
 	size_t size = bits_to_bytes( bits );
 
@@ -40,7 +40,7 @@ boolean bitset_create( bitset_t *p_bitset, size_t bits )
 	return p_bitset->array != NULL;
 }
 
-void bitset_destroy( bitset_t *p_bitset )
+void bitset_destroy( lc_bitset_t* p_bitset )
 {
 	assert( p_bitset );
 	free( p_bitset->array );
@@ -51,28 +51,28 @@ void bitset_destroy( bitset_t *p_bitset )
 	#endif
 }
 
-void bitset_clear( bitset_t *p_bitset )
+void bitset_clear( lc_bitset_t* p_bitset )
 {
 	assert( p_bitset );
 	memset( p_bitset->array, 0, sizeof(byte) * bits_to_bytes(p_bitset->bit_size) );
 }
 
 #if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)
-void bitset_set( bitset_t *p_bitset, size_t bit )
+void bitset_set( lc_bitset_t* p_bitset, size_t bit )
 {
 	assert( p_bitset );
 	assert( bit < p_bitset->bit_size );
 	p_bitset->array[ bit_to_index(bit) ] |= (0x01 << (bit % CHAR_BIT));
 }
 
-void bitset_unset( bitset_t *p_bitset, size_t bit )
+void bitset_unset( lc_bitset_t* p_bitset, size_t bit )
 {
 	assert( p_bitset );
 	assert( bit < p_bitset->bit_size );
 	p_bitset->array[ bit_to_index(bit) ] &= ~(0x01 << (bit % CHAR_BIT));
 }
 
-boolean bitset_test( const bitset_t *p_bitset, size_t bit )
+boolean bitset_test( const lc_bitset_t* p_bitset, size_t bit )
 {
 	assert( p_bitset );
 	return p_bitset->array[ bit_to_index(bit) ] & (0x01 << (bit % CHAR_BIT));
@@ -80,7 +80,7 @@ boolean bitset_test( const bitset_t *p_bitset, size_t bit )
 #endif
 
 
-boolean bitset_resize( bitset_t *p_bitset, size_t bits )
+boolean bitset_resize( lc_bitset_t* p_bitset, size_t bits )
 {
 	size_t size;
 	size_t new_size;
@@ -101,7 +101,7 @@ boolean bitset_resize( bitset_t *p_bitset, size_t bits )
 	return p_bitset->array != NULL;
 }
 
-char *bitset_string( bitset_t *p_bitset )
+char *bitset_string( lc_bitset_t* p_bitset )
 {
 	char *result = (char *) malloc( p_bitset->bit_size + 1 );
 

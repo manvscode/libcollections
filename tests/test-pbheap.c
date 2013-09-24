@@ -37,7 +37,7 @@ static boolean num_destroy( void *data );
 int main( int argc, char *argv[] )
 {
 	int i;
-	pvector_t collection;
+	lc_pvector_t collection;
 
 	time_t t = time(NULL);
 	srand( t );

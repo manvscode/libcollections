@@ -40,9 +40,9 @@
  * vector - A growable array of elements.
  */
 #if defined(VECTOR_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
-boolean vector_create( vector_t *p_vector, size_t element_size, size_t size, vector_element_function destroy_callback, alloc_function alloc, free_function free )
+boolean vector_create( lc_vector_t* p_vector, size_t element_size, size_t size, vector_element_function destroy_callback, alloc_function alloc, free_function free )
 #else
-boolean vector_create( vector_t *p_vector, size_t element_size, size_t size, alloc_function alloc, free_function free )
+boolean vector_create( lc_vector_t* p_vector, size_t element_size, size_t size, alloc_function alloc, free_function free )
 #endif
 {
 	assert( p_vector );
@@ -66,7 +66,7 @@ boolean vector_create( vector_t *p_vector, size_t element_size, size_t size, all
 	return p_vector->array != NULL;
 }
 
-void vector_destroy( vector_t *p_vector )
+void vector_destroy( lc_vector_t* p_vector )
 {
 	assert( p_vector );
 
@@ -84,7 +84,7 @@ void vector_destroy( vector_t *p_vector )
 	#endif
 }
 
-void *vector_pushx( vector_t *p_vector )
+void *vector_pushx( lc_vector_t* p_vector )
 {
 	void *result;
 
@@ -109,7 +109,7 @@ void *vector_pushx( vector_t *p_vector )
 	return result;
 }
 
-boolean vector_push( vector_t *p_vector, void *data )
+boolean vector_push( lc_vector_t* p_vector, void *data )
 {
 	byte* dst;
 	assert( p_vector );
@@ -135,7 +135,7 @@ boolean vector_push( vector_t *p_vector, void *data )
 	return p_vector->array != NULL;
 }
 
-boolean vector_pop( vector_t *p_vector )
+boolean vector_pop( lc_vector_t* p_vector )
 {
 	void *element;
 	boolean result = TRUE;
@@ -155,7 +155,7 @@ boolean vector_pop( vector_t *p_vector )
 	return result;
 }
 
-boolean vector_resize( vector_t *p_vector, size_t new_size )
+boolean vector_resize( lc_vector_t* p_vector, size_t new_size )
 {
 	boolean result = TRUE;
 
@@ -175,7 +175,7 @@ boolean vector_resize( vector_t *p_vector, size_t new_size )
 	return result;
 }
 
-void vector_clear( vector_t *p_vector )
+void vector_clear( lc_vector_t* p_vector )
 {
 	assert( p_vector );
 
@@ -185,7 +185,7 @@ void vector_clear( vector_t *p_vector )
 	}
 }
 
-boolean vector_serialize( vector_t *p_vector, FILE *file, vector_serialize_function func )
+boolean vector_serialize( lc_vector_t* p_vector, FILE *file, vector_serialize_function func )
 {
 	if( fwrite( &p_vector->size, sizeof(size_t), 1, file ) == 1 )
 	{
@@ -206,7 +206,7 @@ boolean vector_serialize( vector_t *p_vector, FILE *file, vector_serialize_funct
 	return FALSE;
 }
 
-boolean vector_unserialize( vector_t *p_vector, FILE *file, vector_unserialize_function func )
+boolean vector_unserialize( lc_vector_t* p_vector, FILE *file, vector_unserialize_function func )
 {
 	size_t new_size = 0;
 
@@ -236,7 +236,7 @@ boolean vector_unserialize( vector_t *p_vector, FILE *file, vector_unserialize_f
  * pvector - A growable array of pointers.
  * pvector does not own the pointers.
  */
-boolean pvector_create( pvector_t *p_vector, size_t size, alloc_function alloc, free_function free )
+boolean pvector_create( lc_pvector_t* p_vector, size_t size, alloc_function alloc, free_function free )
 {
 	assert( p_vector );
 
@@ -255,7 +255,7 @@ boolean pvector_create( pvector_t *p_vector, size_t size, alloc_function alloc, 
 	return p_vector->array != NULL;
 }
 
-void pvector_destroy( pvector_t *p_vector )
+void pvector_destroy( lc_pvector_t* p_vector )
 {
 	assert( p_vector );
 
@@ -268,7 +268,7 @@ void pvector_destroy( pvector_t *p_vector )
 	#endif
 }
 
-boolean pvector_push( pvector_t *p_vector, void *element )
+boolean pvector_push( lc_pvector_t* p_vector, void *element )
 {
 	assert( p_vector );
 
@@ -286,7 +286,7 @@ boolean pvector_push( pvector_t *p_vector, void *element )
 	return p_vector->array != NULL;
 }
 
-boolean pvector_pop( pvector_t *p_vector )
+boolean pvector_pop( lc_pvector_t* p_vector )
 {
 	boolean result = FALSE;
 	assert( p_vector );
@@ -301,7 +301,7 @@ boolean pvector_pop( pvector_t *p_vector )
 	return result;
 }
 
-boolean pvector_resize( pvector_t *p_vector, size_t new_size )
+boolean pvector_resize( lc_pvector_t* p_vector, size_t new_size )
 {
 	boolean result = TRUE;
 
@@ -322,7 +322,7 @@ boolean pvector_resize( pvector_t *p_vector, size_t new_size )
 	return result;
 }
 
-void pvector_clear( pvector_t *p_vector )
+void pvector_clear( lc_pvector_t* p_vector )
 {
 	assert( p_vector );
 

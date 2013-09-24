@@ -39,22 +39,22 @@ typedef struct array {
 	byte*  arr;
 	size_t element_size;
 	size_t size;
-} array_t;
+} lc_array_t;
 
-boolean   array_create      ( array_t *p_array, size_t element_size, size_t size, alloc_function alloc, free_function free );
-void      array_destroy     ( array_t *p_array );
-boolean   array_resize      ( array_t *p_array, size_t new_size );
-boolean   array_serialize   ( array_t *p_array, FILE *file, array_serialize_function func );
-boolean   array_unserialize ( array_t *p_array, FILE *file, array_unserialize_function func );
+boolean   array_create      ( lc_array_t* p_array, size_t element_size, size_t size, alloc_function alloc, free_function free );
+void      array_destroy     ( lc_array_t* p_array );
+boolean   array_resize      ( lc_array_t* p_array, size_t new_size );
+boolean   array_serialize   ( lc_array_t* p_array, FILE* file, array_serialize_function func );
+boolean   array_unserialize ( lc_array_t* p_array, FILE* file, array_unserialize_function func );
 #define   array_base( p_array )          ((p_array)->arr)
 #define   array_element_size( p_array )  ((p_array)->element_size)
 #define   array_size( p_array )          ((p_array)->size)
 
 #if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L) /* Not C99 */
-void*     array_element     ( array_t *p_array, size_t index );
+void*     array_element     ( lc_array_t* p_array, size_t index );
 #else
 #include <assert.h>
-static __inline void* array_element( array_t *p_array, size_t index )
+static __inline void* array_element( lc_array_t* p_array, size_t index )
 {
 	assert( index >= 0 );
 	assert( index < array_size(p_array) );

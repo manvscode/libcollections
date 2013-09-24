@@ -73,7 +73,7 @@ const tchar* national_parks[] = {
 	NULL
 };
 
-slist_t list;
+lc_slist_t list;
 
 
 int main( int argc, char *argv[] )
@@ -90,13 +90,13 @@ int main( int argc, char *argv[] )
 	for( i = 0; national_parks[ i ] != NULL; i++ )
 	{
 		const tchar *national_park = national_parks[ i ];
-		tstring_t *p_string = alloc_type( tstring_t );
+		lc_tstring_t *p_string = alloc_type( lc_tstring_t );
 		tstring_create( p_string, national_park );
 
 		slist_insert_front( &list, p_string );
 	}
-	
-	tprintf( _T("Initial Size: %ld\n"), slist_size(&list) );	
+
+	tprintf( _T("Initial Size: %ld\n"), slist_size(&list) );
 
 
 	delete_random_park( );
@@ -124,14 +124,14 @@ int main( int argc, char *argv[] )
 	print_national_parks( );
 
 	slist_destroy( &list );
-	
-	tprintf( _T("====================================\n") );	
+
+	tprintf( _T("====================================\n") );
 	return 0;
 }
 
 boolean national_park_destroy( void *element )
 {
-	tstring_t *p_string = element;
+	lc_tstring_t *p_string = element;
 
 	tstring_destroy( p_string );
 	free( p_string );
@@ -141,34 +141,34 @@ boolean national_park_destroy( void *element )
 void print_national_parks( void )
 {
 	size_t i;
-	slist_iterator_t iter;
+	lc_slist_iterator_t iter;
 
 	#if defined(UNICODE)
-	tprintf( _T("   # %30ls\n====================================\n"), _T("National Park") );	
+	tprintf( _T("   # %30ls\n====================================\n"), _T("National Park") );
 	#else
-	tprintf( _T("   # %30s\n====================================\n"), _T("National Park") );	
+	tprintf( _T("   # %30s\n====================================\n"), _T("National Park") );
 	#endif
 
 	i = 1;
 	for( iter = slist_begin(&list); iter != slist_end( ); iter = slist_next(iter) )
 	{
-		const tstring_t *p_string  = iter->data;
+		const lc_tstring_t *p_string  = iter->data;
 
 		const tchar *national_park = tstring_string( p_string );
 		#if defined(UNICODE)
-		tprintf( _T("%4ld %30ls\n"), i++, national_park );	
+		tprintf( _T("%4ld %30ls\n"), i++, national_park );
 		#else
-		tprintf( _T("%4ld %30s\n"), i++, national_park );	
+		tprintf( _T("%4ld %30s\n"), i++, national_park );
 		#endif
 	}
 }
 
 void delete_random_park( void )
 {
-	slist_iterator_t iter;
+	lc_slist_iterator_t iter;
 	size_t r = rand() % slist_size( &list );
 	size_t i = 0;
-			
+
 	if( r + 1 >= slist_size(&list) )
 	{
 		r--;
@@ -187,7 +187,7 @@ void delete_random_park( void )
 
 void insert_random_park( void )
 {
-	slist_iterator_t iter;
+	lc_slist_iterator_t iter;
 	size_t r = rand() % slist_size( &list );
 	size_t i = 0;
 
@@ -196,10 +196,10 @@ void insert_random_park( void )
 		if( i++ == r )
 		{
 			const tchar *national_park = national_parks[ i ];
-			tstring_t *p_string = alloc_type( tstring_t );
+			lc_tstring_t *p_string = alloc_type( lc_tstring_t );
 			tstring_create( p_string, national_park );
 
-			tstring_sconcatenate( p_string, _T(" (Copy)") ); 
+			tstring_sconcatenate( p_string, _T(" (Copy)") );
 
 			printf( "Inserting %ld\n", r + 1 );
 			slist_insert_next( &list, iter, p_string );

@@ -47,7 +47,7 @@ boolean point_destroy( point_t *pt )
 
 int main( int argc, char *argv[] )
 {
-	pvector_t collection;
+	lc_pvector_t collection;
 	int i;
 	char names[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

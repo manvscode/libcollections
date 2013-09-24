@@ -27,7 +27,7 @@
 
 #define IP_HASHING_TEST
 
-void    lhash_table_debug ( lhash_table_t *p_table );
+void    lhash_table_debug ( lc_lhash_table_t* p_table );
 boolean data_destroy      ( void *data );
 
 #if defined(IP_HASHING_TEST)
@@ -58,7 +58,7 @@ static const char *IPs[] = {
 
 int main( int argc, char *argv[] )
 {
-	lhash_table_t table;
+	lc_lhash_table_t table;
 	boolean result;
 	int i;
 	unsigned int L = 2;
@@ -136,7 +136,7 @@ int data_set[] = {
 
 int main( int argc, char *argv[] )
 {
-	lhash_table_t table;
+	lc_lhash_table_t table;
 	boolean result;
 	int i;
 

@@ -31,37 +31,37 @@ extern "C" {
 
 typedef boolean (*slist_element_function)( void *element );
 
-typedef struct slist_node {
-	struct slist_node* next;	
+typedef struct lc_slist_node {
+	struct lc_slist_node* next;	
 	void* data;
-} slist_node_t;
+} lc_slist_node_t;
 
-typedef struct slist {
-	slist_node_t* head;
+typedef struct lc_slist {
+	lc_slist_node_t* head;
 	size_t size;
 	slist_element_function destroy;
 
 	alloc_function  alloc;
 	free_function   free;
-} slist_t;
+} lc_slist_t;
 
-typedef slist_node_t* slist_iterator_t;
+typedef lc_slist_node_t* lc_slist_iterator_t;
 
 
-void    slist_create        ( slist_t *p_list, slist_element_function destroy_callback, alloc_function alloc, free_function free );
-void    slist_destroy       ( slist_t *p_list );
-boolean slist_insert_front  ( slist_t *p_list, const void *data ); /* O(1) */
-boolean slist_remove_front  ( slist_t *p_list ); /* O(1) */
-boolean slist_insert_next   ( slist_t *p_list, slist_node_t *p_front_node, const void *data ); /* O(1) */
-boolean slist_remove_next   ( slist_t *p_list, slist_node_t *p_front_node ); /* O(1) */ 
-void    slist_clear         ( slist_t *p_list ); /* O(N) */
+void    slist_create        ( lc_slist_t *p_list, slist_element_function destroy_callback, alloc_function alloc, free_function free );
+void    slist_destroy       ( lc_slist_t *p_list );
+boolean slist_insert_front  ( lc_slist_t *p_list, const void *data ); /* O(1) */
+boolean slist_remove_front  ( lc_slist_t *p_list ); /* O(1) */
+boolean slist_insert_next   ( lc_slist_t *p_list, lc_slist_node_t* p_front_node, const void *data ); /* O(1) */
+boolean slist_remove_next   ( lc_slist_t *p_list, lc_slist_node_t* p_front_node ); /* O(1) */ 
+void    slist_clear         ( lc_slist_t *p_list ); /* O(N) */
 
-void    slist_alloc_set     ( slist_t *p_list, alloc_function alloc );
-void    slist_free_set      ( slist_t *p_list, free_function free );
+void    slist_alloc_set     ( lc_slist_t *p_list, alloc_function alloc );
+void    slist_free_set      ( lc_slist_t *p_list, free_function free );
 
-slist_iterator_t slist_begin  ( const slist_t *p_list );
-#define          slist_end( ) ((slist_iterator_t)NULL)
-slist_iterator_t slist_next   ( const slist_iterator_t iter );
+lc_slist_iterator_t slist_begin  ( const lc_slist_t *p_list );
+#define          slist_end( ) ((lc_slist_iterator_t)NULL)
+lc_slist_iterator_t slist_next   ( const lc_slist_iterator_t iter );
 
 #define slist_push               slist_insert_front
 #define slist_pop                slist_remove_front

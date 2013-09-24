@@ -26,9 +26,9 @@
 
 
 
-variant_t* variant_create( variant_type_t type )
+lc_variant_t* variant_create( lc_variant_type_t type )
 {
-	variant_t *p_variant = (variant_t *) malloc( sizeof(variant_t) );
+	lc_variant_t *p_variant = (lc_variant_t *) malloc( sizeof(lc_variant_t) );
 
 	if( p_variant )
 	{
@@ -39,20 +39,20 @@ variant_t* variant_create( variant_type_t type )
 	return p_variant;
 }
 
-void variant_destroy( variant_t *p_variant )
+void variant_destroy( lc_variant_t *p_variant )
 {
 	assert( p_variant );
 	free( p_variant );
 }
 
-void variant_initialize( variant_t* p_variant, variant_type_t type, value_t value )
+void variant_initialize( lc_variant_t* p_variant, lc_variant_type_t type, lc_value_t value )
 {
 	assert( p_variant );
 	p_variant->type  = type;
 	p_variant->value = value;
 }
 
-int variant_compare( const variant_t* p_left, const variant_t* p_right )
+int variant_compare( const lc_variant_t* p_left, const lc_variant_t* p_right )
 {
 	int result;
 	assert( p_left );
@@ -94,67 +94,67 @@ int variant_compare( const variant_t* p_left, const variant_t* p_right )
 	return result;
 }
 
-boolean variant_is_type( const variant_t *p_variant, variant_type_t type )
+boolean variant_is_type( const lc_variant_t *p_variant, lc_variant_type_t type )
 {
 	assert( p_variant );
 	return p_variant->type == type;
 }
 
-variant_type_t variant_type( const variant_t *p_variant )
+lc_variant_type_t variant_type( const lc_variant_t *p_variant )
 {
 	assert( p_variant );
 	return p_variant->type;
 }
 
-void variant_set_type( variant_t *p_variant, variant_type_t type )
+void variant_set_type( lc_variant_t *p_variant, lc_variant_type_t type )
 {
 	assert( p_variant );
 	p_variant->type = type;
 }
 
-value_t variant_value( const variant_t *p_variant )
+lc_value_t variant_value( const lc_variant_t *p_variant )
 {
 	assert( p_variant );
 	return p_variant->value;
 }
 
-void variant_set_value( variant_t *p_variant, value_t value )
+void variant_set_value( lc_variant_t *p_variant, lc_value_t value )
 {
 	assert( p_variant );
 	p_variant->value = value;
 }
 
-void variant_set_string( variant_t* p_variant, const tchar* value )
+void variant_set_string( lc_variant_t* p_variant, const tchar* value )
 {
 	assert( p_variant );
 	p_variant->value.string = (tchar*) value;
 }
 
-void variant_set_decimal( variant_t* p_variant, double value )
+void variant_set_decimal( lc_variant_t* p_variant, double value )
 {
 	assert( p_variant );
 	p_variant->value.decimal = value;
 }
 
-void variant_set_integer( variant_t* p_variant, long value )
+void variant_set_integer( lc_variant_t* p_variant, long value )
 {
 	assert( p_variant );
 	p_variant->value.integer = value;
 }
 
-void variant_set_unsigned_integer( variant_t* p_variant, unsigned long value )
+void variant_set_unsigned_integer( lc_variant_t* p_variant, unsigned long value )
 {
 	assert( p_variant );
 	p_variant->value.unsigned_integer = value;
 }
 
-void variant_set_boolean( variant_t* p_variant, boolean value )
+void variant_set_boolean( lc_variant_t* p_variant, boolean value )
 {
 	assert( p_variant );
 	p_variant->value.boolean = value;
 }
 
-void variant_set_pointer( variant_t* p_variant, const void* value )
+void variant_set_pointer( lc_variant_t* p_variant, const void* value )
 {
 	assert( p_variant );
 	p_variant->value.pointer = (void*) value;

@@ -49,7 +49,7 @@ typedef boolean (*vector_serialize_function)   ( void *p_array );
 typedef boolean (*vector_unserialize_function) ( void *p_array );
 typedef boolean (*vector_element_function)     ( void *data );
 
-typedef struct vector {
+typedef struct lc_vector {
 	alloc_function  alloc;
 	free_function   free;
 	size_t element_size;
@@ -60,27 +60,27 @@ typedef struct vector {
 	#endif
 
 	byte*  array;
-} vector_t;
+} lc_vector_t;
 
 /*
  * vector - A growable array of elements.
  */
 #if defined(VECTOR_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
-boolean      vector_create      ( vector_t *p_vector, size_t element_size, 
+boolean      vector_create      ( lc_vector_t *p_vector, size_t element_size, 
                                   size_t size, vector_element_function destroy_callback, 
                                   alloc_function alloc, free_function free );
 #else
-boolean      vector_create      ( vector_t *p_vector, size_t element_size, 
+boolean      vector_create      ( lc_vector_t *p_vector, size_t element_size, 
                                   size_t size, alloc_function alloc, free_function free );
 #endif
-void         vector_destroy     ( vector_t *p_vector );
-void*        vector_pushx       ( vector_t *p_vector );
-boolean      vector_push        ( vector_t *p_vector, void *data );
-boolean      vector_pop         ( vector_t *p_vector );
-boolean      vector_resize      ( vector_t *p_vector, size_t new_size );
-void         vector_clear       ( vector_t *p_vector );
-boolean      vector_serialize   ( vector_t *p_vector, FILE *file, vector_serialize_function func );
-boolean      vector_unserialize ( vector_t *p_vector, FILE *file, vector_unserialize_function func );
+void         vector_destroy     ( lc_vector_t *p_vector );
+void*        vector_pushx       ( lc_vector_t *p_vector );
+boolean      vector_push        ( lc_vector_t *p_vector, void *data );
+boolean      vector_pop         ( lc_vector_t *p_vector );
+boolean      vector_resize      ( lc_vector_t *p_vector, size_t new_size );
+void         vector_clear       ( lc_vector_t *p_vector );
+boolean      vector_serialize   ( lc_vector_t *p_vector, FILE *file, vector_serialize_function func );
+boolean      vector_unserialize ( lc_vector_t *p_vector, FILE *file, vector_unserialize_function func );
 
 #define vector_element_size( p_vector )  ((p_vector)->element_size)
 #define vector_array( p_vector )         ((p_vector)->array)
@@ -101,14 +101,14 @@ boolean      vector_unserialize ( vector_t *p_vector, FILE *file, vector_unseria
 
 #else
 #include <assert.h>
-static __inline void* vector_get( vector_t *p_vector, size_t index )
+static __inline void* vector_get( lc_vector_t *p_vector, size_t index )
 {
 	assert( index >= 0 );
 	assert( index < vector_size(p_vector) );
 	return (void*)(vector_array(p_vector) + vector_element_size(p_vector) * (index));
 }
 
-static __inline void vector_set( vector_t *p_vector, size_t index, void *data )
+static __inline void vector_set( lc_vector_t *p_vector, size_t index, void *data )
 {
 	assert( data != NULL );
 	assert( index >= 0 );
@@ -129,14 +129,14 @@ typedef struct pvector {
 	size_t size;
 
 	void** array;
-} pvector_t;
+} lc_pvector_t;
 
-boolean      pvector_create     ( pvector_t *p_vector, size_t size, alloc_function alloc, free_function free );
-void         pvector_destroy    ( pvector_t *p_vector );
-boolean      pvector_push       ( pvector_t *p_vector, void *data );
-boolean      pvector_pop        ( pvector_t *p_vector );
-boolean      pvector_resize     ( pvector_t *p_vector, size_t new_size );
-void         pvector_clear      ( pvector_t *p_vector );
+boolean      pvector_create     ( lc_pvector_t *p_vector, size_t size, alloc_function alloc, free_function free );
+void         pvector_destroy    ( lc_pvector_t *p_vector );
+boolean      pvector_push       ( lc_pvector_t *p_vector, void *data );
+boolean      pvector_pop        ( lc_pvector_t *p_vector );
+boolean      pvector_resize     ( lc_pvector_t *p_vector, size_t new_size );
+void         pvector_clear      ( lc_pvector_t *p_vector );
 
 #define pvector_array( p_vector )       ((p_vector)->array)
 #define pvector_array_size( p_vector )  ((p_vector)->array_size)
@@ -155,14 +155,14 @@ void         pvector_clear      ( pvector_t *p_vector );
 
 #else 
 #include <assert.h>
-static __inline void* pvector_get( pvector_t *p_vector, size_t index )
+static __inline void* pvector_get( lc_pvector_t *p_vector, size_t index )
 {
 	assert( index >= 0 );
 	assert( index < pvector_size(p_vector) );
 	return p_vector->array[ index ];
 }
 
-static __inline void pvector_set( pvector_t *p_vector, size_t index, void *data )
+static __inline void pvector_set( lc_pvector_t *p_vector, size_t index, void *data )
 {
 	assert( p_vector && data );
 	assert( index >= 0 );
@@ -174,7 +174,7 @@ static __inline void pvector_set( pvector_t *p_vector, size_t index, void *data 
 /*
  * stack - A first in, last out data structure.
  */
-typedef vector_t stack;
+typedef lc_vector_t lc_stack_t;
 
 #define stack_create         vector_create   
 #define stack_destroy        vector_destroy 
@@ -185,6 +185,18 @@ typedef vector_t stack;
 #define stack_array_size     vector_array_size
 #define stack_size           vector_size
 #define stack_is_empty       vector_is_empty
+
+typedef lc_pvector_t lc_pstack_t;
+
+#define pstack_create         pvector_create   
+#define pstack_destroy        pvector_destroy 
+#define pstack_push           pvector_push    
+#define pstack_pop            pvector_pop     
+#define pstack_element_size   pvector_element_size 
+#define pstack_array          pvector_array
+#define pstack_array_size     pvector_array_size
+#define pstack_size           pvector_size
+#define pstack_is_empty       pvector_is_empty
 
 #ifdef __cplusplus
 }

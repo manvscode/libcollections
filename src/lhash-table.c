@@ -25,8 +25,8 @@
 #include <assert.h>
 #include "lhash-table.h"
 
-static boolean lhash_table_find_bucket_for_insertion( lhash_table_t *p_table, const void *data, size_t *p_index );
-static boolean lhash_table_find_bucket( lhash_table_t *p_table, const void *data, size_t *p_index );
+static boolean lhash_table_find_bucket_for_insertion( lc_lhash_table_t* p_table, const void *data, size_t *p_index );
+static boolean lhash_table_find_bucket( lc_lhash_table_t* p_table, const void *data, size_t *p_index );
 
 
 #define bucket_is_occupied( p_table, bucket )    bitset_test( &(p_table)->occupied, bucket )
@@ -38,7 +38,7 @@ static boolean lhash_table_find_bucket( lhash_table_t *p_table, const void *data
 #define bucket_mark_deleted( p_table, bucket )   bitset_set( &(p_table)->deleted, bucket )
 #define bucket_mark_available( p_table, bucket ) bitset_unset( &(p_table)->deleted, bucket )
 
-boolean   lhash_table_create  ( lhash_table_t *p_table, size_t element_size, size_t table_size,
+boolean   lhash_table_create  ( lc_lhash_table_t* p_table, size_t element_size, size_t table_size,
                                 lhash_table_hash_function hash_function,
                                 lhash_table_compare_function compare_function,
 								alloc_function alloc,
@@ -59,7 +59,7 @@ boolean   lhash_table_create  ( lhash_table_t *p_table, size_t element_size, siz
 	return FALSE;
 }
 
-void lhash_table_destroy( lhash_table_t *p_table )
+void lhash_table_destroy( lc_lhash_table_t* p_table )
 {
 	assert( p_table );
 	array_destroy( &p_table->table );
@@ -67,7 +67,7 @@ void lhash_table_destroy( lhash_table_t *p_table )
 	bitset_destroy( &p_table->deleted );
 }
 
-boolean lhash_table_find_bucket_for_insertion( lhash_table_t *p_table, const void *data, size_t *p_index )
+boolean lhash_table_find_bucket_for_insertion( lc_lhash_table_t* p_table, const void *data, size_t *p_index )
 {
 	boolean result  = FALSE;
 	size_t hash     = p_table->hash_callback( data );
@@ -91,7 +91,7 @@ boolean lhash_table_find_bucket_for_insertion( lhash_table_t *p_table, const voi
 	return result;
 }
 
-boolean lhash_table_find_bucket( lhash_table_t *p_table, const void *data, size_t *p_index )
+boolean lhash_table_find_bucket( lc_lhash_table_t* p_table, const void *data, size_t *p_index )
 {
 	boolean result        = FALSE;
 	size_t hash           = p_table->hash_callback( data );
@@ -151,7 +151,7 @@ boolean lhash_table_find_bucket( lhash_table_t *p_table, const void *data, size_
 	return result;
 }
 
-boolean lhash_table_insert( lhash_table_t *p_table, const void *data )
+boolean lhash_table_insert( lc_lhash_table_t* p_table, const void *data )
 {
 	size_t index;
 	boolean result = FALSE;
@@ -171,7 +171,7 @@ boolean lhash_table_insert( lhash_table_t *p_table, const void *data )
 	return result;
 }
 
-boolean lhash_table_remove( lhash_table_t *p_table, const void *data )
+boolean lhash_table_remove( lc_lhash_table_t* p_table, const void *data )
 {
 	size_t index;
 	boolean result = FALSE;
@@ -190,7 +190,7 @@ boolean lhash_table_remove( lhash_table_t *p_table, const void *data )
 	return result;
 }
 
-boolean lhash_table_find( lhash_table_t *p_table, const void *data, void **found_data )
+boolean lhash_table_find( lc_lhash_table_t* p_table, const void *data, void **found_data )
 {
 	size_t index;
 
@@ -210,19 +210,19 @@ boolean lhash_table_find( lhash_table_t *p_table, const void *data, void **found
 	return FALSE;
 }
 
-void lhash_table_clear( lhash_table_t *p_table )
+void lhash_table_clear( lc_lhash_table_t* p_table )
 {
 	bitset_clear( &p_table->occupied );
 	bitset_clear( &p_table->deleted );
 }
 
-boolean lhash_table_resize( lhash_table_t *p_table, size_t new_size )
+boolean lhash_table_resize( lc_lhash_table_t* p_table, size_t new_size )
 {
 	assert( p_table );
 
 	if( new_size != lhash_table_size(p_table) )
 	{
-		lhash_table_t new_table;
+		lc_lhash_table_t new_table;
 
 		if( lhash_table_create( &new_table, array_element_size(&p_table->table), new_size, p_table->hash_callback, p_table->compare_callback, p_table->alloc, p_table->free ) )
 		{
@@ -250,7 +250,7 @@ boolean lhash_table_resize( lhash_table_t *p_table, size_t new_size )
 	return FALSE;
 }
 
-boolean lhash_table_rehash( lhash_table_t *p_table, double load_factor )
+boolean lhash_table_rehash( lc_lhash_table_t* p_table, double load_factor )
 {
 #if defined(LHASH_GROW_AND_SHRINK)
 	double current_load;
@@ -304,7 +304,7 @@ boolean lhash_table_rehash( lhash_table_t *p_table, double load_factor )
 }
 
 
-void lhash_table_debug( lhash_table_t *p_table )
+void lhash_table_debug( lc_lhash_table_t* p_table )
 {
 	size_t count;
 

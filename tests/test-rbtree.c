@@ -39,7 +39,7 @@ boolean destroy( void *num )
 
 #if 0
 #include "asciitree.h"
-void print_tree( rbtree_t *tree )
+void print_tree( lc_rbtree_t *tree )
 {
 	print_ascii_tree( tree->root );
 }
@@ -50,7 +50,7 @@ void print_tree( rbtree_t *tree )
 
 int main( int argc, char *argv[] )
 {
-	rbtree_t tree;
+	lc_rbtree_t tree;
 	int i;
 
 	rbtree_create( &tree, destroy, compare, malloc, free );

@@ -32,42 +32,42 @@ extern "C" {
 
 typedef boolean (*dlist_element_function)( void *element );
 
-typedef struct dlist_node {
+typedef struct lc_dlist_node {
 	void* data;
-	struct dlist_node* next;	
-	struct dlist_node* prev;	
-} dlist_node_t;
+	struct lc_dlist_node* next;	
+	struct lc_dlist_node* prev;	
+} lc_dlist_node_t;
 
-typedef struct dlist {
-	dlist_node_t* head;
-	dlist_node_t* tail;
+typedef struct lc_dlist {
+	lc_dlist_node_t* head;
+	lc_dlist_node_t* tail;
 	size_t size;
 	dlist_element_function destroy;
 
 	alloc_function  alloc;
 	free_function   free;
-} dlist_t;
+} lc_dlist_t;
 
-typedef dlist_node_t* dlist_iterator_t;
+typedef lc_dlist_node_t* lc_dlist_iterator_t;
 
-void    dlist_create        ( dlist_t *p_list, dlist_element_function destroy_callback, alloc_function alloc, free_function free );
-void    dlist_destroy       ( dlist_t *p_list );
-boolean dlist_insert_front  ( dlist_t *p_list, const void *data ); /* O(1) */
-boolean dlist_remove_front  ( dlist_t *p_list ); /* O(1) */
-boolean dlist_insert_back   ( dlist_t *p_list, const void *data ); /* O(1) */
-boolean dlist_remove_back   ( dlist_t *p_list ); /* O(1) */
-boolean dlist_insert_next   ( dlist_t *p_list, dlist_node_t *p_front_node, const void *data ); /* O(1) */
-boolean dlist_remove_next   ( dlist_t *p_list, dlist_node_t *p_front_node ); /* O(1) */ 
-void    dlist_clear         ( dlist_t *p_list ); /* O(N) */
+void    dlist_create        ( lc_dlist_t* p_list, dlist_element_function destroy_callback, alloc_function alloc, free_function free );
+void    dlist_destroy       ( lc_dlist_t* p_list );
+boolean dlist_insert_front  ( lc_dlist_t* p_list, const void *data ); /* O(1) */
+boolean dlist_remove_front  ( lc_dlist_t* p_list ); /* O(1) */
+boolean dlist_insert_back   ( lc_dlist_t* p_list, const void *data ); /* O(1) */
+boolean dlist_remove_back   ( lc_dlist_t* p_list ); /* O(1) */
+boolean dlist_insert_next   ( lc_dlist_t* p_list, lc_dlist_node_t* p_front_node, const void *data ); /* O(1) */
+boolean dlist_remove_next   ( lc_dlist_t* p_list, lc_dlist_node_t* p_front_node ); /* O(1) */ 
+void    dlist_clear         ( lc_dlist_t* p_list ); /* O(N) */
 
-void    dlist_alloc_set     ( dlist_t *p_list, alloc_function alloc );
-void    dlist_free_set      ( dlist_t *p_list, free_function free );
+void    dlist_alloc_set     ( lc_dlist_t* p_list, alloc_function alloc );
+void    dlist_free_set      ( lc_dlist_t* p_list, free_function free );
 
-dlist_iterator_t dlist_begin    ( const dlist_t *p_list );
-dlist_iterator_t dlist_rbegin   ( const dlist_t *p_list );
-#define          dlist_end( )   ((dlist_iterator_t)NULL)
-dlist_iterator_t dlist_next     ( const dlist_iterator_t iter );
-dlist_iterator_t dlist_previous ( const dlist_iterator_t iter );
+lc_dlist_iterator_t dlist_begin    ( const lc_dlist_t* p_list );
+lc_dlist_iterator_t dlist_rbegin   ( const lc_dlist_t* p_list );
+#define          dlist_end( )   ((lc_dlist_iterator_t)NULL)
+lc_dlist_iterator_t dlist_next     ( const lc_dlist_iterator_t iter );
+lc_dlist_iterator_t dlist_previous ( const lc_dlist_iterator_t iter );
 
 #define dlist_push               dlist_insert_back
 #define dlist_pop                dlist_remove_front

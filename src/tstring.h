@@ -134,30 +134,30 @@ wchar* wcsdup( const wchar* s );
 #define TERM_BEG(str)    (str[0] = '\0')
 #define TERM_END(str)    (str[sizeof(str) - 1] = '\0')
 
-typedef struct tstring {
+typedef struct lc_tstring {
 	size_t length;
 	tchar* s;
-} tstring_t;
+} lc_tstring_t;
 
 
-boolean tstring_create       ( tstring_t *p_string, const tchar *s );
-void    tstring_destroy      ( const tstring_t *p_string );
-int     tstring_compare      ( const tstring_t *left, const tstring_t *right );
-int     tstring_ncompare     ( const tstring_t *left, const tstring_t *right, size_t n );
-int     tstring_casecompare  ( const tstring_t *left, const tstring_t *right );
-int     tstring_ncasecompare ( const tstring_t *left, const tstring_t *right, size_t n );
-void    tstring_tolower      ( tstring_t *p_string );
-void    tstring_toupper      ( tstring_t *p_string );
-boolean tstring_copy         ( tstring_t *p_result, const tstring_t *p_string );
-boolean tstring_ncopy        ( tstring_t *p_result, const tstring_t *p_string, size_t n );
-boolean tstring_assign       ( tstring_t *p_result, const tchar *p_string );
-boolean tstring_concatenate  ( tstring_t *p_result, const tstring_t *s );
-boolean tstring_nconcatenate    ( tstring_t *p_result, const tstring_t *p_string, size_t n );
-boolean tstring_sconcatenate    ( tstring_t *p_string, const tchar *s );
-void    tstring_format       ( tstring_t *p_string, const tchar *format, ... );
-size_t  tstring_rtrim        ( tstring_t *p_string );
-size_t  tstring_ltrim        ( tstring_t *p_string );
-size_t  tstring_trim         ( tstring_t *p_string );
+boolean tstring_create       ( lc_tstring_t* p_string, const tchar *s );
+void    tstring_destroy      ( const lc_tstring_t* p_string );
+int     tstring_compare      ( const lc_tstring_t* left, const lc_tstring_t* right );
+int     tstring_ncompare     ( const lc_tstring_t* left, const lc_tstring_t* right, size_t n );
+int     tstring_casecompare  ( const lc_tstring_t* left, const lc_tstring_t* right );
+int     tstring_ncasecompare ( const lc_tstring_t* left, const lc_tstring_t* right, size_t n );
+void    tstring_tolower      ( lc_tstring_t* p_string );
+void    tstring_toupper      ( lc_tstring_t* p_string );
+boolean tstring_copy         ( lc_tstring_t* p_result, const lc_tstring_t* p_string );
+boolean tstring_ncopy        ( lc_tstring_t* p_result, const lc_tstring_t* p_string, size_t n );
+boolean tstring_assign       ( lc_tstring_t* p_result, const tchar *p_string );
+boolean tstring_concatenate  ( lc_tstring_t* p_result, const lc_tstring_t* s );
+boolean tstring_nconcatenate    ( lc_tstring_t* p_result, const lc_tstring_t* p_string, size_t n );
+boolean tstring_sconcatenate    ( lc_tstring_t* p_string, const tchar *s );
+void    tstring_format       ( lc_tstring_t* p_string, const tchar *format, ... );
+size_t  tstring_rtrim        ( lc_tstring_t* p_string );
+size_t  tstring_ltrim        ( lc_tstring_t* p_string );
+size_t  tstring_trim         ( lc_tstring_t* p_string );
 
 #define tstring_get( p_string )            ((p_string)->s)
 #define tstring_string( p_string )         ((p_string)->s)

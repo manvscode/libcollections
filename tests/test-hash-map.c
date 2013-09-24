@@ -62,10 +62,10 @@ static const char *ips[] = {
 
 int main( int argc, char *argv[] )
 {
-	hash_map_t map;
+	lc_hash_map_t map;
 	unsigned int i;
 	boolean result;
-	hash_map_iterator_t itr;
+	lc_hash_map_iterator_t itr;
 
 	srand( time(NULL) );
 

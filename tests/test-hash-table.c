@@ -164,9 +164,9 @@ static const char *ips[] = {
 
 int main( int argc, char *argv[] )
 {
-	boolean      result;
-	hash_table_t table;
-	int          i;
+	boolean result;
+	lc_hash_table_t table;
+	int i;
 
 	hash_table_create( &table, 1, ip_hash, ip_destroy, (hash_table_compare_function) strcmp, malloc, free );
 

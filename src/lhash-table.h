@@ -63,31 +63,31 @@ typedef size_t  (*lhash_table_hash_function)    ( const void *element );
 typedef boolean (*lhash_table_element_function) ( void *element );
 typedef int     (*lhash_table_compare_function) ( const void *left, const void *right );
 
-typedef struct lhash_table {
+typedef struct lc_lhash_table {
 	alloc_function  alloc;
 	free_function   free;
 
-	array_t  table;
-	bitset_t occupied;
-	bitset_t deleted;
+	lc_array_t  table;
+	lc_bitset_t occupied;
+	lc_bitset_t deleted;
 	size_t   size;
 
 	lhash_table_hash_function    hash_callback;
 	lhash_table_compare_function compare_callback; 	
-} lhash_table_t;
+} lc_lhash_table_t;
 
-boolean   lhash_table_create  ( lhash_table_t *p_table, size_t element_size, size_t table_size, 
+boolean   lhash_table_create  ( lc_lhash_table_t* p_table, size_t element_size, size_t table_size, 
                                 lhash_table_hash_function hash_function, 
                                 lhash_table_compare_function compare_function,
 								alloc_function alloc,
 								free_function free );
-void      lhash_table_destroy ( lhash_table_t *p_table );
-boolean   lhash_table_insert  ( lhash_table_t *p_table, const void *data );
-boolean   lhash_table_remove  ( lhash_table_t *p_table, const void *data );
-boolean   lhash_table_find    ( lhash_table_t *p_table, const void *data, void **found_data );
-void      lhash_table_clear   ( lhash_table_t *p_table );
-boolean   lhash_table_resize  ( lhash_table_t *p_table, size_t new_size );
-boolean   lhash_table_rehash  ( lhash_table_t *p_table, double load_factor );
+void      lhash_table_destroy ( lc_lhash_table_t* p_table );
+boolean   lhash_table_insert  ( lc_lhash_table_t* p_table, const void *data );
+boolean   lhash_table_remove  ( lc_lhash_table_t* p_table, const void *data );
+boolean   lhash_table_find    ( lc_lhash_table_t* p_table, const void *data, void **found_data );
+void      lhash_table_clear   ( lc_lhash_table_t* p_table );
+boolean   lhash_table_resize  ( lc_lhash_table_t* p_table, size_t new_size );
+boolean   lhash_table_rehash  ( lc_lhash_table_t* p_table, double load_factor );
 
 
 #define   lhash_table_size(p_table)         ((p_table)->size)

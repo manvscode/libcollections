@@ -55,7 +55,7 @@ static const char *ips[] = {
 
 int main( int argc, char *argv[] )
 {
-	tree_map_t map;
+	lc_tree_map_t map;
 	unsigned int i;
 	boolean result;
 	tree_map_iterator_t itr;

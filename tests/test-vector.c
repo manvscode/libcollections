@@ -101,7 +101,7 @@ int main( int argc, char *argv[] )
 
 	vector_point_destroy( &collection );
 #else
-	vector_t collection;
+	lc_vector_t collection;
 	int i;
 	char names[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

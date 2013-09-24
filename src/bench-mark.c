@@ -32,7 +32,7 @@
 
 #include "bench-mark.h"
 
-struct bench_mark {
+struct lc_bench_mark {
 
 	#if defined(WIN32) || defined(WIN64)
 	double start;
@@ -44,21 +44,21 @@ struct bench_mark {
 	const char *description;
 };
 
-bench_mark_t bench_mark_create( const char *description )
+lc_bench_mark_t bench_mark_create( const char *description )
 {
-	bench_mark_t bm = (bench_mark_t) malloc( sizeof(struct bench_mark) );
+	lc_bench_mark_t bm = (lc_bench_mark_t) malloc( sizeof(struct lc_bench_mark) );
 	bm->description = strdup( description );
 	return bm;
 }
 
-void bench_mark_destroy( bench_mark_t bm )
+void bench_mark_destroy( lc_bench_mark_t bm )
 {
 	assert( bm );
 	free( (void *) bm->description );
 	free( bm );
 }
 
-void bench_mark_start( bench_mark_t bm )
+void bench_mark_start( lc_bench_mark_t bm )
 {
 	assert( bm );
 	#if defined(WIN32) || defined(WIN64)
@@ -68,7 +68,7 @@ void bench_mark_start( bench_mark_t bm )
 	#endif
 }
 
-void bench_mark_end( bench_mark_t bm )
+void bench_mark_end( lc_bench_mark_t bm )
 {
 	assert( bm );
 	#if defined(WIN32) || defined(WIN64)
@@ -78,7 +78,7 @@ void bench_mark_end( bench_mark_t bm )
 	#endif
 }
 
-void bench_mark_report( bench_mark_t bm )
+void bench_mark_report( lc_bench_mark_t bm )
 {
 	#if defined(WIN32) || defined(WIN64)
 	printf( "%30s -- Start: %.6lf s, End: %.6lf s, Total: %.3lf ms \n",

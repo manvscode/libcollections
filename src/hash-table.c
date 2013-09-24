@@ -29,7 +29,7 @@
 /*
  * Hash Table Functions
  */
-boolean hash_table_create( hash_table_t *p_table, size_t table_size, hash_table_hash_function hash_function, hash_table_element_function destroy, hash_table_compare_function compare, alloc_function alloc, free_function free )
+boolean hash_table_create( lc_hash_table_t* p_table, size_t table_size, hash_table_hash_function hash_function, hash_table_element_function destroy, hash_table_compare_function compare, alloc_function alloc, free_function free )
 {
 	assert( p_table );
 
@@ -37,7 +37,7 @@ boolean hash_table_create( hash_table_t *p_table, size_t table_size, hash_table_
 	p_table->table_size = table_size;
 	p_table->alloc      = alloc;
 	p_table->free       = free;
-	p_table->table      = (slist_t *) p_table->alloc( hash_table_table_size(p_table) * sizeof(slist_t) );
+	p_table->table      = (lc_slist_t *) p_table->alloc( hash_table_table_size(p_table) * sizeof(lc_slist_t) );
 	p_table->hash       = hash_function;
 	p_table->compare    = compare;
 	p_table->destroy    = destroy;
@@ -53,14 +53,14 @@ boolean hash_table_create( hash_table_t *p_table, size_t table_size, hash_table_
 			slist_create( &p_table->table[ i ], p_table->destroy, p_table->alloc, p_table->free );
 		}
 		#else
-		memset( p_table->table, 0, hash_table_table_size(p_table) * sizeof(slist_t) );
+		memset( p_table->table, 0, hash_table_table_size(p_table) * sizeof(lc_slist_t) );
 		#endif
 	}
 
 	return p_table->table != NULL;
 }
 
-void hash_table_destroy( hash_table_t *p_table )
+void hash_table_destroy( lc_hash_table_t* p_table )
 {
 	size_t i;
 
@@ -69,7 +69,7 @@ void hash_table_destroy( hash_table_t *p_table )
 		#ifdef HASH_TABLE_PREALLOC
 		slist_destroy( &p_table->table[ i ] );
 		#else
-		slist_t *p_list = &p_table->table[ i ];
+		lc_slist_t *p_list = &p_table->table[ i ];
 		if( p_list )
 		{
 			slist_destroy( p_list );
@@ -80,10 +80,10 @@ void hash_table_destroy( hash_table_t *p_table )
 	p_table->free( p_table->table );
 }
 
-boolean hash_table_insert( hash_table_t *p_table, const void *data )
+boolean hash_table_insert( lc_hash_table_t* p_table, const void *data )
 {
 	size_t index     = p_table->hash( data ) % hash_table_table_size(p_table);
-	slist_t *p_list  = &p_table->table[ index ];
+	lc_slist_t *p_list  = &p_table->table[ index ];
 
 	#ifndef HASH_TABLE_PREALLOC
 	if( !p_list->head ) /* uninitialized list */
@@ -101,12 +101,12 @@ boolean hash_table_insert( hash_table_t *p_table, const void *data )
 	return FALSE;
 }
 
-boolean hash_table_remove( hash_table_t *p_table, const void *data )
+boolean hash_table_remove( lc_hash_table_t* p_table, const void *data )
 {
 	size_t index         = p_table->hash( data ) % hash_table_table_size(p_table);
-	slist_t *p_list      = &p_table->table[ index ];
-	slist_node_t *p_prev = NULL;
-	slist_node_t *p_node;
+	lc_slist_t *p_list      = &p_table->table[ index ];
+	lc_slist_node_t *p_prev = NULL;
+	lc_slist_node_t *p_node;
 
 	assert( p_list );
 	p_node = p_list->head;
@@ -135,11 +135,11 @@ boolean hash_table_remove( hash_table_t *p_table, const void *data )
 	return FALSE;
 }
 
-boolean hash_table_find( const hash_table_t *p_table, const void *data, void **found_data )
+boolean hash_table_find( const lc_hash_table_t* p_table, const void *data, void **found_data )
 {
 	size_t index    = p_table->hash( data ) % hash_table_table_size(p_table);
-	slist_t *p_list = &p_table->table[ index ];
-	slist_node_t *p_node;
+	lc_slist_t *p_list = &p_table->table[ index ];
+	lc_slist_node_t *p_node;
 
 	assert( found_data );
 	assert( p_list );
@@ -163,7 +163,7 @@ boolean hash_table_find( const hash_table_t *p_table, const void *data, void **f
 	return FALSE;
 }
 
-void hash_table_clear( hash_table_t *p_table )
+void hash_table_clear( lc_hash_table_t* p_table )
 {
 	size_t i;
 
@@ -172,7 +172,7 @@ void hash_table_clear( hash_table_t *p_table )
 		#ifdef HASH_TABLE_PREALLOC
 		slist_clear( &p_table->table[ i ] );
 		#else
-		slist_t *p_list = &p_table->table[ i ];
+		lc_slist_t *p_list = &p_table->table[ i ];
 		if( p_list )
 		{
 			slist_clear( p_list );
@@ -183,12 +183,12 @@ void hash_table_clear( hash_table_t *p_table )
 	p_table->size = 0;
 }
 
-boolean hash_table_resize( hash_table_t *p_table, size_t new_size )
+boolean hash_table_resize( lc_hash_table_t* p_table, size_t new_size )
 {
 	if( new_size != hash_table_size(p_table) )
 	{
-		slist_t *p_new_table = (slist_t *) p_table->alloc( new_size * sizeof(slist_t) );
-		slist_t *p_old_table = p_table->table;
+		lc_slist_t *p_new_table = (lc_slist_t *) p_table->alloc( new_size * sizeof(lc_slist_t) );
+		lc_slist_t *p_old_table = p_table->table;
 		size_t old_size    = p_table->table_size;
 		size_t i;
 
@@ -209,20 +209,20 @@ boolean hash_table_resize( hash_table_t *p_table, size_t new_size )
 			slist_create( &p_table->table[ i ], p_table->destroy, p_table->alloc, p_table->free );
 		}
 		#else
-		memset( p_table->table, 0, new_size * sizeof(slist_t) );
+		memset( p_table->table, 0, new_size * sizeof(lc_slist_t) );
 		#endif
 
 		for( i = 0; i < old_size; i++ )
 		{
-			slist_t *p_list = &p_old_table[ i ];
+			lc_slist_t *p_list = &p_old_table[ i ];
 			p_list->destroy = NULL; /* prevent the data from being freed */
 
 			if( p_list )
 			{
-				slist_node_t *p_node = slist_head( p_list );
+				lc_slist_node_t *p_node = slist_head( p_list );
 				while( p_node )
 				{
-					slist_node_t *p_previous;
+					lc_slist_node_t *p_previous;
 					void *data = p_node->data;
 
 					/* Re-insert data into new table */
@@ -244,7 +244,7 @@ boolean hash_table_resize( hash_table_t *p_table, size_t new_size )
 	return FALSE;
 }
 
-boolean hash_table_rehash( hash_table_t *p_table, double load_factor )
+boolean hash_table_rehash( lc_hash_table_t* p_table, double load_factor )
 {
 	double current_load = hash_table_load_factor( p_table );
 
@@ -271,7 +271,7 @@ boolean hash_table_rehash( hash_table_t *p_table, double load_factor )
 	return FALSE;
 }
 
-boolean hash_table_serialize( hash_table_t *p_table, size_t element_size, FILE *file )
+boolean hash_table_serialize( lc_hash_table_t* p_table, size_t element_size, FILE *file )
 {
 	boolean result = TRUE;
 	size_t count;
@@ -292,10 +292,10 @@ boolean hash_table_serialize( hash_table_t *p_table, size_t element_size, FILE *
 
 	for( i = 0; i < hash_table_table_size(p_table); i++ )
 	{
-		slist_t *p_list = &p_table->table[ i ];
+		lc_slist_t *p_list = &p_table->table[ i ];
 		if( p_list )
 		{
-			slist_node_t *p_node = p_list->head;
+			lc_slist_node_t *p_node = p_list->head;
 
 			while( p_node != NULL )
 			{
@@ -313,7 +313,7 @@ done:
 	return result;
 }
 
-boolean hash_table_unserialize( hash_table_t *p_table, size_t element_size, FILE *file )
+boolean hash_table_unserialize( lc_hash_table_t* p_table, size_t element_size, FILE *file )
 {
 	boolean result = TRUE;
 	size_t count = 0;
@@ -349,7 +349,7 @@ done:
 	return result;
 }
 
-void hash_table_iterator( const hash_table_t* p_table, hash_table_iterator_t* iter )
+void hash_table_iterator( const lc_hash_table_t* p_table, lc_hash_table_iterator_t* iter )
 {
 	assert( p_table );
 	assert( iter );
@@ -360,7 +360,7 @@ void hash_table_iterator( const hash_table_t* p_table, hash_table_iterator_t* it
 	iter->data    = NULL;
 }
 
-boolean hash_table_iterator_next( hash_table_iterator_t* iter )
+boolean hash_table_iterator_next( lc_hash_table_iterator_t* iter )
 {
 	boolean result;
 
@@ -383,7 +383,7 @@ boolean hash_table_iterator_next( hash_table_iterator_t* iter )
 	{
 		while( iter->index < hash_table_table_size(iter->table) )
 		{
-			slist_t *p_list = &iter->table->table[ iter->index ];
+			lc_slist_t *p_list = &iter->table->table[ iter->index ];
 
 			if( p_list && p_list->head )
 			{
@@ -409,7 +409,7 @@ boolean hash_table_iterator_next( hash_table_iterator_t* iter )
 	return result;
 }
 
-void* hash_table_iterator_data( hash_table_iterator_t* iter )
+void* hash_table_iterator_data( lc_hash_table_iterator_t* iter )
 {
 	assert( iter );
 	return iter->data;

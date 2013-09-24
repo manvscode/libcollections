@@ -9,7 +9,7 @@
 int main( int argc, char *argv[] )
 {
 	char  ascii[ 128 ];
-	tchar unicode[ 128 ]; 
+	tchar unicode[ 128 ];
 
 	TERM_BEG(ascii);
 	TERM_BEG(unicode);
@@ -36,8 +36,8 @@ int main( int argc, char *argv[] )
 	const tchar *russian_text_utf8  = _T("В России тест принадлежит вам.");
 	tprintf( _T(" UTF-8 Russian text = %S\n"), russian_text_utf8 );
 
-	tstring_t ltext;
-	tstring_t rtext;
+	lc_tstring_t ltext;
+	lc_tstring_t rtext;
 	tstring_create( &ltext, _T("   \t\n \r This is a test of ltrim().") );
 	tstring_create( &rtext, _T("This is a test of rtrim().   \n\t\t \r ") );
 
@@ -46,7 +46,7 @@ int main( int argc, char *argv[] )
 	n = tstring_ltrim( &ltext );
 	assert( n == 8 );
 	tprintf( _T("[%S] -- %ld chars removed\n"), ltext.s, n );
-	
+
 	n = tstring_rtrim( &rtext );
 	assert( n == 9 );
 	tprintf( _T("[%S] -- %ld chars removed\n"), rtext.s, n );
@@ -54,6 +54,6 @@ int main( int argc, char *argv[] )
 	tstring_destroy( &ltext );
 	tstring_destroy( &rtext );
 
-	
+
 	return 0;
 }
