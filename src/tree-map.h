@@ -52,7 +52,7 @@ typedef struct lc_tree_map {
 	free_function   _free;
 } lc_tree_map_t;
 
-typedef lc_tree_map_node_t* tree_map_iterator_t;
+typedef lc_tree_map_node_t* lc_tree_map_iterator_t;
 
 
 lc_tree_map_t* tree_map_create_ex   ( tree_map_element_function destroy, tree_map_compare_function compare, alloc_function alloc, free_function free );
@@ -73,8 +73,8 @@ lc_tree_map_node_t* tree_map_node_maximum     ( lc_tree_map_node_t *t );
 lc_tree_map_node_t* tree_map_node_successor   ( lc_tree_map_node_t *t );
 lc_tree_map_node_t* tree_map_node_predecessor ( lc_tree_map_node_t *t );
 
-tree_map_iterator_t tree_map_begin ( const lc_tree_map_t *p_map );
-tree_map_iterator_t tree_map_end   ( );
+lc_tree_map_iterator_t tree_map_begin ( const lc_tree_map_t *p_map );
+lc_tree_map_iterator_t tree_map_end   ( );
 
 
 #ifdef _DEBUG_TREE_MAP 

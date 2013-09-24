@@ -589,7 +589,7 @@ boolean tree_map_serialize( lc_tree_map_t *p_map, size_t key_size, size_t value_
 {
 	boolean result = TRUE;
 	size_t count;
-	tree_map_iterator_t itr;
+	lc_tree_map_iterator_t itr;
 
 	if( !p_map )
 	{
@@ -716,12 +716,12 @@ lc_tree_map_node_t *tree_map_node_find( lc_tree_map_t *p_map, const void *key )
 	return NULL;
 }
 
-tree_map_iterator_t tree_map_begin( const lc_tree_map_t *p_map )
+lc_tree_map_iterator_t tree_map_begin( const lc_tree_map_t *p_map )
 {
     return tree_map_node_minimum( p_map->root );
 }
 
-tree_map_iterator_t tree_map_end( )
+lc_tree_map_iterator_t tree_map_end( )
 {
 	return (lc_tree_map_node_t *) &TREE_MAP_NODE_NIL;
 }

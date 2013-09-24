@@ -58,7 +58,7 @@ int main( int argc, char *argv[] )
 	lc_tree_map_t map;
 	unsigned int i;
 	boolean result;
-	tree_map_iterator_t itr;
+	lc_tree_map_iterator_t itr;
 
 	srand( time(NULL) );
 
