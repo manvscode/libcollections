@@ -185,6 +185,7 @@ typedef lc_vector_t lc_stack_t;
 #define stack_array_size     vector_array_size
 #define stack_size           vector_size
 #define stack_is_empty       vector_is_empty
+#define stack_peek           vector_peek
 
 typedef lc_pvector_t lc_pstack_t;
 
@@ -197,6 +198,7 @@ typedef lc_pvector_t lc_pstack_t;
 #define pstack_array_size     pvector_array_size
 #define pstack_size           pvector_size
 #define pstack_is_empty       pvector_is_empty
+#define pstack_peek           pvector_peek
 
 #ifdef __cplusplus
 }
