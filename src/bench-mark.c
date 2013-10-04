@@ -98,3 +98,29 @@ void bench_mark_report( lc_bench_mark_t bm )
 	#endif
 }
 
+double bench_mark_start_time( lc_bench_mark_t bm )
+{
+	#if defined(WIN32) || defined(WIN64)
+	return bm->start;
+	#else
+	return 1000.0 * bm->start.tv_sec + (bm->start.tv_usec / 1000.0);
+	#endif
+}
+
+double bench_mark_end_time( lc_bench_mark_t bm )
+{
+	#if defined(WIN32) || defined(WIN64)
+	return bm->end;
+	#else
+	return 1000.0 * bm->end.tv_sec + (bm->end.tv_usec / 1000.0);
+	#endif
+}
+
+double bench_mark_total_time( lc_bench_mark_t bm )
+{
+	#if defined(WIN32) || defined(WIN64)
+	return (bm->end - bm->start) * 1000.0;
+	#else
+	return 1000.0 * (bm->end.tv_sec - bm->start.tv_sec) + ((bm->end.tv_usec - bm->start.tv_usec) / 1000.0);
+	#endif
+}
