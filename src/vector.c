@@ -80,7 +80,6 @@ void vector_destroy( lc_vector_t* p_vector )
 	p_vector->array        = NULL;
 	p_vector->array_size   = 0L;
 	p_vector->size         = 0L;
-	p_vector->destroy      = NULL;
 	#endif
 }
 
