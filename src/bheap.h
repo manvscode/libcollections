@@ -45,19 +45,19 @@ typedef struct bheap {
 	heap_compare_function compare;
 	lc_vector_t  heap;
 	byte*     tmp;
-} bheap_t;
+} lc_bheap_t;
 
 
-boolean         bheap_create      ( bheap_t* p_bheap, size_t element_size, size_t size, 
+boolean         bheap_create      ( lc_bheap_t* p_bheap, size_t element_size, size_t size, 
                                     heap_compare_function compare_callback, heap_element_function destroy_callback,
                                     alloc_function alloc, free_function free );
-void            bheap_destroy     ( bheap_t* p_bheap );
-void*           bheap_peek        ( bheap_t* p_bheap );
-boolean         bheap_push        ( bheap_t* p_bheap, void* data );
-boolean         bheap_pop         ( bheap_t* p_bheap );
-size_t          bheap_size        ( const bheap_t* p_bheap );
-void            bheap_clear       ( bheap_t* p_bheap );
-void            bheap_reheapify   ( bheap_t* p_bheap );
+void            bheap_destroy     ( lc_bheap_t* p_bheap );
+void*           bheap_peek        ( lc_bheap_t* p_bheap );
+boolean         bheap_push        ( lc_bheap_t* p_bheap, void* data );
+boolean         bheap_pop         ( lc_bheap_t* p_bheap );
+size_t          bheap_size        ( const lc_bheap_t* p_bheap );
+void            bheap_clear       ( lc_bheap_t* p_bheap );
+void            bheap_reheapify   ( lc_bheap_t* p_bheap );
 
 void            heap_make         ( lc_vector_t* heap, heap_compare_function compare, void* swap_buffer );
 void            heap_push         ( lc_vector_t* heap, heap_compare_function compare, void* swap_buffer );
@@ -70,17 +70,17 @@ void            heap_pop          ( lc_vector_t* heap, heap_compare_function com
 typedef struct pbheap {
 	heap_compare_function compare;
 	lc_pvector_t  heap;
-} pbheap_t;
+} lc_pbheap_t;
 
-boolean         pbheap_create      ( pbheap_t* p_bheap, size_t size, heap_compare_function compare_callback,
+boolean         pbheap_create      ( lc_pbheap_t* p_bheap, size_t size, heap_compare_function compare_callback,
                                      alloc_function alloc, free_function free );
-void            pbheap_destroy     ( pbheap_t* p_bheap );
-void*           pbheap_peek        ( pbheap_t* p_bheap );
-boolean         pbheap_push        ( pbheap_t* p_bheap, void* data );
-boolean         pbheap_pop         ( pbheap_t* p_bheap );
-size_t          pbheap_size        ( const pbheap_t* p_bheap );
-void            pbheap_clear       ( pbheap_t* p_bheap );
-void            pbheap_reheapify   ( pbheap_t* p_bheap );
+void            pbheap_destroy     ( lc_pbheap_t* p_bheap );
+void*           pbheap_peek        ( lc_pbheap_t* p_bheap );
+boolean         pbheap_push        ( lc_pbheap_t* p_bheap, void* data );
+boolean         pbheap_pop         ( lc_pbheap_t* p_bheap );
+size_t          pbheap_size        ( const lc_pbheap_t* p_bheap );
+void            pbheap_clear       ( lc_pbheap_t* p_bheap );
+void            pbheap_reheapify   ( lc_pbheap_t* p_bheap );
 
 void            pheap_make         ( lc_pvector_t* heap, heap_compare_function compare );
 void            pheap_push         ( lc_pvector_t* heap, heap_compare_function compare );

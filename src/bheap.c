@@ -27,7 +27,7 @@
 
 static void heapify  ( lc_vector_t* heap, heap_compare_function compare, void* swap_buffer, size_t index );
 
-boolean bheap_create( bheap_t* p_bheap, size_t element_size, size_t size,
+boolean bheap_create( lc_bheap_t* p_bheap, size_t element_size, size_t size,
                       heap_compare_function compare_callback, heap_element_function destroy_callback,
                       alloc_function alloc, free_function free )
 {
@@ -51,20 +51,20 @@ boolean bheap_create( bheap_t* p_bheap, size_t element_size, size_t size,
 	return result;
 }
 
-void bheap_destroy( bheap_t* p_bheap )
+void bheap_destroy( lc_bheap_t* p_bheap )
 {
 	assert( p_bheap );
 	p_bheap->free( p_bheap->tmp );
 	vector_destroy( &p_bheap->heap );
 }
 
-void* bheap_peek( bheap_t* p_bheap )
+void* bheap_peek( lc_bheap_t* p_bheap )
 {
 	assert( p_bheap );
 	return vector_get( &p_bheap->heap, 0 );
 }
 
-boolean bheap_push( bheap_t* p_bheap, void* data )
+boolean bheap_push( lc_bheap_t* p_bheap, void* data )
 {
 	boolean result = FALSE;
 
@@ -75,7 +75,7 @@ boolean bheap_push( bheap_t* p_bheap, void* data )
 	return result;
 }
 
-boolean bheap_pop( bheap_t* p_bheap )
+boolean bheap_pop( lc_bheap_t* p_bheap )
 {
 	boolean result = FALSE;
 	assert( p_bheap );
@@ -94,18 +94,18 @@ boolean bheap_pop( bheap_t* p_bheap )
 	return result;
 }
 
-size_t bheap_size( const bheap_t* p_bheap )
+size_t bheap_size( const lc_bheap_t* p_bheap )
 {
 	return vector_size( &p_bheap->heap );
 }
 
-void bheap_clear( bheap_t* p_bheap )
+void bheap_clear( lc_bheap_t* p_bheap )
 {
 	assert( p_bheap );
 	vector_clear( &p_bheap->heap );
 }
 
-void bheap_reheapify( bheap_t* p_bheap )
+void bheap_reheapify( lc_bheap_t* p_bheap )
 {
 	heap_make( &p_bheap->heap, p_bheap->compare, p_bheap->tmp );
 }
@@ -201,7 +201,7 @@ void heapify( lc_vector_t* heap, heap_compare_function compare, void* swap_buffe
 static void pheapify( lc_pvector_t* heap, heap_compare_function compare, size_t index );
 
 
-boolean pbheap_create( pbheap_t* p_bheap, size_t size, heap_compare_function compare_callback,
+boolean pbheap_create( lc_pbheap_t* p_bheap, size_t size, heap_compare_function compare_callback,
                        alloc_function alloc, free_function free )
 {
 	boolean result = FALSE;
@@ -213,19 +213,19 @@ boolean pbheap_create( pbheap_t* p_bheap, size_t size, heap_compare_function com
 	return result;
 }
 
-void pbheap_destroy( pbheap_t* p_bheap )
+void pbheap_destroy( lc_pbheap_t* p_bheap )
 {
 	assert( p_bheap );
 	pvector_destroy( &p_bheap->heap );
 }
 
-void* pbheap_peek( pbheap_t* p_bheap )
+void* pbheap_peek( lc_pbheap_t* p_bheap )
 {
 	assert( p_bheap );
 	return pvector_get( &p_bheap->heap, 0 );
 }
 
-boolean pbheap_push( pbheap_t* p_bheap, void* data )
+boolean pbheap_push( lc_pbheap_t* p_bheap, void* data )
 {
 	boolean result = FALSE;
 
@@ -236,7 +236,7 @@ boolean pbheap_push( pbheap_t* p_bheap, void* data )
 	return result;
 }
 
-boolean pbheap_pop( pbheap_t* p_bheap )
+boolean pbheap_pop( lc_pbheap_t* p_bheap )
 {
 	boolean result = FALSE;
 	assert( p_bheap );
@@ -256,18 +256,18 @@ boolean pbheap_pop( pbheap_t* p_bheap )
 	return result;
 }
 
-size_t pbheap_size( const pbheap_t* p_bheap )
+size_t pbheap_size( const lc_pbheap_t* p_bheap )
 {
 	return pvector_size( &p_bheap->heap );
 }
 
-void pbheap_clear( pbheap_t* p_bheap )
+void pbheap_clear( lc_pbheap_t* p_bheap )
 {
 	assert( p_bheap );
 	pvector_clear( &p_bheap->heap );
 }
 
-void pbheap_reheapify( pbheap_t* p_bheap )
+void pbheap_reheapify( lc_pbheap_t* p_bheap )
 {
 	pheap_make( &p_bheap->heap, p_bheap->compare );
 }
