@@ -1,5 +1,5 @@
-#AM_CFLAGS = $(DEPS_CFLAGS) -I ../src/ -L../src/ -L.
-AM_CFLAGS = -std=gnu99 -Wall -pedantic -g -ggdb -pg -O0 -D_DEBUG -DUNICODE -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/
+if ENABLE_TESTS
+AM_CFLAGS = -std=c99 -Wall -pedantic -g -ggdb -pg -O0 -D_DEBUG -DUNICODE -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/
 LDADD     = -lm $(top_builddir)/lib/.libs/libcollections.a
 
 
@@ -39,3 +39,4 @@ __top_builddir__bin_test_rbtree_SOURCES      = test-rbtree.c
 __top_builddir__bin_test_tree_map_SOURCES    = test-tree-map.c
 __top_builddir__bin_test_vector_SOURCES      = test-vector.c
 __top_builddir__bin_test_variant_SOURCES     = test-variant.c
+endif

@@ -1,3 +1,4 @@
+AC_PREREQ(2.67)
 AC_INIT([libcollections], [0.1], [manvscode@gmail.com], [libcollections], [http://www.manvscode.com/])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 
@@ -17,8 +18,8 @@ AH_BOTTOM([
 #endif /* _LIBCOLLECTIONS_CONFIG_H_ */
 ])
 
-#CFLAGS="-std=gnu99 -Wall -pedantic -g -ggdb -O0 -D_DEBUG_VECTOR -DUNICODE"
-CFLAGS="-std=gnu99 -Wall -pedantic -O3 -DUNICODE"
+#CFLAGS="-std=c99 -Wall -pedantic -g -ggdb -O0 -D_DEBUG_VECTOR -DUNICODE"
+CFLAGS="-std=c99 -Wall -pedantic -O3 -DUNICODE"
 LDFLAGS=""
 
 
@@ -48,21 +49,15 @@ AC_CHECK_HEADERS([sys/time.h])
 AC_CHECK_HEADERS([unistd.h])
 AC_CHECK_HEADERS([wchar.h])
 AC_CHECK_HEADERS([wctype.h])
-AC_FUNC_MALLOC
-AC_FUNC_MKTIME
-AC_FUNC_REALLOC
-AC_PREREQ
-AC_TYPE_INT16_T
-AC_TYPE_INT32_T
-AC_TYPE_INT64_T
-AC_TYPE_INT8_T
-AC_TYPE_SIZE_T
-AC_TYPE_SSIZE_T
-AC_TYPE_UINT16_T
-AC_TYPE_UINT32_T
-AC_TYPE_UINT64_T
-AC_TYPE_UINT8_T
 # -------------------------------------------------
+AC_ARG_ENABLE([tests],
+	[AS_HELP_STRING([--disable-tests], [Enable test programs.])],
+	[:],
+	[enable_tests=no])
+
+AM_CONDITIONAL([ENABLE_TESTS], [test "$enable_tests" = "yes"])
+# -------------------------------------------------
+
 
 AC_PROG_INSTALL
 
