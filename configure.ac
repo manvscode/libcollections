@@ -18,9 +18,10 @@ AH_BOTTOM([
 #endif /* _LIBCOLLECTIONS_CONFIG_H_ */
 ])
 
+DFLAGS="-DUNICODE"
 #CFLAGS="-std=c99 -Wall -pedantic -g -ggdb -O0 -D_DEBUG_VECTOR -DUNICODE"
-CFLAGS="-std=c99 -Wall -pedantic -O3 -DUNICODE"
-LDFLAGS=""
+CFLAGS="$DFLAGS $CFLAGS"
+LDFLAGS="$LDFLAGS"
 
 
 AM_PROG_AR
