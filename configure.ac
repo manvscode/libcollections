@@ -1,6 +1,6 @@
 AC_PREREQ(2.67)
 AC_INIT([libcollections], [0.1], [manvscode@gmail.com], [libcollections], [http://www.manvscode.com/])
-AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+AM_INIT_AUTOMAKE([1.13 foreign silent-rules -Wall -Werror])
 
 AM_SILENT_RULES([yes])
 AC_CONFIG_HEADERS([src/libcollections-config.h])
