@@ -1,5 +1,5 @@
 AC_PREREQ(2.67)
-AC_INIT([libcollections], [0.1], [manvscode@gmail.com], [libcollections], [http://www.manvscode.com/])
+AC_INIT([libcollections], [0.8], [manvscode@gmail.com], [libcollections], [http://www.manvscode.com/])
 AM_INIT_AUTOMAKE([1.13 foreign silent-rules -Wall -Werror])
 
 AM_SILENT_RULES([yes])
