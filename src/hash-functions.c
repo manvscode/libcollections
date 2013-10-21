@@ -67,10 +67,10 @@ size_t pointer_hash( const void *data )
 
 size_t string_hash( const void *string_addr )
 {
-	const char *str   = (const char*) string_addr;
-	size_t hash_code  = 0;
-	int length        = strlen( str );
-	int i;
+	const char *str  = (const char*) string_addr;
+	size_t hash_code = 0;
+	size_t length    = strlen( str );
+	size_t i;
 
 	for( i = 0; i < length; i++ )
 	{
