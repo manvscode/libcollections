@@ -30,14 +30,41 @@
 #endif
 
 
-
-
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+	#include <stdbool.h>
+	#ifndef boolean
+	typedef bool             boolean; /* FALSE = 0, otherwise TRUE */
+	#endif
+	#ifndef FALSE
+	#define FALSE 0
+	#endif
+	#ifndef TRUE
+	#define TRUE  1
+	#endif
 	#include <stdint.h>
+	#ifndef byte
+	typedef uint8_t    byte;
+	#endif
 	typedef wchar_t     wchar;
 	#define __inline    inline
 	#define __restrict  restrict
 #else /* Not C99 compliant */
+	#ifndef boolean
+	typedef unsigned char    boolean; /* FALSE = 0, otherwise TRUE */
+	#endif
+	#ifndef FALSE
+	#define FALSE false
+	#endif
+	#ifndef TRUE
+	#define TRUE  true
+	#endif
+	#ifndef byte
+	typedef unsigned char    byte;
+	#endif
+	#if !defined(_SSIZE_T)
+	#define _SSIZE_T
+	typedef long ssize_t;
+	#endif
 	typedef signed char         int8_t;
 	typedef unsigned char       uint8_t;
 	typedef signed short        int16_t;
@@ -50,43 +77,5 @@
 	#define __restrict
 #endif
 
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
-#include <stdbool.h>
-#ifndef boolean
-typedef unsigned char    boolean; /* FALSE = 0, otherwise TRUE */
-#endif
-#ifndef FALSE
-#define FALSE 0
-#endif
-#ifndef TRUE
-#define TRUE  1 
-#endif
-#else
-#ifndef boolean
-typedef bool             boolean; /* FALSE = 0, otherwise TRUE */
-#endif
-#ifndef FALSE
-#define FALSE false
-#endif
-#ifndef TRUE
-#define TRUE  true 
-#endif
-#endif
-#ifndef byte
-typedef unsigned char    byte;
-#endif
-#if !defined(_SSIZE_T)
-#define _SSIZE_T
-typedef long ssize_t;
-#endif
-typedef uint16_t         ushort;
-typedef uint32_t         uint;
-typedef uint32_t         ui32;
-typedef int32_t          i32;
-typedef uint16_t         ui16;
-typedef int16_t          i16;
-typedef float            f32;
-typedef double           f64;
-typedef unsigned char    uc8;
 
 #endif /* _TYPES_H_ */
