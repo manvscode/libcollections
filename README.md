@@ -1,3 +1,7 @@
+Donations
+==============
+If you found this library useful, please donate some BTC to 1HfUB1hMV15XyHRi7ZNFLCNw1NA2h2viZc.
+
 libcollections
 ==============
 
