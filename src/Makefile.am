@@ -4,6 +4,7 @@ libcollections_src = \
 array.c \
 bench-mark.c \
 bheap.c \
+buffer.c \
 bitset.c \
 dlist.c \
 flat-db.c \
@@ -25,6 +26,7 @@ array.h \
 bench-mark.h \
 bheap.h \
 bheap-template.h \
+buffer.h \
 bitset.h \
 libcollections-config.h \
 dlist.h \
