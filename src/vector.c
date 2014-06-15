@@ -136,13 +136,11 @@ boolean vector_push( lc_vector_t* p_vector, void *data )
 
 boolean vector_pop( lc_vector_t* p_vector )
 {
-	void *element;
 	boolean result = TRUE;
 	assert( p_vector );
 
-	element = vector_array(p_vector) + (vector_size(p_vector) - 1) * vector_element_size(p_vector);
-
 	DESTROY_CHECK(
+		void *element = vector_array(p_vector) + (vector_size(p_vector) - 1) * vector_element_size(p_vector);
 		result  = p_vector->destroy( element );
 	);
 

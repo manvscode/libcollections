@@ -109,9 +109,12 @@ extern "C" {
 			\
 			result = p_bheap->array != NULL; \
 		} \
-		p_bheap->array[ p_bheap->size ] = *data; \
-		p_bheap->size++; \
-		heap_##name##_push( p_bheap->array, p_bheap->size, p_bheap->compare ); \
+		if( result ) \
+		{ \
+			p_bheap->array[ p_bheap->size ] = *data; \
+			p_bheap->size++; \
+			heap_##name##_push( p_bheap->array, p_bheap->size, p_bheap->compare ); \
+		} \
 		return result; \
 	} \
 	\

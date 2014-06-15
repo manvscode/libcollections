@@ -147,9 +147,12 @@ flatdb_t flatdb_create( const tchar *filename, uint16_t max_tables, uint16_t max
 	return db;
 
 failed:
-	funlockfile( db->file );
-	flatdb_close( &db );
-	assert( db == NULL );
+	if( db )
+	{
+		funlockfile( db->file );
+		flatdb_close( &db );
+		assert( db == NULL );
+	}
 	return db;
 }
 

@@ -550,7 +550,7 @@ void rbtree_clear( lc_rbtree_t* p_tree )
 	assert( p_tree );
 
 	x = p_tree->root;
-	y = (lc_rbnode_t *) &RBNIL;
+	//y = (lc_rbnode_t *) &RBNIL;
 
 	while( p_tree->size > 0 )
 	{

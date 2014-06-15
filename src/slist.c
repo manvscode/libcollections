@@ -135,12 +135,11 @@ boolean slist_remove_next( lc_slist_t *p_list, lc_slist_node_t *p_front_node ) /
 
 	if( p_front_node )
 	{
-		boolean result;
+		boolean result = TRUE;
 		lc_slist_node_t *p_node;
 		lc_slist_node_t *p_new_next;
 
 		assert( p_front_node->next );
-		result     = TRUE;
 		p_node     = p_front_node->next;
 		p_new_next = p_node->next;
 
