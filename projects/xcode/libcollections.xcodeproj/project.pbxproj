@@ -44,6 +44,43 @@
 		08F9B774180DCE5500DC30C4 /* tstring.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B74E180DCE5500DC30C4 /* tstring.c */; };
 		08F9B775180DCE5500DC30C4 /* variant.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B74F180DCE5500DC30C4 /* variant.c */; };
 		08F9B776180DCE5500DC30C4 /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B750180DCE5500DC30C4 /* vector.c */; };
+		D89CE3291979892600710BD8 /* hash-functions.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B747180DCE5500DC30C4 /* hash-functions.c */; };
+		D89CE32A1979892600710BD8 /* hash-map.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B748180DCE5500DC30C4 /* hash-map.c */; };
+		D89CE32B1979892600710BD8 /* slist.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B74C180DCE5500DC30C4 /* slist.c */; };
+		D89CE32C1979892600710BD8 /* variant.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B74F180DCE5500DC30C4 /* variant.c */; };
+		D89CE32D1979892600710BD8 /* hash-table.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B749180DCE5500DC30C4 /* hash-table.c */; };
+		D89CE32E1979892600710BD8 /* bitset.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B744180DCE5500DC30C4 /* bitset.c */; };
+		D89CE32F1979892600710BD8 /* bheap.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B743180DCE5500DC30C4 /* bheap.c */; };
+		D89CE3301979892600710BD8 /* tstring.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B74E180DCE5500DC30C4 /* tstring.c */; };
+		D89CE3311979892600710BD8 /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B741180DCE5500DC30C4 /* array.c */; };
+		D89CE3321979892600710BD8 /* rbtree.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B74B180DCE5500DC30C4 /* rbtree.c */; };
+		D89CE3331979892600710BD8 /* tree-map.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B74D180DCE5500DC30C4 /* tree-map.c */; };
+		D89CE3341979892600710BD8 /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B750180DCE5500DC30C4 /* vector.c */; };
+		D89CE3351979892600710BD8 /* bench-mark.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B742180DCE5500DC30C4 /* bench-mark.c */; };
+		D89CE3361979892600710BD8 /* dlist.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B745180DCE5500DC30C4 /* dlist.c */; };
+		D89CE3371979892600710BD8 /* lhash-table.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B74A180DCE5500DC30C4 /* lhash-table.c */; };
+		D89CE33A1979892600710BD8 /* alloc.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B72B180DCE5500DC30C4 /* alloc.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE33B1979892600710BD8 /* array.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B72C180DCE5500DC30C4 /* array.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE33C1979892600710BD8 /* bench-mark.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B72D180DCE5500DC30C4 /* bench-mark.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE33D1979892600710BD8 /* bheap-template.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B72E180DCE5500DC30C4 /* bheap-template.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE33E1979892600710BD8 /* bheap.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B72F180DCE5500DC30C4 /* bheap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE33F1979892600710BD8 /* bitset.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B730180DCE5500DC30C4 /* bitset.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE3401979892600710BD8 /* dlist.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B731180DCE5500DC30C4 /* dlist.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE3411979892600710BD8 /* flat-db.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B732180DCE5500DC30C4 /* flat-db.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE3421979892600710BD8 /* hash-functions.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B733180DCE5500DC30C4 /* hash-functions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE3431979892600710BD8 /* hash-map.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B734180DCE5500DC30C4 /* hash-map.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE3441979892600710BD8 /* hash-table.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B735180DCE5500DC30C4 /* hash-table.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE3451979892600710BD8 /* lhash-table.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B736180DCE5500DC30C4 /* lhash-table.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE3461979892600710BD8 /* libcollections-config.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B737180DCE5500DC30C4 /* libcollections-config.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE3471979892600710BD8 /* macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B738180DCE5500DC30C4 /* macros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE3481979892600710BD8 /* rbtree.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B739180DCE5500DC30C4 /* rbtree.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE3491979892600710BD8 /* slist.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73A180DCE5500DC30C4 /* slist.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE34A1979892600710BD8 /* tree-map.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73B180DCE5500DC30C4 /* tree-map.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE34B1979892600710BD8 /* tstring.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73C180DCE5500DC30C4 /* tstring.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE34C1979892600710BD8 /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73D180DCE5500DC30C4 /* types.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE34D1979892600710BD8 /* variant.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73E180DCE5500DC30C4 /* variant.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE34E1979892600710BD8 /* vector-template.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73F180DCE5500DC30C4 /* vector-template.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D89CE34F1979892600710BD8 /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B740180DCE5500DC30C4 /* vector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,10 +122,18 @@
 		08F9B74E180DCE5500DC30C4 /* tstring.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tstring.c; path = ../../src/tstring.c; sourceTree = "<group>"; };
 		08F9B74F180DCE5500DC30C4 /* variant.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = variant.c; path = ../../src/variant.c; sourceTree = "<group>"; };
 		08F9B750180DCE5500DC30C4 /* vector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = vector.c; path = ../../src/vector.c; sourceTree = "<group>"; };
+		D89CE3531979892600710BD8 /* libcollections.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcollections.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		08F9B71F180DC9F300DC30C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D89CE3381979892600710BD8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -110,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				08F9B722180DC9F300DC30C4 /* libcollections.a */,
+				D89CE3531979892600710BD8 /* libcollections.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -165,37 +211,66 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08F9B752180DCE5500DC30C4 /* array.h in Headers */,
-				08F9B75D180DCE5500DC30C4 /* libcollections-config.h in Headers */,
-				08F9B758180DCE5500DC30C4 /* flat-db.h in Headers */,
-				08F9B766180DCE5500DC30C4 /* vector.h in Headers */,
 				08F9B751180DCE5500DC30C4 /* alloc.h in Headers */,
-				08F9B764180DCE5500DC30C4 /* variant.h in Headers */,
+				08F9B752180DCE5500DC30C4 /* array.h in Headers */,
 				08F9B753180DCE5500DC30C4 /* bench-mark.h in Headers */,
-				08F9B757180DCE5500DC30C4 /* dlist.h in Headers */,
-				08F9B765180DCE5500DC30C4 /* vector-template.h in Headers */,
-				08F9B75B180DCE5500DC30C4 /* hash-table.h in Headers */,
-				08F9B756180DCE5500DC30C4 /* bitset.h in Headers */,
-				08F9B762180DCE5500DC30C4 /* tstring.h in Headers */,
-				08F9B759180DCE5500DC30C4 /* hash-functions.h in Headers */,
-				08F9B763180DCE5500DC30C4 /* types.h in Headers */,
-				08F9B75F180DCE5500DC30C4 /* rbtree.h in Headers */,
-				08F9B75C180DCE5500DC30C4 /* lhash-table.h in Headers */,
-				08F9B75A180DCE5500DC30C4 /* hash-map.h in Headers */,
-				08F9B760180DCE5500DC30C4 /* slist.h in Headers */,
-				08F9B761180DCE5500DC30C4 /* tree-map.h in Headers */,
-				08F9B75E180DCE5500DC30C4 /* macros.h in Headers */,
 				08F9B754180DCE5500DC30C4 /* bheap-template.h in Headers */,
 				08F9B755180DCE5500DC30C4 /* bheap.h in Headers */,
+				08F9B756180DCE5500DC30C4 /* bitset.h in Headers */,
+				08F9B757180DCE5500DC30C4 /* dlist.h in Headers */,
+				08F9B758180DCE5500DC30C4 /* flat-db.h in Headers */,
+				08F9B759180DCE5500DC30C4 /* hash-functions.h in Headers */,
+				08F9B75A180DCE5500DC30C4 /* hash-map.h in Headers */,
+				08F9B75B180DCE5500DC30C4 /* hash-table.h in Headers */,
+				08F9B75C180DCE5500DC30C4 /* lhash-table.h in Headers */,
+				08F9B75D180DCE5500DC30C4 /* libcollections-config.h in Headers */,
+				08F9B75E180DCE5500DC30C4 /* macros.h in Headers */,
+				08F9B75F180DCE5500DC30C4 /* rbtree.h in Headers */,
+				08F9B760180DCE5500DC30C4 /* slist.h in Headers */,
+				08F9B761180DCE5500DC30C4 /* tree-map.h in Headers */,
+				08F9B762180DCE5500DC30C4 /* tstring.h in Headers */,
+				08F9B763180DCE5500DC30C4 /* types.h in Headers */,
+				08F9B764180DCE5500DC30C4 /* variant.h in Headers */,
+				08F9B765180DCE5500DC30C4 /* vector-template.h in Headers */,
+				08F9B766180DCE5500DC30C4 /* vector.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D89CE3391979892600710BD8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D89CE33A1979892600710BD8 /* alloc.h in Headers */,
+				D89CE33B1979892600710BD8 /* array.h in Headers */,
+				D89CE33C1979892600710BD8 /* bench-mark.h in Headers */,
+				D89CE33D1979892600710BD8 /* bheap-template.h in Headers */,
+				D89CE33E1979892600710BD8 /* bheap.h in Headers */,
+				D89CE33F1979892600710BD8 /* bitset.h in Headers */,
+				D89CE3401979892600710BD8 /* dlist.h in Headers */,
+				D89CE3411979892600710BD8 /* flat-db.h in Headers */,
+				D89CE3421979892600710BD8 /* hash-functions.h in Headers */,
+				D89CE3431979892600710BD8 /* hash-map.h in Headers */,
+				D89CE3441979892600710BD8 /* hash-table.h in Headers */,
+				D89CE3451979892600710BD8 /* lhash-table.h in Headers */,
+				D89CE3461979892600710BD8 /* libcollections-config.h in Headers */,
+				D89CE3471979892600710BD8 /* macros.h in Headers */,
+				D89CE3481979892600710BD8 /* rbtree.h in Headers */,
+				D89CE3491979892600710BD8 /* slist.h in Headers */,
+				D89CE34A1979892600710BD8 /* tree-map.h in Headers */,
+				D89CE34B1979892600710BD8 /* tstring.h in Headers */,
+				D89CE34C1979892600710BD8 /* types.h in Headers */,
+				D89CE34D1979892600710BD8 /* variant.h in Headers */,
+				D89CE34E1979892600710BD8 /* vector-template.h in Headers */,
+				D89CE34F1979892600710BD8 /* vector.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		08F9B721180DC9F300DC30C4 /* libcollections */ = {
+		08F9B721180DC9F300DC30C4 /* libcollections-static */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 08F9B726180DC9F300DC30C4 /* Build configuration list for PBXNativeTarget "libcollections" */;
+			buildConfigurationList = 08F9B726180DC9F300DC30C4 /* Build configuration list for PBXNativeTarget "libcollections-static" */;
 			buildPhases = (
 				08F9B71E180DC9F300DC30C4 /* Sources */,
 				08F9B71F180DC9F300DC30C4 /* Frameworks */,
@@ -205,9 +280,26 @@
 			);
 			dependencies = (
 			);
-			name = libcollections;
+			name = "libcollections-static";
 			productName = libcollections;
 			productReference = 08F9B722180DC9F300DC30C4 /* libcollections.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D89CE3271979892600710BD8 /* libcollections-static-ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D89CE3501979892600710BD8 /* Build configuration list for PBXNativeTarget "libcollections-static-ios" */;
+			buildPhases = (
+				D89CE3281979892600710BD8 /* Sources */,
+				D89CE3381979892600710BD8 /* Frameworks */,
+				D89CE3391979892600710BD8 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "libcollections-static-ios";
+			productName = libcollections;
+			productReference = D89CE3531979892600710BD8 /* libcollections.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -216,7 +308,7 @@
 		08F9B71A180DC9F300DC30C4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Joe Marrero";
 			};
 			buildConfigurationList = 08F9B71D180DC9F300DC30C4 /* Build configuration list for PBXProject "libcollections" */;
@@ -231,7 +323,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				08F9B721180DC9F300DC30C4 /* libcollections */,
+				08F9B721180DC9F300DC30C4 /* libcollections-static */,
+				D89CE3271979892600710BD8 /* libcollections-static-ios */,
 			);
 		};
 /* End PBXProject section */
@@ -256,6 +349,28 @@
 				08F9B768180DCE5500DC30C4 /* bench-mark.c in Sources */,
 				08F9B76B180DCE5500DC30C4 /* dlist.c in Sources */,
 				08F9B770180DCE5500DC30C4 /* lhash-table.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D89CE3281979892600710BD8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D89CE3291979892600710BD8 /* hash-functions.c in Sources */,
+				D89CE32A1979892600710BD8 /* hash-map.c in Sources */,
+				D89CE32B1979892600710BD8 /* slist.c in Sources */,
+				D89CE32C1979892600710BD8 /* variant.c in Sources */,
+				D89CE32D1979892600710BD8 /* hash-table.c in Sources */,
+				D89CE32E1979892600710BD8 /* bitset.c in Sources */,
+				D89CE32F1979892600710BD8 /* bheap.c in Sources */,
+				D89CE3301979892600710BD8 /* tstring.c in Sources */,
+				D89CE3311979892600710BD8 /* array.c in Sources */,
+				D89CE3321979892600710BD8 /* rbtree.c in Sources */,
+				D89CE3331979892600710BD8 /* tree-map.c in Sources */,
+				D89CE3341979892600710BD8 /* vector.c in Sources */,
+				D89CE3351979892600710BD8 /* bench-mark.c in Sources */,
+				D89CE3361979892600710BD8 /* dlist.c in Sources */,
+				D89CE3371979892600710BD8 /* lhash-table.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +409,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -333,18 +449,42 @@
 		08F9B727180DC9F300DC30C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_PREFIX = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "include/$(TARGET_NAME)";
+				PRODUCT_NAME = libcollections;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		08F9B728180DC9F300DC30C4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_PREFIX = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "include/$(TARGET_NAME)";
+				PRODUCT_NAME = libcollections;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D89CE3511979892600710BD8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = "";
+				PRODUCT_NAME = libcollections;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D89CE3521979892600710BD8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = "";
+				PRODUCT_NAME = libcollections;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
@@ -360,11 +500,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		08F9B726180DC9F300DC30C4 /* Build configuration list for PBXNativeTarget "libcollections" */ = {
+		08F9B726180DC9F300DC30C4 /* Build configuration list for PBXNativeTarget "libcollections-static" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				08F9B727180DC9F300DC30C4 /* Debug */,
 				08F9B728180DC9F300DC30C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D89CE3501979892600710BD8 /* Build configuration list for PBXNativeTarget "libcollections-static-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D89CE3511979892600710BD8 /* Debug */,
+				D89CE3521979892600710BD8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
