@@ -7,6 +7,7 @@ bheap.c \
 buffer.c \
 bitset.c \
 dlist.c \
+dynarray.c \
 flat-db.c \
 hash-functions.c \
 hash-map.c \
@@ -30,6 +31,7 @@ buffer.h \
 bitset.h \
 libcollections-config.h \
 dlist.h \
+dynarray.h \
 flat-db.h \
 hash-functions.h \
 hash-map.h \

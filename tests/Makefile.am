@@ -1,5 +1,5 @@
 if ENABLE_TESTS
-AM_CFLAGS = -std=c99 -Wall -pedantic -g -ggdb -pg -O0 -D_DEBUG -DUNICODE -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/
+AM_CFLAGS = -std=c99 -pedantic -g -ggdb -pg -O0 -D_DEBUG -DUNICODE -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/
 LDADD     = -lm $(top_builddir)/lib/.libs/libcollections.a
 
 
@@ -9,6 +9,7 @@ $(top_builddir)/bin/test-bench-mark \
 $(top_builddir)/bin/test-bheap \
 $(top_builddir)/bin/test-bitset \
 $(top_builddir)/bin/test-dlist \
+$(top_builddir)/bin/test-dynarray \
 $(top_builddir)/bin/test-flat-db \
 $(top_builddir)/bin/test-hash-map \
 $(top_builddir)/bin/test-hash-table \
@@ -27,6 +28,7 @@ __top_builddir__bin_test_bench_mark_SOURCES  = test-bench-mark.c
 __top_builddir__bin_test_bheap_SOURCES       = test-bheap.c
 __top_builddir__bin_test_bitset_SOURCES      = test-bitset.c
 __top_builddir__bin_test_dlist_SOURCES       = test-dlist.c
+__top_builddir__bin_test_dynarray_SOURCES    = test-dynarray.c
 __top_builddir__bin_test_flat_db_SOURCES     = test-flat-db.c
 __top_builddir__bin_test_hash_map_SOURCES    = test-hash-map.c
 __top_builddir__bin_test_hash_table_SOURCES  = test-hash-table.c

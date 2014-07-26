@@ -129,14 +129,18 @@ extern "C" {
 	\
 	boolean vector_##name##_resize( vector_##name##_t *p_vector, size_t new_size ) \
 	{ \
-		boolean result = TRUE; \
 		if( vector_##name##_size(p_vector) > new_size ) \
 		{ \
-			p_vector->array_size = new_size; \
-			p_vector->array      = realloc( p_vector->array, sizeof(type) * vector_##name##_array_size(p_vector) ); \
-			result               = p_vector->array != NULL; \
+			while( vector_##name##_size(p_vector) > new_size ) \
+			{ \
+				vector_##name##_pop( p_vector ); \
+			} \
 		} \
-		return result; \
+	    \
+		p_vector->array_size = new_size; \
+		p_vector->array      = realloc( p_vector->array, sizeof(type) * vector_##name##_array_size(p_vector) ); \
+	    \
+		return p_vector->array != NULL; \
 	} \
 	\
 	type* vector_##name##_pushx( vector_##name##_t *p_vector ) \

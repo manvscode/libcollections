@@ -154,22 +154,18 @@ boolean vector_pop( lc_vector_t* p_vector )
 
 boolean vector_resize( lc_vector_t* p_vector, size_t new_size )
 {
-	boolean result = TRUE;
-
 	if( vector_size(p_vector) > new_size )
 	{
 		while( vector_size(p_vector) > new_size )
 		{
 			vector_pop( p_vector );
 		}
-
-		p_vector->array_size = new_size;
-		p_vector->array      = realloc( p_vector->array, p_vector->element_size * vector_array_size(p_vector) );
-
-		result = p_vector->array != NULL;
 	}
 
-	return result;
+	p_vector->array_size = new_size;
+	p_vector->array      = realloc( p_vector->array, p_vector->element_size * vector_array_size(p_vector) );
+
+	return p_vector->array != NULL;
 }
 
 void vector_clear( lc_vector_t* p_vector )
@@ -300,23 +296,18 @@ boolean pvector_pop( lc_pvector_t* p_vector )
 
 boolean pvector_resize( lc_pvector_t* p_vector, size_t new_size )
 {
-	boolean result = TRUE;
-
 	if( pvector_size(p_vector) > new_size )
 	{
 		while( pvector_size(p_vector) > new_size )
 		{
 			pvector_pop( p_vector );
 		}
-
-		p_vector->array_size = new_size;
-		p_vector->array      = realloc( p_vector->array, sizeof(void*) * pvector_array_size(p_vector) );
-		assert( p_vector->array );
-
-		result = p_vector->array != NULL;
 	}
 
-	return result;
+	p_vector->array_size = new_size;
+	p_vector->array      = realloc( p_vector->array, sizeof(void*) * pvector_array_size(p_vector) );
+
+	return p_vector->array != NULL;
 }
 
 void pvector_clear( lc_pvector_t* p_vector )

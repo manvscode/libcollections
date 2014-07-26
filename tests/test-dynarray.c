@@ -22,7 +22,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <vector.h>
+#define DYNARRAY_GROW_AMOUNT(array)     (1)
+#include <dynarray.h>
 
 
 
@@ -32,103 +33,38 @@ typedef struct point {
 	char name;
 } point_t;
 
-boolean point_destroy( void *data )
-{
-	/* vector makes a shallow copy of the
- 	 * data on the array. There is nothing
- 	 * to free.
- 	 */
-	return TRUE;
-}
+#define SIZE  100
 
-#define SIZE  26
-
-#define create_point( )  ((point_t *) malloc( sizeof(point_t) ))
-
-DECLARE_VECTOR_TYPE   ( point, point_t )
-IMPLEMENT_VECTOR_TYPE ( point, point_t )
 
 int main( int argc, char *argv[] )
 {
-#if 0 // inlined vector type
-	vector_point_t collection;
+	point_t* collection = NULL;
+	//lc_dynarray_resize( collection, 3 );
 	int i;
 	char names[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	srand( time(NULL) );
-	vector_point_create( &collection, 1 );
+
+	printf( "First: length = %lu, size = %lu\n", lc_dynarray_length(collection), lc_dynarray_size(collection) );
 
 	for( i = 0; i < SIZE; i++ )
 	{
 		point_t pt;
-
-		pt.x    = ((rand( ) % 100) - 50.0);
-		pt.y    = ((rand( ) % 100) - 50.0);
-		pt.name = names[ rand( ) % (sizeof(names) - 1) ];
-
-		vector_point_push( &collection, &pt );
-	}
-
-	for( i = 0; i < 0.25 * SIZE; i++ )
-	{
-		vector_point_pop( &collection );
-	}
-
-	for( i = 0; i < 0.5 * SIZE; i++ )
-	{
-		point_t *p_pt = vector_point_pushx( &collection );
-
-		p_pt->x    = ((rand( ) % 100) - 50.0);
-		p_pt->y    = ((rand( ) % 100) - 50.0);
-		p_pt->name = names[ rand( ) % (sizeof(names) - 1) ];
-
-	}
-
-	for( i = 0; i < 0.25 * SIZE; i++ )
-	{
-		vector_point_pop( &collection );
-	}
-
-	for( i = 0; i < vector_point_size(&collection); i++ )
-	{
-		point_t *p_pt = (point_t *) vector_point_get( &collection, i );
-
-		printf( "%c = (%03.2f, %03.2f)\n",
-			p_pt->name,
-			p_pt->x,
-			p_pt->y );
-	}
-
-	vector_point_destroy( &collection );
-#else
-	lc_vector_t collection;
-	int i;
-	char names[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-	srand( time(NULL) );
-#if defined(VECTOR_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
-	vector_create( &collection, sizeof(point_t), 1, point_destroy, malloc, free );
-#else
-	vector_create( &collection, sizeof(point_t), 1, malloc, free );
-#endif
-
-
-	for( i = 0; i < SIZE; i++ )
-	{
-		point_t pt;
-
 		pt.x    = ((rand( ) % 100) - 50.0);
 		pt.y    = ((rand( ) % 100) - 50.0);
 		pt.name = names[ rand( ) % (sizeof(names) - 1) ];
 		pt.name = names[ rand( ) % (sizeof(names) - 1) ];
 		pt.name = names[ rand( ) % (sizeof(names) - 1) ];
 
-		vector_push( &collection, &pt );
+		lc_dynarray_push( collection, pt );
+		printf( " length = %lu, size = %lu\n", lc_dynarray_length(collection), lc_dynarray_size(collection) );
 	}
+
+	printf( "After %d pushes: length = %lu, size = %lu\n", SIZE, lc_dynarray_length(collection), lc_dynarray_size(collection) );
 
 	for( i = 0; i < 0.25 * SIZE; i++ )
 	{
-		vector_pop( &collection );
+		lc_dynarray_pop( collection );
 	}
 
 	for( i = 0; i < 0.5 * SIZE; i++ )
@@ -139,17 +75,18 @@ int main( int argc, char *argv[] )
 		pt.y    = ((rand( ) % 100) - 50.0);
 		pt.name = names[ rand( ) % (sizeof(names) - 1) ];
 
-		vector_push( &collection, &pt );
+		lc_dynarray_push( collection, pt );
 	}
 
 	for( i = 0; i < 0.25 * SIZE; i++ )
 	{
-		vector_pop( &collection );
+		lc_dynarray_pop( collection );
 	}
 
-	for( i = 0; i < vector_size(&collection); i++ )
+	for( i = 0; i < lc_dynarray_length(collection); i++ )
 	{
-		point_t *p_pt = (point_t *) vector_get( &collection, i );
+		point_t *p_pt = &collection[ i ];
+
 
 		printf( "%c = (%03.2f, %03.2f)\n",
 			p_pt->name,
@@ -157,7 +94,9 @@ int main( int argc, char *argv[] )
 			p_pt->y );
 	}
 
-	vector_destroy( &collection );
-#endif
+	lc_dynarray_resize( collection, 4 );
+	printf( "End: length = %lu, size = %lu\n", lc_dynarray_length(collection), lc_dynarray_size(collection) );
+
+	lc_dynarray_destroy( collection );
 	return 0;
 }
