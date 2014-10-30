@@ -43,6 +43,7 @@ extern "C" {
 #define lc_dynarray_need_grow(array)             (!array || lc_dynarray_length(array) >= lc_dynarray_size(array))
 #define lc_dynarray_grow(array, size)            ((lc_dynarray_need_grow(array)) ? lc_dynarray_resize(array, (size)) : 0)
 #define lc_dynarray_resize(array, size)          (array = __lc_dynarray_resize(array, sizeof(*array), (size)))
+#define lc_dynarray_clear(array)                 (lc_dynarray_l(array) = 0)
 #define lc_dynarray_push(array, item)            (lc_dynarray_grow(array, lc_dynarray_size(array) + DYNARRAY_GROW_AMOUNT(array)), array[ lc_dynarray_l(array)++ ] = item)
 #define lc_dynarray_pop(array)                   (lc_dynarray_l(array)--)
 #define lc_dynarray_pushn(array, item, amount)   (lc_dynarray_grow(array, lc_dynarray_size(array) + amount), array[ lc_dynarray_l(array)++ ] = item)

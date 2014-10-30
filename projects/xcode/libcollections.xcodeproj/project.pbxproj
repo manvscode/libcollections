@@ -44,6 +44,10 @@
 		08F9B774180DCE5500DC30C4 /* tstring.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B74E180DCE5500DC30C4 /* tstring.c */; };
 		08F9B775180DCE5500DC30C4 /* variant.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B74F180DCE5500DC30C4 /* variant.c */; };
 		08F9B776180DCE5500DC30C4 /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B750180DCE5500DC30C4 /* vector.c */; };
+		D8384B691A0348F000E4E174 /* dynarray.c in Sources */ = {isa = PBXBuildFile; fileRef = D8384B671A0348F000E4E174 /* dynarray.c */; };
+		D8384B6A1A0348F000E4E174 /* dynarray.c in Sources */ = {isa = PBXBuildFile; fileRef = D8384B671A0348F000E4E174 /* dynarray.c */; };
+		D8384B6B1A0348F000E4E174 /* dynarray.h in Headers */ = {isa = PBXBuildFile; fileRef = D8384B681A0348F000E4E174 /* dynarray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D8384B6C1A0348F000E4E174 /* dynarray.h in Headers */ = {isa = PBXBuildFile; fileRef = D8384B681A0348F000E4E174 /* dynarray.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D89CE3291979892600710BD8 /* hash-functions.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B747180DCE5500DC30C4 /* hash-functions.c */; };
 		D89CE32A1979892600710BD8 /* hash-map.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B748180DCE5500DC30C4 /* hash-map.c */; };
 		D89CE32B1979892600710BD8 /* slist.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B74C180DCE5500DC30C4 /* slist.c */; };
@@ -122,6 +126,8 @@
 		08F9B74E180DCE5500DC30C4 /* tstring.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tstring.c; path = ../../src/tstring.c; sourceTree = "<group>"; };
 		08F9B74F180DCE5500DC30C4 /* variant.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = variant.c; path = ../../src/variant.c; sourceTree = "<group>"; };
 		08F9B750180DCE5500DC30C4 /* vector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = vector.c; path = ../../src/vector.c; sourceTree = "<group>"; };
+		D8384B671A0348F000E4E174 /* dynarray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = dynarray.c; path = ../../src/dynarray.c; sourceTree = "<group>"; };
+		D8384B681A0348F000E4E174 /* dynarray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dynarray.h; path = ../../src/dynarray.h; sourceTree = "<group>"; };
 		D89CE3531979892600710BD8 /* libcollections.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcollections.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -170,6 +176,8 @@
 				08F9B72F180DCE5500DC30C4 /* bheap.h */,
 				08F9B730180DCE5500DC30C4 /* bitset.h */,
 				08F9B731180DCE5500DC30C4 /* dlist.h */,
+				D8384B671A0348F000E4E174 /* dynarray.c */,
+				D8384B681A0348F000E4E174 /* dynarray.h */,
 				08F9B732180DCE5500DC30C4 /* flat-db.h */,
 				08F9B733180DCE5500DC30C4 /* hash-functions.h */,
 				08F9B734180DCE5500DC30C4 /* hash-map.h */,
@@ -218,6 +226,7 @@
 				08F9B755180DCE5500DC30C4 /* bheap.h in Headers */,
 				08F9B756180DCE5500DC30C4 /* bitset.h in Headers */,
 				08F9B757180DCE5500DC30C4 /* dlist.h in Headers */,
+				D8384B6B1A0348F000E4E174 /* dynarray.h in Headers */,
 				08F9B758180DCE5500DC30C4 /* flat-db.h in Headers */,
 				08F9B759180DCE5500DC30C4 /* hash-functions.h in Headers */,
 				08F9B75A180DCE5500DC30C4 /* hash-map.h in Headers */,
@@ -247,6 +256,7 @@
 				D89CE33E1979892600710BD8 /* bheap.h in Headers */,
 				D89CE33F1979892600710BD8 /* bitset.h in Headers */,
 				D89CE3401979892600710BD8 /* dlist.h in Headers */,
+				D8384B6C1A0348F000E4E174 /* dynarray.h in Headers */,
 				D89CE3411979892600710BD8 /* flat-db.h in Headers */,
 				D89CE3421979892600710BD8 /* hash-functions.h in Headers */,
 				D89CE3431979892600710BD8 /* hash-map.h in Headers */,
@@ -339,6 +349,7 @@
 				08F9B772180DCE5500DC30C4 /* slist.c in Sources */,
 				08F9B775180DCE5500DC30C4 /* variant.c in Sources */,
 				08F9B76F180DCE5500DC30C4 /* hash-table.c in Sources */,
+				D8384B691A0348F000E4E174 /* dynarray.c in Sources */,
 				08F9B76A180DCE5500DC30C4 /* bitset.c in Sources */,
 				08F9B769180DCE5500DC30C4 /* bheap.c in Sources */,
 				08F9B774180DCE5500DC30C4 /* tstring.c in Sources */,
@@ -361,6 +372,7 @@
 				D89CE32B1979892600710BD8 /* slist.c in Sources */,
 				D89CE32C1979892600710BD8 /* variant.c in Sources */,
 				D89CE32D1979892600710BD8 /* hash-table.c in Sources */,
+				D8384B6A1A0348F000E4E174 /* dynarray.c in Sources */,
 				D89CE32E1979892600710BD8 /* bitset.c in Sources */,
 				D89CE32F1979892600710BD8 /* bheap.c in Sources */,
 				D89CE3301979892600710BD8 /* tstring.c in Sources */,
@@ -393,7 +405,9 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				EXECUTABLE_EXTENSION = a;
+				EXECUTABLE_PREFIX = lib;
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -410,7 +424,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
+				PRODUCT_NAME = collections;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/lib${PRODUCT_NAME}";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -432,7 +447,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				EXECUTABLE_EXTENSION = a;
+				EXECUTABLE_PREFIX = lib;
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -441,7 +458,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				SDKROOT = iphoneos;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = collections;
+				PUBLIC_HEADERS_FOLDER_PATH = "include/lib${PRODUCT_NAME}";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -449,11 +468,6 @@
 		08F9B727180DC9F300DC30C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				EXECUTABLE_PREFIX = "";
-				GCC_C_LANGUAGE_STANDARD = c99;
-				PRODUCT_NAME = libcollections;
-				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -461,11 +475,6 @@
 		08F9B728180DC9F300DC30C4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				EXECUTABLE_PREFIX = "";
-				GCC_C_LANGUAGE_STANDARD = c99;
-				PRODUCT_NAME = libcollections;
-				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -473,10 +482,6 @@
 		D89CE3511979892600710BD8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = "";
-				GCC_C_LANGUAGE_STANDARD = c99;
-				PRODUCT_NAME = libcollections;
-				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -484,10 +489,6 @@
 		D89CE3521979892600710BD8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = "";
-				GCC_C_LANGUAGE_STANDARD = c99;
-				PRODUCT_NAME = libcollections;
-				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
 			};
 			name = Release;

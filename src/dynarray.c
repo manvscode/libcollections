@@ -50,6 +50,6 @@ void* __lc_dynarray_resize( void* array, size_t element_size, size_t new_size )
 		return result + 2;
 	}
 
-	return NULL;
+	return NULL; /* Force a crash */
 }
 
