@@ -67,27 +67,44 @@ int variant_compare( const lc_variant_t* p_left, const lc_variant_t* p_right )
 		switch( p_left->type )
 		{
 			case VARIANT_STRING:
+			{
 				result = tstrcmp( variant_string(p_left), variant_string(p_right) );
 				break;
+			}
 			case VARIANT_DECIMAL:
+			{
 				result = variant_decimal(p_left) - variant_decimal(p_right);
 				break;
+			}
 			case VARIANT_INTEGER:
-				result = variant_integer(p_left) - variant_integer(p_right);
+			{
+				long res = variant_integer(p_left) - variant_integer(p_right);
+				result = res > 0 ? 1 : (res < 0 ? -1 : 0);
 				break;
+			}
 			case VARIANT_UNSIGNED_INTEGER:
-				result = variant_unsigned_integer(p_left) - variant_unsigned_integer(p_right);
+			{
+				long res = variant_unsigned_integer(p_left) - variant_unsigned_integer(p_right);
+				result = res > 0 ? 1 : (res < 0 ? -1 : 0);
 				break;
+			}
 			case VARIANT_BOOLEAN:
+			{
 				result = variant_boolean(p_left) == variant_boolean(p_right);
 				break;
+			}
 			case VARIANT_POINTER:
-				result = (unsigned char*) variant_pointer(p_left) - (unsigned char*) variant_pointer(p_right);
+			{
+				long res = (unsigned char*) variant_pointer(p_left) - (unsigned char*) variant_pointer(p_right);
+				result = res > 0 ? 1 : (res < 0 ? -1 : 0);
 				break;
+			}
 			default:
+			{
 				assert( FALSE ); /* Did someone add a new variant type? */
 				result = 0;
 				break;
+			}
 		}
 	}
 

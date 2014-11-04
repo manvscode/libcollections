@@ -44,6 +44,8 @@
 		08F9B774180DCE5500DC30C4 /* tstring.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B74E180DCE5500DC30C4 /* tstring.c */; };
 		08F9B775180DCE5500DC30C4 /* variant.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B74F180DCE5500DC30C4 /* variant.c */; };
 		08F9B776180DCE5500DC30C4 /* vector.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B750180DCE5500DC30C4 /* vector.c */; };
+		42B271D71A096F29006A099B /* pool.h in Headers */ = {isa = PBXBuildFile; fileRef = 42B271D61A096F29006A099B /* pool.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		42B271D81A096F29006A099B /* pool.h in Headers */ = {isa = PBXBuildFile; fileRef = 42B271D61A096F29006A099B /* pool.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D8384B691A0348F000E4E174 /* dynarray.c in Sources */ = {isa = PBXBuildFile; fileRef = D8384B671A0348F000E4E174 /* dynarray.c */; };
 		D8384B6A1A0348F000E4E174 /* dynarray.c in Sources */ = {isa = PBXBuildFile; fileRef = D8384B671A0348F000E4E174 /* dynarray.c */; };
 		D8384B6B1A0348F000E4E174 /* dynarray.h in Headers */ = {isa = PBXBuildFile; fileRef = D8384B681A0348F000E4E174 /* dynarray.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -126,6 +128,7 @@
 		08F9B74E180DCE5500DC30C4 /* tstring.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tstring.c; path = ../../src/tstring.c; sourceTree = "<group>"; };
 		08F9B74F180DCE5500DC30C4 /* variant.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = variant.c; path = ../../src/variant.c; sourceTree = "<group>"; };
 		08F9B750180DCE5500DC30C4 /* vector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = vector.c; path = ../../src/vector.c; sourceTree = "<group>"; };
+		42B271D61A096F29006A099B /* pool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pool.h; path = ../../src/pool.h; sourceTree = "<group>"; };
 		D8384B671A0348F000E4E174 /* dynarray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = dynarray.c; path = ../../src/dynarray.c; sourceTree = "<group>"; };
 		D8384B681A0348F000E4E174 /* dynarray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dynarray.h; path = ../../src/dynarray.h; sourceTree = "<group>"; };
 		D89CE3531979892600710BD8 /* libcollections.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcollections.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -193,6 +196,7 @@
 				08F9B73E180DCE5500DC30C4 /* variant.h */,
 				08F9B73F180DCE5500DC30C4 /* vector-template.h */,
 				08F9B740180DCE5500DC30C4 /* vector.h */,
+				42B271D61A096F29006A099B /* pool.h */,
 				08F9B741180DCE5500DC30C4 /* array.c */,
 				08F9B742180DCE5500DC30C4 /* bench-mark.c */,
 				08F9B743180DCE5500DC30C4 /* bheap.c */,
@@ -231,6 +235,7 @@
 				08F9B759180DCE5500DC30C4 /* hash-functions.h in Headers */,
 				08F9B75A180DCE5500DC30C4 /* hash-map.h in Headers */,
 				08F9B75B180DCE5500DC30C4 /* hash-table.h in Headers */,
+				42B271D71A096F29006A099B /* pool.h in Headers */,
 				08F9B75C180DCE5500DC30C4 /* lhash-table.h in Headers */,
 				08F9B75D180DCE5500DC30C4 /* libcollections-config.h in Headers */,
 				08F9B75E180DCE5500DC30C4 /* macros.h in Headers */,
@@ -265,6 +270,7 @@
 				D89CE3461979892600710BD8 /* libcollections-config.h in Headers */,
 				D89CE3471979892600710BD8 /* macros.h in Headers */,
 				D89CE3481979892600710BD8 /* rbtree.h in Headers */,
+				42B271D81A096F29006A099B /* pool.h in Headers */,
 				D89CE3491979892600710BD8 /* slist.h in Headers */,
 				D89CE34A1979892600710BD8 /* tree-map.h in Headers */,
 				D89CE34B1979892600710BD8 /* tstring.h in Headers */,

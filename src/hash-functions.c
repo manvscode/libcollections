@@ -28,7 +28,9 @@
 /*
  *   Hash Functions
  */
-static __inline uint64_t int64_hash( uint64_t key )
+
+#if UINTPTR_MAX == (18446744073709551615UL)
+static __inline uint64_t uint64_hash( uint64_t key )
 {
 	key = (~key) + (key << 21); /* key = (key << 21) - key - 1;*/
 	key = key ^ (key >> 24);
@@ -39,8 +41,8 @@ static __inline uint64_t int64_hash( uint64_t key )
 	key = key + (key << 31);
 	return key;
 }
-
-static __inline uint32_t int32_hash( uint32_t a )
+#else
+static __inline uint32_t uint32_hash( uint32_t a )
 {
 	a = (a+0x7ed55d16) + (a<<12);
 	a = (a^0xc761c23c) ^ (a>>19);
@@ -50,6 +52,7 @@ static __inline uint32_t int32_hash( uint32_t a )
 	a = (a^0xb55a4f09) ^ (a>>16);
 	return a;
 }
+#endif
 
 size_t pointer_hash( const void *data )
 {
@@ -57,9 +60,9 @@ size_t pointer_hash( const void *data )
 		return (size_t) data;
 	#else
 		#if UINTPTR_MAX == (18446744073709551615UL)
-		return int64_hash( (int64_t) data );
+		return uint64_hash( (int64_t) data );
 		#else
-		return int32_hash( (int32_t) data );
+		return uint32_hash( (int32_t) data );
 		#endif
 	#endif
 }
