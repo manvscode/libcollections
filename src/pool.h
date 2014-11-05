@@ -98,10 +98,6 @@
 			{ \
 				lc_dynarray_push( pool->available, &pool->items[ i ] ); \
 			} \
-			\
-			#ifdef POOL_INITIALIZE_MEMORY \
-			memset( pool->items, POOL_UNUSED_MEMORY_VALUE, sizeof(*pool->items) * count ); \
-			#endif \
 		} \
 		\
 		return pool; \
@@ -149,10 +145,6 @@
 	{ \
 		if( pool && obj && *obj ) \
 		{ \
-			\
-			#ifdef POOL_INITIALIZE_MEMORY \
-			memset( *obj, POOL_UNUSED_MEMORY_VALUE, sizeof(**obj) ); \
-			#endif \
 			lc_dynarray_push( pool->available, (data_type*) *obj ); \
 			*obj = NULL; \
 		} \
