@@ -89,10 +89,8 @@
 		if( pool ) \
 		{ \
 			pool->growth    = growth; \
-			pool->items     = NULL; /* do not remove */ \
-			pool->available = NULL; /* do not remove */ \
-			pool->items     = lc_dynarray_resize( pool->items, count ); \
-			pool->available = lc_dynarray_resize( pool->available, count ); \
+			lc_dynarray_create( pool->items, count ); \
+			lc_dynarray_create( pool->available, count ); \
 			\
 			for( size_t i = 0; i < count; i++ ) \
 			{ \

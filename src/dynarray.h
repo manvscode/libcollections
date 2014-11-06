@@ -34,6 +34,7 @@ extern "C" {
 #endif
 #endif
 
+#define lc_dynarray_create(array, size)          ((array) = NULL, array = lc_dynarray_resize(array, size))
 #define lc_dynarray_destroy(array)               ((array) ? free(lc_dynarray_raw(array)), 0 : 0)
 #define lc_dynarray_raw(array)                   (((size_t*)(array)) - 2)
 #define lc_dynarray_length(array)                ((array) ? lc_dynarray_raw(array)[ 0 ] : 0)

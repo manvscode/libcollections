@@ -324,7 +324,7 @@
 		08F9B71A180DC9F300DC30C4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Joe Marrero";
 			};
 			buildConfigurationList = 08F9B71D180DC9F300DC30C4 /* Build configuration list for PBXProject "libcollections" */;
@@ -474,6 +474,7 @@
 		08F9B727180DC9F300DC30C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -481,6 +482,7 @@
 		08F9B728180DC9F300DC30C4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				SDKROOT = macosx;
 			};
 			name = Release;
