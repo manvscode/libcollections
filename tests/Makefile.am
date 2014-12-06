@@ -8,6 +8,7 @@ $(top_builddir)/bin/test-array \
 $(top_builddir)/bin/test-bench-mark \
 $(top_builddir)/bin/test-bitset \
 $(top_builddir)/bin/test-dlist \
+$(top_builddir)/bin/test-flat-db \
 $(top_builddir)/bin/test-vector \
 $(top_builddir)/bin/test-hash-map \
 $(top_builddir)/bin/test-hash-table \
@@ -23,6 +24,7 @@ __top_builddir__bin_test_array_SOURCES       = test-array.c
 __top_builddir__bin_test_bench_mark_SOURCES  = test-bench-mark.c
 __top_builddir__bin_test_bitset_SOURCES      = test-bitset.c
 __top_builddir__bin_test_dlist_SOURCES       = test-dlist.c
+__top_builddir__bin_test_flat_db_SOURCES     = test-flat-db.c
 __top_builddir__bin_test_vector_SOURCES      = test-vector.c
 __top_builddir__bin_test_hash_map_SOURCES    = test-hash-map.c
 __top_builddir__bin_test_hash_table_SOURCES  = test-hash-table.c

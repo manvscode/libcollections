@@ -6,6 +6,7 @@ bench-mark.c \
 buffer.c \
 bitset.c \
 dlist.c \
+flat-db.c \
 hash-functions.c \
 hash-map.c \
 hash-table.c \
