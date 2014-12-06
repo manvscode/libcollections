@@ -3,11 +3,9 @@
 libcollections_src = \
 array.c \
 bench-mark.c \
-bheap.c \
 buffer.c \
 bitset.c \
 dlist.c \
-dynarray.c \
 flat-db.c \
 hash-functions.c \
 hash-map.c \
@@ -25,17 +23,16 @@ libcollections_headers = \
 alloc.h \
 array.h \
 bench-mark.h \
-bheap.h \
-bheap-template.h \
 buffer.h \
+binary-heap.h \
 bitset.h \
 libcollections-config.h \
 dlist.h \
-dynarray.h \
 flat-db.h \
 hash-functions.h \
 hash-map.h \
 hash-table.h \
+heap.h \
 lhash-table.h \
 macros.h \
 rbtree.h \
@@ -44,8 +41,7 @@ tree-map.h \
 tstring.h \
 types.h \
 variant.h \
-vector.h \
-vector-template.h
+vector.h
 
 library_includedir      = $(includedir)/libcollections/
 library_include_HEADERS = $(libcollections_headers)

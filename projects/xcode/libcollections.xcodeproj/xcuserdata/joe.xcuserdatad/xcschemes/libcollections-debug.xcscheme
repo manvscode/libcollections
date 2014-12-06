@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "08F9B721180DC9F300DC30C4"
                BuildableName = "libcollections.a"
-               BlueprintName = "libcollections-static"
+               BlueprintName = "libcollections-static-osx"
                ReferencedContainer = "container:libcollections.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -44,7 +44,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "08F9B721180DC9F300DC30C4"
             BuildableName = "libcollections.a"
-            BlueprintName = "libcollections-static"
+            BlueprintName = "libcollections-static-osx"
             ReferencedContainer = "container:libcollections.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

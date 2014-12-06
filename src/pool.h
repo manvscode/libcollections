@@ -19,9 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include <libcollections/dynarray.h>
 #include <stdlib.h>
 #include <string.h>
+#include "vector.h"
 
 /*
  * Pool should grow linearly.
@@ -89,12 +89,12 @@
 		if( pool ) \
 		{ \
 			pool->growth    = growth; \
-			lc_dynarray_create( pool->items, count ); \
-			lc_dynarray_create( pool->available, count ); \
+			vector_create( pool->items, count ); \
+			vector_create( pool->available, count ); \
 			\
 			for( size_t i = 0; i < count; i++ ) \
 			{ \
-				lc_dynarray_push( pool->available, &pool->items[ i ] ); \
+				vector_push( pool->available, &pool->items[ i ] ); \
 			} \
 		} \
 		\
@@ -105,8 +105,8 @@
 	{ \
 		if( pool && *pool ) \
 		{ \
-			lc_dynarray_destroy( (*pool)->items	); \
-			lc_dynarray_destroy( (*pool)->available ); \
+			vector_destroy( (*pool)->items	); \
+			vector_destroy( (*pool)->available ); \
 			free( *pool ); \
 			*pool = NULL; \
 		} \
@@ -120,12 +120,12 @@
 		{ \
 			retry_obtain: \
 			{ \
-				const size_t available_count = lc_dynarray_length(pool->available); \
+				const size_t available_count = vector_length(pool->available); \
 				\
 				if( available_count > 0 ) \
 				{ \
-					data_type** obj = &lc_dynarray_last( pool->available ); \
-					lc_dynarray_pop( pool->available ); \
+					data_type** obj = &vector_last( pool->available ); \
+					vector_pop( pool->available ); \
 					result = obj; \
 				} \
 				else if( pool->growth ) \
@@ -143,7 +143,7 @@
 	{ \
 		if( pool && obj && *obj ) \
 		{ \
-			lc_dynarray_push( pool->available, (data_type*) *obj ); \
+			vector_push( pool->available, (data_type*) *obj ); \
 			*obj = NULL; \
 		} \
 	} \
@@ -152,13 +152,13 @@
 	{ \
 		/* We ran out of items so we need to grow the */ \
 		/* pool.                                      */ \
-		size_t old_size = lc_dynarray_size( pool->items ); \
+		size_t old_size = vector_size( pool->items ); \
 		size_t new_size = pool->growth > 0 ? (old_size + (size_t)pool->growth) : (1.5f * old_size + 1); \
 		\
 		data_type* old_base = pool->items; \
 		\
-		pool->items     = lc_dynarray_resize( pool->items, new_size ); \
-		pool->available = lc_dynarray_resize( pool->available, new_size ); \
+		pool->items     = vector_resize( pool->items, new_size ); \
+		pool->available = vector_resize( pool->available, new_size ); \
 		\
 		if( old_base != pool->items ) \
 		{ \
@@ -172,7 +172,7 @@
 		\
 		for( size_t i = old_size; i < new_size; i++ ) \
 		{ \
-			lc_dynarray_push( pool->available, &pool->items[ i ] ); \
+			vector_push( pool->available, &pool->items[ i ] ); \
 		} \
 	} \
 	\
@@ -180,13 +180,13 @@
 	{ \
 		if( pool ) \
 		{ \
-			size_t len  = lc_dynarray_length( pool->items ); \
-			size_t size = lc_dynarray_length( pool->items ); \
+			size_t len  = vector_length( pool->items ); \
+			size_t size = vector_length( pool->items ); \
 			\
 			if( size > len ) \
 			{ \
-				lc_dynarray_resize( pool->items, len ); \
-				lc_dynarray_resize( pool->available, len ); \
+				vector_resize( pool->items, len ); \
+				vector_resize( pool->available, len ); \
 			} \
 		} \
 	}
