@@ -21,6 +21,7 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <assert.h>
 #include "rbtree.h"
 
@@ -28,10 +29,10 @@
 	/* Typical leaf node (always black).
 	 * This cannot be const because the parent pointer is manipulated.
 	 */
-	lc_rbnode_t RBNIL = { (lc_rbnode_t *) &RBNIL, (lc_rbnode_t *) &RBNIL, (lc_rbnode_t *) &RBNIL, FALSE, NULL };
+	rbnode_t RBNIL = { (rbnode_t *) &RBNIL, (rbnode_t *) &RBNIL, (rbnode_t *) &RBNIL, false, NULL };
 #else
 	/* Typical leaf node (always black) */
-	static lc_rbnode_t RBNIL = { (lc_rbnode_t *) &RBNIL, (lc_rbnode_t *) &RBNIL, (lc_rbnode_t *) &RBNIL, FALSE, NULL };
+	static rbnode_t RBNIL = { (rbnode_t *) &RBNIL, (rbnode_t *) &RBNIL, (rbnode_t *) &RBNIL, false, NULL };
 #endif
 
 #if defined(RBTREE_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
@@ -51,7 +52,7 @@
 	(p_node)->left   = p_node; \
 	(p_node)->right  = p_node; \
 	(p_node)->data   = NULL; \
-	(p_node)->is_red = FALSE;
+	(p_node)->is_red = false;
 
 #define rbnode_init( p_node, p_data, p_parent, p_left, p_right, color ) \
 	(p_node)->parent = p_parent; \
@@ -61,12 +62,12 @@
 	(p_node)->is_red = color;
 
 
-static lc_rbnode_t* rbnode_search       ( lc_rbtree_t* p_tree, const void *key );
+static rbnode_t* rbnode_search       ( rbtree_t* p_tree, const void *key );
 
 
-static __inline void rbtree_left_rotate( lc_rbtree_t* p_tree, lc_rbnode_t *x )
+static inline void rbtree_left_rotate( rbtree_t* p_tree, rbnode_t *x )
 {
-	lc_rbnode_t *y;
+	rbnode_t *y;
 	assert( x->right != &RBNIL );
 
 	y        = x->right;
@@ -96,9 +97,9 @@ static __inline void rbtree_left_rotate( lc_rbtree_t* p_tree, lc_rbnode_t *x )
 	x->parent = y;
 }
 
-static __inline void rbtree_right_rotate( lc_rbtree_t* p_tree, lc_rbnode_t *x )
+static inline void rbtree_right_rotate( rbtree_t* p_tree, rbnode_t *x )
 {
-	lc_rbnode_t *y;
+	rbnode_t *y;
 	assert( x->left != &RBNIL );
 
 	y       = x->left;
@@ -127,9 +128,9 @@ static __inline void rbtree_right_rotate( lc_rbtree_t* p_tree, lc_rbnode_t *x )
 	x->parent = y;
 }
 
-static __inline void rbtree_insert_fixup( lc_rbtree_t* p_tree, lc_rbnode_t ** t )
+static inline void rbtree_insert_fixup( rbtree_t* p_tree, rbnode_t ** t )
 {
-	lc_rbnode_t *y = (lc_rbnode_t *) &RBNIL;
+	rbnode_t *y = (rbnode_t *) &RBNIL;
 
 	while( (*t)->parent->is_red )
 	{
@@ -139,9 +140,9 @@ static __inline void rbtree_insert_fixup( lc_rbtree_t* p_tree, lc_rbnode_t ** t 
 			/* case 1 */
 			if( y->is_red ) /* uncle is red, just recolor */
 			{
-				(*t)->parent->is_red = FALSE;
-				y->is_red = FALSE;
-				(*t)->parent->parent->is_red = TRUE;
+				(*t)->parent->is_red = false;
+				y->is_red = false;
+				(*t)->parent->parent->is_red = true;
 				(*t) = (*t)->parent->parent;
 			}
 			else
@@ -153,8 +154,8 @@ static __inline void rbtree_insert_fixup( lc_rbtree_t* p_tree, lc_rbnode_t ** t 
 					rbtree_left_rotate( p_tree, (*t) );
 				}
 				/* case 3 - uncle is black and t is on the left */
-				(*t)->parent->is_red = FALSE;
-				(*t)->parent->parent->is_red = TRUE;
+				(*t)->parent->is_red = false;
+				(*t)->parent->parent->is_red = true;
 				rbtree_right_rotate( p_tree, (*t)->parent->parent );
 			}
 		}
@@ -164,9 +165,9 @@ static __inline void rbtree_insert_fixup( lc_rbtree_t* p_tree, lc_rbnode_t ** t 
 			/* case 1 */
 			if( y->is_red ) /* uncle is red */
 			{
-				(*t)->parent->is_red = FALSE;
-				y->is_red = FALSE;
-				(*t)->parent->parent->is_red = TRUE;
+				(*t)->parent->is_red = false;
+				y->is_red = false;
+				(*t)->parent->parent->is_red = true;
 				(*t) = (*t)->parent->parent;
 			}
 			else
@@ -178,21 +179,21 @@ static __inline void rbtree_insert_fixup( lc_rbtree_t* p_tree, lc_rbnode_t ** t 
 					rbtree_right_rotate( p_tree, (*t) );
 				}
 				/* case 3 - uncle is black and t is on the right */
-				(*t)->parent->is_red = FALSE;
-				(*t)->parent->parent->is_red = TRUE;
+				(*t)->parent->is_red = false;
+				(*t)->parent->parent->is_red = true;
 				rbtree_left_rotate( p_tree, (*t)->parent->parent );
 			}
 		}
 	}
 
-	p_tree->root->is_red = FALSE;
+	p_tree->root->is_red = false;
 }
 
-static __inline void rbtree_delete_fixup( lc_rbtree_t* p_tree, lc_rbnode_t ** t )
+static inline void rbtree_delete_fixup( rbtree_t* p_tree, rbnode_t ** t )
 {
-	lc_rbnode_t *w = (lc_rbnode_t *) &RBNIL;
+	rbnode_t *w = (rbnode_t *) &RBNIL;
 
-	while( (*t) != p_tree->root && (*t)->is_red == FALSE )
+	while( (*t) != p_tree->root && (*t)->is_red == false )
 	{
 		if( (*t) == (*t)->parent->left )
 		{
@@ -200,29 +201,29 @@ static __inline void rbtree_delete_fixup( lc_rbtree_t* p_tree, lc_rbnode_t ** t 
 
 			if( w->is_red )
 			{
-				w->is_red            = FALSE;
-				(*t)->parent->is_red = TRUE;
+				w->is_red            = false;
+				(*t)->parent->is_red = true;
 				rbtree_left_rotate( p_tree, (*t)->parent );
 				w = (*t)->parent->right;
 			}
 
-			if( w->left->is_red == FALSE && w->right->is_red == FALSE )
+			if( w->left->is_red == false && w->right->is_red == false )
 			{
-				w->is_red = TRUE;
+				w->is_red = true;
 				(*t) = (*t)->parent;
 			}
 			else {
-				if( w->right->is_red == FALSE )
+				if( w->right->is_red == false )
 				{
-					w->left->is_red = FALSE;
-					w->is_red       = TRUE;
+					w->left->is_red = false;
+					w->is_red       = true;
 					rbtree_right_rotate( p_tree, w );
 					w = (*t)->parent->right;
 				}
 
 				w->is_red            = (*t)->parent->is_red;
-				(*t)->parent->is_red = FALSE;
-				w->right->is_red     = FALSE;
+				(*t)->parent->is_red = false;
+				w->right->is_red     = false;
 				rbtree_left_rotate( p_tree, (*t)->parent );
 				(*t) = p_tree->root;
 			}
@@ -233,54 +234,54 @@ static __inline void rbtree_delete_fixup( lc_rbtree_t* p_tree, lc_rbnode_t ** t 
 
 			if( w->is_red )
 			{
-				w->is_red = FALSE;
-				(*t)->parent->is_red = TRUE;
+				w->is_red = false;
+				(*t)->parent->is_red = true;
 				rbtree_right_rotate( p_tree, (*t)->parent );
 				w = (*t)->parent->left;
 			}
 
-			if( w->right->is_red == FALSE && w->left->is_red == FALSE )
+			if( w->right->is_red == false && w->left->is_red == false )
 			{
-				w->is_red = TRUE;
+				w->is_red = true;
 				(*t) = (*t)->parent;
 			}
 			else
 			{
-				if( w->left->is_red == FALSE )
+				if( w->left->is_red == false )
 				{
-					w->right->is_red = FALSE;
-					w->is_red = TRUE;
+					w->right->is_red = false;
+					w->is_red = true;
 					rbtree_left_rotate( p_tree, w );
 					w = (*t)->parent->left;
 				}
 
 				w->is_red = (*t)->parent->is_red;
-				(*t)->parent->is_red = FALSE;
-				w->left->is_red = FALSE;
+				(*t)->parent->is_red = false;
+				w->left->is_red = false;
 				rbtree_right_rotate( p_tree, (*t)->parent );
 				(*t) = p_tree->root;
 			}
 		}
 	}
 
-	(*t)->is_red = FALSE;
+	(*t)->is_red = false;
 }
 
-lc_rbnode_t *rbnode_minimum( lc_rbnode_t *t )
+rbnode_t *rbnode_minimum( rbnode_t *t )
 {
 	while( t->left != &RBNIL ) { t = t->left; }
 	return t;
 }
 
-lc_rbnode_t *rbnode_maximum( lc_rbnode_t *t )
+rbnode_t *rbnode_maximum( rbnode_t *t )
 {
 	while( t->right != &RBNIL ) { t = t->right; }
 	return t;
 }
 
-lc_rbnode_t *rbnode_successor( const lc_rbnode_t *t )
+rbnode_t *rbnode_successor( const rbnode_t *t )
 {
-	lc_rbnode_t *y;
+	rbnode_t *y;
 
 	if( t->right != &RBNIL )
 	{
@@ -298,9 +299,9 @@ lc_rbnode_t *rbnode_successor( const lc_rbnode_t *t )
 	return y;
 }
 
-lc_rbnode_t *rbnode_predecessor( const lc_rbnode_t *t )
+rbnode_t *rbnode_predecessor( const rbnode_t *t )
 {
-	lc_rbnode_t *y;
+	rbnode_t *y;
 
 	if( t->left != &RBNIL )
 	{
@@ -318,9 +319,9 @@ lc_rbnode_t *rbnode_predecessor( const lc_rbnode_t *t )
 	return y;
 }
 
-lc_rbtree_t* rbtree_create_ex( rbtree_element_function destroy, rbtree_compare_function compare, alloc_function alloc, free_function free )
+rbtree_t* rbtree_create_ex( rbtree_element_function destroy, rbtree_compare_function compare, alloc_function alloc, free_function free )
 {
-	lc_rbtree_t* p_tree = (lc_rbtree_t*)  malloc( sizeof(lc_rbtree_t) );
+	rbtree_t* p_tree = (rbtree_t*)  malloc( sizeof(rbtree_t) );
 
 	if( p_tree )
 	{
@@ -330,14 +331,14 @@ lc_rbtree_t* rbtree_create_ex( rbtree_element_function destroy, rbtree_compare_f
 	return p_tree;
 }
 
-void rbtree_create( lc_rbtree_t* p_tree, rbtree_element_function destroy, rbtree_compare_function compare, alloc_function alloc, free_function free )
+void rbtree_create( rbtree_t* p_tree, rbtree_element_function destroy, rbtree_compare_function compare, alloc_function alloc, free_function free )
 {
 	assert( p_tree );
 	#ifndef RBTREE_CHECK_FOR_DESTROY
 	assert( destroy );
 	#endif
 	assert( compare );
-	p_tree->root     = (lc_rbnode_t *) &RBNIL;
+	p_tree->root     = (rbnode_t *) &RBNIL;
 	p_tree->size     = 0;
 	p_tree->_compare = compare;
 	p_tree->_destroy = destroy;
@@ -347,7 +348,7 @@ void rbtree_create( lc_rbtree_t* p_tree, rbtree_element_function destroy, rbtree
 	p_tree->_free  = free;
 }
 
-void rbtree_destroy( lc_rbtree_t* p_tree )
+void rbtree_destroy( rbtree_t* p_tree )
 {
 	assert( p_tree );
 	rbtree_clear( p_tree );
@@ -361,9 +362,9 @@ void rbtree_destroy( lc_rbtree_t* p_tree )
 }
 
 /*
-void rbtree_copy( lc_rbtree_t const *p_srcTree, lc_rbtree_t* p_dstTree )
+void rbtree_copy( rbtree_t const *p_srcTree, rbtree_t* p_dstTree )
 {
-	lc_rbnode_t *p_node = NULL;
+	rbnode_t *p_node = NULL;
 
 	if( p_srcTree != p_dstTree )
 	{
@@ -381,18 +382,18 @@ void rbtree_copy( lc_rbtree_t const *p_srcTree, lc_rbtree_t* p_dstTree )
 }
 */
 
-boolean rbtree_insert( lc_rbtree_t* p_tree, const void *key )
+bool rbtree_insert( rbtree_t* p_tree, const void *key )
 {
 
-	lc_rbnode_t *y;
-	lc_rbnode_t *x;
-	lc_rbnode_t *newNode;
+	rbnode_t *y;
+	rbnode_t *x;
+	rbnode_t *newNode;
 
 	assert( p_tree );
-	y   = (lc_rbnode_t *) &RBNIL;
+	y   = (rbnode_t *) &RBNIL;
 	x   = p_tree->root;
-	newNode = p_tree->_alloc( sizeof(lc_rbnode_t) );
-	if( !newNode ) return FALSE;
+	newNode = p_tree->_alloc( sizeof(rbnode_t) );
+	if( !newNode ) return false;
 
 	/* Find where to insert the new node--y points the parent. */
 	while( x != &RBNIL )
@@ -425,26 +426,26 @@ boolean rbtree_insert( lc_rbtree_t* p_tree, const void *key )
 		}
 	}
 
-	rbnode_init( newNode, key, y, (lc_rbnode_t *) &RBNIL, (lc_rbnode_t *) &RBNIL, TRUE );
+	rbnode_init( newNode, key, y, (rbnode_t *) &RBNIL, (rbnode_t *) &RBNIL, true );
 	rbtree_insert_fixup( p_tree, &newNode );
 	p_tree->size++;
 
-	return TRUE;
+	return true;
 }
 
-boolean rbtree_remove( lc_rbtree_t* p_tree, const void *key )
+bool rbtree_remove( rbtree_t* p_tree, const void *key )
 {
-	lc_rbnode_t *t;
-	lc_rbnode_t *x;
-	lc_rbnode_t *y;
+	rbnode_t *t;
+	rbnode_t *x;
+	rbnode_t *y;
 
-	boolean y_is_red = FALSE;
+	bool y_is_red = false;
 
 	assert( p_tree );
 
 	t = rbnode_search( p_tree, key );
 
-	if( t == NULL ) return FALSE; /* item is not even in the tree! */
+	if( t == NULL ) return false; /* item is not even in the tree! */
 
 	if( t->left == &RBNIL || t->right == &RBNIL )
 	{
@@ -506,19 +507,19 @@ boolean rbtree_remove( lc_rbtree_t* p_tree, const void *key )
 		p_tree->_free( y );
 	}
 
-	if( y_is_red == FALSE ) /* y is black */
+	if( y_is_red == false ) /* y is black */
 	{
 		rbtree_delete_fixup( p_tree, &x );
 	}
 
 	p_tree->size--;
 
-	return TRUE;
+	return true;
 }
 
-boolean rbtree_search( const lc_rbtree_t* p_tree, const void *key )
+bool rbtree_search( const rbtree_t* p_tree, const void *key )
 {
-	lc_rbnode_t *x;
+	rbnode_t *x;
 	assert( p_tree );
 
 	x = p_tree->root;
@@ -527,7 +528,7 @@ boolean rbtree_search( const lc_rbtree_t* p_tree, const void *key )
 	{
 		if( p_tree->_compare( key, x->data ) == 0 )
 		{
-			return TRUE; /* found it */
+			return true; /* found it */
 		}
 		else if( p_tree->_compare( key, x->data ) < 0 )
 		{
@@ -539,18 +540,18 @@ boolean rbtree_search( const lc_rbtree_t* p_tree, const void *key )
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
-void rbtree_clear( lc_rbtree_t* p_tree )
+void rbtree_clear( rbtree_t* p_tree )
 {
-	lc_rbnode_t *x;
-	lc_rbnode_t *y;
+	rbnode_t *x;
+	rbnode_t *y;
 
 	assert( p_tree );
 
 	x = p_tree->root;
-	//y = (lc_rbnode_t *) &RBNIL;
+	//y = (rbnode_t *) &RBNIL;
 
 	while( p_tree->size > 0 )
 	{
@@ -564,7 +565,7 @@ void rbtree_clear( lc_rbtree_t* p_tree )
 
 		if( y->right == &RBNIL )
 		{
-			y->parent->left = (lc_rbnode_t *) &RBNIL;
+			y->parent->left = (rbnode_t *) &RBNIL;
 			x = y->parent;
 
 			/* free... */
@@ -605,14 +606,14 @@ void rbtree_clear( lc_rbtree_t* p_tree )
 	}
 
 	/* reset the root and current pointers */
-	p_tree->root = (lc_rbnode_t *) &RBNIL;
+	p_tree->root = (rbnode_t *) &RBNIL;
 }
 
 /* ------------------------------------- */
 
-lc_rbnode_t *rbnode_search( lc_rbtree_t* p_tree, const void *key )
+rbnode_t *rbnode_search( rbtree_t* p_tree, const void *key )
 {
-	lc_rbnode_t *x;
+	rbnode_t *x;
 
 	assert( p_tree );
 	x = p_tree->root;
@@ -636,7 +637,7 @@ lc_rbnode_t *rbnode_search( lc_rbtree_t* p_tree, const void *key )
 	return NULL;
 }
 
-rbtree_iterator_t rbtree_begin( const lc_rbtree_t* p_tree )
+rbtree_iterator_t rbtree_begin( const rbtree_t* p_tree )
 {
 	assert( p_tree );
     return rbnode_minimum( p_tree->root );
@@ -644,12 +645,12 @@ rbtree_iterator_t rbtree_begin( const lc_rbtree_t* p_tree )
 
 rbtree_iterator_t rbtree_end( )
 {
-	return (lc_rbnode_t *) &RBNIL;
+	return (rbnode_t *) &RBNIL;
 }
 
-boolean rbtree_serialize( lc_rbtree_t* p_tree, size_t element_size, FILE *file )
+bool rbtree_serialize( rbtree_t* p_tree, size_t element_size, FILE *file )
 {
-	boolean result = TRUE;
+	bool result = true;
 	size_t count;
 	rbtree_iterator_t itr;
 
@@ -657,14 +658,14 @@ boolean rbtree_serialize( lc_rbtree_t* p_tree, size_t element_size, FILE *file )
 
 	if( !p_tree )
 	{
-		result = FALSE;
+		result = false;
 		goto done;
 	}
 
 	count = rbtree_size(p_tree);
 	if( fwrite( &count, sizeof(size_t), 1, file ) != 1 )
 	{
-		result = FALSE;
+		result = false;
 		goto done;
 	}
 
@@ -675,7 +676,7 @@ boolean rbtree_serialize( lc_rbtree_t* p_tree, size_t element_size, FILE *file )
 	{
 		if( fwrite( itr->data, element_size, 1, file ) != 1 )
 		{
-			result = FALSE;
+			result = false;
 			goto done;
 		}
 	}
@@ -684,22 +685,22 @@ done:
 	return result;
 }
 
-boolean rbtree_unserialize( lc_rbtree_t* p_tree, size_t element_size, FILE *file )
+bool rbtree_unserialize( rbtree_t* p_tree, size_t element_size, FILE *file )
 {
-	boolean result = TRUE;
+	bool result = true;
 	size_t count = 0;
 
 	assert( p_tree );
 
 	if( !p_tree )
 	{
-		result = FALSE;
+		result = false;
 		goto done;
 	}
 
 	if( fread( &count, sizeof(size_t), 1, file ) != 1 )
 	{
-		result = FALSE;
+		result = false;
 		goto done;
 	}
 
@@ -711,7 +712,7 @@ boolean rbtree_unserialize( lc_rbtree_t* p_tree, size_t element_size, FILE *file
 		{
 			p_tree->_free( p_data );
 
-			result = FALSE;
+			result = false;
 			goto done;
 		}
 
@@ -724,14 +725,14 @@ done:
 }
 
 
-void rbtree_alloc_set( lc_rbtree_t* p_tree, alloc_function alloc )
+void rbtree_alloc_set( rbtree_t* p_tree, alloc_function alloc )
 {
 	assert( p_tree );
 	assert( alloc );
 	p_tree->_alloc = alloc;
 }
 
-void rbtree_free_set( lc_rbtree_t* p_tree, free_function free )
+void rbtree_free_set( rbtree_t* p_tree, free_function free )
 {
 	assert( p_tree );
 	assert( free );
@@ -740,37 +741,37 @@ void rbtree_free_set( lc_rbtree_t* p_tree, free_function free )
 
 
 #ifdef _DEBUG_RBTREE
-static boolean rbnode_verify_tree  ( lc_rbtree_t* p_tree, lc_rbnode_t *t );
-static void    padding             ( char ch, int n );
-static void    structure           ( const lc_rbnode_t *root, int level );
+static bool rbnode_verify_tree  ( rbtree_t* p_tree, rbnode_t *t );
+static void padding             ( char ch, int n );
+static void structure           ( const rbnode_t *root, int level );
 
-boolean rbtree_verify_tree( lc_rbtree_t* p_tree )
+bool rbtree_verify_tree( rbtree_t* p_tree )
 {
 	assert( p_tree );
 
 	/* check if root is black... */
 	if( p_tree->root->is_red )
 	{
-		return FALSE;
+		return false;
 	}
 
 	return rbnode_verify_tree( p_tree, p_tree->root );
 }
 
-boolean rbnode_verify_tree( lc_rbtree_t* p_tree, lc_rbnode_t *t )
+bool rbnode_verify_tree( rbtree_t* p_tree, rbnode_t *t )
 {
 	assert( p_tree );
 
 	if( t == &RBNIL )
 	{
-		return TRUE;
+		return true;
 	}
 
 	if( t->is_red )
 	{
 		if( t->left->is_red || t->right->is_red )
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -788,7 +789,7 @@ inline void padding( char ch, int n )
 	}
 }
 
-inline void structure( const lc_rbnode_t *root, int level )
+inline void structure( const rbnode_t *root, int level )
 {
 	int i;
 
@@ -807,7 +808,7 @@ inline void structure( const lc_rbnode_t *root, int level )
 	}
 }
 
-void rbtree_print( const lc_rbtree_t* p_tree )
+void rbtree_print( const rbtree_t* p_tree )
 {
 	structure( p_tree->root, 0 );
 }

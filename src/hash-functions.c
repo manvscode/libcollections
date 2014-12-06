@@ -20,17 +20,17 @@
  * THE SOFTWARE.
  */
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
 #include <assert.h>
 #include "hash-functions.h"
-#include "types.h"
 
 /*
  *   Hash Functions
  */
 
 #if UINTPTR_MAX == (18446744073709551615UL)
-static __inline uint64_t uint64_hash( uint64_t key )
+static inline uint64_t uint64_hash( uint64_t key )
 {
 	key = (~key) + (key << 21); /* key = (key << 21) - key - 1;*/
 	key = key ^ (key >> 24);
@@ -42,7 +42,7 @@ static __inline uint64_t uint64_hash( uint64_t key )
 	return key;
 }
 #else
-static __inline uint32_t uint32_hash( uint32_t a )
+static inline uint32_t uint32_hash( uint32_t a )
 {
 	a = (a+0x7ed55d16) + (a<<12);
 	a = (a^0xc761c23c) ^ (a>>19);

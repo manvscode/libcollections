@@ -34,7 +34,7 @@
 
 
 size_t  ip_hash     ( const void *data );
-boolean ip_destroy  ( void *key, void *value );
+bool    ip_destroy  ( void *key, void *value );
 
 
 static const char *ips[] = {
@@ -62,10 +62,10 @@ static const char *ips[] = {
 
 int main( int argc, char *argv[] )
 {
-	lc_hash_map_t map;
+	hash_map_t map;
 	unsigned int i;
-	boolean result;
-	lc_hash_map_iterator_t itr;
+	bool result;
+	hash_map_iterator_t itr;
 
 	srand( time(NULL) );
 
@@ -74,8 +74,8 @@ int main( int argc, char *argv[] )
 	for( i = 0; ips[ i ]; i++ )
 	{
 		char *ip = strdup( ips[ i ] );
-		boolean *p_sent = malloc( sizeof(boolean) );
-		*p_sent = FALSE;
+		bool *p_sent = malloc( sizeof(bool) );
+		*p_sent = false;
 
 		result = hash_map_insert( &map, ip, p_sent );
 		assert( result );
@@ -95,14 +95,14 @@ int main( int argc, char *argv[] )
 	for( i = 0; i < MAX; i++ )
 	{
 		const char *ip = ips[ rand() % MAX ];
-		boolean *is_sent  = NULL;
+		bool *is_sent  = NULL;
 
 		if( hash_map_find( &map, ip, (void **) &is_sent ) )
 		{
 
-			if( *is_sent == FALSE )
+			if( *is_sent == false )
 			{
-				*is_sent = TRUE;
+				*is_sent = true;
 
 				printf( "     Message Sent To: %-16s\n", ip );
 			}
@@ -120,7 +120,7 @@ int main( int argc, char *argv[] )
 
 	while( hash_map_iterator_next( &itr ) )
 	{
-		printf( "%5u  %16s => %s\n", i, (char* ) hash_map_iterator_key(&itr), *((boolean*) hash_map_iterator_value(&itr)) ? "true" : "false" );
+		printf( "%5u  %16s => %s\n", i, (char* ) hash_map_iterator_key(&itr), *((bool*) hash_map_iterator_value(&itr)) ? "true" : "false" );
 		i++;
 	}
 	printf( "\n\n" );
@@ -128,7 +128,7 @@ int main( int argc, char *argv[] )
 	for( i = 0; ips[ i ]; i++ )
 	{
 		const char *ip = ips[ i ];
-		boolean *is_sent  = NULL;
+		bool *is_sent  = NULL;
 
 		hash_map_find( &map, ip, (void **) &is_sent );
 
@@ -180,9 +180,9 @@ size_t ip_hash( const void *data )
 	return hash;
 }
 
-boolean ip_destroy( void *key, void *value )
+bool ip_destroy( void *key, void *value )
 {
 	free( key );
 	free( value );
-	return TRUE;
+	return true;
 }

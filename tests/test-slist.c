@@ -7,7 +7,7 @@
 #include <alloc.h>
 
 
-static boolean national_park_destroy( void *element );
+static bool national_park_destroy( void *element );
 static void print_national_parks( void );
 static void delete_random_park( void );
 static void insert_random_park( void );
@@ -73,7 +73,7 @@ const tchar* national_parks[] = {
 	NULL
 };
 
-lc_slist_t list;
+slist_t list;
 
 
 int main( int argc, char *argv[] )
@@ -90,7 +90,7 @@ int main( int argc, char *argv[] )
 	for( i = 0; national_parks[ i ] != NULL; i++ )
 	{
 		const tchar *national_park = national_parks[ i ];
-		lc_tstring_t *p_string = alloc_type( lc_tstring_t );
+		tstring_t *p_string = alloc_type( tstring_t );
 		tstring_create( p_string, national_park );
 
 		slist_insert_front( &list, p_string );
@@ -129,19 +129,19 @@ int main( int argc, char *argv[] )
 	return 0;
 }
 
-boolean national_park_destroy( void *element )
+bool national_park_destroy( void *element )
 {
-	lc_tstring_t *p_string = element;
+	tstring_t *p_string = element;
 
 	tstring_destroy( p_string );
 	free( p_string );
-	return TRUE;
+	return true;
 }
 
 void print_national_parks( void )
 {
 	size_t i;
-	lc_slist_iterator_t iter;
+	slist_iterator_t iter;
 
 	#if defined(UNICODE)
 	tprintf( _T("   # %30ls\n====================================\n"), _T("National Park") );
@@ -152,7 +152,7 @@ void print_national_parks( void )
 	i = 1;
 	for( iter = slist_begin(&list); iter != slist_end( ); iter = slist_next(iter) )
 	{
-		const lc_tstring_t *p_string  = iter->data;
+		const tstring_t *p_string  = iter->data;
 
 		const tchar *national_park = tstring_string( p_string );
 		#if defined(UNICODE)
@@ -165,7 +165,7 @@ void print_national_parks( void )
 
 void delete_random_park( void )
 {
-	lc_slist_iterator_t iter;
+	slist_iterator_t iter;
 	size_t r = rand() % slist_size( &list );
 	size_t i = 0;
 
@@ -187,7 +187,7 @@ void delete_random_park( void )
 
 void insert_random_park( void )
 {
-	lc_slist_iterator_t iter;
+	slist_iterator_t iter;
 	size_t r = rand() % slist_size( &list );
 	size_t i = 0;
 
@@ -196,7 +196,7 @@ void insert_random_park( void )
 		if( i++ == r )
 		{
 			const tchar *national_park = national_parks[ i ];
-			lc_tstring_t *p_string = alloc_type( lc_tstring_t );
+			tstring_t *p_string = alloc_type( tstring_t );
 			tstring_create( p_string, national_park );
 
 			tstring_sconcatenate( p_string, _T(" (Copy)") );

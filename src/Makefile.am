@@ -6,7 +6,6 @@ bench-mark.c \
 buffer.c \
 bitset.c \
 dlist.c \
-flat-db.c \
 hash-functions.c \
 hash-map.c \
 hash-table.c \
@@ -28,7 +27,6 @@ binary-heap.h \
 bitset.h \
 libcollections-config.h \
 dlist.h \
-flat-db.h \
 hash-functions.h \
 hash-map.h \
 hash-table.h \
@@ -39,7 +37,6 @@ rbtree.h \
 slist.h \
 tree-map.h \
 tstring.h \
-types.h \
 variant.h \
 vector.h
 

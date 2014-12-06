@@ -24,7 +24,7 @@
 #include <string.h>
 #include "buffer.h"
 
-buffer_t* lc_buffer_create( size_t size, bool zero )
+buffer_t* buffer_create( size_t size, bool zero )
 {
 	size_t buffer_size = sizeof(buffer_t) + size;
 	buffer_t* p_buffer = (buffer_t*) malloc( buffer_size );
@@ -42,7 +42,7 @@ buffer_t* lc_buffer_create( size_t size, bool zero )
 	return p_buffer;
 }
 
-void lc_buffer_destroy( buffer_t** p_buffer )
+void buffer_destroy( buffer_t** p_buffer )
 {
 	if( *p_buffer )
 	{
@@ -51,7 +51,7 @@ void lc_buffer_destroy( buffer_t** p_buffer )
 	}
 }
 
-bool lc_buffer_resize( buffer_t** p_buffer, size_t new_size )
+bool buffer_resize( buffer_t** p_buffer, size_t new_size )
 {
 	*p_buffer = realloc( *p_buffer, new_size );
 

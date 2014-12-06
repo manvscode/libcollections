@@ -21,6 +21,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <time.h>
 #include <assert.h>
 #include <rbtree.h>
@@ -30,16 +31,16 @@ int compare( const void *num1, const void *num2 )
 	return *((int*) num1) - *((int*)num2);
 }
 
-boolean destroy( void *num )
+bool destroy( void *num )
 {
 	free( num );
 	num = NULL;
-	return TRUE;
+	return true;
 }
 
 #if 0
 #include "asciitree.h"
-void print_tree( lc_rbtree_t *tree )
+void print_tree( rbtree_t *tree )
 {
 	print_ascii_tree( tree->root );
 }
@@ -50,7 +51,7 @@ void print_tree( lc_rbtree_t *tree )
 
 int main( int argc, char *argv[] )
 {
-	lc_rbtree_t tree;
+	rbtree_t tree;
 	int i;
 
 	rbtree_create( &tree, destroy, compare, malloc, free );
@@ -96,7 +97,7 @@ int main( int argc, char *argv[] )
 	}
 	printf("----------- DONE SERIALIZING ----------\n" );
 
-	//boolean isGood = rbtree_verify_tree( &tree );
+	//bool isGood = rbtree_verify_tree( &tree );
 	//printf( "Tree is %s\n", isGood ? "good" : "bad" );
 
 	printf( "Tree size = %ld \n", tree.size );

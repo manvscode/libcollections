@@ -28,7 +28,7 @@
 
 int main( int argc, char *argv[] )
 {
-	lc_array_t a;
+	array_t a;
 	int i;
 
 	array_create( &a, sizeof(double), 1 /* initial size */, malloc, free );

@@ -26,7 +26,7 @@
 #include <assert.h>
 #include "tstring.h"
 
-boolean tstring_create( lc_tstring_t* p_string, const tchar *s )
+bool tstring_create( tstring_t* p_string, const tchar *s )
 {
 	assert( p_string );
 	p_string->length = tstrlen( s );
@@ -37,25 +37,25 @@ boolean tstring_create( lc_tstring_t* p_string, const tchar *s )
 	return p_string->s != NULL;
 }
 
-void tstring_destroy( const lc_tstring_t* p_string )
+void tstring_destroy( const tstring_t* p_string )
 {
 	assert( p_string );
 	free( p_string->s );
 }
 
-int tstring_compare( const lc_tstring_t* left, const lc_tstring_t* right )
+int tstring_compare( const tstring_t* left, const tstring_t* right )
 {
 	assert( left && right );
 	return tstrncmp( left->s, right->s, left->length );
 }
 
-int tstring_ncompare( const lc_tstring_t* left, const lc_tstring_t* right, size_t n )
+int tstring_ncompare( const tstring_t* left, const tstring_t* right, size_t n )
 {
 	assert( left && right );
 	return tstrncmp( left->s, right->s, n );
 }
 
-int tstring_casecompare( const lc_tstring_t* left, const lc_tstring_t* right )
+int tstring_casecompare( const tstring_t* left, const tstring_t* right )
 {
 	assert( left && right );
 	#if !defined(wcsncasecmp) && defined(UNICODE)
@@ -70,7 +70,7 @@ int tstring_casecompare( const lc_tstring_t* left, const lc_tstring_t* right )
 	#endif
 }
 
-int tstring_ncasecompare( const lc_tstring_t* left, const lc_tstring_t* right, size_t n )
+int tstring_ncasecompare( const tstring_t* left, const tstring_t* right, size_t n )
 {
 	assert( left && right );
 	#if !defined(wcsncasecmp) && defined(UNICODE)
@@ -85,7 +85,7 @@ int tstring_ncasecompare( const lc_tstring_t* left, const lc_tstring_t* right, s
 	#endif
 }
 
-void tstring_tolower( lc_tstring_t* p_string )
+void tstring_tolower( tstring_t* p_string )
 {
 	tchar *p_s;
 
@@ -99,7 +99,7 @@ void tstring_tolower( lc_tstring_t* p_string )
 	}
 }
 
-void tstring_toupper( lc_tstring_t* p_string )
+void tstring_toupper( tstring_t* p_string )
 {
 	tchar *p_s;
 
@@ -113,7 +113,7 @@ void tstring_toupper( lc_tstring_t* p_string )
 	}
 }
 
-boolean tstring_copy( lc_tstring_t* p_result, const lc_tstring_t* p_string )
+bool tstring_copy( tstring_t* p_result, const tstring_t* p_string )
 {
 	assert( p_result && p_string );
 
@@ -127,13 +127,13 @@ boolean tstring_copy( lc_tstring_t* p_result, const lc_tstring_t* p_string )
 			tstring_string( p_string ),
 			tstring_length( p_string ) + 1
 		);
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
-boolean tstring_ncopy( lc_tstring_t* p_result, const lc_tstring_t* p_string, size_t n )
+bool tstring_ncopy( tstring_t* p_result, const tstring_t* p_string, size_t n )
 {
 	assert( p_result && p_string );
 	assert( n > 0 && n <= tstring_length( p_string ) );
@@ -148,13 +148,13 @@ boolean tstring_ncopy( lc_tstring_t* p_result, const lc_tstring_t* p_string, siz
 			tstring_string( p_string ),
 			n
 		);
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
-boolean tstring_assign( lc_tstring_t* p_result, const tchar *p_string )
+bool tstring_assign( tstring_t* p_result, const tchar *p_string )
 {
 	assert( p_result && p_string );
 
@@ -168,13 +168,13 @@ boolean tstring_assign( lc_tstring_t* p_result, const tchar *p_string )
 			p_string,
 			tstring_length( p_result ) + 1
 		);
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
-boolean tstring_concatenate( lc_tstring_t* p_result, const lc_tstring_t* p_string )
+bool tstring_concatenate( tstring_t* p_result, const tstring_t* p_string )
 {
 	size_t size;
 	assert( p_result && p_string );
@@ -189,13 +189,13 @@ boolean tstring_concatenate( lc_tstring_t* p_result, const lc_tstring_t* p_strin
 			tstring_string( p_string ),
 			tstring_length( p_string )
 		);
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
-boolean tstring_nconcatenate( lc_tstring_t* p_result, const lc_tstring_t* p_string, size_t n )
+bool tstring_nconcatenate( tstring_t* p_result, const tstring_t* p_string, size_t n )
 {
 	size_t size;
 	assert( p_result && p_string );
@@ -206,13 +206,13 @@ boolean tstring_nconcatenate( lc_tstring_t* p_result, const lc_tstring_t* p_stri
 	if( p_result->s )
 	{
 		tstrncat( tstring_string( p_result ), tstring_string( p_string ), n );
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
-boolean tstring_sconcatenate( lc_tstring_t* p_string, const tchar *s )
+bool tstring_sconcatenate( tstring_t* p_string, const tchar *s )
 {
 	size_t size;
 	size_t len;
@@ -226,13 +226,13 @@ boolean tstring_sconcatenate( lc_tstring_t* p_string, const tchar *s )
 	if( p_string->s )
 	{
 		tstrncat( tstring_string(p_string), s, len );
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
-void tstring_format( lc_tstring_t* p_string, const tchar *format, ... )
+void tstring_format( tstring_t* p_string, const tchar *format, ... )
 {
 	va_list args;
 	size_t buffer_length;
@@ -260,7 +260,7 @@ void tstring_format( lc_tstring_t* p_string, const tchar *format, ... )
 	}
 }
 
-size_t tstring_ltrim( lc_tstring_t* p_string )
+size_t tstring_ltrim( tstring_t* p_string )
 {
 	size_t charsRemoved = 0;
 	assert( p_string );
@@ -269,7 +269,7 @@ size_t tstring_ltrim( lc_tstring_t* p_string )
 	return charsRemoved;
 }
 
-size_t tstring_rtrim( lc_tstring_t* p_string )
+size_t tstring_rtrim( tstring_t* p_string )
 {
 	size_t charsRemoved = 0;
 	assert( p_string );
@@ -278,7 +278,7 @@ size_t tstring_rtrim( lc_tstring_t* p_string )
 	return charsRemoved;
 }
 
-size_t tstring_trim( lc_tstring_t* p_string )
+size_t tstring_trim( tstring_t* p_string )
 {
 	return tstring_rtrim( p_string ) + tstring_ltrim( p_string );
 }
@@ -346,10 +346,10 @@ tchar* tstrtoupper( tchar* s )
 }
 
 #ifndef wcsdup
-wchar* wcsdup( const wchar* s )
+wchar_t* wcsdup( const wchar_t* s )
 {
 	size_t size = wcslen(s) + 1;
-	wchar* result = (wchar*) malloc( sizeof(wchar) * size );
+	wchar_t* result = (wchar_t*) malloc( sizeof(wchar_t) * size );
 	memcpy( result, s, size );
 	return result;
 }

@@ -23,7 +23,7 @@
 #define _VARIANT_H_
 
 //#include "libcollections-config.h"
-#include "types.h"
+#include <stdbool.h>
 #include "tstring.h"
 #ifdef __cplusplus
 extern "C" {
@@ -31,7 +31,7 @@ extern "C" {
 
 
 
-typedef enum lc_variant_type {
+typedef enum variant_type {
 	VARIANT_NOT_INITIALIZED = 0,
 	VARIANT_STRING,
 	VARIANT_DECIMAL,
@@ -41,25 +41,21 @@ typedef enum lc_variant_type {
 	VARIANT_POINTER,
 	/* must be last one */
 	VARIANT_TYPE_COUNT
-} lc_variant_type_t;
+} variant_type_t;
 
-typedef union lc_value {
+typedef union value {
    	tchar*          string;
 	double          decimal;
 	long            integer;
 	unsigned long   unsigned_integer; 
-	#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
-	boolean         boolean;
-	#else
 	bool            boolean;
-	#endif
 	void*           pointer; /* must be last one */
-} lc_value_t;
+} value_t;
 
-typedef struct lc_variant {
-	lc_variant_type_t type;
-	lc_value_t        value;
-} lc_variant_t;
+typedef struct variant {
+	variant_type_t type;
+	value_t        value;
+} variant_t;
 
 
 
@@ -79,28 +75,28 @@ typedef struct lc_variant {
 		double:  variant_set_decimal, \
 		long: variant_set_integer, \
 		unsigned long: variant_set_unsigned_integer, \
-		boolean: variant_set_boolean, \
+		bool: variant_set_boolean, \
 		void*: variant_set_pointer,  \
 		default:  variant_set_unsigned_integer\
 		) (p_variant, value )
 #endif
 
 
-lc_variant_t*     variant_create               ( lc_variant_type_t type );
-void              variant_destroy              ( lc_variant_t* p_variant );
-void              variant_initialize           ( lc_variant_t* p_variant, lc_variant_type_t type, lc_value_t value );
-int               variant_compare              ( const lc_variant_t* p_left, const lc_variant_t* p_right ); 
-boolean           variant_is_type              ( const lc_variant_t* p_variant, lc_variant_type_t type );
-lc_variant_type_t variant_type                 ( const lc_variant_t* p_variant );
-void              variant_set_type             ( lc_variant_t* p_variant, lc_variant_type_t type );
-lc_value_t        variant_value                ( const lc_variant_t* p_variant );
-void              variant_set_value            ( lc_variant_t* p_variant, lc_value_t value );
-void              variant_set_string           ( lc_variant_t* p_variant, const tchar* value );
-void              variant_set_decimal          ( lc_variant_t* p_variant, double value );
-void              variant_set_integer          ( lc_variant_t* p_variant, long value );
-void              variant_set_unsigned_integer ( lc_variant_t* p_variant, unsigned long value );
-void              variant_set_boolean          ( lc_variant_t* p_variant, boolean value );
-void              variant_set_pointer          ( lc_variant_t* p_variant, const void* value );
+variant_t*        variant_create               ( variant_type_t type );
+void              variant_destroy              ( variant_t* p_variant );
+void              variant_initialize           ( variant_t* p_variant, variant_type_t type, value_t value );
+int               variant_compare              ( const variant_t* p_left, const variant_t* p_right ); 
+bool              variant_is_type              ( const variant_t* p_variant, variant_type_t type );
+variant_type_t    variant_type                 ( const variant_t* p_variant );
+void              variant_set_type             ( variant_t* p_variant, variant_type_t type );
+value_t           variant_value                ( const variant_t* p_variant );
+void              variant_set_value            ( variant_t* p_variant, value_t value );
+void              variant_set_string           ( variant_t* p_variant, const tchar* value );
+void              variant_set_decimal          ( variant_t* p_variant, double value );
+void              variant_set_integer          ( variant_t* p_variant, long value );
+void              variant_set_unsigned_integer ( variant_t* p_variant, unsigned long value );
+void              variant_set_boolean          ( variant_t* p_variant, bool value );
+void              variant_set_pointer          ( variant_t* p_variant, const void* value );
 
 
 #define    variant_create_string( )                  variant_create( VARIANT_STRING )

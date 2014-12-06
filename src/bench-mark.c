@@ -32,7 +32,7 @@
 
 #include "bench-mark.h"
 
-struct lc_bench_mark {
+struct bench_mark {
 
 	#if defined(WIN32) || defined(WIN64)
 	double start;
@@ -44,21 +44,21 @@ struct lc_bench_mark {
 	const char *description;
 };
 
-lc_bench_mark_t bench_mark_create( const char *description )
+bench_mark_t bench_mark_create( const char *description )
 {
-	lc_bench_mark_t bm = (lc_bench_mark_t) malloc( sizeof(struct lc_bench_mark) );
+	bench_mark_t bm = (bench_mark_t) malloc( sizeof(struct bench_mark) );
 	bm->description = strdup( description );
 	return bm;
 }
 
-void bench_mark_destroy( lc_bench_mark_t bm )
+void bench_mark_destroy( bench_mark_t bm )
 {
 	assert( bm );
 	free( (void *) bm->description );
 	free( bm );
 }
 
-void bench_mark_start( lc_bench_mark_t bm )
+void bench_mark_start( bench_mark_t bm )
 {
 	assert( bm );
 	#if defined(WIN32) || defined(WIN64)
@@ -68,7 +68,7 @@ void bench_mark_start( lc_bench_mark_t bm )
 	#endif
 }
 
-void bench_mark_end( lc_bench_mark_t bm )
+void bench_mark_end( bench_mark_t bm )
 {
 	assert( bm );
 	#if defined(WIN32) || defined(WIN64)
@@ -78,7 +78,7 @@ void bench_mark_end( lc_bench_mark_t bm )
 	#endif
 }
 
-void bench_mark_report( lc_bench_mark_t bm )
+void bench_mark_report( bench_mark_t bm )
 {
 	#if defined(WIN32) || defined(WIN64)
 	printf( "%30s -- Start: %.6lf s, End: %.6lf s, Total: %.3lf ms \n",
@@ -98,7 +98,7 @@ void bench_mark_report( lc_bench_mark_t bm )
 	#endif
 }
 
-double bench_mark_start_time( lc_bench_mark_t bm )
+double bench_mark_start_time( bench_mark_t bm )
 {
 	#if defined(WIN32) || defined(WIN64)
 	return bm->start;
@@ -107,7 +107,7 @@ double bench_mark_start_time( lc_bench_mark_t bm )
 	#endif
 }
 
-double bench_mark_end_time( lc_bench_mark_t bm )
+double bench_mark_end_time( bench_mark_t bm )
 {
 	#if defined(WIN32) || defined(WIN64)
 	return bm->end;
@@ -116,7 +116,7 @@ double bench_mark_end_time( lc_bench_mark_t bm )
 	#endif
 }
 
-double bench_mark_total_time( lc_bench_mark_t bm )
+double bench_mark_total_time( bench_mark_t bm )
 {
 	#if defined(WIN32) || defined(WIN64)
 	return (bm->end - bm->start) * 1000.0;

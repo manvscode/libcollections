@@ -36,7 +36,7 @@ int main(void)
 	int val;
 
 	{
-		lc_bench_mark_t bm = bench_mark_create( "Using Function" );
+		bench_mark_t bm = bench_mark_create( "Using Function" );
 
 		bench_mark_start( bm );
 		printf( "[" );
@@ -53,7 +53,7 @@ int main(void)
 	}
 
 	{
-		lc_bench_mark_t bm = bench_mark_create( "Using Macro" );
+		bench_mark_t bm = bench_mark_create( "Using Macro" );
 
 		bench_mark_start( bm );
 		printf( "[" );

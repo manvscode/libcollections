@@ -27,17 +27,17 @@
 extern "C" {
 #endif 
 
-struct lc_bench_mark;
-typedef struct lc_bench_mark* lc_bench_mark_t;
+struct bench_mark;
+typedef struct bench_mark* bench_mark_t;
 
-lc_bench_mark_t bench_mark_create     ( const char *description );
-void            bench_mark_destroy    ( lc_bench_mark_t bm );
-void            bench_mark_start      ( lc_bench_mark_t bm );
-void            bench_mark_end        ( lc_bench_mark_t bm );
-void            bench_mark_report     ( lc_bench_mark_t bm );
-double          bench_mark_start_time ( lc_bench_mark_t bm );
-double          bench_mark_end_time   ( lc_bench_mark_t bm );
-double          bench_mark_total_time ( lc_bench_mark_t bm );
+bench_mark_t bench_mark_create     ( const char *description );
+void         bench_mark_destroy    ( bench_mark_t bm );
+void         bench_mark_start      ( bench_mark_t bm );
+void         bench_mark_end        ( bench_mark_t bm );
+void         bench_mark_report     ( bench_mark_t bm );
+double       bench_mark_start_time ( bench_mark_t bm );
+double       bench_mark_end_time   ( bench_mark_t bm );
+double       bench_mark_total_time ( bench_mark_t bm );
 
 
 #ifdef __cplusplus

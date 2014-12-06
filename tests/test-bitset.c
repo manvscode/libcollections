@@ -21,17 +21,18 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <assert.h>
 #include <bitset.h>
 
 void print_bits( );
 
-lc_bitset_t bits;
+bitset_t bits;
 
 int main( int argc, char *argv[] )
 {
 	int i;
-	boolean r = TRUE;
+	bool r = true;
 
 	r = bitset_create( &bits, 8 );
 	assert( r );

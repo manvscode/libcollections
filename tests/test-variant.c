@@ -22,16 +22,16 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <types.h>
+#include <stdbool.h>
 #include <variant.h>
 
 int main( int argc, char *argv[] )
 {
-	lc_variant_t* integer;
-	lc_variant_t* decimal;
-	lc_variant_t* string;
-	lc_variant_t* boolean;
-	lc_value_t    value;
+	variant_t* integer;
+	variant_t* decimal;
+	variant_t* string;
+	variant_t* boolean;
+	value_t    value;
 
 	integer = variant_create_integer( );
 	decimal = variant_create_decimal( );
@@ -44,7 +44,7 @@ int main( int argc, char *argv[] )
 	variant_set_value( decimal, value );
 	value.string = _T("This is a test string.");
 	variant_set_value( string, value );
-	value.boolean = TRUE;
+	value.boolean = true;
 	variant_set_value( boolean, value );
 
 

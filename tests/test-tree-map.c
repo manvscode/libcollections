@@ -21,13 +21,14 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <assert.h>
 #include <time.h>
 #include <tree-map.h>
 
 
-boolean ip_destroy  ( void *key, void *value );
+bool ip_destroy  ( void *key, void *value );
 
 
 static const char *ips[] = {
@@ -55,10 +56,10 @@ static const char *ips[] = {
 
 int main( int argc, char *argv[] )
 {
-	lc_tree_map_t map;
+	tree_map_t map;
 	unsigned int i;
-	boolean result;
-	lc_tree_map_iterator_t itr;
+	bool result;
+	tree_map_iterator_t itr;
 
 	srand( time(NULL) );
 
@@ -67,8 +68,8 @@ int main( int argc, char *argv[] )
 	for( i = 0; ips[ i ]; i++ )
 	{
 		char *ip = strdup( ips[ i ] );
-		boolean *p_sent = malloc( sizeof(boolean) );
-		*p_sent = FALSE;
+		bool *p_sent = malloc( sizeof(bool) );
+		*p_sent = false;
 
 		result = tree_map_insert( &map, ip, p_sent );
 		assert( result );
@@ -81,14 +82,14 @@ int main( int argc, char *argv[] )
 	for( i = 0; i < MAX; i++ )
 	{
 		const char *ip = ips[ rand() % MAX ];
-		boolean *is_sent  = NULL;
+		bool *is_sent  = NULL;
 
 		if( tree_map_find( &map, ip, (void **) &is_sent ) )
 		{
 
-			if( *is_sent == FALSE )
+			if( *is_sent == false )
 			{
-				*is_sent = TRUE;
+				*is_sent = true;
 
 				printf( "     Message Sent To: %-16s\n", ip );
 			}
@@ -107,7 +108,7 @@ int main( int argc, char *argv[] )
 		 itr != tree_map_end( );
 		 itr = tree_map_next( itr ) )
 	{
-		printf( "%5u  %16s => %s\n", i, (char* ) itr->key, *((boolean*) itr->value) ? "true" : "false" );
+		printf( "%5u  %16s => %s\n", i, (char* ) itr->key, *((bool*) itr->value) ? "true" : "false" );
 		i++;
 	}
 	printf( "\n\n" );
@@ -115,7 +116,7 @@ int main( int argc, char *argv[] )
 	for( i = 0; ips[ i ]; i++ )
 	{
 		const char *ip = ips[ i ];
-		boolean *is_sent  = NULL;
+		bool *is_sent  = NULL;
 
 		tree_map_find( &map, ip, (void **) &is_sent );
 
@@ -134,9 +135,9 @@ int main( int argc, char *argv[] )
 	return 0;
 }
 
-boolean ip_destroy( void *key, void *value )
+bool ip_destroy( void *key, void *value )
 {
 	free( key );
 	free( value );
-	return TRUE;
+	return true;
 }

@@ -36,8 +36,8 @@ int main( int argc, char *argv[] )
 	const tchar *russian_text_utf8  = _T("В России тест принадлежит вам.");
 	tprintf( _T(" UTF-8 Russian text = %S\n"), russian_text_utf8 );
 
-	lc_tstring_t ltext;
-	lc_tstring_t rtext;
+	tstring_t ltext;
+	tstring_t rtext;
 	tstring_create( &ltext, _T("   \t\n \r This is a test of ltrim().") );
 	tstring_create( &rtext, _T("This is a test of rtrim().   \n\t\t \r ") );
 

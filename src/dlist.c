@@ -21,7 +21,6 @@
  */
 #include <stdlib.h>
 #include <assert.h>
-#include "types.h"
 #include "dlist.h"
 
 #if defined(DLIST_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
@@ -36,7 +35,7 @@
 #endif
 
 
-void dlist_create( lc_dlist_t* p_list, dlist_element_function destroy_callback, alloc_function alloc, free_function free )
+void dlist_create( dlist_t* p_list, dlist_element_function destroy_callback, alloc_function alloc, free_function free )
 {
 	assert( p_list );
 
@@ -49,7 +48,7 @@ void dlist_create( lc_dlist_t* p_list, dlist_element_function destroy_callback, 
 	p_list->free  = free;
 }
 
-void dlist_destroy( lc_dlist_t* p_list )
+void dlist_destroy( dlist_t* p_list )
 {
 	dlist_clear( p_list );
 
@@ -61,12 +60,12 @@ void dlist_destroy( lc_dlist_t* p_list )
 	#endif
 }
 
-boolean dlist_insert_front( lc_dlist_t* p_list, const void *data ) /* O(1) */
+bool dlist_insert_front( dlist_t* p_list, const void *data ) /* O(1) */
 {
-	lc_dlist_node_t* p_node;
+	dlist_node_t* p_node;
 	assert( p_list );
 
-	p_node = p_list->alloc( sizeof(lc_dlist_node_t) );
+	p_node = p_list->alloc( sizeof(dlist_node_t) );
 	assert( p_node );
 
 	if( p_node != NULL )
@@ -87,16 +86,16 @@ boolean dlist_insert_front( lc_dlist_t* p_list, const void *data ) /* O(1) */
 
 		p_list->head = p_node;
 		p_list->size++;
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
-boolean dlist_remove_front( lc_dlist_t* p_list ) /* O(1) */
+bool dlist_remove_front( dlist_t* p_list ) /* O(1) */
 {
-	lc_dlist_node_t* p_node;
-	boolean result = TRUE;
+	dlist_node_t* p_node;
+	bool result = true;
 
 	assert( p_list );
 	assert( dlist_size(p_list) >= 1 );
@@ -129,12 +128,12 @@ boolean dlist_remove_front( lc_dlist_t* p_list ) /* O(1) */
 	return result;
 }
 
-boolean dlist_insert_back( lc_dlist_t* p_list, const void *data ) /* O(1) */
+bool dlist_insert_back( dlist_t* p_list, const void *data ) /* O(1) */
 {
-	lc_dlist_node_t* p_node;
+	dlist_node_t* p_node;
 	assert( p_list );
 
-	p_node = p_list->alloc( sizeof(lc_dlist_node_t) );
+	p_node = p_list->alloc( sizeof(dlist_node_t) );
 	assert( p_node );
 
 	if( p_node != NULL )
@@ -154,16 +153,16 @@ boolean dlist_insert_back( lc_dlist_t* p_list, const void *data ) /* O(1) */
 
 		p_list->tail = p_node;
 		p_list->size++;
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
-boolean dlist_remove_back( lc_dlist_t* p_list ) /* O(1) */
+bool dlist_remove_back( dlist_t* p_list ) /* O(1) */
 {
-	lc_dlist_node_t* p_node;
-	boolean result = TRUE;
+	dlist_node_t* p_node;
+	bool result = true;
 
 	assert( p_list );
 	assert( dlist_size(p_list) >= 1 );
@@ -196,14 +195,14 @@ boolean dlist_remove_back( lc_dlist_t* p_list ) /* O(1) */
 	return result;
 }
 
-boolean dlist_insert_next( lc_dlist_t* p_list, lc_dlist_node_t* p_front_node, const void *data ) /* O(1) */
+bool dlist_insert_next( dlist_t* p_list, dlist_node_t* p_front_node, const void *data ) /* O(1) */
 {
 	assert( p_list );
 	assert( p_front_node );
 
 	if( p_front_node )
 	{
-		lc_dlist_node_t* p_node = p_list->alloc( sizeof(lc_dlist_node_t) );
+		dlist_node_t* p_node = p_list->alloc( sizeof(dlist_node_t) );
 		assert( p_node );
 
 		if( p_node != NULL )
@@ -223,25 +222,25 @@ boolean dlist_insert_next( lc_dlist_t* p_list, lc_dlist_node_t* p_front_node, co
 
 			p_front_node->next = p_node;
 			p_list->size++;
-			return TRUE;
+			return true;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	return dlist_insert_front( p_list, data );
 }
 
-boolean dlist_remove_next( lc_dlist_t* p_list, lc_dlist_node_t* p_front_node ) /* O(1) */
+bool dlist_remove_next( dlist_t* p_list, dlist_node_t* p_front_node ) /* O(1) */
 {
 	assert( p_list );
 	assert( dlist_size(p_list) >= 1 );
 
 	if( p_front_node )
 	{
-		boolean result = TRUE;
-		lc_dlist_node_t* p_node;
-		lc_dlist_node_t* p_new_next;
+		bool result = true;
+		dlist_node_t* p_node;
+		dlist_node_t* p_new_next;
 
 		assert( p_front_node->next );
 		p_node     = p_front_node->next;
@@ -271,7 +270,7 @@ boolean dlist_remove_next( lc_dlist_t* p_list, lc_dlist_node_t* p_front_node ) /
 	return dlist_remove_front( p_list );
 }
 
-void dlist_clear( lc_dlist_t* p_list )
+void dlist_clear( dlist_t* p_list )
 {
 	while( dlist_head(p_list) )
 	{
@@ -279,39 +278,39 @@ void dlist_clear( lc_dlist_t* p_list )
 	}
 }
 
-void dlist_alloc_set( lc_dlist_t* p_list, alloc_function alloc )
+void dlist_alloc_set( dlist_t* p_list, alloc_function alloc )
 {
 	assert( p_list );
 	assert( alloc );
 	p_list->alloc = alloc;
 }
 
-void dlist_free_set( lc_dlist_t* p_list, free_function free )
+void dlist_free_set( dlist_t* p_list, free_function free )
 {
 	assert( p_list );
 	assert( free );
 	p_list->free = free;
 }
 
-lc_dlist_iterator_t dlist_begin( const lc_dlist_t* p_list )
+dlist_iterator_t dlist_begin( const dlist_t* p_list )
 {
 	assert( p_list );
 	return p_list->head;
 }
 
-lc_dlist_iterator_t dlist_rbegin( const lc_dlist_t* p_list )
+dlist_iterator_t dlist_rbegin( const dlist_t* p_list )
 {
 	assert( p_list );
 	return p_list->tail;
 }
 
-lc_dlist_iterator_t dlist_next( const lc_dlist_iterator_t iter )
+dlist_iterator_t dlist_next( const dlist_iterator_t iter )
 {
 	assert( iter );
 	return iter->next;
 }
 
-lc_dlist_iterator_t dlist_previous( const lc_dlist_iterator_t iter )
+dlist_iterator_t dlist_previous( const dlist_iterator_t iter )
 {
 	assert( iter );
 	return iter->prev;

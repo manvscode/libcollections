@@ -21,6 +21,7 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <assert.h>
 #include <hash-table.h>
@@ -32,7 +33,7 @@
 #endif
 
 size_t  ip_hash    ( const void *data );
-boolean ip_destroy ( void *data );
+bool    ip_destroy ( void *data );
 
 static const char *ips[] = {
 	"85.162.151.163", "252.241.190.83", "82.107.121.249", "226.233.19.20",
@@ -164,8 +165,8 @@ static const char *ips[] = {
 
 int main( int argc, char *argv[] )
 {
-	boolean result;
-	lc_hash_table_t table;
+	bool result;
+	hash_table_t table;
 	int i;
 
 	hash_table_create( &table, 1, ip_hash, ip_destroy, (hash_table_compare_function) strcmp, malloc, free );
@@ -247,8 +248,8 @@ size_t ip_hash( const void *data )
 	return hash;
 }
 
-boolean ip_destroy( void *data )
+bool ip_destroy( void *data )
 {
 	free( data );
-	return TRUE;
+	return true;
 }

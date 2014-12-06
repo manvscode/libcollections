@@ -21,7 +21,6 @@
  */
 #include <stdlib.h>
 #include <assert.h>
-#include "types.h"
 #include "slist.h"
 
 #if defined(SLIST_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
@@ -36,7 +35,7 @@
 #endif
 
 
-void slist_create( lc_slist_t *p_list, slist_element_function destroy_callback, alloc_function alloc, free_function free )
+void slist_create( slist_t *p_list, slist_element_function destroy_callback, alloc_function alloc, free_function free )
 {
 	assert( p_list );
 
@@ -48,7 +47,7 @@ void slist_create( lc_slist_t *p_list, slist_element_function destroy_callback, 
 	p_list->free  = free;
 }
 
-void slist_destroy( lc_slist_t *p_list )
+void slist_destroy( slist_t *p_list )
 {
 	slist_clear( p_list );
 
@@ -59,12 +58,12 @@ void slist_destroy( lc_slist_t *p_list )
 	#endif
 }
 
-boolean slist_insert_front( lc_slist_t *p_list, const void *data ) /* O(1) */
+bool slist_insert_front( slist_t *p_list, const void *data ) /* O(1) */
 {
-	lc_slist_node_t *p_node;
+	slist_node_t *p_node;
 	assert( p_list );
 
-	p_node = p_list->alloc( sizeof(lc_slist_node_t) );
+	p_node = p_list->alloc( sizeof(slist_node_t) );
 	assert( p_node );
 
 	if( p_node != NULL )
@@ -74,16 +73,16 @@ boolean slist_insert_front( lc_slist_t *p_list, const void *data ) /* O(1) */
 
 		p_list->head = p_node;
 		p_list->size++;
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
-boolean slist_remove_front( lc_slist_t *p_list ) /* O(1) */
+bool slist_remove_front( slist_t *p_list ) /* O(1) */
 {
-	lc_slist_node_t *p_node;
-	boolean result = TRUE;
+	slist_node_t *p_node;
+	bool result = true;
 
 	assert( p_list );
 	assert( slist_size(p_list) >= 1 );
@@ -102,14 +101,14 @@ boolean slist_remove_front( lc_slist_t *p_list ) /* O(1) */
 	return result;
 }
 
-boolean slist_insert_next( lc_slist_t *p_list, lc_slist_node_t *p_front_node, const void *data ) /* O(1) */
+bool slist_insert_next( slist_t *p_list, slist_node_t *p_front_node, const void *data ) /* O(1) */
 {
 	assert( p_list );
 	assert( p_front_node );
 
 	if( p_front_node )
 	{
-		lc_slist_node_t *p_node = p_list->alloc( sizeof(lc_slist_node_t) );
+		slist_node_t *p_node = p_list->alloc( sizeof(slist_node_t) );
 		assert( p_node );
 
 		if( p_node != NULL )
@@ -119,25 +118,25 @@ boolean slist_insert_next( lc_slist_t *p_list, lc_slist_node_t *p_front_node, co
 
 			p_front_node->next = p_node;
 			p_list->size++;
-			return TRUE;
+			return true;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	return slist_insert_front( p_list, data );
 }
 
-boolean slist_remove_next( lc_slist_t *p_list, lc_slist_node_t *p_front_node ) /* O(1) */
+bool slist_remove_next( slist_t *p_list, slist_node_t *p_front_node ) /* O(1) */
 {
 	assert( p_list );
 	assert( slist_size(p_list) >= 1 );
 
 	if( p_front_node )
 	{
-		boolean result = TRUE;
-		lc_slist_node_t *p_node;
-		lc_slist_node_t *p_new_next;
+		bool result = true;
+		slist_node_t *p_node;
+		slist_node_t *p_new_next;
 
 		assert( p_front_node->next );
 		p_node     = p_front_node->next;
@@ -158,7 +157,7 @@ boolean slist_remove_next( lc_slist_t *p_list, lc_slist_node_t *p_front_node ) /
 	return slist_remove_front( p_list );
 }
 
-void slist_clear( lc_slist_t *p_list )
+void slist_clear( slist_t *p_list )
 {
 	while( slist_head(p_list) )
 	{
@@ -166,27 +165,27 @@ void slist_clear( lc_slist_t *p_list )
 	}
 }
 
-void slist_alloc_set( lc_slist_t *p_list, alloc_function alloc )
+void slist_alloc_set( slist_t *p_list, alloc_function alloc )
 {
 	assert( p_list );
 	assert( alloc );
 	p_list->alloc = alloc;
 }
 
-void slist_free_set( lc_slist_t *p_list, free_function free )
+void slist_free_set( slist_t *p_list, free_function free )
 {
 	assert( p_list );
 	assert( free );
 	p_list->free = free;
 }
 
-lc_slist_iterator_t slist_begin( const lc_slist_t *p_list )
+slist_iterator_t slist_begin( const slist_t *p_list )
 {
 	assert( p_list );
 	return p_list->head;
 }
 
-lc_slist_iterator_t slist_next( const lc_slist_iterator_t iter )
+slist_iterator_t slist_next( const slist_iterator_t iter )
 {
 	assert( iter );
 	return iter->next;
