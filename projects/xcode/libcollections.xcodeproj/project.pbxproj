@@ -23,7 +23,6 @@
 		08F9B760180DCE5500DC30C4 /* slist.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73A180DCE5500DC30C4 /* slist.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		08F9B761180DCE5500DC30C4 /* tree-map.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73B180DCE5500DC30C4 /* tree-map.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		08F9B762180DCE5500DC30C4 /* tstring.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73C180DCE5500DC30C4 /* tstring.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		08F9B763180DCE5500DC30C4 /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73D180DCE5500DC30C4 /* types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		08F9B764180DCE5500DC30C4 /* variant.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73E180DCE5500DC30C4 /* variant.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		08F9B766180DCE5500DC30C4 /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B740180DCE5500DC30C4 /* vector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		08F9B767180DCE5500DC30C4 /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = 08F9B741180DCE5500DC30C4 /* array.c */; };
@@ -76,7 +75,6 @@
 		D89CE3491979892600710BD8 /* slist.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73A180DCE5500DC30C4 /* slist.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D89CE34A1979892600710BD8 /* tree-map.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73B180DCE5500DC30C4 /* tree-map.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D89CE34B1979892600710BD8 /* tstring.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73C180DCE5500DC30C4 /* tstring.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D89CE34C1979892600710BD8 /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73D180DCE5500DC30C4 /* types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D89CE34D1979892600710BD8 /* variant.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B73E180DCE5500DC30C4 /* variant.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D89CE34F1979892600710BD8 /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = 08F9B740180DCE5500DC30C4 /* vector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -99,7 +97,6 @@
 		08F9B73A180DCE5500DC30C4 /* slist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = slist.h; path = ../../src/slist.h; sourceTree = "<group>"; };
 		08F9B73B180DCE5500DC30C4 /* tree-map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "tree-map.h"; path = "../../src/tree-map.h"; sourceTree = "<group>"; };
 		08F9B73C180DCE5500DC30C4 /* tstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tstring.h; path = ../../src/tstring.h; sourceTree = "<group>"; };
-		08F9B73D180DCE5500DC30C4 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = types.h; path = ../../src/types.h; sourceTree = "<group>"; };
 		08F9B73E180DCE5500DC30C4 /* variant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = variant.h; path = ../../src/variant.h; sourceTree = "<group>"; };
 		08F9B740180DCE5500DC30C4 /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vector.h; path = ../../src/vector.h; sourceTree = "<group>"; };
 		08F9B741180DCE5500DC30C4 /* array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = array.c; path = ../../src/array.c; sourceTree = "<group>"; };
@@ -178,7 +175,6 @@
 				D83079C71A32C195004E876D /* heap.h */,
 				08F9B73B180DCE5500DC30C4 /* tree-map.h */,
 				08F9B73C180DCE5500DC30C4 /* tstring.h */,
-				08F9B73D180DCE5500DC30C4 /* types.h */,
 				08F9B73E180DCE5500DC30C4 /* variant.h */,
 				08F9B740180DCE5500DC30C4 /* vector.h */,
 				42B271D61A096F29006A099B /* pool.h */,
@@ -226,7 +222,6 @@
 				08F9B760180DCE5500DC30C4 /* slist.h in Headers */,
 				08F9B761180DCE5500DC30C4 /* tree-map.h in Headers */,
 				08F9B762180DCE5500DC30C4 /* tstring.h in Headers */,
-				08F9B763180DCE5500DC30C4 /* types.h in Headers */,
 				08F9B764180DCE5500DC30C4 /* variant.h in Headers */,
 				08F9B766180DCE5500DC30C4 /* vector.h in Headers */,
 			);
@@ -255,7 +250,6 @@
 				D89CE3491979892600710BD8 /* slist.h in Headers */,
 				D89CE34A1979892600710BD8 /* tree-map.h in Headers */,
 				D89CE34B1979892600710BD8 /* tstring.h in Headers */,
-				D89CE34C1979892600710BD8 /* types.h in Headers */,
 				D89CE34D1979892600710BD8 /* variant.h in Headers */,
 				D89CE34F1979892600710BD8 /* vector.h in Headers */,
 			);

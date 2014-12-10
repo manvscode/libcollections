@@ -19,11 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+#include <stdlib.h>
+#include <assert.h>
+#ifdef DEBUG_VECTOR
 #include <stdio.h>
+#endif
 #include "vector.h"
 
 void* __vector_resize( void* array, size_t element_size, size_t new_size )
 {
+	assert( element_size > 0 );
+
 	if( vector_length(array) > new_size )
 	{
 		#if 0
@@ -45,6 +51,9 @@ void* __vector_resize( void* array, size_t element_size, size_t new_size )
 		{
 			result[ 0 ] = 0;
 		}
+#ifdef DEBUG_VECTOR
+		printf( "vector(@%p) size = %ld\n", result, new_size );
+#endif
 
 		result[ 1 ] = new_size;
 		return result + 2;
