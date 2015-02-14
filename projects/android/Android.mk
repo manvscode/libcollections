@@ -2,8 +2,8 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 SRC_PATH         := ../../src
-LOCAL_MODULE     := libcollections
-LOCAL_C_INCLUDES := $(SRC_PATH)
+LOCAL_MODULE     := collections
+LOCAL_EXPORT_C_INCLUDES := $(SRC_PATH)
 LOCAL_SRC_FILES  := \
 	$(SRC_PATH)/bitset.c \
 	$(SRC_PATH)/buffer.c \
