@@ -1,10 +1,10 @@
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
-SRC_PATH         := ../../src
-LOCAL_MODULE     := collections
-LOCAL_EXPORT_C_INCLUDES := $(SRC_PATH)
-LOCAL_SRC_FILES  := \
+SRC_PATH                := ../../src
+LOCAL_MODULE            := collections
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/$(SRC_PATH)
+LOCAL_SRC_FILES         := \
 	$(SRC_PATH)/bitset.c \
 	$(SRC_PATH)/buffer.c \
 	$(SRC_PATH)/dlist.c \
