@@ -6,24 +6,23 @@ Android.mk: Makefile.am
 	-:SHARED libcollections \
 	-:SOURCES \
 	src/array.c \
-	src/bheap.c \
-	src/dlist.c \
-	src/hash-functions.c \
-	src/hash-table.c \
-	src/rbtree.c \
-	src/tree-map.c \
-	src/variant.c \
 	src/bench-mark.c \
 	src/bitset.c \
+	src/buffer.c \
+	src/dlist.c \
 	src/flat-db.c \
+	src/hash-functions.c \
 	src/hash-map.c \
+	src/hash-table.c \
 	src/lhash-table.c \
+	src/rbtree.c \
 	src/slist.c \
 	src/tstring.c \
+	src/variant.c \
 	src/vector.c \
 	-I./src/ \
 	-include ./src/libcollections-config.h \
-	-:CFLAGS -std=c99 -Wall -O3 \
+	-:CFLAGS -std=c99 -Wall -O2 \
 	> $@
 
 android: Android.mk
