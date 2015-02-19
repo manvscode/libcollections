@@ -30,27 +30,27 @@ extern "C" {
 #if 0
 #define VECTOR_GROW_AMOUNT(array)      (13)
 #else
-#define VECTOR_GROW_AMOUNT(array)      (0.5f * vector_size(array) + 1)
+#define VECTOR_GROW_AMOUNT(array)      (0.5f * vector_capacity(array) + 1)
 #endif
 #endif
 
 #define vector_create(array, size)          ((array) = NULL, vector_resize(array, size))
 #define vector_destroy(array)               ((array) ? free(vector_raw(array)), 0 : 0)
 #define vector_raw(array)                   (((size_t*)(array)) - 2)
-#define vector_length(array)                ((array) ? vector_raw(array)[ 0 ] : 0)
-#define vector_size(array)                  ((array) ? vector_raw(array)[ 1 ] : 0)
+#define vector_size(array)                  ((array) ? vector_s(array) : 0)
+#define vector_capacity(array)              ((array) ? vector_c(array) : 0)
 #define vector_first(array)                 ((array)[ 0 ])
-#define vector_last(array)                  ((array)[ vector_length(array) - 1 ])
-#define vector_need_grow(array)             (!array || vector_length(array) >= vector_size(array))
+#define vector_last(array)                  ((array)[ vector_size(array) - 1 ])
+#define vector_need_grow(array)             (!array || vector_size(array) >= vector_capacity(array))
 #define vector_grow(array, size)            ((vector_need_grow(array)) ? vector_resize(array, (size)) : 0)
 #define vector_resize(array, size)          ((array) = __vector_resize(array, sizeof(*array), (size)))
-#define vector_clear(array)                 (vector_l(array) = 0)
-#define vector_push(array, item)            (vector_grow(array, vector_size(array) + VECTOR_GROW_AMOUNT(array)), array[ vector_l(array)++ ] = item)
-#define vector_pop(array)                   (vector_l(array)--)
-#define vector_pushn(array, item, amount)   (vector_grow(array, vector_size(array) + amount), array[ vector_l(array)++ ] = item)
-#define vector_popn(array, item, amount)    (vector_grow(array, vector_size(array) + amount), vector_l(array)--)
-#define vector_l(array)                     (vector_raw(array)[ 0 ])
-#define vector_s(array)                     (vector_raw(array)[ 1 ])
+#define vector_clear(array)                 (vector_s(array) = 0)
+#define vector_push(array, item)            (vector_grow(array, vector_capacity(array) + VECTOR_GROW_AMOUNT(array)), array[ vector_s(array)++ ] = item)
+#define vector_pop(array)                   (vector_s(array)--)
+#define vector_pushn(array, item, amount)   (vector_grow(array, vector_capacity(array) + amount), array[ vector_s(array)++ ] = item)
+#define vector_popn(array, item, amount)    (vector_grow(array, vector_capacity(array) + amount), vector_s(array)--)
+#define vector_s(array)                     (vector_raw(array)[ 0 ])
+#define vector_c(array)                     (vector_raw(array)[ 1 ])
 
 void* __vector_resize( void* array, size_t element_size, size_t new_size );
 

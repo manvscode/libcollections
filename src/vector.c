@@ -26,24 +26,24 @@
 #endif
 #include "vector.h"
 
-void* __vector_resize( void* array, size_t element_size, size_t new_size )
+void* __vector_resize( void* array, size_t element_size, size_t capacity )
 {
 	assert( element_size > 0 );
 
-	if( vector_length(array) > new_size )
+	if( vector_size(array) > capacity )
 	{
 		#if 0
-		while( vector_length(array) > new_size )
+		while( vector_size(array) > capacity )
 		{
 			vector_pop( array );
 		}
 		#else
-		vector_l( array ) = new_size;
+		vector_s( array ) = capacity;
 		#endif
 
 	}
 
-	size_t *result = (size_t*) realloc( array ? vector_raw(array) : NULL, 2 * sizeof(size_t) + element_size * new_size);
+	size_t *result = (size_t*) realloc( array ? vector_raw(array) : NULL, 2 * sizeof(size_t) + element_size * capacity);
 
 	if( result )
 	{
@@ -52,10 +52,10 @@ void* __vector_resize( void* array, size_t element_size, size_t new_size )
 			result[ 0 ] = 0;
 		}
 #ifdef DEBUG_VECTOR
-		printf( "vector(@%p) size = %ld\n", result, new_size );
+		printf( "vector(@%p) size = %ld\n", result, capacity );
 #endif
 
-		result[ 1 ] = new_size;
+		result[ 1 ] = capacity;
 		return result + 2;
 	}
 	else

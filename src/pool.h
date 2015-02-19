@@ -120,7 +120,7 @@
 		{ \
 			retry_obtain: \
 			{ \
-				const size_t available_count = vector_length(pool->available); \
+				const size_t available_count = vector_size(pool->available); \
 				\
 				if( available_count > 0 ) \
 				{ \
@@ -152,44 +152,27 @@
 	{ \
 		/* We ran out of items so we need to grow the */ \
 		/* pool.                                      */ \
-		size_t old_size = vector_size( pool->items ); \
-		size_t new_size = pool->growth > 0 ? (old_size + (size_t)pool->growth) : (1.5f * old_size + 1); \
+		size_t old_capacity = vector_capacity( pool->items ); \
+		size_t new_capacity = pool->growth > 0 ? (old_capacity + (size_t)pool->growth) : (1.5f * old_capacity + 1); \
 		\
 		data_type* old_base = pool->items; \
 		\
-		pool->items     = vector_resize( pool->items, new_size ); \
-		pool->available = vector_resize( pool->available, new_size ); \
+		pool->items     = vector_resize( pool->items, new_capacity ); \
+		pool->available = vector_resize( pool->available, new_capacity ); \
 		\
 		if( old_base != pool->items ) \
 		{ \
 			/* Pool was relocated somewhere else in memory. */ \
 			/* We need to update the previous pointers.     */ \
-			for( size_t i = 0; i < old_size; i++ ) \
+			for( size_t i = 0; i < old_capacity; i++ ) \
 			{ \
 				pool->available[ i ] = &pool->items[ i ]; \
 			} \
 		} \
 		\
-		for( size_t i = old_size; i < new_size; i++ ) \
+		for( size_t i = old_capacity; i < new_capacity; i++ ) \
 		{ \
 			vector_push( pool->available, &pool->items[ i ] ); \
 		} \
-	} \
-	\
-	void prefix##_pool_shrink( prefix##_pool_t* pool ) \
-	{ \
-		if( pool ) \
-		{ \
-			size_t len  = vector_length( pool->items ); \
-			size_t size = vector_length( pool->items ); \
-			\
-			if( size > len ) \
-			{ \
-				vector_resize( pool->items, len ); \
-				vector_resize( pool->available, len ); \
-			} \
-		} \
 	}
-
-
 

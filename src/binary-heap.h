@@ -33,7 +33,7 @@ extern "C" {
 
 #define binary_heap_create(array, initial_size)           vector_create(array, initial_size)
 #define binary_heap_destroy(array)                        vector_destroy(array)
-#define binary_heap_size( array )                         vector_length( array )
+#define binary_heap_size( array )                         vector_size( array )
 #define binary_heap_clear( array )                        vector_clear( array )
 #define binary_heap_reheapify( array, type, compare )     heap_make( array, type, compare )
 #define binary_heap_peek( array )                         ((array)[ 0 ])
@@ -42,11 +42,11 @@ extern "C" {
 { \
 	assert( array ); \
     \
-	if( vector_length(array) > 1 ) \
+	if( vector_size(array) > 1 ) \
 	{ \
-		type last_elem                    = array[ vector_length(array) - 1 ]; \
-		array[ vector_length(array) - 1 ] = array[ 0 ]; \
-		array[ 0 ]                        = last_elem; \
+		type last_elem                  = array[ vector_size(array) - 1 ]; \
+		array[ vector_size(array) - 1 ] = array[ 0 ]; \
+		array[ 0 ]                      = last_elem; \
 	} \
     \
 	vector_pop( array ); \

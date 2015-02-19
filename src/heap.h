@@ -35,7 +35,7 @@ extern "C" {
 #define heapify( array, type, compare, index ) \
 { \
 	int done = 0; \
-	size_t size  = vector_length( array ); \
+	size_t size  = vector_size( array ); \
 	size_t idx = index; \
     \
 	while( !done && idx < size ) \
@@ -69,7 +69,7 @@ extern "C" {
 
 #define heap_make( array, type, compare ) \
 { \
-	ssize_t index = heap_parent_of( vector_length( array ) - 1 ); \
+	ssize_t index = heap_parent_of( vector_size( array ) - 1 ); \
 	while( index >= 0 ) \
 	{ \
 		heapify( array, type, compare, index ); \
@@ -80,7 +80,7 @@ extern "C" {
 #define heap_push( array, type, compare ) \
 { \
 	int done = 0; \
-	size_t index = vector_length( array ) - 1; \
+	size_t index = vector_size( array ) - 1; \
     \
 	while( !done ) \
 	{ \

@@ -83,7 +83,7 @@ int main( int argc, char *argv[] )
 		vector_pop( collection );
 	}
 
-	for( i = 0; i < vector_length(collection); i++ )
+	for( i = 0; i < vector_size(collection); i++ )
 	{
 
 		point_t *p_pt = &collection[ i ];
