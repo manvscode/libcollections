@@ -34,7 +34,7 @@ extern "C" {
 #endif
 #endif
 
-#define vector_create(array, capacity)       ((array) = NULL, vector_set_capacity(array, capacity))
+#define vector_create(array, capacity)       ((array) = NULL, vector_reserve(array, capacity))
 #define vector_destroy(array)                ((array) ? free(vector_raw(array)), 0 : 0)
 #define vector_raw(array)                    (((size_t*)(array)) - 2)
 #define vector_size(array)                   ((array) ? vector_s(array) : 0)
@@ -42,8 +42,8 @@ extern "C" {
 #define vector_first(array)                  ((array)[ 0 ])
 #define vector_last(array)                   ((array)[ vector_size(array) - 1 ])
 #define vector_need_grow(array)              (!array || vector_size(array) >= vector_capacity(array))
-#define vector_grow(array, capacity)         ((vector_need_grow(array)) ? vector_set_capacity(array, (capacity)) : 0)
-#define vector_set_capacity(array, capacity) ((array) = __vector_set_capacity(array, sizeof(*array), (capacity)))
+#define vector_grow(array, capacity)         ((vector_need_grow(array)) ? vector_reserve(array, (capacity)) : 0)
+#define vector_reserve(array, capacity)      ((array) = __vector_set_capacity(array, sizeof(*array), (capacity)))
 #define vector_clear(array)                  (vector_s(array) = 0)
 #define vector_push(array, item)             (vector_grow(array, vector_capacity(array) + VECTOR_GROW_AMOUNT(array)), array[ vector_s(array)++ ] = item)
 #define vector_pop(array)                    (vector_s(array)--)
