@@ -26,7 +26,7 @@
 #endif
 #include "vector.h"
 
-void* __vector_resize( void* array, size_t element_size, size_t capacity )
+void* __vector_set_capacity( void* array, size_t element_size, size_t capacity )
 {
 	assert( element_size > 0 );
 
@@ -38,6 +38,7 @@ void* __vector_resize( void* array, size_t element_size, size_t capacity )
 			vector_pop( array );
 		}
 		#else
+		/* Set the new size which at a minimum is the capacity! */
 		vector_s( array ) = capacity;
 		#endif
 
@@ -49,10 +50,11 @@ void* __vector_resize( void* array, size_t element_size, size_t capacity )
 	{
 		if( !array )
 		{
+
 			result[ 0 ] = 0;
 		}
 #ifdef DEBUG_VECTOR
-		printf( "vector(@%p) size = %ld\n", result, capacity );
+		printf( "vector(@%p) capacity = %ld\n", result, capacity );
 #endif
 
 		result[ 1 ] = capacity;

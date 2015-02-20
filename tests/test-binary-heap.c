@@ -111,26 +111,26 @@ int main( int argc, char *argv[] )
 	}
 
 	printf( "unsorted = {" );
-	for( i = 0; i < vector_length(collection); i++ )
+	for( i = 0; i < vector_size(collection); i++ )
 	{
 		int num = collection[ i ];
-		printf( "%4d%s", num, i < (vector_length(collection) - 1) ? ", " : "" );
+		printf( "%4d%s", num, i < (vector_size(collection) - 1) ? ", " : "" );
 	}
 	printf( "}\n" );
 
 	//heap_make( collection, int, int_compare2 );
 
 	printf( "  sorted = {" );
-	while( vector_length(collection) > 0 )
+	while( vector_size(collection) > 0 )
 	{
 		int num = collection[ 0 ];
-		printf( "%4d%s", num, vector_length(collection) > 1 ? ", " : "" );
+		printf( "%4d%s", num, vector_size(collection) > 1 ? ", " : "" );
 
-		if( vector_length(collection) > 1 )
+		if( vector_size(collection) > 1 )
 		{
-			int last_elem  = collection[ vector_length(collection) - 1 ];
+			int last_elem  = collection[ vector_size(collection) - 1 ];
 
-			collection[ vector_length(collection) - 1 ] = collection[ 0 ];
+			collection[ vector_size(collection) - 1 ] = collection[ 0 ];
 			collection[ 0 ] = last_elem;
 		}
 
