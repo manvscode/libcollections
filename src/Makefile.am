@@ -34,6 +34,7 @@ hash-table.h \
 heap.h \
 lhash-table.h \
 macros.h \
+pool.h \
 rbtree.h \
 slist.h \
 tree-map.h \

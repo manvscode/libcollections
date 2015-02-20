@@ -157,8 +157,8 @@
 		\
 		data_type* old_base = pool->items; \
 		\
-		pool->items     = vector_resize( pool->items, new_capacity ); \
-		pool->available = vector_resize( pool->available, new_capacity ); \
+		pool->items     = vector_reserve( pool->items, new_capacity ); \
+		pool->available = vector_reserve( pool->available, new_capacity ); \
 		\
 		if( old_base != pool->items ) \
 		{ \

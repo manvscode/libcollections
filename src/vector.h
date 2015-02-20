@@ -46,6 +46,7 @@ extern "C" {
 #define vector_reserve(array, capacity)      ((array) = __vector_set_capacity(array, sizeof(*array), (capacity)))
 #define vector_clear(array)                  (vector_s(array) = 0)
 #define vector_push(array, item)             (vector_grow(array, vector_capacity(array) + VECTOR_GROW_AMOUNT(array)), array[ vector_s(array)++ ] = item)
+#define vector_push_emplace(array)           (vector_grow(array, vector_capacity(array) + VECTOR_GROW_AMOUNT(array)), vector_s(array)++)
 #define vector_pop(array)                    (vector_s(array)--)
 #define vector_pushn(array, item, amount)    (vector_grow(array, vector_capacity(array) + amount), array[ vector_s(array)++ ] = item)
 #define vector_popn(array, item, amount)     (vector_grow(array, vector_capacity(array) + amount), vector_s(array)--)
