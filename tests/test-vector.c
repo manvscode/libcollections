@@ -59,15 +59,20 @@ int main( int argc, char *argv[] )
 		pt.name = names[ rand( ) % (sizeof(names) - 1) ];
 		pt.name = names[ rand( ) % (sizeof(names) - 1) ];
 
-		vector_push( collection, pt );
+		bool success = vector_push( collection, pt );
+
+		if( !success )
+		{
+			printf( "push failed!\n" );
+		}
 	}
 
-	for( i = 0; i < 0.25 * SIZE; i++ )
+	for( i = 0; i < 10; i++ )
 	{
 		vector_pop( collection );
 	}
 
-	for( i = 0; i < 0.5 * SIZE; i++ )
+	for( i = 0; i < 15; i++ )
 	{
 		point_t pt;
 
@@ -75,10 +80,15 @@ int main( int argc, char *argv[] )
 		pt.y    = ((rand( ) % 100) - 50.0);
 		pt.name = names[ rand( ) % (sizeof(names) - 1) ];
 
-		vector_push( collection, pt );
+		bool success = vector_push( collection, pt );
+
+		if( !success )
+		{
+			printf( "push failed!\n" );
+		}
 	}
 
-	for( i = 0; i < 0.25 * SIZE; i++ )
+	for( i = 0; i < 10; i++ )
 	{
 		vector_pop( collection );
 	}
@@ -93,6 +103,9 @@ int main( int argc, char *argv[] )
 			p_pt->x,
 			p_pt->y );
 	}
+
+	printf( "Final Capacity = %zu\n", vector_capacity(collection) );
+	printf( "    Final Size = %zu\n", vector_size(collection) );
 
 	vector_destroy( collection );
 	return 0;

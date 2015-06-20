@@ -26,45 +26,50 @@
 #endif
 #include "vector.h"
 
-void* __vector_set_capacity( void* array, size_t element_size, size_t capacity )
+bool vector_reserve_capacity( void** array, size_t element_size, size_t capacity )
 {
+	bool result = false;
+
 	assert( element_size > 0 );
 
-	if( vector_size(array) > capacity )
+	if( vector_size(*array) > capacity )
 	{
 		#if 0
-		while( vector_size(array) > capacity )
+		while( vector_size(*array) > capacity )
 		{
-			vector_pop( array );
+			vector_pop( *array );
 		}
 		#else
 		/* Set the new size which at a minimum is the capacity! */
-		vector_s( array ) = capacity;
+		vector_s( *array ) = capacity;
 		#endif
 
 	}
 
-	size_t *result = (size_t*) realloc( array ? vector_raw(array) : NULL, 2 * sizeof(size_t) + element_size * capacity);
+	const size_t size = 2 * sizeof(size_t) + element_size * capacity;
+	size_t *new_array = (size_t*) realloc( *array ? vector_raw(*array) : NULL, size );
 
-	if( result )
+	if( new_array )
 	{
-		if( !array )
+		if( !(*array) )
 		{
 
-			result[ 0 ] = 0;
+			new_array[ 0 ] = 0;
 		}
 #ifdef DEBUG_VECTOR
-		printf( "vector(@%p) capacity = %ld\n", result, capacity );
+		printf( "vector(@%p) capacity = %ld\n", new_array, capacity );
 #endif
 
-		result[ 1 ] = capacity;
-		return result + 2;
+		new_array[ 1 ] = capacity;
+		*array = new_array + 2;
+		result = true;
 	}
 	else
 	{
-		free( vector_raw(array) );
+		/* Resizing failed, so we return the original vector */
+		new_array = vector_raw(*array) + 2;
 	}
 
-	return NULL; /* Force a crash */
+	return result;
 }
 
