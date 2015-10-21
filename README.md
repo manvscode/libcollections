@@ -33,7 +33,10 @@ Supported Types and Utilities
 
 OS Support
 ==============
- * Compiles on Linux using gcc
+ * Linux
+ * Mac OS X
+ * iOS
+ * Android
  * Microsoft Windows Vista using Visual Studio 2008
 
 License
