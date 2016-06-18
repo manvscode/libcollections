@@ -24,13 +24,13 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-typedef struct buffer {
-	size_t size;
-	uint8_t data[];
-} buffer_t;
+struct buffer;
+typedef struct buffer buffer_t;
 
 buffer_t* buffer_create  ( size_t size, bool zero );
 void      buffer_destroy ( buffer_t** p_buffer );
 bool      buffer_resize  ( buffer_t** p_buffer, size_t new_size );
+size_t    buffer_size    ( buffer_t* p_buffer );
+uint8_t*  buffer_data    ( buffer_t* p_buffer );
 
 #endif /* _BUFFER_H_ */

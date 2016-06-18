@@ -24,6 +24,11 @@
 #include <string.h>
 #include "buffer.h"
 
+struct buffer {
+	size_t size;
+	uint8_t data[];
+};
+
 buffer_t* buffer_create( size_t size, bool zero )
 {
 	size_t buffer_size = sizeof(buffer_t) + size;
@@ -51,14 +56,25 @@ void buffer_destroy( buffer_t** p_buffer )
 	}
 }
 
-bool buffer_resize( buffer_t** p_buffer, size_t new_size )
+bool buffer_resize( buffer_t** p_buffer, size_t size )
 {
+	size_t new_size = sizeof(buffer_t) + size;
 	*p_buffer = realloc( *p_buffer, new_size );
 
 	if( *p_buffer )
 	{
-		(*p_buffer)->size = new_size;
+		(*p_buffer)->size = size;
 	}
 
 	return *p_buffer != NULL;
+}
+
+size_t buffer_size( buffer_t* p_buffer )
+{
+    return p_buffer->size;
+}
+
+uint8_t* buffer_data( buffer_t* p_buffer )
+{
+    return p_buffer->data;
 }
