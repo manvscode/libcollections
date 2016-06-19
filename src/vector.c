@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 #include <stdlib.h>
+#include <stdio.h>
 #include <assert.h>
 #ifdef DEBUG_VECTOR
 #include <stdio.h>
@@ -34,16 +35,8 @@ bool vector_reserve_capacity( void** array, size_t element_size, size_t capacity
 
 	if( vector_size(*array) > capacity )
 	{
-		#if 0
-		while( vector_size(*array) > capacity )
-		{
-			vector_pop( *array );
-		}
-		#else
 		/* Set the new size which at a minimum is the capacity! */
 		vector_s( *array ) = capacity;
-		#endif
-
 	}
 
 	const size_t size = 2 * sizeof(size_t) + element_size * capacity;
@@ -53,7 +46,6 @@ bool vector_reserve_capacity( void** array, size_t element_size, size_t capacity
 	{
 		if( !(*array) )
 		{
-
 			new_array[ 0 ] = 0;
 		}
 #ifdef DEBUG_VECTOR
@@ -64,11 +56,13 @@ bool vector_reserve_capacity( void** array, size_t element_size, size_t capacity
 		*array = new_array + 2;
 		result = true;
 	}
+#if 0
 	else
 	{
 		/* Resizing failed, so we return the original vector */
 		new_array = vector_raw(*array) + 2;
 	}
+#endif
 
 	return result;
 }
