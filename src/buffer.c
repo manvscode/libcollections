@@ -59,14 +59,15 @@ void buffer_destroy( buffer_t** p_buffer )
 bool buffer_resize( buffer_t** p_buffer, size_t size )
 {
 	size_t new_size = sizeof(buffer_t) + size;
-	*p_buffer = realloc( *p_buffer, new_size );
+	buffer_t* new_buffer = (buffer_t*) realloc( *p_buffer, new_size );
 
-	if( *p_buffer )
+	if( new_buffer )
 	{
-		(*p_buffer)->size = size;
+		new_buffer->size = size;
+        *p_buffer = new_buffer;
 	}
 
-	return *p_buffer != NULL;
+	return new_buffer != NULL;
 }
 
 size_t buffer_size( buffer_t* p_buffer )
