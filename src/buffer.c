@@ -24,9 +24,11 @@
 #include <string.h>
 #include "buffer.h"
 
+typedef unsigned char byte_t;
+
 struct buffer {
 	size_t size;
-	uint8_t data[];
+	byte_t data[];
 };
 
 buffer_t* buffer_create( size_t size, bool zero )
@@ -56,6 +58,16 @@ void buffer_destroy( buffer_t** p_buffer )
 	}
 }
 
+size_t buffer_size( buffer_t* p_buffer )
+{
+    return p_buffer->size;
+}
+
+void* buffer_data( buffer_t* p_buffer )
+{
+    return p_buffer->data;
+}
+
 bool buffer_resize( buffer_t** p_buffer, size_t size )
 {
 	size_t new_size = sizeof(buffer_t) + size;
@@ -70,12 +82,45 @@ bool buffer_resize( buffer_t** p_buffer, size_t size )
 	return new_buffer != NULL;
 }
 
-size_t buffer_size( buffer_t* p_buffer )
+bool buffer_put( buffer_t** p_buffer, size_t offset, const void* buffer, size_t size, bool resize )
 {
-    return p_buffer->size;
+    bool result = true;
+
+    if( p_buffer && *p_buffer )
+    {
+        size_t final_size = offset + size;
+
+        if( final_size > (*p_buffer)->size )
+        {
+            // Buffer is too small so let's try to
+            // resize it.
+            if( resize )
+            {
+                if( !buffer_resize( p_buffer, final_size ) )
+                {
+                    // resize failed
+                    result = false;
+                    goto done;
+                }
+            }
+            else
+            {
+                // Cannot resize
+                result = false;
+                goto done;
+            }
+        }
+
+        memcpy( (*p_buffer)->data + offset, buffer, size );
+    }
+    else
+    {
+        // bad input
+        result = false;
+        goto done;
+    }
+
+done:
+    return result;
 }
 
-uint8_t* buffer_data( buffer_t* p_buffer )
-{
-    return p_buffer->data;
-}

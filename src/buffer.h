@@ -29,8 +29,9 @@ typedef struct buffer buffer_t;
 
 buffer_t* buffer_create  ( size_t size, bool zero );
 void      buffer_destroy ( buffer_t** p_buffer );
-bool      buffer_resize  ( buffer_t** p_buffer, size_t new_size );
 size_t    buffer_size    ( buffer_t* p_buffer );
-uint8_t*  buffer_data    ( buffer_t* p_buffer );
+void*     buffer_data    ( buffer_t* p_buffer );
+bool      buffer_resize  ( buffer_t** p_buffer, size_t new_size );
+bool      buffer_put     ( buffer_t** p_buffer, size_t offset, const void* buffer, size_t size, bool resize );
 
 #endif /* _BUFFER_H_ */
