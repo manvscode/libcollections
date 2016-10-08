@@ -35,7 +35,13 @@ extern "C" {
 #endif
 #endif
 
+/**
+ *  Creates a vector.
+ */
 #define vector_create(array, capacity)       ((array) = NULL, vector_reserve(array, capacity))
+/**
+ *  Destroys a vector.
+ */
 #define vector_destroy(array)                (free(vector_raw(array)))
 #define vector_raw(array)                    (((size_t*)(array)) - 2)
 #define vector_size(array)                   ((array) ? vector_s(array) : 0)
