@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -54,7 +54,7 @@ static inline uint32_t uint32_hash( uint32_t a )
 }
 #endif
 
-size_t pointer_hash( const void *data )
+size_t lc_pointer_hash( const void *data )
 {
 	#if 0
 		return (size_t) data;
@@ -68,7 +68,7 @@ size_t pointer_hash( const void *data )
 }
 
 
-size_t string_hash( const void *string_addr )
+size_t lc_string_hash( const void *string_addr )
 {
 	const char *str  = (const char*) string_addr;
 	size_t hash_code = 0;
@@ -84,7 +84,7 @@ size_t string_hash( const void *string_addr )
 }
 
 
-size_t memory_hash( const void *p_memory, size_t size )
+size_t lc_memory_hash( const void *p_memory, size_t size )
 {
 	const unsigned char *bytes = (const unsigned char*) p_memory;
 	size_t hash_code           = 0;
@@ -98,7 +98,7 @@ size_t memory_hash( const void *p_memory, size_t size )
 	return hash_code;
 }
 
-size_t ip_address_hash( const void *data )
+size_t lc_ip_address_hash( const void *data )
 {
 	unsigned short count;
 	size_t hash;

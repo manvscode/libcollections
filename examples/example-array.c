@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,75 +21,35 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdbool.h>
-#include <assert.h>
-#include <bitset.h>
+#include <time.h>
+#include <array.h>
 
-void print_bits( );
-
-bitset_t bits;
+#define MAX 20
 
 int main( int argc, char *argv[] )
 {
+	lc_array_t a;
 	int i;
-	bool r = true;
 
-	r = bitset_create( &bits, 8 );
-	assert( r );
+	lc_array_create( &a, sizeof(double), 1 /* initial size */, malloc, free );
+	srand( time(NULL) );
 
+	lc_array_resize( &a, MAX );
 
-	printf( "bits = %ld\n\n", bitset_bits( &bits ) );
-	printf( "0123456789\n");
-
-
-	bitset_set( &bits, 0 );
-	bitset_set( &bits, 1 );
-	bitset_set( &bits, 2 );
-	bitset_set( &bits, 3 );
-	bitset_set( &bits, 4 );
-	bitset_set( &bits, 5 );
-	bitset_set( &bits, 6 );
-	bitset_set( &bits, 7 );
-
-	print_bits( );
-
-
-
-	if( bitset_test( &bits, 7 ) )
+	for( i = 0; i < MAX; i++ )
 	{
-		printf( "7th bit is set\n" );
+		double *p_num = lc_array_elem( &a, i, double );
+		*p_num = ((double) rand( )) / RAND_MAX;
 	}
 
-
-	r = bitset_resize( &bits, 64 );
-	assert( r );
-
-	bitset_set( &bits, 9 );
-	bitset_unset( &bits, 8 );
-	bitset_set( &bits, 37 );
-	bitset_set( &bits, 38 );
-
-	print_bits( );
-
-	r = bitset_resize( &bits, 128 );
-	assert( r );
-
-
-	for( i = 64; i < bitset_bits(&bits); i++ )
+	for( i = 0; i < MAX; i++ )
 	{
-		bitset_set( &bits, i );
+		double *p_num = lc_array_elem( &a, i, double );
+
+		printf( "array[%2d] = %f\n", i, *p_num );
 	}
 
-	print_bits( );
+	lc_array_destroy( &a );
 
-	bitset_destroy( &bits );
 	return 0;
-}
-
-void print_bits( )
-{
-	char *s = bitset_string( &bits );
-
-	printf( "%s\n", s );
-	free( s );
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@
 #include <string.h>
 #endif
 
-bool array_create( array_t* p_array, size_t element_size, size_t size, alloc_function alloc, free_function free )
+bool lc_array_create( lc_array_t* p_array, size_t element_size, size_t size, lc_alloc_fxn_t alloc, lc_free_fxn_t free )
 {
 	assert( p_array );
 
@@ -35,10 +35,10 @@ bool array_create( array_t* p_array, size_t element_size, size_t size, alloc_fun
 	p_array->size         = size;
 	p_array->alloc        = alloc;
 	p_array->free         = free;
-	p_array->arr          = p_array->alloc( array_element_size(p_array) * array_size(p_array) );
+	p_array->arr          = p_array->alloc( lc_array_element_size(p_array) * lc_array_size(p_array) );
 
 	#ifdef _DEBUG_VECTOR
-	memset( p_array->arr, 0, array_element_size(p_array) * array_size(p_array) );
+	memset( p_array->arr, 0, lc_array_element_size(p_array) * lc_array_size(p_array) );
 	#endif
 
 	assert( p_array->arr );
@@ -46,7 +46,7 @@ bool array_create( array_t* p_array, size_t element_size, size_t size, alloc_fun
 	return p_array->arr != NULL;
 }
 
-void array_destroy( array_t* p_array )
+void lc_array_destroy( lc_array_t* p_array )
 {
 	assert( p_array );
 
@@ -59,14 +59,14 @@ void array_destroy( array_t* p_array )
 	#endif
 }
 
-bool array_resize( array_t* p_array, size_t new_size )
+bool lc_array_resize( lc_array_t* p_array, size_t new_size )
 {
 	bool result = true;
 
-	if( array_size(p_array) != new_size )
+	if( lc_array_size(p_array) != new_size )
 	{
 		p_array->size  = new_size;
-		p_array->arr   = realloc( p_array->arr, p_array->element_size * array_size(p_array) );
+		p_array->arr   = realloc( p_array->arr, p_array->element_size * lc_array_size(p_array) );
 
 		result = p_array->arr != NULL;
 	}
@@ -75,15 +75,15 @@ bool array_resize( array_t* p_array, size_t new_size )
 }
 
 #if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L) /* Not C99 */
-void* array_element( array_t* p_array, size_t index )
+void* lc_array_element( lc_array_t* p_array, size_t index )
 {
 	assert( index >= 0 );
-	assert( index < array_size(p_array) );
-	return (void*)(array_base(p_array) + array_element_size(p_array) * (index));
+	assert( index < lc_array_size(p_array) );
+	return (void*)(lc_array_base(p_array) + lc_array_element_size(p_array) * (index));
 }
 #endif
 
-bool array_serialize( array_t* p_array, FILE* file, array_serialize_function func )
+bool lc_array_serialize( lc_array_t* p_array, FILE* file, lc_array_serialize_fxn_t func )
 {
 	if( fwrite( &p_array->size, sizeof(size_t), 1, file ) == 1 )
 	{
@@ -104,13 +104,13 @@ bool array_serialize( array_t* p_array, FILE* file, array_serialize_function fun
 	return false;
 }
 
-bool array_unserialize( array_t* p_array, FILE* file, array_unserialize_function func )
+bool lc_array_unserialize( lc_array_t* p_array, FILE* file, lc_array_unserialize_fxn_t func )
 {
 	size_t new_size = 0;
 
 	if( fread( &new_size, sizeof(size_t), 1, file ) == 1 )
 	{
-		array_resize( p_array, new_size );
+		lc_array_resize( p_array, new_size );
 
 		if( !func )
 		{

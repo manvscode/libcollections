@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,20 +27,20 @@
 #endif
 #include "vector.h"
 
-bool vector_reserve_capacity( void** array, size_t element_size, size_t capacity )
+bool lc_vector_reserve_capacity( void** array, size_t element_size, size_t capacity )
 {
 	bool result = false;
 
 	assert( element_size > 0 );
 
-	if( vector_size(*array) > capacity )
+	if( lc_vector_size(*array) > capacity )
 	{
 		/* Set the new size which at a minimum is the capacity! */
-		vector_s( *array ) = capacity;
+		lc_vector_s( *array ) = capacity;
 	}
 
 	const size_t size = 2 * sizeof(size_t) + element_size * capacity;
-	size_t *new_array = (size_t*) realloc( *array ? vector_raw(*array) : NULL, size );
+	size_t *new_array = (size_t*) realloc( *array ? lc_vector_raw(*array) : NULL, size );
 
 	if( new_array )
 	{
@@ -60,7 +60,7 @@ bool vector_reserve_capacity( void** array, size_t element_size, size_t capacity
 	else
 	{
 		/* Resizing failed, so we return the original vector */
-		new_array = vector_raw(*array) + 2;
+		new_array = lc_vector_raw(*array) + 2;
 	}
 #endif
 

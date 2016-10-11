@@ -51,12 +51,12 @@ AC_CHECK_HEADERS([unistd.h])
 AC_CHECK_HEADERS([wchar.h])
 AC_CHECK_HEADERS([wctype.h])
 # -------------------------------------------------
-AC_ARG_ENABLE([tests],
-	[AS_HELP_STRING([--disable-tests], [Enable test programs.])],
+AC_ARG_ENABLE([examples],
+	[AS_HELP_STRING([--enable-examples], [Enable building the example programs.])],
 	[:],
-	[enable_tests=no])
+	[enable_examples=no])
 
-AM_CONDITIONAL([ENABLE_TESTS], [test "$enable_tests" = "yes"])
+AM_CONDITIONAL([ENABLE_TESTS], [test "$enable_examples" = "yes"])
 # -------------------------------------------------
 
 
@@ -72,7 +72,7 @@ echo " ------------------------------ "
 AC_CONFIG_FILES([
 	Makefile
 	src/Makefile
-	tests/Makefile
+	examples/Makefile
 ])
 
 AC_OUTPUT

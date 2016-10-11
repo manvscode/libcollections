@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +25,9 @@
 #include <assert.h>
 #include "bitset.h"
 
-bool bitset_create( bitset_t* p_bitset, size_t bits )
+bool lc_bitset_create( lc_bitset_t* p_bitset, size_t bits )
 {
-	size_t size = bits_to_bytes( bits );
+	size_t size = lc_bits_to_bytes( bits );
 
 	assert( p_bitset );
 
@@ -40,7 +40,7 @@ bool bitset_create( bitset_t* p_bitset, size_t bits )
 	return p_bitset->array != NULL;
 }
 
-void bitset_destroy( bitset_t* p_bitset )
+void lc_bitset_destroy( lc_bitset_t* p_bitset )
 {
 	assert( p_bitset );
 	free( p_bitset->array );
@@ -51,28 +51,28 @@ void bitset_destroy( bitset_t* p_bitset )
 	#endif
 }
 
-void bitset_clear( bitset_t* p_bitset )
+void lc_bitset_clear( lc_bitset_t* p_bitset )
 {
 	assert( p_bitset );
-	memset( p_bitset->array, 0, sizeof(unsigned char) * bits_to_bytes(p_bitset->bit_size) );
+	memset( p_bitset->array, 0, sizeof(unsigned char) * lc_bits_to_bytes(p_bitset->bit_size) );
 }
 
 #if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)
-void bitset_set( bitset_t* p_bitset, size_t bit )
+void lc_bitset_set( lc_bitset_t* p_bitset, size_t bit )
 {
 	assert( p_bitset );
 	assert( bit < p_bitset->bit_size );
 	p_bitset->array[ bit_to_index(bit) ] |= (0x01 << (bit % CHAR_BIT));
 }
 
-void bitset_unset( bitset_t* p_bitset, size_t bit )
+void lc_bitset_unset( lc_bitset_t* p_bitset, size_t bit )
 {
 	assert( p_bitset );
 	assert( bit < p_bitset->bit_size );
 	p_bitset->array[ bit_to_index(bit) ] &= ~(0x01 << (bit % CHAR_BIT));
 }
 
-bool bitset_test( const bitset_t* p_bitset, size_t bit )
+bool lc_bitset_test( const lc_bitset_t* p_bitset, size_t bit )
 {
 	assert( p_bitset );
 	return p_bitset->array[ bit_to_index(bit) ] & (0x01 << (bit % CHAR_BIT));
@@ -80,15 +80,15 @@ bool bitset_test( const bitset_t* p_bitset, size_t bit )
 #endif
 
 
-bool bitset_resize( bitset_t* p_bitset, size_t bits )
+bool lc_bitset_resize( lc_bitset_t* p_bitset, size_t bits )
 {
 	size_t size;
 	size_t new_size;
 
 	assert( p_bitset );
 
-	size     = bits_to_bytes( p_bitset->bit_size );
-	new_size = bits_to_bytes( bits );
+	size     = lc_bits_to_bytes( p_bitset->bit_size );
+	new_size = lc_bits_to_bytes( bits );
 
 	if( size != new_size )
 	{
@@ -101,7 +101,7 @@ bool bitset_resize( bitset_t* p_bitset, size_t bits )
 	return p_bitset->array != NULL;
 }
 
-char *bitset_string( bitset_t* p_bitset )
+char *lc_bitset_string( lc_bitset_t* p_bitset )
 {
 	char *result = (char *) malloc( p_bitset->bit_size + 1 );
 
@@ -111,7 +111,7 @@ char *bitset_string( bitset_t* p_bitset )
 
 		for( i = 0; i < p_bitset->bit_size; i++ )
 		{
-			result[ i ] = bitset_test(p_bitset, i) ? '1' : '0';
+			result[ i ] = lc_bitset_test(p_bitset, i) ? '1' : '0';
 		}
 
 		result[ i ] = '\0';

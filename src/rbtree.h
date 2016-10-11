@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,75 +23,75 @@
 #define _RBTREE_H_
 #ifdef __cplusplus
 extern "C" {
-#endif 
+#endif
 
 #include <stdbool.h>
 //#include "libcollections-config.h"
 #include "alloc.h"
 
-typedef int     (*rbtree_compare_function) ( const void *p_data_left, const void *p_data_right );
-typedef bool    (*rbtree_element_function) ( void *p_data );
+typedef int     (*lc_rbtree_compare_fxn_t) ( const void *p_data_left, const void *p_data_right );
+typedef bool    (*lc_rbtree_element_fxn_t) ( void *p_data );
 
 
-typedef struct rbnode {   
-	struct rbnode *parent;
-	struct rbnode *left;
-	struct rbnode *right;
+typedef struct lc_rbnode {
+	struct lc_rbnode *parent;
+	struct lc_rbnode *left;
+	struct lc_rbnode *right;
 	bool   is_red;
 	void *data;
-} rbnode_t;
+} lc_rbnode_t;
 
 #ifdef EXTERN_RBNIL
 extern rbnode RBNIL;
 #endif
 
-typedef struct rbtree {
-	rbnode_t* root;
-	size_t    size;	
-	rbtree_compare_function _compare;
-	rbtree_element_function _destroy;
+typedef struct lc_rbtree {
+	lc_rbnode_t* root;
+	size_t    size;
+	lc_rbtree_compare_fxn_t _compare;
+	lc_rbtree_element_fxn_t _destroy;
 
-	alloc_function  _alloc;
-	free_function   _free;
-} rbtree_t;
+	lc_alloc_fxn_t  _alloc;
+	lc_free_fxn_t   _free;
+} lc_rbtree_t;
 
-typedef rbnode_t* rbtree_iterator_t;
+typedef lc_rbnode_t* lc_rbtree_iterator_t;
 
 
-rbtree_t* rbtree_create_ex   ( rbtree_element_function destroy, rbtree_compare_function compare, alloc_function alloc, free_function free );
-void      rbtree_create      ( rbtree_t* p_tree, rbtree_element_function destroy, rbtree_compare_function compare, alloc_function alloc, free_function free );
-void      rbtree_destroy     ( rbtree_t* p_tree );
-void      rbtree_copy        ( rbtree_t const *p_srcTree, rbtree_t* p_dstTree );
-bool      rbtree_insert      ( rbtree_t* p_tree, const void *data );
-bool      rbtree_remove      ( rbtree_t* p_tree, const void *data );
-bool      rbtree_search      ( const rbtree_t* p_tree, const void *data );
-void      rbtree_clear       ( rbtree_t* p_tree );
-bool      rbtree_serialize   ( rbtree_t* p_tree, size_t element_size, FILE *file );
-bool      rbtree_unserialize ( rbtree_t* p_tree, size_t element_size, FILE *file );
+lc_rbtree_t* lc_rbtree_create_ex   ( lc_rbtree_element_fxn_t destroy, lc_rbtree_compare_fxn_t compare, lc_alloc_fxn_t alloc, lc_free_fxn_t free );
+void      lc_rbtree_create      ( lc_rbtree_t* p_tree, lc_rbtree_element_fxn_t destroy, lc_rbtree_compare_fxn_t compare, lc_alloc_fxn_t alloc, lc_free_fxn_t free );
+void      lc_rbtree_destroy     ( lc_rbtree_t* p_tree );
+void      lc_rbtree_copy        ( lc_rbtree_t const *p_srcTree, lc_rbtree_t* p_dstTree );
+bool      lc_rbtree_insert      ( lc_rbtree_t* p_tree, const void *data );
+bool      lc_rbtree_remove      ( lc_rbtree_t* p_tree, const void *data );
+bool      lc_rbtree_search      ( const lc_rbtree_t* p_tree, const void *data );
+void      lc_rbtree_clear       ( lc_rbtree_t* p_tree );
+bool      lc_rbtree_serialize   ( lc_rbtree_t* p_tree, size_t element_size, FILE *file );
+bool      lc_rbtree_unserialize ( lc_rbtree_t* p_tree, size_t element_size, FILE *file );
 
-void    rbtree_alloc_set   ( rbtree_t* p_tree, alloc_function alloc );
-void    rbtree_free_set    ( rbtree_t* p_tree, free_function free );
+void    lc_rbtree_alloc_set   ( lc_rbtree_t* p_tree, lc_alloc_fxn_t alloc );
+void    lc_rbtree_free_set    ( lc_rbtree_t* p_tree, lc_free_fxn_t free );
 
-rbnode_t* rbnode_minimum     ( rbnode_t *t );
-rbnode_t* rbnode_maximum     ( rbnode_t *t );
-rbnode_t* rbnode_successor   ( const rbnode_t *t );
-rbnode_t* rbnode_predecessor ( const rbnode_t *t );
+lc_rbnode_t* lc_rbnode_minimum     ( lc_rbnode_t *t );
+lc_rbnode_t* lc_rbnode_maximum     ( lc_rbnode_t *t );
+lc_rbnode_t* lc_rbnode_successor   ( const lc_rbnode_t *t );
+lc_rbnode_t* lc_rbnode_predecessor ( const lc_rbnode_t *t );
 
-rbtree_iterator_t rbtree_begin ( const rbtree_t* p_tree );
-rbtree_iterator_t rbtree_end   ( );
+lc_rbtree_iterator_t lc_rbtree_begin ( const lc_rbtree_t* p_tree );
+lc_rbtree_iterator_t lc_rbtree_end   ( );
 
-#ifdef _DEBUG_RBTREE 
-bool    rbtree_verify_tree ( rbtree_t* p_tree );
-void    rbtree_print       ( const rbtree_t* p_tree );
+#ifdef _DEBUG_RBTREE
+bool    lc_rbtree_verify_tree ( lc_rbtree_t* p_tree );
+void    lc_rbtree_print       ( const lc_rbtree_t* p_tree );
 #endif
 
-#define rbtree_size( p_tree )        ((p_tree)->size)
-#define rbtree_is_empty( p_tree )    ((p_tree)->size <= 0)
-#define rbtree_next( p_node )        (rbnode_successor( (p_node) ))
-#define rbtree_previous( p_node )    (rbnode_predecessor( (p_node) ))
-#define rbtree_root( p_tree )        ((p_tree)->root)
+#define lc_rbtree_size( p_tree )        ((p_tree)->size)
+#define lc_rbtree_is_empty( p_tree )    ((p_tree)->size <= 0)
+#define lc_rbtree_next( p_node )        (lc_rbnode_successor( (p_node) ))
+#define lc_rbtree_previous( p_node )    (lc_rbnode_predecessor( (p_node) ))
+#define lc_rbtree_root( p_tree )        ((p_tree)->root)
 
 #ifdef __cplusplus
 }
-#endif 
+#endif
 #endif /* _RBTREE_H_ */

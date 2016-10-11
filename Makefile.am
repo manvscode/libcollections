@@ -1,4 +1,4 @@
-SUBDIRS = src tests
+SUBDIRS = src examples
 
 Android.mk: Makefile.am
 	@androgenizer -:PROJECT libcollections \

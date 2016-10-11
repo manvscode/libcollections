@@ -16,8 +16,8 @@
 *.log
 
 
-# Test Programs 
-bin/test-*
+# Example Programs
+bin/example-*
 
 # Autoconf files
 Makefile
@@ -38,6 +38,6 @@ lib/.libs
 lib/.dirstamp
 src/.deps
 src/stamp-h1
-tests/.deps
+examples/.deps
 src/libcollections-config.h
 src/libcollections-config.h.in

@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,7 +23,7 @@
 #define _LHASH_TABLE_H_
 #ifdef __cplusplus
 extern "C" {
-#endif 
+#endif
 
 #include <stddef.h>
 #include <stdbool.h>
@@ -36,10 +36,10 @@ extern "C" {
  */
 
 /* Each size is a prime number */
-#ifndef LHASH_TABLE_SIZE_SMALL 
+#ifndef LHASH_TABLE_SIZE_SMALL
 #define LHASH_TABLE_SIZE_SMALL         (37)
 #endif
-#ifndef LHASH_TABLE_SIZE_MEDIUM 
+#ifndef LHASH_TABLE_SIZE_MEDIUM
 #define LHASH_TABLE_SIZE_MEDIUM        (1031)
 #endif
 #ifndef LHASH_TABLE_SIZE_LARGE
@@ -59,45 +59,45 @@ extern "C" {
 #define LHASH_TABLE_LINEAR_CONSTANT    (1)
 #endif
 
-typedef size_t  (*lhash_table_hash_function)    ( const void *element );
-typedef bool    (*lhash_table_element_function) ( void *element );
-typedef int     (*lhash_table_compare_function) ( const void *left, const void *right );
+typedef size_t  (*lc_lhash_table_hash_fxn_t)    ( const void *element );
+typedef bool    (*lc_lhash_table_element_fxn_t) ( void *element );
+typedef int     (*lc_lhash_table_compare_fxn_t) ( const void *left, const void *right );
 
-typedef struct lhash_table {
-	alloc_function  alloc;
-	free_function   free;
+typedef struct lc_lhash_table {
+	lc_alloc_fxn_t  alloc;
+	lc_free_fxn_t   free;
 
-	array_t  table;
-	bitset_t occupied;
-	bitset_t deleted;
+	lc_array_t  table;
+	lc_bitset_t occupied;
+	lc_bitset_t deleted;
 	size_t   size;
 
-	lhash_table_hash_function    hash_callback;
-	lhash_table_compare_function compare_callback; 	
-} lhash_table_t;
+	lc_lhash_table_hash_fxn_t    hash_callback;
+	lc_lhash_table_compare_fxn_t compare_callback;
+} lc_lhash_table_t;
 
-bool      lhash_table_create  ( lhash_table_t* p_table, size_t element_size, size_t table_size, 
-                                lhash_table_hash_function hash_function, 
-                                lhash_table_compare_function compare_function,
-								alloc_function alloc,
-								free_function free );
-void      lhash_table_destroy ( lhash_table_t* p_table );
-bool      lhash_table_insert  ( lhash_table_t* p_table, const void *data );
-bool      lhash_table_remove  ( lhash_table_t* p_table, const void *data );
-bool      lhash_table_find    ( lhash_table_t* p_table, const void *data, void **found_data );
-void      lhash_table_clear   ( lhash_table_t* p_table );
-bool      lhash_table_resize  ( lhash_table_t* p_table, size_t new_size );
-bool      lhash_table_rehash  ( lhash_table_t* p_table, double load_factor );
+bool      lc_lhash_table_create  ( lc_lhash_table_t* p_table, size_t element_size, size_t table_size,
+                                lc_lhash_table_hash_fxn_t hash_function,
+                                lc_lhash_table_compare_fxn_t compare_function,
+								lc_alloc_fxn_t alloc,
+								lc_free_fxn_t free );
+void      lc_lhash_table_destroy ( lc_lhash_table_t* p_table );
+bool      lc_lhash_table_insert  ( lc_lhash_table_t* p_table, const void *data );
+bool      lc_lhash_table_remove  ( lc_lhash_table_t* p_table, const void *data );
+bool      lc_lhash_table_find    ( lc_lhash_table_t* p_table, const void *data, void **found_data );
+void      lc_lhash_table_clear   ( lc_lhash_table_t* p_table );
+bool      lc_lhash_table_resize  ( lc_lhash_table_t* p_table, size_t new_size );
+bool      lc_lhash_table_rehash  ( lc_lhash_table_t* p_table, double load_factor );
 
 
-#define   lhash_table_size(p_table)         ((p_table)->size)
-#define   lhash_table_table_size(p_table)   ((p_table)->table.size)
-#define   lhash_table_load_factor(p_table)  (lhash_table_size(p_table) / ((double) ((p_table)->table.size)))
+#define   lc_lhash_table_size(p_table)         ((p_table)->size)
+#define   lc_lhash_table_table_size(p_table)   ((p_table)->table.size)
+#define   lc_lhash_table_load_factor(p_table)  (lc_lhash_table_size(p_table) / ((double) ((p_table)->table.size)))
 
 
 
 
 #ifdef __cplusplus
 }
-#endif 
+#endif
 #endif /* _LHASH_TABLE_H_ */

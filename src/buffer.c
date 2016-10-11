@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,15 +26,15 @@
 
 typedef unsigned char byte_t;
 
-struct buffer {
+struct lc_buffer {
 	size_t size;
 	byte_t data[];
 };
 
-buffer_t* buffer_create( size_t size, bool zero )
+lc_buffer_t* lc_buffer_create( size_t size, bool zero )
 {
-	size_t buffer_size = sizeof(buffer_t) + size;
-	buffer_t* p_buffer = (buffer_t*) malloc( buffer_size );
+	size_t lc_buffer_size = sizeof(lc_buffer_t) + size;
+	lc_buffer_t* p_buffer = (lc_buffer_t*) malloc( lc_buffer_size );
 
 	if( p_buffer )
 	{
@@ -49,7 +49,7 @@ buffer_t* buffer_create( size_t size, bool zero )
 	return p_buffer;
 }
 
-void buffer_destroy( buffer_t** p_buffer )
+void lc_buffer_destroy( lc_buffer_t** p_buffer )
 {
 	if( *p_buffer )
 	{
@@ -58,20 +58,20 @@ void buffer_destroy( buffer_t** p_buffer )
 	}
 }
 
-size_t buffer_size( buffer_t* p_buffer )
+size_t lc_buffer_size( lc_buffer_t* p_buffer )
 {
     return p_buffer->size;
 }
 
-void* buffer_data( buffer_t* p_buffer )
+void* lc_buffer_data( lc_buffer_t* p_buffer )
 {
     return p_buffer->data;
 }
 
-bool buffer_resize( buffer_t** p_buffer, size_t size )
+bool lc_buffer_resize( lc_buffer_t** p_buffer, size_t size )
 {
-	size_t new_size = sizeof(buffer_t) + size;
-	buffer_t* new_buffer = (buffer_t*) realloc( *p_buffer, new_size );
+	size_t new_size = sizeof(lc_buffer_t) + size;
+	lc_buffer_t* new_buffer = (lc_buffer_t*) realloc( *p_buffer, new_size );
 
 	if( new_buffer )
 	{
@@ -82,7 +82,7 @@ bool buffer_resize( buffer_t** p_buffer, size_t size )
 	return new_buffer != NULL;
 }
 
-bool buffer_put( buffer_t** p_buffer, size_t offset, const void* buffer, size_t size, bool resize )
+bool lc_buffer_put( lc_buffer_t** p_buffer, size_t offset, const void* buffer, size_t size, bool resize )
 {
     bool result = true;
 
@@ -96,7 +96,7 @@ bool buffer_put( buffer_t** p_buffer, size_t offset, const void* buffer, size_t 
             // resize it.
             if( resize )
             {
-                if( !buffer_resize( p_buffer, final_size ) )
+                if( !lc_buffer_resize( p_buffer, final_size ) )
                 {
                     // resize failed
                     result = false;

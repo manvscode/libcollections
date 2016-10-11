@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,17 +23,17 @@
 #define _HASH_MAP_H_
 #ifdef __cplusplus
 extern "C" {
-#endif 
+#endif
 
 #include <stddef.h>
 #include <stdbool.h>
 #include "alloc.h"
 
 /* Each size is a prime number */
-#ifndef HASH_MAP_SIZE_SMALL 
+#ifndef HASH_MAP_SIZE_SMALL
 #define HASH_MAP_SIZE_SMALL         (101)
 #endif
-#ifndef HASH_MAP_SIZE_MEDIUM 
+#ifndef HASH_MAP_SIZE_MEDIUM
 #define HASH_MAP_SIZE_MEDIUM        (1031)
 #endif
 #ifndef HASH_MAP_SIZE_LARGE
@@ -53,64 +53,64 @@ extern "C" {
 
 
 
-typedef size_t  (*hash_map_hash_function)    ( const void *key );
-typedef bool    (*hash_map_element_function) ( void *key, void *value );
-typedef int     (*hash_map_compare_function) ( const void* __restrict left, const void* __restrict right );
+typedef size_t  (*lc_hash_map_hash_fxn_t)    ( const void *key );
+typedef bool    (*lc_hash_map_element_fxn_t) ( void *key, void *value );
+typedef int     (*lc_hash_map_compare_fxn_t) ( const void* __restrict left, const void* __restrict right );
 
-struct hash_map_node;
-typedef struct hash_map_node hash_map_node_t;
+struct lc_hash_map_node;
+typedef struct lc_hash_map_node lc_hash_map_node_t;
 
-struct hash_map_list;
-typedef struct hash_map_list hash_map_list_t;
+struct lc_hash_map_list;
+typedef struct lc_hash_map_list lc_hash_map_list_t;
 
-typedef struct hash_map {
+typedef struct lc_hash_map {
 	size_t           size;
 	size_t           table_size;
-	hash_map_list_t* table;
+	lc_hash_map_list_t* table;
 
-	hash_map_hash_function    hash;
-	hash_map_compare_function compare; 	
-	hash_map_element_function destroy; 	
+	lc_hash_map_hash_fxn_t    hash;
+	lc_hash_map_compare_fxn_t compare;
+	lc_hash_map_element_fxn_t destroy;
 
-	alloc_function  alloc;
-	free_function   free;
-} hash_map_t;
+	lc_alloc_fxn_t  alloc;
+	lc_free_fxn_t   free;
+} lc_hash_map_t;
 
-bool      hash_map_create      ( hash_map_t *p_map, size_t table_size, 
-                                 hash_map_hash_function hash_function, hash_map_element_function destroy, 
-                                 hash_map_compare_function compare, 
-                                 alloc_function alloc, free_function free );
-void      hash_map_destroy     ( hash_map_t* p_map );
-bool      hash_map_insert      ( hash_map_t* __restrict p_map, const void* __restrict key, const void* __restrict value );
-bool      hash_map_remove      ( hash_map_t* __restrict p_map, const void* __restrict key );
-bool      hash_map_find        ( const hash_map_t* __restrict p_map, const void* __restrict key, void ** __restrict value );
-void      hash_map_clear       ( hash_map_t *p_map );
-bool      hash_map_resize      ( hash_map_t *p_map, size_t new_size );
-bool      hash_map_rehash      ( hash_map_t *p_map, float load_factor );
-bool      hash_map_serialize   ( hash_map_t *p_map, size_t key_size, size_t value_size, FILE *file );
-bool      hash_map_unserialize ( hash_map_t *p_map, size_t key_size, size_t value_size, FILE *file );
-void      hash_map_alloc_set   ( hash_map_t *p_map, alloc_function alloc );
-void      hash_map_free_set    ( hash_map_t *p_map, free_function free );
+bool      lc_hash_map_create      ( lc_hash_map_t *p_map, size_t table_size,
+                                 lc_hash_map_hash_fxn_t hash_fxn_t, lc_hash_map_element_fxn_t destroy,
+                                 lc_hash_map_compare_fxn_t compare,
+                                 lc_alloc_fxn_t alloc, lc_free_fxn_t free );
+void      lc_hash_map_destroy     ( lc_hash_map_t* p_map );
+bool      lc_hash_map_insert      ( lc_hash_map_t* __restrict p_map, const void* __restrict key, const void* __restrict value );
+bool      lc_hash_map_remove      ( lc_hash_map_t* __restrict p_map, const void* __restrict key );
+bool      lc_hash_map_find        ( const lc_hash_map_t* __restrict p_map, const void* __restrict key, void ** __restrict value );
+void      lc_hash_map_clear       ( lc_hash_map_t *p_map );
+bool      lc_hash_map_resize      ( lc_hash_map_t *p_map, size_t new_size );
+bool      lc_hash_map_rehash      ( lc_hash_map_t *p_map, float load_factor );
+bool      lc_hash_map_serialize   ( lc_hash_map_t *p_map, size_t key_size, size_t value_size, FILE *file );
+bool      lc_hash_map_unserialize ( lc_hash_map_t *p_map, size_t key_size, size_t value_size, FILE *file );
+void      lc_hash_map_alloc_set   ( lc_hash_map_t *p_map, lc_alloc_fxn_t alloc );
+void      lc_hash_map_free_set    ( lc_hash_map_t *p_map, lc_free_fxn_t free );
 
-#define   hash_map_size(p_map)         ((p_map)->size)
-#define   hash_map_table_size(p_map)   ((p_map)->table_size)
-#define   hash_map_load_factor(p_map)  (hash_map_size(p_map) / ((float) hash_map_table_size(p_map)))
+#define   lc_hash_map_size(p_map)         ((p_map)->size)
+#define   lc_hash_map_table_size(p_map)   ((p_map)->table_size)
+#define   lc_hash_map_load_factor(p_map)  (lc_hash_map_size(p_map) / ((float) lc_hash_map_table_size(p_map)))
 
 
-typedef struct hash_map_iter {
-	const hash_map_t* map;
+typedef struct lc_hash_map_iter {
+	const lc_hash_map_t* map;
 	size_t            index;
-	hash_map_node_t*  current;
+	lc_hash_map_node_t*  current;
 	void*             key;
 	void*             value;
-} hash_map_iterator_t;
+} lc_hash_map_iterator_t;
 
-void    hash_map_iterator      ( const hash_map_t* p_map, hash_map_iterator_t* iter );
-bool    hash_map_iterator_next ( hash_map_iterator_t* iter );
-void*   hash_map_iterator_key  ( hash_map_iterator_t* iter );
-void*   hash_map_iterator_value( hash_map_iterator_t* iter );
+void    lc_hash_map_iterator      ( const lc_hash_map_t* p_map, lc_hash_map_iterator_t* iter );
+bool    lc_hash_map_iterator_next ( lc_hash_map_iterator_t* iter );
+void*   lc_hash_map_iterator_key  ( lc_hash_map_iterator_t* iter );
+void*   lc_hash_map_iterator_value( lc_hash_map_iterator_t* iter );
 
 #ifdef __cplusplus
 }
-#endif 
+#endif
 #endif /* _HASH_MAP_H_ */

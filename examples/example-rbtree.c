@@ -40,7 +40,7 @@ bool destroy( void *num )
 
 #if 0
 #include "asciitree.h"
-void print_tree( rbtree_t *tree )
+void print_tree( lc_rbtree_t *tree )
 {
 	print_ascii_tree( tree->root );
 }
@@ -51,10 +51,10 @@ void print_tree( rbtree_t *tree )
 
 int main( int argc, char *argv[] )
 {
-	rbtree_t tree;
+	lc_rbtree_t tree;
 	int i;
 
-	rbtree_create( &tree, destroy, compare, malloc, free );
+	lc_rbtree_create( &tree, destroy, compare, malloc, free );
 
 	srand( time(NULL) );
 
@@ -69,11 +69,11 @@ int main( int argc, char *argv[] )
 			#else
 			*num = i + 1;
 			#endif
-		} while( rbtree_search( &tree, num ) );
+		} while( lc_rbtree_search( &tree, num ) );
 
 		printf( "Inserting %d\n", *num );
-		rbtree_insert( &tree, (void *) num );
-		//rbtree_print( &tree );
+		lc_rbtree_insert( &tree, (void *) num );
+		//lc_rbtree_print( &tree );
 
 		//printf( "\n----------------------------\n" );
 	}
@@ -84,64 +84,64 @@ int main( int argc, char *argv[] )
 	FILE *file = tmpfile( );
 	if( file )
 	{
-		rbtree_serialize( &tree, sizeof(int), file );
-		size_t size = rbtree_size( &tree );
-		printf( "  Serialized %ld items.\n", rbtree_size(&tree) );
-		rbtree_clear( &tree );
-		assert( rbtree_size( &tree) == 0 );
+		lc_rbtree_serialize( &tree, sizeof(int), file );
+		size_t size = lc_rbtree_size( &tree );
+		printf( "  Serialized %ld items.\n", lc_rbtree_size(&tree) );
+		lc_rbtree_clear( &tree );
+		assert( lc_rbtree_size( &tree) == 0 );
 		fseek( file, 0, SEEK_SET );
-		rbtree_unserialize( &tree, sizeof(int), file );
-		printf( "Unserialized %ld items.\n", rbtree_size(&tree) );
-		assert( size == rbtree_size( &tree ) );
+		lc_rbtree_unserialize( &tree, sizeof(int), file );
+		printf( "Unserialized %ld items.\n", lc_rbtree_size(&tree) );
+		assert( size == lc_rbtree_size( &tree ) );
 		fclose( file );
 	}
 	printf("----------- DONE SERIALIZING ----------\n" );
 
-	//bool isGood = rbtree_verify_tree( &tree );
+	//bool isGood = lc_rbtree_verify_tree( &tree );
 	//printf( "Tree is %s\n", isGood ? "good" : "bad" );
 
 	printf( "Tree size = %ld \n", tree.size );
 
 	i = 11;
 	printf( "Removing %d.\n", i );
-	rbtree_remove( &tree, &i );
+	lc_rbtree_remove( &tree, &i );
 	printf( "Tree size = %ld \n", tree.size );
 	//print_tree( &tree );
 	printf("------------- DONE REMOVING -----------\n" );
 
 	i = 30;
 	printf( "Removing %d.\n", i );
-	rbtree_remove( &tree, &i );
+	lc_rbtree_remove( &tree, &i );
 	printf( "Tree size = %ld \n", tree.size );
 	//print_tree( &tree );
 	printf("------------- DONE REMOVING -----------\n" );
 
 	i = 56;
 	printf( "Removing %d.\n", i );
-	rbtree_remove( &tree, &i );
+	lc_rbtree_remove( &tree, &i );
 	printf( "Tree size = %ld \n", tree.size );
 	//print_tree( &tree );
 	printf("------------- DONE REMOVING -----------\n" );
 
 	i = 92;
 	printf( "Removing %d.\n", i );
-	rbtree_remove( &tree, &i );
+	lc_rbtree_remove( &tree, &i );
 	printf( "Tree size = %ld \n", tree.size );
 	//print_tree( &tree );
 	printf("------------- DONE REMOVING -----------\n" );
 
 	i = 49;
 	printf( "Removing %d.\n", i );
-	rbtree_remove( &tree, &i );
+	lc_rbtree_remove( &tree, &i );
 	printf( "Tree size = %ld \n", tree.size );
 	//print_tree( &tree );
 	printf("------------- DONE REMOVING -----------\n" );
 
 
 	printf( "Clearing the tree.\n" );
-	rbtree_clear( &tree );
+	lc_rbtree_clear( &tree );
 	printf( "Tree size = %ld \n", tree.size );
 
-	rbtree_destroy( &tree );
+	lc_rbtree_destroy( &tree );
 	return 0;
 }

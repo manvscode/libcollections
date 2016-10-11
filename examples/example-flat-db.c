@@ -25,29 +25,29 @@
 #include <string.h>
 #include <assert.h>
 #include <flat-db.h>
-#include <tstring.h>
+#include <lc-string.h>
 
 #define CONTACTS_DAT        _T("./contacts.dat")
 #define CONTACT_TYPE        FLDB_AUX_01
 
 typedef struct _contact {
 	flat_record base;
-	tchar first_name[ 50 ];
-	tchar last_name[ 50 ];
-	tchar middle_name[ 50 ];
+	lc_char_t first_name[ 50 ];
+	lc_char_t last_name[ 50 ];
+	lc_char_t middle_name[ 50 ];
 
-	tchar company_name[ 120 ];
+	lc_char_t company_name[ 120 ];
 
-	tchar address1[ 80 ];
-	tchar address2[ 80 ];
-	tchar city[ 50 ];
-	tchar state[ 50 ];
-	tchar postal_code[ 12 ];
+	lc_char_t address1[ 80 ];
+	lc_char_t address2[ 80 ];
+	lc_char_t city[ 50 ];
+	lc_char_t state[ 50 ];
+	lc_char_t postal_code[ 12 ];
 
-	tchar phone1[ 20 ];
-	tchar phone2[ 20 ];
+	lc_char_t phone1[ 20 ];
+	lc_char_t phone2[ 20 ];
 
-	tchar website[ 256 ];
+	lc_char_t website[ 256 ];
 
 	time_t date_of_birth;
 } contact;
@@ -57,7 +57,7 @@ typedef struct _expense {
 	time_t      date;
 	short       type;
 	double      cost;
-	tchar       description[ 128 ];
+	lc_char_t   description[ 128 ];
 } expense;
 
 #define CONTACTS      (0)
@@ -139,18 +139,18 @@ int main( int argc, char *argv[] )
 				{
 					struct tm time_parts;
 					memset( &c, 0, sizeof(contact) );
-					tstrcpy( c.first_name, _T("Bob") );
-					tstrcpy( c.last_name, _T("Dylan") );
-					tstrcpy( c.middle_name, _T("") );
-					tstrcpy( c.company_name, _T("Acme Inc") );
-					tstrcpy( c.address1, _T("940 Appleton Road") );
-					tstrcpy( c.address2, _T("Suite 202") );
-					tstrcpy( c.city, _T("Anaheim") );
-					tstrcpy( c.state, _T("California") );
-					tstrcpy( c.postal_code, _T("23021") );
-					tstrcpy( c.phone1, _T("(202) 555-4345") );
-					tstrcpy( c.phone2, _T("1 (888) 555-1232") );
-					tstrcpy( c.website, _T("http://www.acme.com/") );
+					lc_strcpy( c.first_name, _T("Bob") );
+					lc_strcpy( c.last_name, _T("Dylan") );
+					lc_strcpy( c.middle_name, _T("") );
+					lc_strcpy( c.company_name, _T("Acme Inc") );
+					lc_strcpy( c.address1, _T("940 Appleton Road") );
+					lc_strcpy( c.address2, _T("Suite 202") );
+					lc_strcpy( c.city, _T("Anaheim") );
+					lc_strcpy( c.state, _T("California") );
+					lc_strcpy( c.postal_code, _T("23021") );
+					lc_strcpy( c.phone1, _T("(202) 555-4345") );
+					lc_strcpy( c.phone2, _T("1 (888) 555-1232") );
+					lc_strcpy( c.website, _T("http://www.acme.com/") );
 					strptime( "01/28/1977", "%D", &time_parts);
 					c.date_of_birth = mktime( &time_parts );
 
@@ -165,7 +165,7 @@ int main( int argc, char *argv[] )
 					memset( &e, 0, sizeof(expense) );
 					e.type = 0;
 					e.cost = 4.22;
-					tstrcpy( e.description, _T("Gasoline for car.") );
+					lc_strcpy( e.description, _T("Gasoline for car.") );
 					strptime( "05/8/2011", "%D", &time_parts);
 					e.date = mktime( &time_parts );
 
@@ -176,16 +176,16 @@ int main( int argc, char *argv[] )
 
 				{
 					struct tm time_parts;
-					tstrcpy( c.first_name, _T("Joe") );
-					tstrcpy( c.last_name, _T("Marrero") );
-					tstrcpy( c.middle_name, _T("Alexander") );
-					tstrcpy( c.company_name, _T("Shrewd LLC") );
-					tstrcpy( c.address1, _T("1940 Madison Street #2") );
-					tstrcpy( c.city, _T("Hollywood") );
-					tstrcpy( c.state, _T("Florida") );
-					tstrcpy( c.postal_code, _T("33020") );
-					tstrcpy( c.phone1, _T("(954) 803-9157") );
-					tstrcpy( c.website, _T("http://www.manvscode.com/") );
+					lc_strcpy( c.first_name, _T("Joe") );
+					lc_strcpy( c.last_name, _T("Marrero") );
+					lc_strcpy( c.middle_name, _T("Alexander") );
+					lc_strcpy( c.company_name, _T("Shrewd LLC") );
+					lc_strcpy( c.address1, _T("1940 Madison Street #2") );
+					lc_strcpy( c.city, _T("Hollywood") );
+					lc_strcpy( c.state, _T("Florida") );
+					lc_strcpy( c.postal_code, _T("33020") );
+					lc_strcpy( c.phone1, _T("(954) 803-9157") );
+					lc_strcpy( c.website, _T("http://www.manvscode.com/") );
 					strptime( "06/15/1984", "%D", &time_parts);
 					c.date_of_birth = mktime( &time_parts );
 
@@ -200,7 +200,7 @@ int main( int argc, char *argv[] )
 					memset( &e, 0, sizeof(expense) );
 					e.type = 2;
 					e.cost = 425.22;
-					tstrcpy( e.description, _T("Web hosting at Rackspace.") );
+					lc_strcpy( e.description, _T("Web hosting at Rackspace.") );
 					strptime( "08/3/2011", "%D", &time_parts);
 					e.date = mktime( &time_parts );
 
@@ -212,14 +212,14 @@ int main( int argc, char *argv[] )
 				{
 					struct tm time_parts;
 					memset( &c, 0, sizeof(contact) );
-					tstrcpy( c.first_name, _T("Mary") );
-					tstrcpy( c.last_name, _T("Poppins") );
-					tstrcpy( c.middle_name, _T("") );
-					tstrcpy( c.company_name, _T("Apple Waxxing") );
-					tstrcpy( c.city, _T("Miami") );
-					tstrcpy( c.state, _T("Florida") );
-					tstrcpy( c.postal_code, _T("33402") );
-					tstrcpy( c.website, _T("http://www.apple-wax.com/") );
+					lc_strcpy( c.first_name, _T("Mary") );
+					lc_strcpy( c.last_name, _T("Poppins") );
+					lc_strcpy( c.middle_name, _T("") );
+					lc_strcpy( c.company_name, _T("Apple Waxxing") );
+					lc_strcpy( c.city, _T("Miami") );
+					lc_strcpy( c.state, _T("Florida") );
+					lc_strcpy( c.postal_code, _T("33402") );
+					lc_strcpy( c.website, _T("http://www.apple-wax.com/") );
 					strptime( "09/18/1969", "%D", &time_parts);
 					c.date_of_birth = mktime( &time_parts );
 

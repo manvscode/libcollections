@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,28 +29,26 @@ extern "C" {
 #include "heap.h"
 #include "vector.h"
 
-
-
-#define binary_heap_create(array, initial_size)           vector_create(array, initial_size)
-#define binary_heap_destroy(array)                        vector_destroy(array)
-#define binary_heap_size( array )                         vector_size( array )
-#define binary_heap_clear( array )                        vector_clear( array )
-#define binary_heap_reheapify( array, type, compare )     heap_make( array, type, compare )
-#define binary_heap_peek( array )                         ((array)[ 0 ])
-#define binary_heap_push( array, data, type, compare )    vector_push( array, data ); heap_push( array, type, compare )
-#define binary_heap_pop( array, type, compare ) \
+#define lc_binary_heap_create(array, initial_size)           lc_vector_create(array, initial_size)
+#define lc_binary_heap_destroy(array)                        lc_vector_destroy(array)
+#define lc_binary_heap_size( array )                         lc_vector_size( array )
+#define lc_binary_heap_clear( array )                        lc_vector_clear( array )
+#define lc_binary_heap_reheapify( array, type, compare )     lc_heap_make( array, type, compare )
+#define lc_binary_heap_peek( array )                         ((array)[ 0 ])
+#define lc_binary_heap_push( array, data, type, compare )    lc_vector_push( array, data ); lc_heap_push( array, type, compare )
+#define lc_binary_heap_pop( array, type, compare ) \
 { \
 	assert( array ); \
     \
-	if( vector_size(array) > 1 ) \
+	if( lc_vector_size(array) > 1 ) \
 	{ \
-		type last_elem                  = array[ vector_size(array) - 1 ]; \
-		array[ vector_size(array) - 1 ] = array[ 0 ]; \
+		type last_elem                  = array[ lc_vector_size(array) - 1 ]; \
+		array[ lc_vector_size(array) - 1 ] = array[ 0 ]; \
 		array[ 0 ]                      = last_elem; \
 	} \
     \
-	vector_pop( array ); \
-	heap_pop( array, type, compare ); \
+	lc_vector_pop( array ); \
+	lc_heap_pop( array, type, compare ); \
 }
 
 

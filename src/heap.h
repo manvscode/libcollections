@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,21 +27,21 @@ extern "C" {
 #include <stdlib.h>
 #include <assert.h>
 
-#define heap_parent_of( index )         ((index) >> 1)       /* index / 2 */
-#define heap_left_child_of( index )     (((index) << 1) + 0) /* 2 * index */
-#define heap_right_child_of( index )    (((index) << 1) + 1) /* 2 * index + 1 */
+#define lc_heap_parent_of( index )         ((index) >> 1)       /* index / 2 */
+#define lc_heap_left_child_of( index )     (((index) << 1) + 0) /* 2 * index */
+#define lc_heap_right_child_of( index )    (((index) << 1) + 1) /* 2 * index + 1 */
 
 
-#define heapify( array, type, compare, index ) \
+#define lc_heapify( array, type, compare, index ) \
 { \
 	int done = 0; \
-	size_t size  = vector_size( array ); \
+	size_t size  = lc_vector_size( array ); \
 	size_t idx = index; \
     \
 	while( !done && idx < size ) \
 	{ \
-		size_t left_index  = heap_left_child_of( idx ); \
-		size_t right_index = heap_right_child_of( idx ); \
+		size_t left_index  = lc_heap_left_child_of( idx ); \
+		size_t right_index = lc_heap_right_child_of( idx ); \
 		size_t optimal_idx = idx; \
         \
 		if( left_index < size && compare( &array[optimal_idx], &array[left_index] ) < 0 ) \
@@ -67,24 +67,24 @@ extern "C" {
 	} \
 }
 
-#define heap_make( array, type, compare ) \
+#define lc_heap_make( array, type, compare ) \
 { \
-	ssize_t index = heap_parent_of( vector_size( array ) - 1 ); \
+	ssize_t index = lc_heap_parent_of( lc_vector_size( array ) - 1 ); \
 	while( index >= 0 ) \
 	{ \
-		heapify( array, type, compare, index ); \
+		lc_heapify( array, type, compare, index ); \
 		index--; \
 	} \
 }
 
-#define heap_push( array, type, compare ) \
+#define lc_heap_push( array, type, compare ) \
 { \
 	int done = 0; \
-	size_t index = vector_size( array ) - 1; \
+	size_t index = lc_vector_size( array ) - 1; \
     \
 	while( !done ) \
 	{ \
-		size_t parent_index = heap_parent_of( index ); \
+		size_t parent_index = lc_heap_parent_of( index ); \
         \
 		assert( index >= 0 ); \
 		assert( parent_index >= 0 ); \
@@ -104,7 +104,7 @@ extern "C" {
 	} \
 }
 
-#define heap_pop( array, type, compare )     heapify( array, type, compare, 0 )
+#define lc_heap_pop( array, type, compare )     lc_heapify( array, type, compare, 0 )
 
 
 #ifdef __cplusplus

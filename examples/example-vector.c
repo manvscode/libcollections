@@ -46,7 +46,7 @@ int main( int argc, char *argv[] )
 	char names[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	srand( time(NULL) );
-	vector_create( collection, 1 );
+	lc_vector_create( collection, 1 );
 
 
 	for( i = 0; i < SIZE; i++ )
@@ -59,7 +59,7 @@ int main( int argc, char *argv[] )
 		pt.name = names[ rand( ) % (sizeof(names) - 1) ];
 		pt.name = names[ rand( ) % (sizeof(names) - 1) ];
 
-		bool success = vector_push( collection, pt );
+		bool success = lc_vector_push( collection, pt );
 
 		if( !success )
 		{
@@ -69,7 +69,7 @@ int main( int argc, char *argv[] )
 
 	for( i = 0; i < 10; i++ )
 	{
-		vector_pop( collection );
+		lc_vector_pop( collection );
 	}
 
 	for( i = 0; i < 15; i++ )
@@ -80,7 +80,7 @@ int main( int argc, char *argv[] )
 		pt.y    = ((rand( ) % 100) - 50.0);
 		pt.name = names[ rand( ) % (sizeof(names) - 1) ];
 
-		bool success = vector_push( collection, pt );
+		bool success = lc_vector_push( collection, pt );
 
 		if( !success )
 		{
@@ -90,10 +90,10 @@ int main( int argc, char *argv[] )
 
 	for( i = 0; i < 10; i++ )
 	{
-		vector_pop( collection );
+		lc_vector_pop( collection );
 	}
 
-	for( i = 0; i < vector_size(collection); i++ )
+	for( i = 0; i < lc_vector_size(collection); i++ )
 	{
 
 		point_t *p_pt = &collection[ i ];
@@ -104,9 +104,9 @@ int main( int argc, char *argv[] )
 			p_pt->y );
 	}
 
-	printf( "Final Capacity = %zu\n", vector_capacity(collection) );
-	printf( "    Final Size = %zu\n", vector_size(collection) );
+	printf( "Final Capacity = %zu\n", lc_vector_capacity(collection) );
+	printf( "    Final Size = %zu\n", lc_vector_size(collection) );
 
-	vector_destroy( collection );
+	lc_vector_destroy( collection );
 	return 0;
 }

@@ -25,7 +25,7 @@
 #include <string.h>
 #include <time.h>
 #include <dlist.h>
-#include <tstring.h>
+#include <lc-string.h>
 #include <alloc.h>
 
 
@@ -34,7 +34,7 @@ static void print_national_parks( void );
 static void delete_random_park( void );
 static void insert_random_park( void );
 
-const tchar* national_parks[] = {
+const lc_char_t* national_parks[] = {
 	_T("Acadia"),
 	_T("American Samoa"),
 	_T("Arches"),
@@ -95,7 +95,7 @@ const tchar* national_parks[] = {
 	NULL
 };
 
-dlist_t list;
+lc_dlist_t list;
 
 
 int main( int argc, char *argv[] )
@@ -104,22 +104,22 @@ int main( int argc, char *argv[] )
 
 	time_t ts = time(NULL);
 
-	tprintf( _T("seed: %ld\n"), ts );
+	lc_printf( _T("seed: %ld\n"), ts );
 	srand( ts );
 
-	dlist_create( &list, national_park_destroy, malloc, free );
+	lc_dlist_create( &list, national_park_destroy, malloc, free );
 
 	for( i = 0; national_parks[ i ] != NULL; i++ )
 	{
-		const tchar *national_park = national_parks[ i ];
-		tstring_t *p_string = alloc_type( tstring_t );
-		tstring_create( p_string, national_park );
+		const lc_char_t *national_park = national_parks[ i ];
+		lc_string_t *p_string = lc_alloc_type( lc_string_t );
+		lc_string_create( p_string, national_park );
 
-		dlist_insert_front( &list, p_string );
+		lc_dlist_insert_front( &list, p_string );
 	}
 
 
-	tprintf( _T("Initial Size: %ld\n"), dlist_size(&list) );
+	lc_printf( _T("Initial Size: %ld\n"), lc_dlist_size(&list) );
 
 	delete_random_park( );
 	delete_random_park( );
@@ -145,17 +145,17 @@ int main( int argc, char *argv[] )
 
 	print_national_parks( );
 
-	dlist_destroy( &list );
+	lc_dlist_destroy( &list );
 
-	tprintf( _T("====================================\n") );
+	lc_printf( _T("====================================\n") );
 	return 0;
 }
 
 bool national_park_destroy( void *element )
 {
-	tstring_t *p_string = element;
+	lc_string_t *p_string = element;
 
-	tstring_destroy( p_string );
+	lc_string_destroy( p_string );
 	free( p_string );
 	return true;
 }
@@ -163,59 +163,59 @@ bool national_park_destroy( void *element )
 void print_national_parks( void )
 {
 	size_t i;
-	dlist_iterator_t iter;
+	lc_dlist_iterator_t iter;
 
 	#if defined(UNICODE)
-	tprintf( _T("   # %30ls\n====================================\n"), _T("National Park") );
+	lc_printf( _T("   # %30ls\n====================================\n"), _T("National Park") );
 	#else
-	tprintf( _T("   # %30s\n====================================\n"), _T("National Park") );
+	lc_printf( _T("   # %30s\n====================================\n"), _T("National Park") );
 	#endif
 
 	i = 1;
-	for( iter = dlist_begin(&list); iter != dlist_end( ); iter = dlist_next(iter) )
+	for( iter = lc_dlist_begin(&list); iter != lc_dlist_end( ); iter = lc_dlist_next(iter) )
 	{
-		const tstring_t *p_string  = iter->data;
+		const lc_string_t *p_string  = iter->data;
 
-		const tchar *national_park = tstring_string( p_string );
+		const lc_char_t *national_park = lc_string_string( p_string );
 		#if defined(UNICODE)
-		tprintf( _T("%4ld %30ls\n"), i++, national_park );
+		lc_printf( _T("%4ld %30ls\n"), i++, national_park );
 		#else
-		tprintf( _T("%4ld %30s\n"), i++, national_park );
+		lc_printf( _T("%4ld %30s\n"), i++, national_park );
 		#endif
 	}
 }
 
 void delete_random_park( void )
 {
-	dlist_iterator_t iter;
-	size_t r = rand() % dlist_size( &list );
+	lc_dlist_iterator_t iter;
+	size_t r = rand() % lc_dlist_size( &list );
 	size_t i = 0;
 
-	if( r + 1 >= dlist_size(&list) )
+	if( r + 1 >= lc_dlist_size(&list) )
 	{
 		r--;
 	}
 
 	if( r % 2 == 0 )
 	{
-		for( iter = dlist_begin(&list); iter != dlist_end( ); iter = dlist_next(iter) )
+		for( iter = lc_dlist_begin(&list); iter != lc_dlist_end( ); iter = lc_dlist_next(iter) )
 		{
 			if( i++ == r )
 			{
 				printf( "Deleting %ld (f)\n", r + 1 );
-				dlist_remove_next( &list, iter );
+				lc_dlist_remove_next( &list, iter );
 				break;
 			}
 		}
 	}
 	else
 	{
-		for( iter = dlist_rbegin(&list); iter != dlist_end( ); iter = dlist_previous(iter) )
+		for( iter = lc_dlist_rbegin(&list); iter != lc_dlist_end( ); iter = lc_dlist_previous(iter) )
 		{
 			if( i++ == r )
 			{
 				printf( "Deleting %ld (r)\n", r + 1 );
-				dlist_remove_next( &list, iter );
+				lc_dlist_remove_next( &list, iter );
 				break;
 			}
 		}
@@ -224,42 +224,42 @@ void delete_random_park( void )
 
 void insert_random_park( void )
 {
-	dlist_iterator_t iter;
-	size_t r = rand() % dlist_size( &list );
+	lc_dlist_iterator_t iter;
+	size_t r = rand() % lc_dlist_size( &list );
 	size_t i = 0;
 
 	if( r % 2 == 0 )
 	{
-		for( iter = dlist_begin(&list); iter != dlist_end( ); iter = dlist_next(iter) )
+		for( iter = lc_dlist_begin(&list); iter != lc_dlist_end( ); iter = lc_dlist_next(iter) )
 		{
 			if( i++ == r )
 			{
-				const tchar *national_park = national_parks[ i ];
-				tstring_t *p_string = alloc_type( tstring_t );
-				tstring_create( p_string, national_park );
+				const lc_char_t *national_park = national_parks[ i ];
+				lc_string_t *p_string = lc_alloc_type( lc_string_t );
+				lc_string_create( p_string, national_park );
 
-				tstring_sconcatenate( p_string, _T(" (Copy)") );
+				lc_string_sconcatenate( p_string, _T(" (Copy)") );
 
 				printf( "Inserting %ld (f)\n", r + 1);
-				dlist_insert_next( &list, iter, p_string );
+				lc_dlist_insert_next( &list, iter, p_string );
 				break;
 			}
 		}
 	}
 	else
 	{
-		for( iter = dlist_rbegin(&list); iter != dlist_end( ); iter = dlist_previous(iter) )
+		for( iter = lc_dlist_rbegin(&list); iter != lc_dlist_end( ); iter = lc_dlist_previous(iter) )
 		{
 			if( i++ == r )
 			{
-				const tchar *national_park = national_parks[ i ];
-				tstring_t *p_string = alloc_type( tstring_t );
-				tstring_create( p_string, national_park );
+				const lc_char_t *national_park = national_parks[ i ];
+				lc_string_t *p_string = lc_alloc_type( lc_string_t );
+				lc_string_create( p_string, national_park );
 
-				tstring_sconcatenate( p_string, _T(" (Copy)") );
+				lc_string_sconcatenate( p_string, _T(" (Copy)") );
 
 				printf( "Inserting %ld (r)\n", r + 1 );
-				dlist_insert_next( &list, iter, p_string );
+				lc_dlist_insert_next( &list, iter, p_string );
 				break;
 			}
 		}

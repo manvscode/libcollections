@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 #include <stdio.h>
-#include <bench-mark.h>
+#include <benchmark.h>
 
 #define MAX 200
 #define macro_test(a, b) ((a)+(b))
@@ -36,9 +36,9 @@ int main(void)
 	int val;
 
 	{
-		bench_mark_t bm = bench_mark_create( "Using Function" );
+		lc_benchmark_t bm = lc_benchmark_create( "Using Function" );
 
-		bench_mark_start( bm );
+		lc_benchmark_start( bm );
 		printf( "[" );
 		for( i = 0; i < MAX; i++ )
 		{
@@ -46,16 +46,16 @@ int main(void)
 			printf( "%d ", val );
 		}
 		printf( "]\n" );
-		bench_mark_end( bm );
+		lc_benchmark_end( bm );
 
-		bench_mark_report( bm );
-		bench_mark_destroy( bm );
+		lc_benchmark_report( bm );
+		lc_benchmark_destroy( bm );
 	}
 
 	{
-		bench_mark_t bm = bench_mark_create( "Using Macro" );
+		lc_benchmark_t bm = lc_benchmark_create( "Using Macro" );
 
-		bench_mark_start( bm );
+		lc_benchmark_start( bm );
 		printf( "[" );
 		for( i = 0; i < MAX; i++ )
 		{
@@ -63,10 +63,10 @@ int main(void)
 			printf( "%d ", val );
 		}
 		printf( "]\n" );
-		bench_mark_end( bm );
+		lc_benchmark_end( bm );
 
-		bench_mark_report( bm );
-		bench_mark_destroy( bm );
+		lc_benchmark_report( bm );
+		lc_benchmark_destroy( bm );
 	}
 
 	return 0;

@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,16 +23,16 @@
 #define _HASH_FUNCTIONS_H_
 #ifdef __cplusplus
 extern "C" {
-#endif 
+#endif
 /*
  *   Hash Functions
  */
-size_t pointer_hash    ( const void *data );
-size_t string_hash     ( const void *string );
-size_t memory_hash     ( const void *p_memory, size_t size );
-size_t ip_address_hash ( const void *p_ip_string );
+size_t lc_pointer_hash    ( const void *data );
+size_t lc_string_hash     ( const void *string );
+size_t lc_memory_hash     ( const void *p_memory, size_t size );
+size_t lc_ip_address_hash ( const void *p_ip_string );
 
 #ifdef __cplusplus
 }
-#endif 
+#endif
 #endif /* _HASH_FUNCTIONS_H_ */

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,35 +31,35 @@ extern "C" {
 #if 0
 #define VECTOR_GROW_AMOUNT(array)      (13)
 #else
-#define VECTOR_GROW_AMOUNT(array)      (0.5f * vector_capacity(array) + 1)
+#define VECTOR_GROW_AMOUNT(array)      (0.5f * lc_vector_capacity(array) + 1)
 #endif
 #endif
 
 /**
  *  Creates a vector.
  */
-#define vector_create(array, capacity)       ((array) = NULL, vector_reserve(array, capacity))
+#define lc_vector_create(array, capacity)       ((array) = NULL, lc_vector_reserve(array, capacity))
 /**
  *  Destroys a vector.
  */
-#define vector_destroy(array)                (free(vector_raw(array)))
-#define vector_raw(array)                    (((size_t*)(array)) - 2)
-#define vector_size(array)                   ((array) ? vector_s(array) : 0)
-#define vector_capacity(array)               ((array) ? vector_c(array) : 0)
-#define vector_first(array)                  ((array)[ 0 ])
-#define vector_last(array)                   ((array)[ vector_size(array) - 1 ])
-#define vector_need_grow(array)              (!array || vector_size(array) >= vector_capacity(array))
-#define vector_grow(array, capacity)         ((vector_need_grow(array)) ? vector_reserve(array, capacity) : true)
-#define vector_reserve(array, capacity)      vector_reserve_capacity((void**)&array, sizeof(*array), capacity)
-#define vector_clear(array)                  (vector_s(array) = 0)
-#define vector_push(array, item)             (vector_grow(array, vector_capacity(array) + VECTOR_GROW_AMOUNT(array)) ? ((array)[ vector_s(array)++ ] = (item), true) : false)
-#define vector_push_emplace(array)           (vector_grow(array, vector_capacity(array) + VECTOR_GROW_AMOUNT(array)) ? ((vector_s(array)++), true) : false)
-#define vector_pushn(array, item, amount)    (vector_grow(array, vector_capacity(array) + amount) ? ((array)[ vector_s(array)++ ] = (item), true) : false)
-#define vector_pop(array)                    (vector_s(array)--)
-#define vector_s(array)                      (vector_raw(array)[ 0 ])
-#define vector_c(array)                      (vector_raw(array)[ 1 ])
+#define lc_vector_destroy(array)                (free(lc_vector_raw(array)))
+#define lc_vector_raw(array)                    (((size_t*)(array)) - 2)
+#define lc_vector_size(array)                   ((array) ? lc_vector_s(array) : 0)
+#define lc_vector_capacity(array)               ((array) ? lc_vector_c(array) : 0)
+#define lc_vector_first(array)                  ((array)[ 0 ])
+#define lc_vector_last(array)                   ((array)[ lc_vector_size(array) - 1 ])
+#define lc_vector_need_grow(array)              (!array || lc_vector_size(array) >= lc_vector_capacity(array))
+#define lc_vector_grow(array, capacity)         ((lc_vector_need_grow(array)) ? lc_vector_reserve(array, capacity) : true)
+#define lc_vector_reserve(array, capacity)      lc_vector_reserve_capacity((void**)&array, sizeof(*array), capacity)
+#define lc_vector_clear(array)                  (lc_vector_s(array) = 0)
+#define lc_vector_push(array, item)             (lc_vector_grow(array, lc_vector_capacity(array) + VECTOR_GROW_AMOUNT(array)) ? ((array)[ lc_vector_s(array)++ ] = (item), true) : false)
+#define lc_vector_push_emplace(array)           (lc_vector_grow(array, lc_vector_capacity(array) + VECTOR_GROW_AMOUNT(array)) ? ((lc_vector_s(array)++), true) : false)
+#define lc_vector_pushn(array, item, amount)    (lc_vector_grow(array, lc_vector_capacity(array) + amount) ? ((array)[ lc_vector_s(array)++ ] = (item), true) : false)
+#define lc_vector_pop(array)                    (lc_vector_s(array)--)
+#define lc_vector_s(array)                      (lc_vector_raw(array)[ 0 ])
+#define lc_vector_c(array)                      (lc_vector_raw(array)[ 1 ])
 
-bool vector_reserve_capacity( void** array, size_t element_size, size_t capacity );
+bool lc_vector_reserve_capacity( void** array, size_t element_size, size_t capacity );
 
 #ifdef __cplusplus
 }

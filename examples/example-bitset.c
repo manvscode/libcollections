@@ -21,35 +21,75 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
-#include <array.h>
+#include <stdbool.h>
+#include <assert.h>
+#include <bitset.h>
 
-#define MAX 20
+void print_bits( );
+
+lc_bitset_t bits;
 
 int main( int argc, char *argv[] )
 {
-	array_t a;
 	int i;
+	bool r = true;
 
-	array_create( &a, sizeof(double), 1 /* initial size */, malloc, free );
-	srand( time(NULL) );
+	r = lc_bitset_create( &bits, 8 );
+	assert( r );
 
-	array_resize( &a, MAX );
 
-	for( i = 0; i < MAX; i++ )
+	printf( "bits = %ld\n\n", lc_bitset_bits( &bits ) );
+	printf( "0123456789\n");
+
+
+	lc_bitset_set( &bits, 0 );
+	lc_bitset_set( &bits, 1 );
+	lc_bitset_set( &bits, 2 );
+	lc_bitset_set( &bits, 3 );
+	lc_bitset_set( &bits, 4 );
+	lc_bitset_set( &bits, 5 );
+	lc_bitset_set( &bits, 6 );
+	lc_bitset_set( &bits, 7 );
+
+	print_bits( );
+
+
+
+	if( lc_bitset_test( &bits, 7 ) )
 	{
-		double *p_num = array_elem( &a, i, double );
-		*p_num = ((double) rand( )) / RAND_MAX;
+		printf( "7th bit is set\n" );
 	}
 
-	for( i = 0; i < MAX; i++ )
-	{
-		double *p_num = array_elem( &a, i, double );
 
-		printf( "array[%2d] = %f\n", i, *p_num );
+	r = lc_bitset_resize( &bits, 64 );
+	assert( r );
+
+	lc_bitset_set( &bits, 9 );
+	lc_bitset_unset( &bits, 8 );
+	lc_bitset_set( &bits, 37 );
+	lc_bitset_set( &bits, 38 );
+
+	print_bits( );
+
+	r = lc_bitset_resize( &bits, 128 );
+	assert( r );
+
+
+	for( i = 64; i < lc_bitset_bits(&bits); i++ )
+	{
+		lc_bitset_set( &bits, i );
 	}
 
-	array_destroy( &a );
+	print_bits( );
 
+	lc_bitset_destroy( &bits );
 	return 0;
+}
+
+void print_bits( )
+{
+	char *s = lc_bitset_string( &bits );
+
+	printf( "%s\n", s );
+	free( s );
 }

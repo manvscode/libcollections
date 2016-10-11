@@ -45,7 +45,7 @@ int main( int argc, char *argv[] )
 
 #if 1
 	int** heap;
-	binary_heap_create( heap, 1 );
+	lc_binary_heap_create( heap, 1 );
 
 	printf( "seed = %ld\n", t );
 
@@ -54,51 +54,51 @@ int main( int argc, char *argv[] )
 		int *num = (int*) malloc( sizeof(int) );
 		*num = rand() % 50;
 
-		binary_heap_push( heap, num, int*, int_compare1 );
+		lc_binary_heap_push( heap, num, int*, int_compare1 );
 	}
 
 	for( i = 0; i < 0.25 * SIZE; i++ )
 	{
-		int *num = binary_heap_peek( heap );
+		int *num = lc_binary_heap_peek( heap );
 		num_destroy( num );
 
-		binary_heap_pop( heap, int*, int_compare1 );
+		lc_binary_heap_pop( heap, int*, int_compare1 );
 	}
 
 	for( i = 0; i < 0.4 * SIZE; i++ )
 	{
 		int *num = (int*) malloc( sizeof(int) );
 		*num = rand() % 200;
-		binary_heap_push( heap, num, int*, int_compare1 );
+		lc_binary_heap_push( heap, num, int*, int_compare1 );
 	}
 
 	for( i = 0; i < 0.25 * SIZE; i++ )
 	{
-		int *num = binary_heap_peek( heap );
+		int *num = lc_binary_heap_peek( heap );
 		num_destroy( num );
 
-		binary_heap_pop( heap, int*, int_compare1 );
+		lc_binary_heap_pop( heap, int*, int_compare1 );
 	}
 
 	for( i = 0; i < 10; i++ )
 	{
 		int *num = (int*) malloc( sizeof(int) );
 		*num = rand() % 15;
-		binary_heap_push( heap, num, int*, int_compare1 );
+		lc_binary_heap_push( heap, num, int*, int_compare1 );
 	}
 
 	printf( "   ----- Sorted Output -----\n" );
-	while( binary_heap_size(heap) > 0 )
+	while( lc_binary_heap_size(heap) > 0 )
 	{
-		int* p_num = binary_heap_peek( heap );
-		printf( "%10d (size = %02ld) \n", *p_num, binary_heap_size(heap) );
+		int* p_num = lc_binary_heap_peek( heap );
+		printf( "%10d (size = %02ld) \n", *p_num, lc_binary_heap_size(heap) );
 
 		num_destroy( p_num );
 
-		binary_heap_pop( heap, int*, int_compare1 );
+		lc_binary_heap_pop( heap, int*, int_compare1 );
 	}
 
-	binary_heap_destroy( heap );
+	lc_binary_heap_destroy( heap );
 #else
 	int* collection;
 	vector_create( collection, 1 );
@@ -111,26 +111,26 @@ int main( int argc, char *argv[] )
 	}
 
 	printf( "unsorted = {" );
-	for( i = 0; i < vector_size(collection); i++ )
+	for( i = 0; i < lc_vector_size(collection); i++ )
 	{
 		int num = collection[ i ];
-		printf( "%4d%s", num, i < (vector_size(collection) - 1) ? ", " : "" );
+		printf( "%4d%s", num, i < (lc_vector_size(collection) - 1) ? ", " : "" );
 	}
 	printf( "}\n" );
 
 	//heap_make( collection, int, int_compare2 );
 
 	printf( "  sorted = {" );
-	while( vector_size(collection) > 0 )
+	while( lc_vector_size(collection) > 0 )
 	{
 		int num = collection[ 0 ];
-		printf( "%4d%s", num, vector_size(collection) > 1 ? ", " : "" );
+		printf( "%4d%s", num, lc_vector_size(collection) > 1 ? ", " : "" );
 
-		if( vector_size(collection) > 1 )
+		if( lc_vector_size(collection) > 1 )
 		{
-			int last_elem  = collection[ vector_size(collection) - 1 ];
+			int last_elem  = collection[ lc_vector_size(collection) - 1 ];
 
-			collection[ vector_size(collection) - 1 ] = collection[ 0 ];
+			collection[ lc_vector_size(collection) - 1 ] = collection[ 0 ];
 			collection[ 0 ] = last_elem;
 		}
 

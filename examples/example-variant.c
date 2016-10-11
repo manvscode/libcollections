@@ -27,40 +27,40 @@
 
 int main( int argc, char *argv[] )
 {
-	variant_t* integer;
-	variant_t* decimal;
-	variant_t* string;
-	variant_t* boolean;
+	lc_variant_t* integer;
+	lc_variant_t* decimal;
+	lc_variant_t* string;
+	lc_variant_t* boolean;
 	value_t    value;
 
-	integer = variant_create_integer( );
-	decimal = variant_create_decimal( );
-	string  = variant_create_string( );
-	boolean = variant_create_boolean( );
+	integer = lc_variant_create_integer( );
+	decimal = lc_variant_create_decimal( );
+	string  = lc_variant_create_string( );
+	boolean = lc_variant_create_boolean( );
 
 	value.integer = 42;
-	variant_set_value( integer, value );
+	lc_variant_set_value( integer, value );
 	value.decimal = 3.14127;
-	variant_set_value( decimal, value );
+	lc_variant_set_value( decimal, value );
 	value.string = _T("This is a test string.");
-	variant_set_value( string, value );
+	lc_variant_set_value( string, value );
 	value.boolean = true;
-	variant_set_value( boolean, value );
+	lc_variant_set_value( boolean, value );
 
 
-	printf( "  Integer value is \"%ld\"\n", variant_integer(integer) );
-	printf( "  Decimal value is \"%lf\"\n", variant_decimal(decimal) );
+	printf( "  Integer value is \"%ld\"\n", lc_variant_integer(integer) );
+	printf( "  Decimal value is \"%lf\"\n", lc_variant_decimal(decimal) );
 	#if defined(UNICODE)
-	printf( "   String value is \"%ls\"\n", variant_string(string) );
+	printf( "   String value is \"%ls\"\n", lc_variant_string(string) );
 	#else
-	printf( "   String value is \"%s\"\n", variant_string(string) );
+	printf( "   String value is \"%s\"\n", lc_variant_string(string) );
 	#endif
-	printf( "  Boolean value is \"%s\"\n", variant_boolean(boolean) ? "TRUE" : "FALSE" );
+	printf( "  Boolean value is \"%s\"\n", lc_variant_boolean(boolean) ? "TRUE" : "FALSE" );
 
-	variant_destroy( integer );
-	variant_destroy( decimal );
-	variant_destroy( string );
-	variant_destroy( boolean );
+	lc_variant_destroy( integer );
+	lc_variant_destroy( decimal );
+	lc_variant_destroy( string );
+	lc_variant_destroy( boolean );
 
 	return 0;
 }

@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,63 +23,63 @@
 #define _DLIST_H_
 #ifdef __cplusplus
 extern "C" {
-#endif 
+#endif
 
 #include <stddef.h>
 #include <stdbool.h>
 //#include "libcollections-config.h"
 #include "alloc.h"
 
-typedef bool (*dlist_element_function)( void *element );
+typedef bool (*lc_dlist_element_fxn_t)( void *element );
 
-typedef struct dlist_node {
+typedef struct lc_dlist_node {
 	void* data;
-	struct dlist_node* next;	
-	struct dlist_node* prev;	
-} dlist_node_t;
+	struct lc_dlist_node* next;
+	struct lc_dlist_node* prev;
+} lc_dlist_node_t;
 
 typedef struct dlist {
-	dlist_node_t* head;
-	dlist_node_t* tail;
+	lc_dlist_node_t* head;
+	lc_dlist_node_t* tail;
 	size_t size;
-	dlist_element_function destroy;
+	lc_dlist_element_fxn_t destroy;
 
-	alloc_function  alloc;
-	free_function   free;
-} dlist_t;
+	lc_alloc_fxn_t  alloc;
+	lc_free_fxn_t   free;
+} lc_dlist_t;
 
-typedef dlist_node_t* dlist_iterator_t;
+typedef lc_dlist_node_t* lc_dlist_iterator_t;
 
-void dlist_create        ( dlist_t* p_list, dlist_element_function destroy_callback, alloc_function alloc, free_function free );
-void dlist_destroy       ( dlist_t* p_list );
-bool dlist_insert_front  ( dlist_t* p_list, const void *data ); /* O(1) */
-bool dlist_remove_front  ( dlist_t* p_list ); /* O(1) */
-bool dlist_insert_back   ( dlist_t* p_list, const void *data ); /* O(1) */
-bool dlist_remove_back   ( dlist_t* p_list ); /* O(1) */
-bool dlist_insert_next   ( dlist_t* p_list, dlist_node_t* p_front_node, const void *data ); /* O(1) */
-bool dlist_remove_next   ( dlist_t* p_list, dlist_node_t* p_front_node ); /* O(1) */ 
-void dlist_clear         ( dlist_t* p_list ); /* O(N) */
+void lc_dlist_create        ( lc_dlist_t* p_list, lc_dlist_element_fxn_t destroy_callback, lc_alloc_fxn_t alloc, lc_free_fxn_t free );
+void lc_dlist_destroy       ( lc_dlist_t* p_list );
+bool lc_dlist_insert_front  ( lc_dlist_t* p_list, const void *data ); /* O(1) */
+bool lc_dlist_remove_front  ( lc_dlist_t* p_list ); /* O(1) */
+bool lc_dlist_insert_back   ( lc_dlist_t* p_list, const void *data ); /* O(1) */
+bool lc_dlist_remove_back   ( lc_dlist_t* p_list ); /* O(1) */
+bool lc_dlist_insert_next   ( lc_dlist_t* p_list, lc_dlist_node_t* p_front_node, const void *data ); /* O(1) */
+bool lc_dlist_remove_next   ( lc_dlist_t* p_list, lc_dlist_node_t* p_front_node ); /* O(1) */
+void lc_dlist_clear         ( lc_dlist_t* p_list ); /* O(N) */
 
-void    dlist_alloc_set     ( dlist_t* p_list, alloc_function alloc );
-void    dlist_free_set      ( dlist_t* p_list, free_function free );
+void lc_dlist_alloc_set  ( lc_dlist_t* p_list, lc_alloc_fxn_t alloc );
+void lc_dlist_free_set   ( lc_dlist_t* p_list, lc_free_fxn_t free );
 
-dlist_iterator_t dlist_begin    ( const dlist_t* p_list );
-dlist_iterator_t dlist_rbegin   ( const dlist_t* p_list );
-#define          dlist_end( )   ((dlist_iterator_t)NULL)
-dlist_iterator_t dlist_next     ( const dlist_iterator_t iter );
-dlist_iterator_t dlist_previous ( const dlist_iterator_t iter );
+lc_dlist_iterator_t lc_dlist_begin    ( const lc_dlist_t* p_list );
+lc_dlist_iterator_t lc_dlist_rbegin   ( const lc_dlist_t* p_list );
+#define             lc_dlist_end( )   ((lc_dlist_iterator_t)NULL)
+lc_dlist_iterator_t lc_dlist_next     ( const lc_dlist_iterator_t iter );
+lc_dlist_iterator_t lc_dlist_previous ( const lc_dlist_iterator_t iter );
 
-#define dlist_push               dlist_insert_back
-#define dlist_pop                dlist_remove_front
+#define lc_dlist_push               lc_dlist_insert_back
+#define lc_dlist_pop                lc_dlist_remove_front
 
-#define dlist_head(p_list)       ((p_list)->head)
-#define dlist_front(p_list)      ((p_list)->head)
-#define dlist_tail(p_list)       ((p_list)->tail)
-#define dlist_back(p_list)       ((p_list)->tail)
-#define dlist_size(p_list)       ((p_list)->size)
-#define dlist_is_empty(p_list)   ((p_list)->size <= 0)
+#define lc_dlist_head(p_list)       ((p_list)->head)
+#define lc_dlist_front(p_list)      ((p_list)->head)
+#define lc_dlist_tail(p_list)       ((p_list)->tail)
+#define lc_dlist_back(p_list)       ((p_list)->tail)
+#define lc_dlist_size(p_list)       ((p_list)->size)
+#define lc_dlist_is_empty(p_list)   ((p_list)->size <= 0)
 
 #ifdef __cplusplus
 }
-#endif 
+#endif
 #endif /* _DLIST_H_ */

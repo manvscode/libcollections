@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -89,12 +89,12 @@
 		if( pool ) \
 		{ \
 			pool->growth    = growth; \
-			vector_create( pool->items, count ); \
-			vector_create( pool->available, count ); \
+			lc_vector_create( pool->items, count ); \
+			lc_vector_create( pool->available, count ); \
 			\
 			for( size_t i = 0; i < count; i++ ) \
 			{ \
-				vector_push( pool->available, &pool->items[ i ] ); \
+				lc_vector_push( pool->available, &pool->items[ i ] ); \
 			} \
 		} \
 		\
@@ -105,8 +105,8 @@
 	{ \
 		if( pool && *pool ) \
 		{ \
-			vector_destroy( (*pool)->items	); \
-			vector_destroy( (*pool)->available ); \
+			lc_vector_destroy( (*pool)->items	); \
+			lc_vector_destroy( (*pool)->available ); \
 			free( *pool ); \
 			*pool = NULL; \
 		} \
@@ -120,12 +120,12 @@
 		{ \
 			retry_obtain: \
 			{ \
-				const size_t available_count = vector_size(pool->available); \
+				const size_t available_count = lc_vector_size(pool->available); \
 				\
 				if( available_count > 0 ) \
 				{ \
-					data_type** obj = &vector_last( pool->available ); \
-					vector_pop( pool->available ); \
+					data_type** obj = &lc_vector_last( pool->available ); \
+					lc_vector_pop( pool->available ); \
 					result = obj; \
 				} \
 				else if( pool->growth ) \
@@ -143,7 +143,7 @@
 	{ \
 		if( pool && obj && *obj ) \
 		{ \
-			vector_push( pool->available, (data_type*) *obj ); \
+			lc_vector_push( pool->available, (data_type*) *obj ); \
 			*obj = NULL; \
 		} \
 	} \
@@ -152,13 +152,13 @@
 	{ \
 		/* We ran out of items so we need to grow the */ \
 		/* pool.                                      */ \
-		size_t old_capacity = vector_capacity( pool->items ); \
+		size_t old_capacity = lc_vector_capacity( pool->items ); \
 		size_t new_capacity = pool->growth > 0 ? (old_capacity + (size_t)pool->growth) : (1.5f * old_capacity + 1); \
 		\
 		data_type* old_base = pool->items; \
 		\
-		pool->items     = vector_reserve( pool->items, new_capacity ); \
-		pool->available = vector_reserve( pool->available, new_capacity ); \
+		pool->items     = lc_vector_reserve( pool->items, new_capacity ); \
+		pool->available = lc_vector_reserve( pool->available, new_capacity ); \
 		\
 		if( old_base != pool->items ) \
 		{ \
@@ -172,7 +172,7 @@
 		\
 		for( size_t i = old_capacity; i < new_capacity; i++ ) \
 		{ \
-			vector_push( pool->available, &pool->items[ i ] ); \
+			lc_vector_push( pool->available, &pool->items[ i ] ); \
 		} \
 	}
 

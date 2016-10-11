@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,14 +24,14 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-struct buffer;
-typedef struct buffer buffer_t;
+struct lc_buffer;
+typedef struct lc_buffer lc_buffer_t;
 
-buffer_t* buffer_create  ( size_t size, bool zero );
-void      buffer_destroy ( buffer_t** p_buffer );
-size_t    buffer_size    ( buffer_t* p_buffer );
-void*     buffer_data    ( buffer_t* p_buffer );
-bool      buffer_resize  ( buffer_t** p_buffer, size_t new_size );
-bool      buffer_put     ( buffer_t** p_buffer, size_t offset, const void* buffer, size_t size, bool resize );
+lc_buffer_t* lc_buffer_create  ( size_t size, bool zero );
+void         lc_buffer_destroy ( lc_buffer_t** p_buffer );
+size_t       lc_buffer_size    ( lc_buffer_t* p_buffer );
+void*        lc_buffer_data    ( lc_buffer_t* p_buffer );
+bool         lc_buffer_resize  ( lc_buffer_t** p_buffer, size_t new_size );
+bool         lc_buffer_put     ( lc_buffer_t** p_buffer, size_t offset, const void* buffer, size_t size, bool resize );
 
 #endif /* _BUFFER_H_ */

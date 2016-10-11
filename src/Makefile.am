@@ -2,7 +2,7 @@
 # Add new files in alphabetical order. Thanks.
 libcollections_src = \
 array.c \
-bench-mark.c \
+benchmark.c \
 buffer.c \
 bitset.c \
 dlist.c \
@@ -14,7 +14,7 @@ lhash-table.c \
 rbtree.c \
 slist.c \
 tree-map.c \
-tstring.c \
+lc-string.c \
 variant.c \
 vector.c
 
@@ -22,7 +22,7 @@ vector.c
 libcollections_headers = \
 alloc.h \
 array.h \
-bench-mark.h \
+benchmark.h \
 buffer.h \
 binary-heap.h \
 bitset.h \
@@ -38,7 +38,7 @@ pool.h \
 rbtree.h \
 slist.h \
 tree-map.h \
-tstring.h \
+lc-string.h \
 variant.h \
 vector.h
 

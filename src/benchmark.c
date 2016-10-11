@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,9 +30,9 @@
 #include <string.h>
 #include <assert.h>
 
-#include "bench-mark.h"
+#include "benchmark.h"
 
-struct bench_mark {
+struct lc_benchmark {
 
 	#if defined(WIN32) || defined(WIN64)
 	double start;
@@ -44,21 +44,21 @@ struct bench_mark {
 	const char *description;
 };
 
-bench_mark_t bench_mark_create( const char *description )
+lc_benchmark_t lc_benchmark_create( const char *description )
 {
-	bench_mark_t bm = (bench_mark_t) malloc( sizeof(struct bench_mark) );
+	lc_benchmark_t bm = (lc_benchmark_t) malloc( sizeof(struct lc_benchmark) );
 	bm->description = strdup( description );
 	return bm;
 }
 
-void bench_mark_destroy( bench_mark_t bm )
+void lc_benchmark_destroy( lc_benchmark_t bm )
 {
 	assert( bm );
 	free( (void *) bm->description );
 	free( bm );
 }
 
-void bench_mark_start( bench_mark_t bm )
+void lc_benchmark_start( lc_benchmark_t bm )
 {
 	assert( bm );
 	#if defined(WIN32) || defined(WIN64)
@@ -68,7 +68,7 @@ void bench_mark_start( bench_mark_t bm )
 	#endif
 }
 
-void bench_mark_end( bench_mark_t bm )
+void lc_benchmark_end( lc_benchmark_t bm )
 {
 	assert( bm );
 	#if defined(WIN32) || defined(WIN64)
@@ -78,7 +78,7 @@ void bench_mark_end( bench_mark_t bm )
 	#endif
 }
 
-void bench_mark_report( bench_mark_t bm )
+void lc_benchmark_report( lc_benchmark_t bm )
 {
 	#if defined(WIN32) || defined(WIN64)
 	printf( "%30s -- Start: %.6lf s, End: %.6lf s, Total: %.3lf ms \n",
@@ -98,7 +98,7 @@ void bench_mark_report( bench_mark_t bm )
 	#endif
 }
 
-double bench_mark_start_time( bench_mark_t bm )
+double lc_benchmark_start_time( lc_benchmark_t bm )
 {
 	#if defined(WIN32) || defined(WIN64)
 	return bm->start;
@@ -107,7 +107,7 @@ double bench_mark_start_time( bench_mark_t bm )
 	#endif
 }
 
-double bench_mark_end_time( bench_mark_t bm )
+double lc_benchmark_end_time( lc_benchmark_t bm )
 {
 	#if defined(WIN32) || defined(WIN64)
 	return bm->end;
@@ -116,7 +116,7 @@ double bench_mark_end_time( bench_mark_t bm )
 	#endif
 }
 
-double bench_mark_total_time( bench_mark_t bm )
+double lc_benchmark_total_time( lc_benchmark_t bm )
 {
 	#if defined(WIN32) || defined(WIN64)
 	return (bm->end - bm->start) * 1000.0;

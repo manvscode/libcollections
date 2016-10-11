@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,13 +23,13 @@
 #define _FLATDB_H_
 #ifdef __cplusplus
 extern "C" {
-#endif 
+#endif
 
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <limits.h>
-#include "tstring.h"
+#include "lc-string.h"
 
 #ifndef FLDB_MARKER
 #define FLDB_MARKER               ("\xF1\x47\xDB\x00")
@@ -108,7 +108,7 @@ typedef struct _flat_table {
 	offset_t    deleted_record; /* first unused record */
 	uint16_t    count;
 	#ifdef _FLAT_TABLE_INCLUDE_NAME
-	tchar       name[ FLDB_MAX_TABLE_NAME ];
+	lc_char_t       name[ FLDB_MAX_TABLE_NAME ];
 	#endif
 } flat_table; /* 34 bytes */
 
@@ -136,7 +136,7 @@ typedef int    (*flat_comparer) ( const flat_record *p_left, const flat_record *
 
 typedef struct _flatdb {
 	FILE*          file;	      /* not written to disk */
-	tchar*         filename;   /* not written to disk */
+	lc_char_t*         filename;   /* not written to disk */
 	flat_hasher*   hashers;    /* not written to disk */
 	flat_comparer* comparers;  /* not written to disk */
 
@@ -148,12 +148,12 @@ typedef struct _flatdb {
 
 typedef flatdb * flatdb_t;
 
-flatdb_t     flatdb_open            ( const tchar *filename );
-flatdb_t     flatdb_create          ( const tchar *filename, uint16_t max_tables, uint16_t max_records );
+flatdb_t     flatdb_open            ( const lc_char_t *filename );
+flatdb_t     flatdb_create          ( const lc_char_t *filename, uint16_t max_tables, uint16_t max_records );
 void         flatdb_close           ( flatdb_t *db );
 uint16_t     flatdb_max_tables      ( flatdb_t db );
 uint16_t     flatdb_max_records     ( flatdb_t db );
-const tchar* flatdb_filename        ( flatdb_t db );
+const lc_char_t* flatdb_filename        ( flatdb_t db );
 bool         flatdb_shrink          ( flatdb_t db );
 bool         flatdb_read            ( flatdb_t db, offset_t position, flat_object *p_obj, size_t object_size );
 bool         flatdb_write           ( flatdb_t db, offset_t position, const flat_object *p_obj, size_t object_size );

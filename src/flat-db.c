@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,12 +34,12 @@
 #include <fcntl.h>
 #include <unistd.h>
 #endif
-#include "tstring.h"
+#include "lc-string.h"
 #include "flat-db.h"
 
 static bool     flatdb_create_empty_database ( flatdb_t db, uint16_t max_tables, uint16_t max_records );
 static flatdb_t flatdb_create_temporary      ( const flatdb_t source_db );
-static bool     flatdb_file_exists           ( const tchar *filename );
+static bool     flatdb_file_exists           ( const lc_char_t *filename );
 static bool     flatdb_load_file             ( flatdb_t db );
 static bool     flatdb_next_id               ( flatdb_t db, flat_id_t table_id, const flat_record *p_record, flat_id_t *p_next_record_id );
 static bool     file_copy                    ( FILE *dst, FILE *src );
@@ -62,7 +62,7 @@ static bool     record_unlock                ( flatdb_t db, offset_t position, s
 
 
 
-flatdb_t flatdb_open( const tchar *filename )
+flatdb_t flatdb_open( const lc_char_t *filename )
 {
 	flatdb_t db = NULL;
 
@@ -83,7 +83,7 @@ flatdb_t flatdb_open( const tchar *filename )
 				goto failed;
 			}
 
-			db->filename = tstrdup( filename );
+			db->filename = lc_strdup( filename );
 			db->file     = p_file;
 
 			flockfile( db->file );
@@ -116,7 +116,7 @@ failed:
 	return db;
 }
 
-flatdb_t flatdb_create( const tchar *filename, uint16_t max_tables, uint16_t max_records )
+flatdb_t flatdb_create( const lc_char_t *filename, uint16_t max_tables, uint16_t max_records )
 {
 	flatdb_t db  = NULL;
 
@@ -135,7 +135,7 @@ flatdb_t flatdb_create( const tchar *filename, uint16_t max_tables, uint16_t max
 			goto failed;
 		}
 
-		db->filename = tstrdup( filename );
+		db->filename = lc_strdup( filename );
 		db->file     = p_file;
 
 		flockfile( db->file );
@@ -232,7 +232,7 @@ uint16_t flatdb_max_records( flatdb_t db )
 	return 0;
 }
 
-const tchar* flatdb_filename( flatdb_t db )
+const lc_char_t* flatdb_filename( flatdb_t db )
 {
 	if( db )
 	{
@@ -453,7 +453,7 @@ bool flatdb_write( flatdb_t db, offset_t position, const flat_object *p_obj, siz
 	return result;
 }
 
-bool flatdb_file_exists( const tchar *filename )
+bool flatdb_file_exists( const lc_char_t *filename )
 {
 	bool result = false;
 	FILE *f;
@@ -742,7 +742,7 @@ bool flatdb_table_create( flatdb_t db, flat_id_t *p_table_id )
 		if( flat_object_is(p_table, FLDB_UNUSED) )
 		{
 			#ifdef _FLAT_TABLE_INCLUDE_NAME
-			tstrncpy( p_table->name, name, FLDB_MAX_TABLE_NAME );
+			lc_strncpy( p_table->name, name, FLDB_MAX_TABLE_NAME );
 			p_table->name[ FLDB_MAX_TABLE_NAME - 1 ] = '\0';
 			#endif
 

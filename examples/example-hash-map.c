@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,14 +21,20 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdbool.h>
 #include <string.h>
-#include <assert.h>
 #include <time.h>
-#include <tree-map.h>
+#include <assert.h>
+#include <hash-map.h>
+
+#define TEST_REHASH
+
+#if defined(TEST_REHASH)
+#define LOAD_FACTOR       (0.7)
+#endif
 
 
-bool ip_destroy  ( void *key, void *value );
+size_t  ip_hash     ( const void *data );
+bool    ip_destroy  ( void *key, void *value );
 
 
 static const char *ips[] = {
@@ -56,14 +62,14 @@ static const char *ips[] = {
 
 int main( int argc, char *argv[] )
 {
-	tree_map_t map;
+	lc_hash_map_t map;
 	unsigned int i;
 	bool result;
-	tree_map_iterator_t itr;
+	lc_hash_map_iterator_t itr;
 
 	srand( time(NULL) );
 
-	tree_map_create( &map, ip_destroy, (tree_map_compare_function) strcmp, malloc, free );
+	lc_hash_map_create( &map, 1, ip_hash, ip_destroy, (lc_hash_map_compare_fxn_t) strcmp, malloc, free );
 
 	for( i = 0; ips[ i ]; i++ )
 	{
@@ -71,10 +77,17 @@ int main( int argc, char *argv[] )
 		bool *p_sent = malloc( sizeof(bool) );
 		*p_sent = false;
 
-		result = tree_map_insert( &map, ip, p_sent );
+		result = lc_hash_map_insert( &map, ip, p_sent );
 		assert( result );
 
-		printf( "         Added (%03d): %-16s      (%02ld)", i, ip, tree_map_size(&map) );
+		printf( "         Added (%03d): %-16s      %4.1f  (%02ld)", i, ip, lc_hash_map_load_factor(&map), lc_hash_map_size(&map) );
+
+		#ifdef TEST_REHASH
+		if( lc_hash_map_rehash( &map, LOAD_FACTOR ) )
+		{
+			printf( " ---> Rehashed (size = %ld, table_size = %ld)", lc_hash_map_size(&map), lc_hash_map_table_size(&map) );
+		}
+		#endif
 
 		printf( "\n" );
 	}
@@ -84,7 +97,7 @@ int main( int argc, char *argv[] )
 		const char *ip = ips[ rand() % MAX ];
 		bool *is_sent  = NULL;
 
-		if( tree_map_find( &map, ip, (void **) &is_sent ) )
+		if( lc_hash_map_find( &map, ip, (void **) &is_sent ) )
 		{
 
 			if( *is_sent == false )
@@ -102,13 +115,12 @@ int main( int argc, char *argv[] )
 
 	printf( "\n\n" );
 
+	lc_hash_map_iterator( &map, &itr );
 	i = 0;
 
-	for( itr = tree_map_begin( &map );
-		 itr != tree_map_end( );
-		 itr = tree_map_next( itr ) )
+	while( lc_hash_map_iterator_next( &itr ) )
 	{
-		printf( "%5u  %16s => %s\n", i, (char* ) itr->key, *((bool*) itr->value) ? "true" : "false" );
+		printf( "%5u  %16s => %s\n", i, (char* ) lc_hash_map_iterator_key(&itr), *((bool*) lc_hash_map_iterator_value(&itr)) ? "true" : "false" );
 		i++;
 	}
 	printf( "\n\n" );
@@ -118,21 +130,54 @@ int main( int argc, char *argv[] )
 		const char *ip = ips[ i ];
 		bool *is_sent  = NULL;
 
-		tree_map_find( &map, ip, (void **) &is_sent );
+		lc_hash_map_find( &map, ip, (void **) &is_sent );
 
-		printf( "       Removed (%03d): %-16s       (%02ld)   %s", i, ip, tree_map_size(&map), is_sent && *is_sent ? "sent" : "not sent" );
+		printf( "       Removed (%03d): %-16s      %4.1f  (%02ld)   %s", i, ip, lc_hash_map_load_factor(&map), lc_hash_map_size(&map), is_sent && *is_sent ? "sent" : "not sent" );
 
-		result = tree_map_remove( &map, ip );
+		result = lc_hash_map_remove( &map, ip );
 		assert( result );
 
+
+		#ifdef TEST_REHASH
+		if( lc_hash_map_rehash( &map, LOAD_FACTOR ) )
+		{
+			printf( " ---> Rehashed (size = %ld, table_size = %ld)", lc_hash_map_size(&map), lc_hash_map_table_size(&map) );
+		}
+		#endif
 
 		printf( "\n" );
 	}
 
 
 
-	tree_map_destroy( &map );
+	lc_hash_map_destroy( &map );
 	return 0;
+}
+
+size_t ip_hash( const void *data )
+{
+	unsigned short count = 0;
+	size_t hash = 0;
+	char ip[ 24 ];
+	char *token;
+
+	assert( data );
+
+	strncpy( ip, data, sizeof(ip) );
+	ip[ sizeof(ip) - 1 ] = '\0';
+
+	token = strtok( (char *) ip, "." );
+
+	while( token != NULL )
+	{
+		int part = atoi( token );
+
+		hash |= (part << 8 * count);
+
+		token = strtok( NULL, "." );
+	}
+
+	return hash;
 }
 
 bool ip_destroy( void *key, void *value )

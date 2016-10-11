@@ -1,16 +1,16 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
- * 
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,17 +23,17 @@
 #define _HASH_TABLE_H_
 #ifdef __cplusplus
 extern "C" {
-#endif 
+#endif
 
 #include <stddef.h>
 #include "slist.h"
 #include "alloc.h"
 
 /* Each size is a prime number */
-#ifndef HASH_TABLE_SIZE_SMALL 
+#ifndef HASH_TABLE_SIZE_SMALL
 #define HASH_TABLE_SIZE_SMALL         (37)
 #endif
-#ifndef HASH_TABLE_SIZE_MEDIUM 
+#ifndef HASH_TABLE_SIZE_MEDIUM
 #define HASH_TABLE_SIZE_MEDIUM        (1031)
 #endif
 #ifndef HASH_TABLE_SIZE_LARGE
@@ -51,50 +51,49 @@ extern "C" {
 #define HASH_TABLE_THRESHOLD               (0.7)
 #endif
 
-	
 
-typedef size_t  (*hash_table_hash_function)    ( const void *element );
-typedef bool    (*hash_table_element_function) ( void *element );
-typedef int     (*hash_table_compare_function) ( const void *left, const void *right );
+typedef size_t  (*lc_hash_table_hash_fxn_t)    ( const void *element );
+typedef bool    (*lc_hash_table_element_fxn_t) ( void *element );
+typedef int     (*lc_hash_table_compare_fxn_t) ( const void *left, const void *right );
 
-typedef struct hash_table {
+typedef struct lc_hash_table {
 	size_t   size;
 	size_t   table_size;
-	slist_t* table;
+	lc_slist_t* table;
 
-	hash_table_hash_function    hash;
-	hash_table_compare_function compare; 	
-	hash_table_element_function destroy; 	
+	lc_hash_table_hash_fxn_t    hash;
+	lc_hash_table_compare_fxn_t compare;
+	lc_hash_table_element_fxn_t destroy;
 
-	alloc_function  alloc;
-	free_function   free;
-} hash_table_t;
+	lc_alloc_fxn_t  alloc;
+	lc_free_fxn_t   free;
+} lc_hash_table_t;
 
-bool      hash_table_create      ( hash_table_t* p_table, size_t table_size, hash_table_hash_function hash_function, hash_table_element_function destroy_callback, hash_table_compare_function compare_callback, alloc_function alloc, free_function free );
-void      hash_table_destroy     ( hash_table_t* p_table );
-bool      hash_table_insert      ( hash_table_t* p_table, const void *data );
-bool      hash_table_remove      ( hash_table_t* p_table, const void *data );
-bool      hash_table_find        ( const hash_table_t* p_table, const void *data, void **found_data );
-void      hash_table_clear       ( hash_table_t* p_table );
-bool      hash_table_resize      ( hash_table_t* p_table, size_t size );
-bool      hash_table_rehash      ( hash_table_t* p_table, double load_factor );
-bool      hash_table_serialize   ( hash_table_t* p_table, size_t element_size, FILE *file );
-bool      hash_table_unserialize ( hash_table_t* p_table, size_t element_size, FILE *file );
+bool      lc_hash_table_create      ( lc_hash_table_t* p_table, size_t table_size, lc_hash_table_hash_fxn_t hash_function, lc_hash_table_element_fxn_t destroy_callback, lc_hash_table_compare_fxn_t compare_callback, lc_alloc_fxn_t alloc, lc_free_fxn_t free );
+void      lc_hash_table_destroy     ( lc_hash_table_t* p_table );
+bool      lc_hash_table_insert      ( lc_hash_table_t* p_table, const void *data );
+bool      lc_hash_table_remove      ( lc_hash_table_t* p_table, const void *data );
+bool      lc_hash_table_find        ( const lc_hash_table_t* p_table, const void *data, void **found_data );
+void      lc_hash_table_clear       ( lc_hash_table_t* p_table );
+bool      lc_hash_table_resize      ( lc_hash_table_t* p_table, size_t size );
+bool      lc_hash_table_rehash      ( lc_hash_table_t* p_table, double load_factor );
+bool      lc_hash_table_serialize   ( lc_hash_table_t* p_table, size_t element_size, FILE *file );
+bool      lc_hash_table_unserialize ( lc_hash_table_t* p_table, size_t element_size, FILE *file );
 
-#define   hash_table_size(p_table)         ((p_table)->size)
-#define   hash_table_table_size(p_table)   ((p_table)->table_size)
-#define   hash_table_load_factor(p_table)  (hash_table_size(p_table) / ((double) hash_table_table_size(p_table)))
+#define   lc_hash_table_size(p_table)         ((p_table)->size)
+#define   lc_hash_table_table_size(p_table)   ((p_table)->table_size)
+#define   lc_hash_table_load_factor(p_table)  (lc_hash_table_size(p_table) / ((double) lc_hash_table_table_size(p_table)))
 
-typedef struct hash_table_iter {
-	const hash_table_t* table;
+typedef struct lc_hash_table_iter {
+	const lc_hash_table_t* table;
 	size_t              index;
-	slist_node_t*       current;
+	lc_slist_node_t*       current;
 	void*               data;
-} hash_table_iterator_t;
+} lc_hash_table_iterator_t;
 
-void    hash_table_iterator      ( const hash_table_t* p_table, hash_table_iterator_t* iter );
-bool    hash_table_iterator_next ( hash_table_iterator_t* iter );
-void*   hash_table_iterator_data ( hash_table_iterator_t* iter );
+void    lc_hash_table_iterator      ( const lc_hash_table_t* p_table, lc_hash_table_iterator_t* iter );
+bool    lc_hash_table_iterator_next ( lc_hash_table_iterator_t* iter );
+void*   lc_hash_table_iterator_data ( lc_hash_table_iterator_t* iter );
 
 #ifdef __cplusplus
 }

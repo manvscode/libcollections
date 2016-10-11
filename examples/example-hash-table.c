@@ -166,10 +166,10 @@ static const char *ips[] = {
 int main( int argc, char *argv[] )
 {
 	bool result;
-	hash_table_t table;
+	lc_hash_table_t table;
 	int i;
 
-	hash_table_create( &table, 1, ip_hash, ip_destroy, (hash_table_compare_function) strcmp, malloc, free );
+	lc_hash_table_create( &table, 1, ip_hash, ip_destroy, (lc_hash_table_compare_fxn_t) strcmp, malloc, free );
 
 	srand( 0 );
 
@@ -178,14 +178,14 @@ int main( int argc, char *argv[] )
 	{
 		const char *ip = ips[ i ];
 
-		result = hash_table_insert( &table, strdup(ip) );
+		result = lc_hash_table_insert( &table, strdup(ip) );
 		assert( result );
-		printf( "   Added (%03d): %-16s      %4.1f  (%ld)", i, ip, hash_table_load_factor(&table), hash_table_size(&table) );
+		printf( "   Added (%03d): %-16s      %4.1f  (%ld)", i, ip, lc_hash_table_load_factor(&table), lc_hash_table_size(&table) );
 
 		#ifdef TEST_REHASH
-		if( hash_table_rehash( &table, LOAD_FACTOR ) )
+		if( lc_hash_table_rehash( &table, LOAD_FACTOR ) )
 		{
-			printf( " ---> Rehashed (size = %ld, table_size = %ld)", hash_table_size(&table), hash_table_table_size(&table) );
+			printf( " ---> Rehashed (size = %ld, table_size = %ld)", lc_hash_table_size(&table), lc_hash_table_table_size(&table) );
 		}
 		#endif
 
@@ -196,19 +196,19 @@ int main( int argc, char *argv[] )
 	{
 		void *found_ip = NULL;
 
-		if( hash_table_find( &table, ips[ i ], &found_ip ) )
+		if( lc_hash_table_find( &table, ips[ i ], &found_ip ) )
 		{
 			char ip[ 16 ];
 			strcpy( ip, found_ip );
 
-			result = hash_table_remove( &table, found_ip );
+			result = lc_hash_table_remove( &table, found_ip );
 			assert( result );
-			printf( " Removed (%03d): %-16s      %4.1f  (%ld)", i, ip, hash_table_load_factor(&table), hash_table_size(&table) );
+			printf( " Removed (%03d): %-16s      %4.1f  (%ld)", i, ip, lc_hash_table_load_factor(&table), lc_hash_table_size(&table) );
 
 			#ifdef TEST_REHASH
-			if( hash_table_rehash( &table, LOAD_FACTOR ) )
+			if( lc_hash_table_rehash( &table, LOAD_FACTOR ) )
 			{
-				printf( " ---> Rehashed (size = %ld, table_size = %ld)", hash_table_size(&table), hash_table_table_size(&table) );
+				printf( " ---> Rehashed (size = %ld, table_size = %ld)", lc_hash_table_size(&table), lc_hash_table_table_size(&table) );
 			}
 			#endif
 
@@ -216,9 +216,9 @@ int main( int argc, char *argv[] )
 		}
 	}
 
-	printf( "size = %ld, table-size = %ld\n", hash_table_size(&table), hash_table_table_size(&table) );
+	printf( "size = %ld, table-size = %ld\n", lc_hash_table_size(&table), lc_hash_table_table_size(&table) );
 
-	hash_table_destroy( &table );
+	lc_hash_table_destroy( &table );
 	return 0;
 }
 

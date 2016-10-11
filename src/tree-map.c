@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010 by Joseph A. Marrero.  http://www.manvscode.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@
 #include "tree-map.h"
 
 /* Typical leaf node (always black) */
-static tree_map_node_t TREE_MAP_NODE_NIL = { (tree_map_node_t *) &TREE_MAP_NODE_NIL, (tree_map_node_t *) &TREE_MAP_NODE_NIL, (tree_map_node_t *) &TREE_MAP_NODE_NIL, false, NULL };
+static lc_tree_map_node_t TREE_MAP_NODE_NIL = { (lc_tree_map_node_t *) &TREE_MAP_NODE_NIL, (lc_tree_map_node_t *) &TREE_MAP_NODE_NIL, (lc_tree_map_node_t *) &TREE_MAP_NODE_NIL, false, NULL };
 
 #if defined(TREE_MAP_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
 	#define DESTROY_CHECK( code ) \
@@ -39,7 +39,7 @@ static tree_map_node_t TREE_MAP_NODE_NIL = { (tree_map_node_t *) &TREE_MAP_NODE_
 #endif
 
 
-#define tree_map_node_init( p_node, p_key, p_value, p_parent, p_left, p_right, color ) \
+#define lc_tree_map_node_init( p_node, p_key, p_value, p_parent, p_left, p_right, color ) \
 	(p_node)->parent = p_parent; \
 	(p_node)->left   = p_left; \
 	(p_node)->right  = p_right; \
@@ -48,12 +48,12 @@ static tree_map_node_t TREE_MAP_NODE_NIL = { (tree_map_node_t *) &TREE_MAP_NODE_
 	(p_node)->is_red = color;
 
 
-static tree_map_node_t* tree_map_node_find       ( tree_map_t *p_map, const void *key );
+static lc_tree_map_node_t* lc_tree_map_node_find       ( lc_tree_map_t *p_map, const void *key );
 
 
-static inline void tree_map_left_rotate( tree_map_t *p_map, tree_map_node_t *x )
+static inline void lc_tree_map_left_rotate( lc_tree_map_t *p_map, lc_tree_map_node_t *x )
 {
-	tree_map_node_t *y;
+	lc_tree_map_node_t *y;
 
 	assert( x->right != &TREE_MAP_NODE_NIL );
 
@@ -84,9 +84,9 @@ static inline void tree_map_left_rotate( tree_map_t *p_map, tree_map_node_t *x )
 	x->parent = y;
 }
 
-static inline void tree_map_right_rotate( tree_map_t *p_map, tree_map_node_t *x )
+static inline void lc_tree_map_right_rotate( lc_tree_map_t *p_map, lc_tree_map_node_t *x )
 {
-	tree_map_node_t *y;
+	lc_tree_map_node_t *y;
 
 	assert( x->left != &TREE_MAP_NODE_NIL );
 
@@ -116,9 +116,9 @@ static inline void tree_map_right_rotate( tree_map_t *p_map, tree_map_node_t *x 
 	x->parent = y;
 }
 
-static inline void tree_map_insert_fixup( tree_map_t *p_map, tree_map_node_t ** t )
+static inline void lc_tree_map_insert_fixup( lc_tree_map_t *p_map, lc_tree_map_node_t ** t )
 {
-	tree_map_node_t *y = (tree_map_node_t *) &TREE_MAP_NODE_NIL;
+	lc_tree_map_node_t *y = (lc_tree_map_node_t *) &TREE_MAP_NODE_NIL;
 
 	while( (*t)->parent->is_red )
 	{
@@ -139,12 +139,12 @@ static inline void tree_map_insert_fixup( tree_map_t *p_map, tree_map_node_t ** 
 				if( (*t) == (*t)->parent->right )
 				{
 					(*t) = (*t)->parent;
-					tree_map_left_rotate( p_map, (*t) );
+					lc_tree_map_left_rotate( p_map, (*t) );
 				}
 				/* case 3 - uncle is black and t is on the left */
 				(*t)->parent->is_red = false;
 				(*t)->parent->parent->is_red = true;
-				tree_map_right_rotate( p_map, (*t)->parent->parent );
+				lc_tree_map_right_rotate( p_map, (*t)->parent->parent );
 			}
 		}
 		else  /* parent is on right side of grandparent... */
@@ -164,12 +164,12 @@ static inline void tree_map_insert_fixup( tree_map_t *p_map, tree_map_node_t ** 
 				if( (*t) == (*t)->parent->left )
 				{
 					(*t) = (*t)->parent;
-					tree_map_right_rotate( p_map, (*t) );
+					lc_tree_map_right_rotate( p_map, (*t) );
 				}
 				/* case 3 - uncle is black and t is on the right */
 				(*t)->parent->is_red = false;
 				(*t)->parent->parent->is_red = true;
-				tree_map_left_rotate( p_map, (*t)->parent->parent );
+				lc_tree_map_left_rotate( p_map, (*t)->parent->parent );
 			}
 		}
 	}
@@ -177,9 +177,9 @@ static inline void tree_map_insert_fixup( tree_map_t *p_map, tree_map_node_t ** 
 	p_map->root->is_red = false;
 }
 
-static inline void tree_map_delete_fixup( tree_map_t *p_map, tree_map_node_t ** t )
+static inline void lc_tree_map_delete_fixup( lc_tree_map_t *p_map, lc_tree_map_node_t ** t )
 {
-	tree_map_node_t *w = (tree_map_node_t *) &TREE_MAP_NODE_NIL;
+	lc_tree_map_node_t *w = (lc_tree_map_node_t *) &TREE_MAP_NODE_NIL;
 
 	while( (*t) != p_map->root && (*t)->is_red == false )
 	{
@@ -191,7 +191,7 @@ static inline void tree_map_delete_fixup( tree_map_t *p_map, tree_map_node_t ** 
 			{
 				w->is_red            = false;
 				(*t)->parent->is_red = true;
-				tree_map_left_rotate( p_map, (*t)->parent );
+				lc_tree_map_left_rotate( p_map, (*t)->parent );
 				w = (*t)->parent->right;
 			}
 
@@ -205,14 +205,14 @@ static inline void tree_map_delete_fixup( tree_map_t *p_map, tree_map_node_t ** 
 				{
 					w->left->is_red = false;
 					w->is_red       = true;
-					tree_map_right_rotate( p_map, w );
+					lc_tree_map_right_rotate( p_map, w );
 					w = (*t)->parent->right;
 				}
 
 				w->is_red            = (*t)->parent->is_red;
 				(*t)->parent->is_red = false;
 				w->right->is_red     = false;
-				tree_map_left_rotate( p_map, (*t)->parent );
+				lc_tree_map_left_rotate( p_map, (*t)->parent );
 				(*t) = p_map->root;
 			}
 		}
@@ -224,7 +224,7 @@ static inline void tree_map_delete_fixup( tree_map_t *p_map, tree_map_node_t ** 
 			{
 				w->is_red = false;
 				(*t)->parent->is_red = true;
-				tree_map_right_rotate( p_map, (*t)->parent );
+				lc_tree_map_right_rotate( p_map, (*t)->parent );
 				w = (*t)->parent->left;
 			}
 
@@ -239,14 +239,14 @@ static inline void tree_map_delete_fixup( tree_map_t *p_map, tree_map_node_t ** 
 				{
 					w->right->is_red = false;
 					w->is_red = true;
-					tree_map_left_rotate( p_map, w );
+					lc_tree_map_left_rotate( p_map, w );
 					w = (*t)->parent->left;
 				}
 
 				w->is_red = (*t)->parent->is_red;
 				(*t)->parent->is_red = false;
 				w->left->is_red = false;
-				tree_map_right_rotate( p_map, (*t)->parent );
+				lc_tree_map_right_rotate( p_map, (*t)->parent );
 				(*t) = p_map->root;
 			}
 		}
@@ -255,25 +255,25 @@ static inline void tree_map_delete_fixup( tree_map_t *p_map, tree_map_node_t ** 
 	(*t)->is_red = false;
 }
 
-tree_map_node_t *tree_map_node_minimum( tree_map_node_t *t )
+lc_tree_map_node_t *lc_tree_map_node_minimum( lc_tree_map_node_t *t )
 {
 	while( t->left != &TREE_MAP_NODE_NIL ) { t = t->left; }
 	return t;
 }
 
-tree_map_node_t *tree_map_node_maximum( tree_map_node_t *t )
+lc_tree_map_node_t *lc_tree_map_node_maximum( lc_tree_map_node_t *t )
 {
 	while( t->right != &TREE_MAP_NODE_NIL ) { t = t->right; }
 	return t;
 }
 
-tree_map_node_t *tree_map_node_successor( tree_map_node_t *t )
+lc_tree_map_node_t *lc_tree_map_node_successor( lc_tree_map_node_t *t )
 {
-	tree_map_node_t *y;
+	lc_tree_map_node_t *y;
 
 	if( t->right != &TREE_MAP_NODE_NIL )
 	{
-		return tree_map_node_minimum( t->right );
+		return lc_tree_map_node_minimum( t->right );
 	}
 
 	y = t->parent;
@@ -287,13 +287,13 @@ tree_map_node_t *tree_map_node_successor( tree_map_node_t *t )
 	return y;
 }
 
-tree_map_node_t *tree_map_node_predecessor( tree_map_node_t *t )
+lc_tree_map_node_t *lc_tree_map_node_predecessor( lc_tree_map_node_t *t )
 {
-	tree_map_node_t *y;
+	lc_tree_map_node_t *y;
 
 	if( t->left != &TREE_MAP_NODE_NIL )
 	{
-		return tree_map_node_maximum( t->left );
+		return lc_tree_map_node_maximum( t->left );
 	}
 
 	y = t->parent;
@@ -307,27 +307,27 @@ tree_map_node_t *tree_map_node_predecessor( tree_map_node_t *t )
 	return y;
 }
 
-tree_map_t* tree_map_create_ex( tree_map_element_function destroy, tree_map_compare_function compare, alloc_function alloc, free_function free )
+lc_tree_map_t* lc_tree_map_create_ex( lc_tree_map_element_fxn_t destroy, lc_tree_map_compare_fxn_t compare, lc_alloc_fxn_t alloc, lc_free_fxn_t free )
 {
-	tree_map_t *p_map = (tree_map_t *) malloc( sizeof(tree_map_t) );
+	lc_tree_map_t *p_map = (lc_tree_map_t *) malloc( sizeof(lc_tree_map_t) );
 	assert( p_map );
 
 	if( p_map )
 	{
-		tree_map_create( p_map, destroy, compare, alloc, free );
+		lc_tree_map_create( p_map, destroy, compare, alloc, free );
 	}
 
 	return p_map;
 }
 
-void tree_map_create( tree_map_t *p_map, tree_map_element_function destroy, tree_map_compare_function compare, alloc_function alloc, free_function free )
+void lc_tree_map_create( lc_tree_map_t *p_map, lc_tree_map_element_fxn_t destroy, lc_tree_map_compare_fxn_t compare, lc_alloc_fxn_t alloc, lc_free_fxn_t free )
 {
 	assert( p_map );
 #ifndef TREE_MAP_CHECK_FOR_DESTROY
 	assert( destroy );
 #endif
 	assert( compare );
-	p_map->root    = (tree_map_node_t *) &TREE_MAP_NODE_NIL;
+	p_map->root    = (lc_tree_map_node_t *) &TREE_MAP_NODE_NIL;
 	p_map->size    = 0;
 	p_map->compare = compare;
 	p_map->destroy = destroy;
@@ -335,10 +335,10 @@ void tree_map_create( tree_map_t *p_map, tree_map_element_function destroy, tree
 	p_map->_free   = free;
 }
 
-void tree_map_destroy( tree_map_t *p_map )
+void lc_tree_map_destroy( lc_tree_map_t *p_map )
 {
 	assert( p_map );
-	tree_map_clear( p_map );
+	lc_tree_map_clear( p_map );
 
 	#ifdef _DEBUG_TREE_MAP
 	p_map->root    = NULL;
@@ -349,32 +349,32 @@ void tree_map_destroy( tree_map_t *p_map )
 }
 
 /*
-void tree_map_copy( tree_map_t const *p_srcTree, tree_map_t *p_dstTree )
+void lc_tree_map_copy( lc_tree_map_t const *p_srcTree, lc_tree_map_t *p_dstTree )
 {
-	tree_map_node_t *p_node = NULL;
+	lc_tree_map_node_t *p_node = NULL;
 
 	if( p_srcTree != p_dstTree )
 	{
-		tree_map_clear( p_dstTree );
+		lc_tree_map_clear( p_dstTree );
 
 		p_dstTree->compare = p_srcTree->compare;
 		p_dstTree->destroy = p_srcTree->destroy;
 
 		// insert all of the nodes into this tree; m_NumberOfNodes should be equal after this...
-		for( p_node = tree_map_minimum(p_srcTree); p_node != &TREE_MAP_NODE_NIL; p_node = tree_map_node_successor(p_node) )
+		for( p_node = lc_tree_map_minimum(p_srcTree); p_node != &TREE_MAP_NODE_NIL; p_node = lc_tree_map_node_successor(p_node) )
 		{
-			tree_map_insert( p_dstTree, p_node->key, p_node->value );
+			lc_tree_map_insert( p_dstTree, p_node->key, p_node->value );
 		}
 	}
 }
 */
 
-bool tree_map_insert( tree_map_t *p_map, const void *key, const void *value )
+bool lc_tree_map_insert( lc_tree_map_t *p_map, const void *key, const void *value )
 {
-	tree_map_node_t *y       = (tree_map_node_t *) &TREE_MAP_NODE_NIL;
-	tree_map_node_t *x       = p_map->root;
+	lc_tree_map_node_t *y       = (lc_tree_map_node_t *) &TREE_MAP_NODE_NIL;
+	lc_tree_map_node_t *x       = p_map->root;
 
-	tree_map_node_t *newNode = (tree_map_node_t *) p_map->_alloc( sizeof(tree_map_node_t) );
+	lc_tree_map_node_t *newNode = (lc_tree_map_node_t *) p_map->_alloc( sizeof(lc_tree_map_node_t) );
 	if( !newNode ) return false;
 
 	/* Find where to insert the new node--y points the parent. */
@@ -408,18 +408,18 @@ bool tree_map_insert( tree_map_t *p_map, const void *key, const void *value )
 		}
 	}
 
-	tree_map_node_init( newNode, key, value, y, (tree_map_node_t *) &TREE_MAP_NODE_NIL, (tree_map_node_t *) &TREE_MAP_NODE_NIL, true );
-	tree_map_insert_fixup( p_map, &newNode );
+	lc_tree_map_node_init( newNode, key, value, y, (lc_tree_map_node_t *) &TREE_MAP_NODE_NIL, (lc_tree_map_node_t *) &TREE_MAP_NODE_NIL, true );
+	lc_tree_map_insert_fixup( p_map, &newNode );
 	p_map->size++;
 
 	return true;
 }
 
-bool tree_map_remove( tree_map_t *p_map, const void *key )
+bool lc_tree_map_remove( lc_tree_map_t *p_map, const void *key )
 {
-	tree_map_node_t *t = tree_map_node_find( p_map, key );
-	tree_map_node_t *x;
-	tree_map_node_t *y;
+	lc_tree_map_node_t *t = lc_tree_map_node_find( p_map, key );
+	lc_tree_map_node_t *x;
+	lc_tree_map_node_t *y;
 	bool y_is_red = false;
 
 	if( t == NULL ) return false; /* item is not even in the tree! */
@@ -433,7 +433,7 @@ bool tree_map_remove( tree_map_t *p_map, const void *key )
 	{
 		/* t has two children and must be switched out with it's  */
 		/* successor. We will free the successor node and t's data. */
-		y = tree_map_node_successor( t );
+		y = lc_tree_map_node_successor( t );
 	}
 
 	if( y->left != &TREE_MAP_NODE_NIL )
@@ -487,7 +487,7 @@ bool tree_map_remove( tree_map_t *p_map, const void *key )
 
 	if( y_is_red == false ) /* y is black */
 	{
-		tree_map_delete_fixup( p_map, &x );
+		lc_tree_map_delete_fixup( p_map, &x );
 	}
 
 	p_map->size--;
@@ -495,9 +495,9 @@ bool tree_map_remove( tree_map_t *p_map, const void *key )
 	return true;
 }
 
-bool tree_map_find( const tree_map_t *p_map, const void *key, void **value )
+bool lc_tree_map_find( const lc_tree_map_t *p_map, const void *key, void **value )
 {
-	tree_map_node_t *x = p_map->root;
+	lc_tree_map_node_t *x = p_map->root;
 
 	while( x != &TREE_MAP_NODE_NIL )
 	{
@@ -519,15 +519,15 @@ bool tree_map_find( const tree_map_t *p_map, const void *key, void **value )
 	return false;
 }
 
-void tree_map_clear( tree_map_t *p_map )
+void lc_tree_map_clear( lc_tree_map_t *p_map )
 {
-	tree_map_node_t *x;
-	tree_map_node_t *y;
+	lc_tree_map_node_t *x;
+	lc_tree_map_node_t *y;
 
 	assert( p_map );
 
 	x = p_map->root;
-	y = (tree_map_node_t *) &TREE_MAP_NODE_NIL;
+	y = (lc_tree_map_node_t *) &TREE_MAP_NODE_NIL;
 
 	while( p_map->size > 0 )
 	{
@@ -541,7 +541,7 @@ void tree_map_clear( tree_map_t *p_map )
 
 		if( y->right == &TREE_MAP_NODE_NIL )
 		{
-			y->parent->left = (tree_map_node_t *) &TREE_MAP_NODE_NIL;
+			y->parent->left = (lc_tree_map_node_t *) &TREE_MAP_NODE_NIL;
 			x = y->parent;
 
 			/* free... */
@@ -582,14 +582,14 @@ void tree_map_clear( tree_map_t *p_map )
 	}
 
 	/* reset the root and current pointers */
-	p_map->root = (tree_map_node_t *) &TREE_MAP_NODE_NIL;
+	p_map->root = (lc_tree_map_node_t *) &TREE_MAP_NODE_NIL;
 }
 
-bool tree_map_serialize( tree_map_t *p_map, size_t key_size, size_t value_size, FILE *file )
+bool lc_tree_map_serialize( lc_tree_map_t *p_map, size_t key_size, size_t value_size, FILE *file )
 {
 	bool result = true;
 	size_t count;
-	tree_map_iterator_t itr;
+	lc_tree_map_iterator_t itr;
 
 	if( !p_map )
 	{
@@ -597,16 +597,16 @@ bool tree_map_serialize( tree_map_t *p_map, size_t key_size, size_t value_size, 
 		goto done;
 	}
 
-	count = tree_map_size(p_map);
+	count = lc_tree_map_size(p_map);
 	if( fwrite( &count, sizeof(size_t), 1, file ) != 1 )
 	{
 		result = false;
 		goto done;
 	}
 
-	for( itr = tree_map_begin( p_map );
-	     itr != tree_map_end( ) && !ferror(file);
-	     itr = tree_map_next( itr ) )
+	for( itr = lc_tree_map_begin( p_map );
+	     itr != lc_tree_map_end( ) && !ferror(file);
+	     itr = lc_tree_map_next( itr ) )
 	{
 		if( fwrite( itr->key, key_size, 1, file ) != 1 )
 		{
@@ -625,7 +625,7 @@ done:
 	return result;
 }
 
-bool tree_map_unserialize( tree_map_t *p_map, size_t key_size, size_t value_size, FILE *file )
+bool lc_tree_map_unserialize( lc_tree_map_t *p_map, size_t key_size, size_t value_size, FILE *file )
 {
 	bool result = true;
 	size_t count = 0;
@@ -668,7 +668,7 @@ bool tree_map_unserialize( tree_map_t *p_map, size_t key_size, size_t value_size
 			goto done;
 		}
 
-		tree_map_insert( p_map, p_key, p_val );
+		lc_tree_map_insert( p_map, p_key, p_val );
 		count--;
 	}
 
@@ -677,14 +677,14 @@ done:
 }
 
 
-void tree_map_alloc_set( tree_map_t *p_map, alloc_function alloc )
+void lc_tree_map_alloc_set( lc_tree_map_t *p_map, lc_alloc_fxn_t alloc )
 {
 	assert( p_map );
 	assert( alloc );
 	p_map->_alloc = alloc;
 }
 
-void tree_map_free_set( tree_map_t *p_map, free_function free )
+void lc_tree_map_free_set( lc_tree_map_t *p_map, lc_free_fxn_t free )
 {
 	assert( p_map );
 	assert( free );
@@ -693,9 +693,9 @@ void tree_map_free_set( tree_map_t *p_map, free_function free )
 
 /* ------------------------------------- */
 
-tree_map_node_t *tree_map_node_find( tree_map_t *p_map, const void *key )
+lc_tree_map_node_t *lc_tree_map_node_find( lc_tree_map_t *p_map, const void *key )
 {
-	tree_map_node_t *x = p_map->root;
+	lc_tree_map_node_t *x = p_map->root;
 
 	while( x != &TREE_MAP_NODE_NIL )
 	{
@@ -716,24 +716,24 @@ tree_map_node_t *tree_map_node_find( tree_map_t *p_map, const void *key )
 	return NULL;
 }
 
-tree_map_iterator_t tree_map_begin( const tree_map_t *p_map )
+lc_tree_map_iterator_t lc_tree_map_begin( const lc_tree_map_t *p_map )
 {
-    return tree_map_node_minimum( p_map->root );
+    return lc_tree_map_node_minimum( p_map->root );
 }
 
-tree_map_iterator_t tree_map_end( )
+lc_tree_map_iterator_t lc_tree_map_end( )
 {
-	return (tree_map_node_t *) &TREE_MAP_NODE_NIL;
+	return (lc_tree_map_node_t *) &TREE_MAP_NODE_NIL;
 }
 
 
 
 #ifdef _DEBUG_TREE_MAP
-static bool tree_map_node_verify_tree  ( tree_map_t *p_map, tree_map_node_t *t );
+static bool lc_tree_map_node_verify_tree  ( lc_tree_map_t *p_map, lc_tree_map_node_t *t );
 static void padding             ( char ch, int n );
-static void structure           ( const tree_map_node_t *root, int level );
+static void structure           ( const lc_tree_map_node_t *root, int level );
 
-bool tree_map_verify_tree( tree_map_t *p_map )
+bool lc_tree_map_verify_tree( lc_tree_map_t *p_map )
 {
 	/* check if root is black... */
 	if( p_map->root->is_red )
@@ -741,10 +741,10 @@ bool tree_map_verify_tree( tree_map_t *p_map )
 		return false;
 	}
 
-	return tree_map_node_verify_tree( p_map, p_map->root );
+	return lc_tree_map_node_verify_tree( p_map, p_map->root );
 }
 
-bool tree_map_node_verify_tree( tree_map_t *p_map, tree_map_node_t *t )
+bool lc_tree_map_node_verify_tree( lc_tree_map_t *p_map, lc_tree_map_node_t *t )
 {
 	if( t == &TREE_MAP_NODE_NIL )
 	{
@@ -759,8 +759,8 @@ bool tree_map_node_verify_tree( tree_map_t *p_map, tree_map_node_t *t )
 		}
 	}
 
-	return tree_map_node_verify_tree( p_map, t->left ) &&
-	       tree_map_node_verify_tree( p_map, t->right );
+	return lc_tree_map_node_verify_tree( p_map, t->left ) &&
+	       lc_tree_map_node_verify_tree( p_map, t->right );
 }
 
 inline void padding( char ch, int n )
@@ -773,7 +773,7 @@ inline void padding( char ch, int n )
 	}
 }
 
-inline void structure( const tree_map_node_t *root, int level )
+inline void structure( const lc_tree_map_node_t *root, int level )
 {
 	int i;
 
@@ -792,7 +792,7 @@ inline void structure( const tree_map_node_t *root, int level )
 	}
 }
 
-void tree_map_print( const tree_map_t *p_map )
+void lc_tree_map_print( const lc_tree_map_t *p_map )
 {
 	structure( p_map->root, 0 );
 }
