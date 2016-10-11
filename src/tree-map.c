@@ -340,7 +340,7 @@ void lc_tree_map_destroy( lc_tree_map_t *p_map )
 	assert( p_map );
 	lc_tree_map_clear( p_map );
 
-	#ifdef _DEBUG_TREE_MAP
+	#ifdef LC_DEBUG_TREE_MAP
 	p_map->root    = NULL;
 	p_map->size    = 0;
 	p_map->compare = NULL;
@@ -575,7 +575,7 @@ void lc_tree_map_clear( lc_tree_map_t *p_map )
 			p_map->size--;
 		}
 
-		#ifdef _DEBUG_TREE_MAP
+		#ifdef LC_DEBUG_TREE_MAP
 		y->key   = NULL;
 		y->value = NULL;
 		#endif
@@ -728,7 +728,7 @@ lc_tree_map_iterator_t lc_tree_map_end( )
 
 
 
-#ifdef _DEBUG_TREE_MAP
+#ifdef LC_DEBUG_TREE_MAP
 static bool lc_tree_map_node_verify_tree  ( lc_tree_map_t *p_map, lc_tree_map_node_t *t );
 static void padding             ( char ch, int n );
 static void structure           ( const lc_tree_map_node_t *root, int level );

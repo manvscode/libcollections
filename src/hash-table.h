@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _HASH_TABLE_H_
-#define _HASH_TABLE_H_
+#ifndef _LC_HASH_TABLE_H_
+#define _LC_HASH_TABLE_H_
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -30,25 +30,25 @@ extern "C" {
 #include "alloc.h"
 
 /* Each size is a prime number */
-#ifndef HASH_TABLE_SIZE_SMALL
-#define HASH_TABLE_SIZE_SMALL         (37)
+#ifndef LC_HASH_TABLE_SIZE_SMALL
+#define LC_HASH_TABLE_SIZE_SMALL         (37)
 #endif
-#ifndef HASH_TABLE_SIZE_MEDIUM
-#define HASH_TABLE_SIZE_MEDIUM        (1031)
+#ifndef LC_HASH_TABLE_SIZE_MEDIUM
+#define LC_HASH_TABLE_SIZE_MEDIUM        (1031)
 #endif
-#ifndef HASH_TABLE_SIZE_LARGE
-#define HASH_TABLE_SIZE_LARGE         (5153)
+#ifndef LC_HASH_TABLE_SIZE_LARGE
+#define LC_HASH_TABLE_SIZE_LARGE         (5153)
 #endif
-#ifndef HASH_TABLE_SIZE_EXTRA_LARGE
-#define HASH_TABLE_SIZE_EXTRA_LARGE   (7919)
-#endif
-
-#ifndef HASH_TABLE_DEFAULT_LOAD_FACTOR
-#define HASH_TABLE_DEFAULT_LOAD_FACTOR     (0.7)
+#ifndef LC_HASH_TABLE_SIZE_EXTRA_LARGE
+#define LC_HASH_TABLE_SIZE_EXTRA_LARGE   (7919)
 #endif
 
-#ifndef HASH_TABLE_THRESHOLD
-#define HASH_TABLE_THRESHOLD               (0.7)
+#ifndef LC_HASH_TABLE_DEFAULT_LOAD_FACTOR
+#define LC_HASH_TABLE_DEFAULT_LOAD_FACTOR     (0.7)
+#endif
+
+#ifndef LC_HASH_TABLE_THRESHOLD
+#define LC_HASH_TABLE_THRESHOLD               (0.7)
 #endif
 
 
@@ -97,5 +97,5 @@ void*   lc_hash_table_iterator_data ( lc_hash_table_iterator_t* iter );
 
 #ifdef __cplusplus
 }
-#endif 
-#endif /* _HASH_TABLE_H_ */
+#endif
+#endif /* _LC_HASH_TABLE_H_ */

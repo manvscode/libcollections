@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _HASH_FUNCTIONS_H_
-#define _HASH_FUNCTIONS_H_
+#ifndef _LC_HASH_FUNCTIONS_H_
+#define _LC_HASH_FUNCTIONS_H_
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -35,4 +35,4 @@ size_t lc_ip_address_hash ( const void *p_ip_string );
 #ifdef __cplusplus
 }
 #endif
-#endif /* _HASH_FUNCTIONS_H_ */
+#endif /* _LC_HASH_FUNCTIONS_H_ */

@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _BUFFER_H_
-#define _BUFFER_H_
+#ifndef _LC_BUFFER_H_
+#define _LC_BUFFER_H_
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -34,4 +34,4 @@ void*        lc_buffer_data    ( lc_buffer_t* p_buffer );
 bool         lc_buffer_resize  ( lc_buffer_t** p_buffer, size_t new_size );
 bool         lc_buffer_put     ( lc_buffer_t** p_buffer, size_t offset, const void* buffer, size_t size, bool resize );
 
-#endif /* _BUFFER_H_ */
+#endif /* _LC_BUFFER_H_ */

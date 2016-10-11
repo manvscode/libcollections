@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _MACROS_H_
-#define _MACROS_H_
+#ifndef _LC_MACROS_H_
+#define _LC_MACROS_H_
 
 #include <limits.h>
 
@@ -112,4 +112,4 @@ inline int next_power_of_2( int v )
 #define set_if( condition, mask, flags )   ((flags) ^= (-(condition) ^ (flags)) & (mask))
 #define set_if2( condition, mask, flags )  ((flags) = (flags) & ~(mask) | (-(condition) & (mask))) /* superscalar version */
 
-#endif /* _MACROS_H_ */
+#endif /* _LC_MACROS_H_ */

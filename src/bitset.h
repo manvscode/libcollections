@@ -19,9 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _BITSET_H_
-#define _BITSET_H_
-
+#ifndef _LC_BITSET_H_
+#define _LC_BITSET_H_
+/**
+ * @file bitset.h
+ * @brief A collection of bits.
+ *
+ * @defgroup lc_bitset Bitset
+ * @ingroup Collections
+ * @{
+ */
 #include <stdint.h>
 #include <stdbool.h>
 #include <limits.h>
@@ -79,4 +86,4 @@ static inline bool lc_bitset_test( const lc_bitset_t* p_bitset, size_t bit )
 #ifdef __cplusplus
 } /* external C linkage */
 #endif
-#endif /* _BITSET_H_ */
+#endif /* _LC_BITSET_H_ */

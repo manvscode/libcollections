@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _BENCH_MARK_H_
-#define _BENCH_MARK_H_
+#ifndef _LC_BENCHMARK_H_
+#define _LC_BENCHMARK_H_
 
 
 /**
@@ -28,7 +28,7 @@
  * @brief Bench marking routines for timing code and
  * measuring performance.
  *
- * @defgroup lc_benchmark Bench marking
+ * @defgroup lc_benchmark Benchmarking
  * @ingroup Other
  * @{
  */
@@ -105,4 +105,4 @@ double lc_benchmark_total_time ( lc_benchmark_t bm );
 #ifdef __cplusplus
 }
 #endif
-#endif /* _BENCH_MARK_H_ */
+#endif /* _LC_BENCHMARK_H_ */

@@ -19,14 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _ALLOC_H_
-#define _ALLOC_H_
+#ifndef _LC_ALLOC_H_
+#define _LC_ALLOC_H_
 
 #include <stdlib.h>
 
 /**
  * @file alloc.h
  * @brief Memory allocation and deallocation interface functions and macros.
+ * @defgroup lc_alloc Memory Allocation
  * @ingroup Memory
  * @{
  */
@@ -62,4 +63,4 @@ typedef void  (*lc_free_fxn_t)  ( void *data );
 #endif
 
 
-#endif /* _ALLOC_H_ */
+#endif /* _LC_ALLOC_H_ */

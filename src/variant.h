@@ -19,10 +19,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _VARIANT_H_
-#define _VARIANT_H_
-
-//#include "libcollections-config.h"
+#ifndef _LC_VARIANT_H_
+#define _LC_VARIANT_H_
+/**
+ * @file variant.h
+ * @brief A variant type.
+ *
+ * A variant is an object that can hold one of several things.
+ * It's useful for storing various datatypes in a collection.
+ *
+ * @defgroup lc_variant Variant
+ * @ingroup Other
+ *
+ * @{
+ */
 #include <stdbool.h>
 #include "lc-string.h"
 #ifdef __cplusplus
@@ -30,19 +40,27 @@ extern "C" {
 #endif
 
 
-
+/**
+ * The various data types that can be stored in
+ * a lc_variant_t.
+ */
 typedef enum lc_variant_type {
-	VARIANT_NOT_INITIALIZED = 0,
-	VARIANT_STRING,
-	VARIANT_DECIMAL,
-	VARIANT_INTEGER,
-	VARIANT_UNSIGNED_INTEGER,
-	VARIANT_BOOLEAN,
-	VARIANT_POINTER,
+	LC_VARIANT_NOT_INITIALIZED = 0,  /**< This variant is not initialized. */
+	LC_VARIANT_STRING,               /**< This variant holds a string. */
+	LC_VARIANT_DECIMAL,              /**< This variant holds a decimal. */
+	LC_VARIANT_INTEGER,              /**< This variant holds an integer. */
+	LC_VARIANT_UNSIGNED_INTEGER,     /**< This variant holds an unsigned integer. */
+	LC_VARIANT_BOOLEAN,              /**< This variant holds a boolean. */
+	LC_VARIANT_POINTER,              /**< This variant holds a pointer. */
 	/* must be last one */
-	VARIANT_TYPE_COUNT
+	LC_VARIANT_TYPE_COUNT
 } lc_variant_type_t;
 
+/**
+ * This is the value type for the lc_variant_t.  It can
+ * be a string, decimal, integer, unsigned integer, boolean,
+ * or pointer.
+ */
 typedef union value {
    	lc_char_t*      string;
 	double          decimal;
@@ -52,6 +70,9 @@ typedef union value {
 	void*           pointer; /* must be last one */
 } value_t;
 
+/**
+ * This is a variant object.
+ */
 typedef struct lc_variant {
 	lc_variant_type_t type;
 	value_t        value;
@@ -62,12 +83,12 @@ typedef struct lc_variant {
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
 	/* untested */
 	#define lc_variant_get( p_variant )  _Generic( lc_variant_type(p_variant), \
-		VARIANT_STRING: lc_variant_value(p_variant).string,  \
-		VARIANT_DECIMAL: lc_variant_value(p_variant).decimal,  \
-		VARIANT_INTEGER: lc_variant_value(p_variant).integer,  \
-		VARIANT_UNSIGNED_INTEGER: lc_variant_value(p_variant).unsigned_integer,  \
-		VARIANT_BOOLEAN: lc_variant_value(p_variant).boolean,  \
-		VARIANT_POINTER: lc_variant_value(p_variant).pointer,  \
+		LC_VARIANT_STRING: lc_variant_value(p_variant).string,  \
+		LC_VARIANT_DECIMAL: lc_variant_value(p_variant).decimal,  \
+		LC_VARIANT_INTEGER: lc_variant_value(p_variant).integer,  \
+		LC_VARIANT_UNSIGNED_INTEGER: lc_variant_value(p_variant).unsigned_integer,  \
+		LC_VARIANT_BOOLEAN: lc_variant_value(p_variant).boolean,  \
+		LC_VARIANT_POINTER: lc_variant_value(p_variant).pointer,  \
 		default: 0 \
 		) (p_variant )
 	#define lc_variant_set( p_variant, value )  _Generic( (value), \
@@ -99,31 +120,31 @@ void                 lc_variant_set_boolean          ( lc_variant_t* p_variant, 
 void                 lc_variant_set_pointer          ( lc_variant_t* p_variant, const void* value );
 
 
-#define    lc_variant_create_string( )                  lc_variant_create( VARIANT_STRING )
-#define    lc_variant_is_string( p_variant )            lc_variant_is_type( p_variant, VARIANT_STRING )
+#define    lc_variant_create_string( )                  lc_variant_create( LC_VARIANT_STRING )
+#define    lc_variant_is_string( p_variant )            lc_variant_is_type( p_variant, LC_VARIANT_STRING )
 #define    lc_variant_string( p_variant )               (lc_variant_value(p_variant).string)
 
-#define    lc_variant_create_decimal( )                 lc_variant_create( VARIANT_DECIMAL )
-#define    lc_variant_is_decimal( p_variant )           lc_variant_is_type( p_variant, VARIANT_DECIMAL )
+#define    lc_variant_create_decimal( )                 lc_variant_create( LC_VARIANT_DECIMAL )
+#define    lc_variant_is_decimal( p_variant )           lc_variant_is_type( p_variant, LC_VARIANT_DECIMAL )
 #define    lc_variant_decimal( p_variant )              (lc_variant_value(p_variant).decimal)
 
-#define    lc_variant_create_integer( )                 lc_variant_create( VARIANT_INTEGER )
-#define    lc_variant_is_integer( p_variant )           lc_variant_is_type( p_variant, VARIANT_INTEGER )
+#define    lc_variant_create_integer( )                 lc_variant_create( LC_VARIANT_INTEGER )
+#define    lc_variant_is_integer( p_variant )           lc_variant_is_type( p_variant, LC_VARIANT_INTEGER )
 #define    lc_variant_integer( p_variant )              (lc_variant_value(p_variant).integer)
 
-#define    lc_variant_create_unsigned_integer( )        lc_variant_create( VARIANT_UNSIGNED_INTEGER )
-#define    lc_variant_is_unsigned_integer( p_variant )  lc_variant_is_type( p_variant, VARIANT_UNSIGNED_INTEGER )
+#define    lc_variant_create_unsigned_integer( )        lc_variant_create( LC_VARIANT_UNSIGNED_INTEGER )
+#define    lc_variant_is_unsigned_integer( p_variant )  lc_variant_is_type( p_variant, LC_VARIANT_UNSIGNED_INTEGER )
 #define    lc_variant_unsigned_integer( p_variant )     (lc_variant_value(p_variant).unsigned_integer)
 
-#define    lc_variant_create_boolean( )                 lc_variant_create( VARIANT_BOOLEAN )
-#define    lc_variant_is_boolean( p_variant )           lc_variant_is_type( p_variant, VARIANT_BOOLEAN )
+#define    lc_variant_create_boolean( )                 lc_variant_create( LC_VARIANT_BOOLEAN )
+#define    lc_variant_is_boolean( p_variant )           lc_variant_is_type( p_variant, LC_VARIANT_BOOLEAN )
 #define    lc_variant_boolean( p_variant )              (lc_variant_value(p_variant).boolean)
 
-#define    lc_variant_create_pointer( )                 lc_variant_create( VARIANT_POINTER )
-#define    lc_variant_is_pointer( p_variant )           lc_variant_is_type( p_variant, VARIANT_POINTER )
+#define    lc_variant_create_pointer( )                 lc_variant_create( LC_VARIANT_POINTER )
+#define    lc_variant_is_pointer( p_variant )           lc_variant_is_type( p_variant, LC_VARIANT_POINTER )
 #define    lc_variant_pointer( p_variant )              (lc_variant_value(p_variant).pointer)
 
 #ifdef __cplusplus
 } /* external C linkage */
 #endif
-#endif /* _VARIANT_H_ */
+#endif /* _LC_VARIANT_H_ */

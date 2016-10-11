@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _TREE_MAP_H_
-#define _TREE_MAP_H_
+#ifndef _LC_TREE_MAP_H_
+#define _LC_TREE_MAP_H_
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -77,7 +77,7 @@ lc_tree_map_iterator_t lc_tree_map_begin ( const lc_tree_map_t *p_map );
 lc_tree_map_iterator_t lc_tree_map_end   ( );
 
 
-#ifdef _DEBUG_TREE_MAP
+#ifdef LC_DEBUG_TREE_MAP
 bool    lc_tree_map_verify_tree ( lc_tree_map_t *p_map );
 void    lc_tree_map_print       ( const lc_tree_map_t *p_map );
 #endif
@@ -91,4 +91,4 @@ void    lc_tree_map_print       ( const lc_tree_map_t *p_map );
 #ifdef __cplusplus
 }
 #endif
-#endif /* _TREE_MAP_H_ */
+#endif /* _LC_TREE_MAP_H_ */

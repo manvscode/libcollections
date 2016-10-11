@@ -25,7 +25,7 @@
 #include <assert.h>
 #include "rbtree.h"
 
-#ifdef EXTERN_RBNIL
+#ifdef LC_EXTERN_RBNIL
 	/* Typical leaf node (always black).
 	 * This cannot be const because the parent pointer is manipulated.
 	 */
@@ -35,7 +35,7 @@
 	static lc_rbnode_t RBNIL = { (lc_rbnode_t *) &RBNIL, (lc_rbnode_t *) &RBNIL, (lc_rbnode_t *) &RBNIL, false, NULL };
 #endif
 
-#if defined(RBTREE_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
+#if defined(LC_RBTREE_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
 	#define DESTROY_CHECK( code ) \
 		if( p_tree->_destroy ) \
 		{ \
@@ -353,7 +353,7 @@ void lc_rbtree_destroy( lc_rbtree_t* p_tree )
 	assert( p_tree );
 	lc_rbtree_clear( p_tree );
 
-	#ifdef _DEBUG_RBTREE
+	#ifdef LC_RBTREE_DEBUG
 	p_tree->root     = NULL;
 	p_tree->size     = 0;
 	p_tree->_compare = NULL;
@@ -600,7 +600,7 @@ void lc_rbtree_clear( lc_rbtree_t* p_tree )
 			p_tree->size--;
 		}
 
-		#ifdef _DEBUG_RBTREE
+		#ifdef LC_RBTREE_DEBUG
 		y->data = NULL;
 		#endif
 	}
@@ -740,7 +740,7 @@ void lc_rbtree_free_set( lc_rbtree_t* p_tree, lc_free_fxn_t free )
 }
 
 
-#ifdef _DEBUG_RBTREE
+#ifdef LC_RBTREE_DEBUG
 static bool lc_rbnode_verify_tree  ( lc_rbtree_t* p_tree, lc_rbnode_t *t );
 static void padding             ( char ch, int n );
 static void structure           ( const lc_rbnode_t *root, int level );

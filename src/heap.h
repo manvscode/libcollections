@@ -19,8 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _HEAP_H_
-#define _HEAP_H_
+#ifndef _LC_HEAP_H_
+#define _LC_HEAP_H_
+/**
+ * @file heap.h
+ * @brief Related routines for maintaining heaps.
+ *
+ * @defgroup lc_heap Heap
+ * @ingroup Collections
+ *
+ * @{
+ */
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -110,4 +119,4 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-#endif /* _HEAP_H_ */
+#endif /* _LC_HEAP_H_ */

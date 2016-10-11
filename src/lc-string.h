@@ -27,8 +27,8 @@
 #include <ctype.h>
 #include <wchar.h>
 #include <wctype.h>
-#ifndef _TSTRING_H_
-#define _TSTRING_H_
+#ifndef _LC_STRING_H_
+#define _LC_STRING_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -173,4 +173,4 @@ lc_char_t* lc_strtoupper ( lc_char_t* s );
 #ifdef __cplusplus
 } /* external C linkage */
 #endif
-#endif /* _TSTRING_H_ */
+#endif /* _LC_STRING_H_ */

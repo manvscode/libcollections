@@ -65,34 +65,34 @@ int lc_variant_compare( const lc_variant_t* p_left, const lc_variant_t* p_right 
 	{
 		switch( p_left->type )
 		{
-			case VARIANT_STRING:
+			case LC_VARIANT_STRING:
 			{
 				result = lc_strcmp( lc_variant_string(p_left), lc_variant_string(p_right) );
 				break;
 			}
-			case VARIANT_DECIMAL:
+			case LC_VARIANT_DECIMAL:
 			{
 				result = lc_variant_decimal(p_left) - lc_variant_decimal(p_right);
 				break;
 			}
-			case VARIANT_INTEGER:
+			case LC_VARIANT_INTEGER:
 			{
 				long res = lc_variant_integer(p_left) - lc_variant_integer(p_right);
 				result = res > 0 ? 1 : (res < 0 ? -1 : 0);
 				break;
 			}
-			case VARIANT_UNSIGNED_INTEGER:
+			case LC_VARIANT_UNSIGNED_INTEGER:
 			{
 				long res = lc_variant_unsigned_integer(p_left) - lc_variant_unsigned_integer(p_right);
 				result = res > 0 ? 1 : (res < 0 ? -1 : 0);
 				break;
 			}
-			case VARIANT_BOOLEAN:
+			case LC_VARIANT_BOOLEAN:
 			{
 				result = lc_variant_boolean(p_left) == lc_variant_boolean(p_right);
 				break;
 			}
-			case VARIANT_POINTER:
+			case LC_VARIANT_POINTER:
 			{
 				long res = (unsigned char*) lc_variant_pointer(p_left) - (unsigned char*) lc_variant_pointer(p_right);
 				result = res > 0 ? 1 : (res < 0 ? -1 : 0);

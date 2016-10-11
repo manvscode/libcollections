@@ -47,7 +47,7 @@ bool lc_hash_table_create( lc_hash_table_t* p_table, size_t table_size, lc_hash_
 
 	if( p_table->table )
 	{
-		#ifdef HASH_TABLE_PREALLOC
+		#ifdef LC_HASH_TABLE_PREALLOC
 		int i;
 		for( i = 0; i < lc_hash_table_table_size(p_table); i++ )
 		{
@@ -67,7 +67,7 @@ void lc_hash_table_destroy( lc_hash_table_t* p_table )
 
 	for( i = 0; i < lc_hash_table_table_size(p_table); i++ )
 	{
-		#ifdef HASH_TABLE_PREALLOC
+		#ifdef LC_HASH_TABLE_PREALLOC
 		lc_slist_destroy( &p_table->table[ i ] );
 		#else
 		lc_slist_t *p_list = &p_table->table[ i ];
@@ -86,7 +86,7 @@ bool lc_hash_table_insert( lc_hash_table_t* p_table, const void *data )
 	size_t index     = p_table->hash( data ) % lc_hash_table_table_size(p_table);
 	lc_slist_t *p_list  = &p_table->table[ index ];
 
-	#ifndef HASH_TABLE_PREALLOC
+	#ifndef LC_HASH_TABLE_PREALLOC
 	if( !p_list->head ) /* uninitialized list */
 	{
 		lc_slist_create( p_list, p_table->destroy, p_table->alloc, p_table->free );
@@ -170,7 +170,7 @@ void lc_hash_table_clear( lc_hash_table_t* p_table )
 
 	for( i = 0; i < lc_hash_table_table_size(p_table); i++ )
 	{
-		#ifdef HASH_TABLE_PREALLOC
+		#ifdef LC_HASH_TABLE_PREALLOC
 		lc_slist_clear( &p_table->table[ i ] );
 		#else
 		lc_slist_t *p_list = &p_table->table[ i ];
@@ -204,7 +204,7 @@ bool lc_hash_table_resize( lc_hash_table_t* p_table, size_t new_size )
 		p_table->table      = p_new_table;
 		p_table->table_size = new_size;
 
-		#ifdef HASH_TABLE_PREALLOC
+		#ifdef LC_HASH_TABLE_PREALLOC
 		for( i = 0; i < lc_hash_table_table_size(p_table); i++ )
 		{
 			lc_slist_create( &p_table->table[ i ], p_table->destroy, p_table->alloc, p_table->free );
@@ -249,8 +249,8 @@ bool lc_hash_table_rehash( lc_hash_table_t* p_table, double load_factor )
 {
 	double current_load = lc_hash_table_load_factor( p_table );
 
-	double upper_limit = load_factor * (1.0f + HASH_TABLE_THRESHOLD);
-	double lower_limit = load_factor * (1.0f - HASH_TABLE_THRESHOLD);
+	double upper_limit = load_factor * (1.0f + LC_HASH_TABLE_THRESHOLD);
+	double lower_limit = load_factor * (1.0f - LC_HASH_TABLE_THRESHOLD);
 
 	if( current_load > upper_limit )
 	{

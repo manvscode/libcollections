@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _FLATDB_H_
-#define _FLATDB_H_
+#ifndef _LC_FLATDB_H_
+#define _LC_FLATDB_H_
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -183,5 +183,5 @@ offset_t     flatdb_index_get       ( flatdb_t db, flat_id_t table_id, flat_id_t
 
 #ifdef __cplusplus
 }
-#endif 
-#endif /* _FLATDB_H_ */
+#endif
+#endif /* _LC_FLATDB_H_ */

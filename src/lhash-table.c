@@ -84,7 +84,7 @@ bool lc_lhash_table_find_bucket_for_insertion( lc_lhash_table_t* p_table, const 
 		}
 		else
 		{
-			*p_index  = (*p_index + LHASH_TABLE_LINEAR_CONSTANT) % lc_array_size( &p_table->table );
+			*p_index  = (*p_index + LC_LHASH_TABLE_LINEAR_CONSTANT) % lc_array_size( &p_table->table );
 		}
 	}
 
@@ -112,7 +112,7 @@ bool lc_lhash_table_find_bucket( lc_lhash_table_t* p_table, const void *data, si
  			 * as
  			 */
 			deleted = *p_index;
-			*p_index  = (*p_index + LHASH_TABLE_LINEAR_CONSTANT) % lc_array_size( &p_table->table );
+			*p_index  = (*p_index + LC_LHASH_TABLE_LINEAR_CONSTANT) % lc_array_size( &p_table->table );
 			found_deleted = true;
 			continue;
 		}
@@ -144,7 +144,7 @@ bool lc_lhash_table_find_bucket( lc_lhash_table_t* p_table, const void *data, si
 		}
 		else
 		{
-			*p_index  = (*p_index + LHASH_TABLE_LINEAR_CONSTANT) % lc_array_size( &p_table->table );
+			*p_index  = (*p_index + LC_LHASH_TABLE_LINEAR_CONSTANT) % lc_array_size( &p_table->table );
 		}
 	}
 
@@ -261,8 +261,8 @@ bool lc_lhash_table_rehash( lc_lhash_table_t* p_table, double load_factor )
 	assert( load_factor < 1.0 );
 
 	current_load = lc_lhash_table_load_factor( p_table );
-	upper_limit  = load_factor * (1.0f + LHASH_TABLE_THRESHOLD);
-	lower_limit  = load_factor * (1.0f - LHASH_TABLE_THRESHOLD);
+	upper_limit  = load_factor * (1.0f + LC_LHASH_TABLE_THRESHOLD);
+	lower_limit  = load_factor * (1.0f - LC_LHASH_TABLE_THRESHOLD);
 
 	if( current_load > upper_limit )
 	{
@@ -288,7 +288,7 @@ bool lc_lhash_table_rehash( lc_lhash_table_t* p_table, double load_factor )
 	assert( load_factor < 1.0 );
 
 	current_load = lc_lhash_table_load_factor( p_table );
-	upper_limit  = load_factor * (1.0f + LHASH_TABLE_THRESHOLD);
+	upper_limit  = load_factor * (1.0f + LC_LHASH_TABLE_THRESHOLD);
 
 	if( current_load > upper_limit )
 	{

@@ -23,37 +23,37 @@
 #include <string.h>
 #include "vector.h"
 
-/*
+/**
  * Pool should grow linearly.
  */
-#ifndef POOL_GROWTH_LINEAR
-# define POOL_GROWTH_LINEAR(amount)     (amount)
+#ifndef LC_POOL_GROWTH_LINEAR
+# define LC_POOL_GROWTH_LINEAR(amount)     (amount)
 #endif
-/*
+/**
  * Pool should not grow.
  */
-#ifndef POOL_GROWTH_NONE
-# define POOL_GROWTH_NONE               (0)
+#ifndef LC_POOL_GROWTH_NONE
+# define LC_POOL_GROWTH_NONE               (0)
 #endif
-/*
+/**
  * Pool should grow expontially.
  */
-#ifndef POOL_GROWTH_EXPONENTIAL
-# define POOL_GROWTH_EXPONENTIAL        (-1)
+#ifndef LC_POOL_GROWTH_EXPONENTIAL
+# define LC_POOL_GROWTH_EXPONENTIAL        (-1)
 #endif
-/*
+/**
  * Initialize memory to a certain value.
  */
-#ifdef POOL_INITIALIZE_MEMORY
-# ifndef POOL_UNUSED_MEMORY_VALUE
-# define POOL_UNUSED_MEMORY_VALUE       (-1) /* Initialize memory to 0xFF */
+#ifdef LC_POOL_INITIALIZE_MEMORY
+# ifndef LC_POOL_UNUSED_MEMORY_VALUE
+# define LC_POOL_UNUSED_MEMORY_VALUE       (-1) /* Initialize memory to 0xFF */
 # endif
 #endif
 
 /*
  * Declare an object pool for a specific data type.
  */
-#define POOL_DECL( prefix, data_type ) \
+#define LC_POOL_DECL( prefix, data_type ) \
 	struct prefix##_pool; \
 	typedef struct prefix##_pool prefix##_pool_t; \
 	\
@@ -67,7 +67,7 @@
 /*
  * Implement an object pool for a specific data type.
  */
-#define POOL_IMPL( prefix, data_type ) \
+#define LC_POOL_IMPL( prefix, data_type ) \
 	struct prefix##_pool { \
 		int growth; \
 		data_type*  items;      /* data_type  items[ 10 ]; */ \

@@ -19,8 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _RBTREE_H_
-#define _RBTREE_H_
+#ifndef _LC_RBTREE_H_
+#define _LC_RBTREE_H_
+/**
+ * @file rbtree.h
+ * @brief A red-black tree collection.
+ *
+ * A red-black tree is a binary tree that remains roughly balanced.
+ *
+ * @defgroup lc_rbtree Red-Black Tree
+ * @ingroup Collections
+ *
+ * @{
+ */
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -41,8 +52,8 @@ typedef struct lc_rbnode {
 	void *data;
 } lc_rbnode_t;
 
-#ifdef EXTERN_RBNIL
-extern rbnode RBNIL;
+#ifdef LC_EXTERN_RBNIL
+extern lc_rbnode RBNIL;
 #endif
 
 typedef struct lc_rbtree {
@@ -80,7 +91,7 @@ lc_rbnode_t* lc_rbnode_predecessor ( const lc_rbnode_t *t );
 lc_rbtree_iterator_t lc_rbtree_begin ( const lc_rbtree_t* p_tree );
 lc_rbtree_iterator_t lc_rbtree_end   ( );
 
-#ifdef _DEBUG_RBTREE
+#ifdef LC_RBTREE_DEBUG
 bool    lc_rbtree_verify_tree ( lc_rbtree_t* p_tree );
 void    lc_rbtree_print       ( const lc_rbtree_t* p_tree );
 #endif
@@ -94,4 +105,4 @@ void    lc_rbtree_print       ( const lc_rbtree_t* p_tree );
 #ifdef __cplusplus
 }
 #endif
-#endif /* _RBTREE_H_ */
+#endif /* _LC_RBTREE_H_ */

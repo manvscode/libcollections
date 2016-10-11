@@ -41,7 +41,7 @@ struct lc_hash_map_list {
 	lc_hash_map_element_fxn_t destroy;
 };
 
-#if defined(HASH_MAP_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
+#if defined(LC_HASH_MAP_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
 	#define DESTROY_CHECK( code ) \
 		if( p_list->destroy ) \
 		{ \
@@ -75,7 +75,7 @@ static inline void hm_list_destroy( lc_hash_map_t *p_map, lc_hash_map_list_t *p_
 {
 	hm_list_clear( p_map, p_list );
 
-	#ifdef _HASH_MAP_DEBUG
+	#ifdef _LC_HASH_MAP_DEBUG
 	p_list->head = NULL;
 	#endif
 }
@@ -161,7 +161,7 @@ static inline void hm_list_clear( lc_hash_map_t *p_map, lc_hash_map_list_t *p_li
 bool lc_hash_map_create( lc_hash_map_t *p_map, size_t table_size, lc_hash_map_hash_fxn_t hash_function, lc_hash_map_element_fxn_t destroy, lc_hash_map_compare_fxn_t compare, lc_alloc_fxn_t alloc, lc_free_fxn_t free )
 {
 	assert( p_map );
-	#ifdef HASH_MAP_PREALLOC
+	#ifdef LC_HASH_MAP_PREALLOC
 	int i;
 	#endif
 
@@ -179,7 +179,7 @@ bool lc_hash_map_create( lc_hash_map_t *p_map, size_t table_size, lc_hash_map_ha
 
 	if( p_map->table )
 	{
-		#ifdef HASH_MAP_PREALLOC
+		#ifdef LC_HASH_MAP_PREALLOC
 		for( i = 0; i < lc_hash_map_table_size(p_map); i++ )
 		{
 			hm_list_create( &p_map->table[ i ], p_map->destroy );
@@ -199,7 +199,7 @@ void lc_hash_map_destroy( lc_hash_map_t *p_map )
 
 	for( i = 0; i < lc_hash_map_table_size(p_map); i++ )
 	{
-		#ifdef HASH_MAP_PREALLOC
+		#ifdef LC_HASH_MAP_PREALLOC
 		hm_list_destroy( p_map, &p_map->table[ i ] );
 		#else
 		lc_hash_map_list_t *p_list = &p_map->table[ i ];
@@ -223,7 +223,7 @@ bool lc_hash_map_insert( lc_hash_map_t* __restrict p_map, const void* __restrict
 	index   = p_map->hash( key ) % lc_hash_map_table_size(p_map);
 	p_list  = &p_map->table[ index ];
 
-	#ifndef HASH_MAP_PREALLOC
+	#ifndef LC_HASH_MAP_PREALLOC
 	if( !p_list->head )
 	{
 		hm_list_create( p_list, p_map->destroy );
@@ -318,7 +318,7 @@ void lc_hash_map_clear( lc_hash_map_t *p_map )
 
 	for( i = 0; i < lc_hash_map_table_size(p_map); i++ )
 	{
-		#ifdef HASH_MAP_PREALLOC
+		#ifdef LC_HASH_MAP_PREALLOC
 		hm_list_clear( p_map, &p_map->table[ i ] );
 		#else
 		lc_hash_map_list_t *p_list = &p_map->table[ i ];
@@ -353,7 +353,7 @@ bool lc_hash_map_resize( lc_hash_map_t *p_map, size_t new_size )
 		p_map->table      = p_new_table;
 		p_map->table_size = new_size;
 
-		#ifdef HASH_MAP_PREALLOC
+		#ifdef LC_HASH_MAP_PREALLOC
 		for( i = 0; i < lc_hash_map_table_size(p_map); i++ )
 		{
 			hm_list_create( &p_map->table[ i ], p_map->destroy );
@@ -398,8 +398,8 @@ bool lc_hash_map_rehash( lc_hash_map_t *p_map, float load_factor )
 {
 	double current_load = lc_hash_map_load_factor( p_map );
 
-	double upper_limit = load_factor * (1.0f + HASH_MAP_THRESHOLD);
-	double lower_limit = load_factor * (1.0f - HASH_MAP_THRESHOLD);
+	double upper_limit = load_factor * (1.0f + LC_HASH_MAP_THRESHOLD);
+	double lower_limit = load_factor * (1.0f - LC_HASH_MAP_THRESHOLD);
 
 	if( current_load > upper_limit )
 	{

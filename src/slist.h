@@ -19,8 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _SLIST_H_
-#define _SLIST_H_
+#ifndef _LC_SLIST_H_
+#define _LC_SLIST_H_
+/**
+ * @file slist.h
+ * @brief A singly linked-list collection.
+ *
+ * @defgroup lc_slist Singly Linked-List
+ * @ingroup Collections
+ * @{
+ */
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -74,4 +82,4 @@ lc_slist_iterator_t lc_slist_next   ( const lc_slist_iterator_t iter );
 #ifdef __cplusplus
 }
 #endif
-#endif /* _SLIST_H_ */
+#endif /* _LC_SLIST_H_ */

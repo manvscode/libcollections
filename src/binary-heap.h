@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _BINARY_HEAP_H_
-#define _BINARY_HEAP_H_
+#ifndef _LC_BINARY_HEAP_H_
+#define _LC_BINARY_HEAP_H_
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -28,10 +28,39 @@ extern "C" {
 #include <assert.h>
 #include "heap.h"
 #include "vector.h"
+/**
+ * @file binary-heap.h
+ * @brief A binary heap collection. Depending on the
+ * compare callback, this can be a max or min heap.
+ * @defgroup lc_binary_heap Binary Heap
+ * @ingroup Collections
+ * @{
+ */
 
+/**
+ * Create a binary heap from an array or vector.
+ *
+ * @param array An array or vector collection.
+ * @param initial_size The initial size of the collection.
+ */
 #define lc_binary_heap_create(array, initial_size)           lc_vector_create(array, initial_size)
+/**
+ * Destroy a binary heap.
+ *
+ * @param array An array or vector collection.
+ */
 #define lc_binary_heap_destroy(array)                        lc_vector_destroy(array)
+/**
+ * Get the number of items in the binary heap.
+ *
+ * @param array An array or vector collection.
+ */
 #define lc_binary_heap_size( array )                         lc_vector_size( array )
+/**
+ * Empty the binary heap.
+ *
+ * @param array An array or vector collection.
+ */
 #define lc_binary_heap_clear( array )                        lc_vector_clear( array )
 #define lc_binary_heap_reheapify( array, type, compare )     lc_heap_make( array, type, compare )
 #define lc_binary_heap_peek( array )                         ((array)[ 0 ])
@@ -56,4 +85,4 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-#endif /* _BINARY_HEAP_H_ */
+#endif /* _LC_BINARY_HEAP_H_ */

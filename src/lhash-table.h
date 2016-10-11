@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _LHASH_TABLE_H_
-#define _LHASH_TABLE_H_
+#ifndef _LC_LHASH_TABLE_H_
+#define _LC_LHASH_TABLE_H_
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -36,27 +36,27 @@ extern "C" {
  */
 
 /* Each size is a prime number */
-#ifndef LHASH_TABLE_SIZE_SMALL
-#define LHASH_TABLE_SIZE_SMALL         (37)
+#ifndef LC_LHASH_TABLE_SIZE_SMALL
+#define LC_LHASH_TABLE_SIZE_SMALL         (37)
 #endif
-#ifndef LHASH_TABLE_SIZE_MEDIUM
-#define LHASH_TABLE_SIZE_MEDIUM        (1031)
+#ifndef LC_LHASH_TABLE_SIZE_MEDIUM
+#define LC_LHASH_TABLE_SIZE_MEDIUM        (1031)
 #endif
-#ifndef LHASH_TABLE_SIZE_LARGE
-#define LHASH_TABLE_SIZE_LARGE         (5153)
+#ifndef LC_LHASH_TABLE_SIZE_LARGE
+#define LC_LHASH_TABLE_SIZE_LARGE         (5153)
 #endif
-#ifndef LHASH_TABLE_SIZE_EXTRA_LARGE
-#define LHASH_TABLE_SIZE_EXTRA_LARGE   (7919)
+#ifndef LC_LHASH_TABLE_SIZE_EXTRA_LARGE
+#define LC_LHASH_TABLE_SIZE_EXTRA_LARGE   (7919)
 #endif
 
-#ifndef LHASH_TABLE_LOAD_FACTOR
-#define LHASH_TABLE_LOAD_FACTOR        (0.7)
+#ifndef LC_LHASH_TABLE_LOAD_FACTOR
+#define LC_LHASH_TABLE_LOAD_FACTOR        (0.7)
 #endif
-#ifndef LHASH_TABLE_THRESHOLD
-#define LHASH_TABLE_THRESHOLD          (0.1)
+#ifndef LC_LHASH_TABLE_THRESHOLD
+#define LC_LHASH_TABLE_THRESHOLD          (0.1)
 #endif
-#ifndef LHASH_TABLE_LINEAR_CONSTANT
-#define LHASH_TABLE_LINEAR_CONSTANT    (1)
+#ifndef LC_LHASH_TABLE_LINEAR_CONSTANT
+#define LC_LHASH_TABLE_LINEAR_CONSTANT    (1)
 #endif
 
 typedef size_t  (*lc_lhash_table_hash_fxn_t)    ( const void *element );
@@ -94,10 +94,7 @@ bool      lc_lhash_table_rehash  ( lc_lhash_table_t* p_table, double load_factor
 #define   lc_lhash_table_table_size(p_table)   ((p_table)->table.size)
 #define   lc_lhash_table_load_factor(p_table)  (lc_lhash_table_size(p_table) / ((double) ((p_table)->table.size)))
 
-
-
-
 #ifdef __cplusplus
 }
 #endif
-#endif /* _LHASH_TABLE_H_ */
+#endif /* _LC_LHASH_TABLE_H_ */

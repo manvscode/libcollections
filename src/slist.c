@@ -23,7 +23,7 @@
 #include <assert.h>
 #include "slist.h"
 
-#if defined(SLIST_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
+#if defined(LC_SLIST_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
 	#define DESTROY_CHECK( code ) \
 		if( p_list->destroy ) \
 		{ \

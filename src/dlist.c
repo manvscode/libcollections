@@ -23,7 +23,7 @@
 #include <assert.h>
 #include "dlist.h"
 
-#if defined(DLIST_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
+#if defined(LC_DLIST_DESTROY_CHECK) || defined(DESTROY_CHECK_ALL)
 	#define DESTROY_CHECK( code ) \
 		if( p_list->destroy ) \
 		{ \
@@ -52,7 +52,7 @@ void lc_dlist_destroy( lc_dlist_t* p_list )
 {
 	lc_dlist_clear( p_list );
 
-	#ifdef _DLIST_DEBUG
+	#ifdef _LC_DLIST_DEBUG
 	p_list->head    = NULL;
 	p_list->tail    = NULL;
 	p_list->size    = 0;

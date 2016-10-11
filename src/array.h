@@ -19,8 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef _ARRAY_H_
-#define _ARRAY_H_
+#ifndef _LC_ARRAY_H_
+#define _LC_ARRAY_H_
+/**
+ * @file array.h
+ * @brief A fixed-length array that can be resized but does not grow dynamically.
+ *
+ * @defgroup lc_array Array
+ * @ingroup Collections
+ * @{
+ */
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -29,16 +37,6 @@ extern "C" {
 #include <stdbool.h>
 #include <stdint.h>
 #include "alloc.h"
-
-/**
- * @file array.h
- * @brief A fixed-length array that can be resized but does
- * not grow dynamically.
- *
- * @defgroup lc_array Array collection
- * @ingroup Collections
- * @{
- */
 
 /**
  * lc_array_serialize_fxn_t is a function pointer for the array's
@@ -52,7 +50,7 @@ typedef bool (*lc_array_serialize_fxn_t)( void *p_array );
 typedef bool (*lc_array_unserialize_fxn_t)( void *p_array );
 
 /**
- * lc_array_t is a fixed-length array object.
+ * lc_array_t is a fixed-length array collection object.
  */
 typedef struct lc_array {
 	lc_alloc_fxn_t alloc;
@@ -65,7 +63,7 @@ typedef struct lc_array {
 
 
 /**
- * Create a fixed-length array object.
+ * Create a fixed-length array collection object.
  *
  * @param p_array An lc_array_t object.
  * @param element_size The size of each element in the array.
@@ -79,7 +77,7 @@ typedef struct lc_array {
 bool lc_array_create ( lc_array_t* p_array, size_t element_size, size_t size, lc_alloc_fxn_t alloc, lc_free_fxn_t free );
 
 /**
- * Destroy a fixed-length array object.
+ * Destroy a fixed-length array collection object.
  *
  * @param p_array An lc_array_t object.
  */
@@ -159,4 +157,4 @@ static inline void* lc_array_element( lc_array_t* p_array, size_t index )
 #ifdef __cplusplus
 }
 #endif
-#endif /* _ARRAY_H_ */
+#endif /* _LC_ARRAY_H_ */
