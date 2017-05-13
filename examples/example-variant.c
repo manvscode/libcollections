@@ -31,7 +31,7 @@ int main( int argc, char *argv[] )
 	lc_variant_t* decimal;
 	lc_variant_t* string;
 	lc_variant_t* boolean;
-	value_t    value;
+	lc_value_t    value;
 
 	integer = lc_variant_create_integer( );
 	decimal = lc_variant_create_decimal( );

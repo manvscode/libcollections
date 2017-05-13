@@ -43,7 +43,9 @@ extern "C" {
 typedef int     (*lc_rbtree_compare_fxn_t) ( const void *p_data_left, const void *p_data_right );
 typedef bool    (*lc_rbtree_element_fxn_t) ( void *p_data );
 
-
+/**
+ * A node in the red-black tree.
+ */
 typedef struct lc_rbnode {
 	struct lc_rbnode *parent;
 	struct lc_rbnode *left;
@@ -56,6 +58,9 @@ typedef struct lc_rbnode {
 extern lc_rbnode RBNIL;
 #endif
 
+/**
+ * A red-black tree collection object.
+ */
 typedef struct lc_rbtree {
 	lc_rbnode_t* root;
 	size_t    size;
@@ -66,6 +71,9 @@ typedef struct lc_rbtree {
 	lc_free_fxn_t   _free;
 } lc_rbtree_t;
 
+/**
+ * A red-black tree iterator.
+ */
 typedef lc_rbnode_t* lc_rbtree_iterator_t;
 
 

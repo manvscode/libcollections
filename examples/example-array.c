@@ -25,19 +25,35 @@
 #include <array.h>
 
 #define MAX 20
-
+/**
+ * 	\example example-array.c
+ * 	This is an example of how to use the array collection.
+ */
 int main( int argc, char *argv[] )
 {
+	/**
+	 * The array collection's state is contained in a
+	 * lc_array_t object.
+	 */
 	lc_array_t a;
 	int i;
 
+	/**
+	 * This is how you create an array collection.
+	 */
 	lc_array_create( &a, sizeof(double), 1 /* initial size */, malloc, free );
 	srand( time(NULL) );
 
+	/**
+	 * This is how you resize an array collection.
+	 */
 	lc_array_resize( &a, MAX );
 
 	for( i = 0; i < MAX; i++ )
 	{
+		/**
+		 * This is how you access elements in the array collection.
+		 */
 		double *p_num = lc_array_elem( &a, i, double );
 		*p_num = ((double) rand( )) / RAND_MAX;
 	}
@@ -49,6 +65,9 @@ int main( int argc, char *argv[] )
 		printf( "array[%2d] = %f\n", i, *p_num );
 	}
 
+	/**
+	 * This is how you destroy an array collection.
+	 */
 	lc_array_destroy( &a );
 
 	return 0;

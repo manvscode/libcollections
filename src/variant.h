@@ -68,14 +68,14 @@ typedef union value {
 	unsigned long   unsigned_integer;
 	bool            boolean;
 	void*           pointer; /* must be last one */
-} value_t;
+} lc_value_t;
 
 /**
  * This is a variant object.
  */
 typedef struct lc_variant {
 	lc_variant_type_t type;
-	value_t        value;
+	lc_value_t        value;
 } lc_variant_t;
 
 
@@ -105,13 +105,13 @@ typedef struct lc_variant {
 
 lc_variant_t*        lc_variant_create               ( lc_variant_type_t type );
 void                 lc_variant_destroy              ( lc_variant_t* p_variant );
-void                 lc_variant_initialize           ( lc_variant_t* p_variant, lc_variant_type_t type, value_t value );
+void                 lc_variant_initialize           ( lc_variant_t* p_variant, lc_variant_type_t type, lc_value_t value );
 int                  lc_variant_compare              ( const lc_variant_t* p_left, const lc_variant_t* p_right );
 bool                 lc_variant_is_type              ( const lc_variant_t* p_variant, lc_variant_type_t type );
 lc_variant_type_t    lc_variant_type                 ( const lc_variant_t* p_variant );
 void                 lc_variant_set_type             ( lc_variant_t* p_variant, lc_variant_type_t type );
-value_t              lc_variant_value                ( const lc_variant_t* p_variant );
-void                 lc_variant_set_value            ( lc_variant_t* p_variant, value_t value );
+lc_value_t           lc_variant_value                ( const lc_variant_t* p_variant );
+void                 lc_variant_set_value            ( lc_variant_t* p_variant, lc_value_t value );
 void                 lc_variant_set_string           ( lc_variant_t* p_variant, const lc_char_t* value );
 void                 lc_variant_set_decimal          ( lc_variant_t* p_variant, double value );
 void                 lc_variant_set_integer          ( lc_variant_t* p_variant, long value );
