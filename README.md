@@ -1,14 +1,16 @@
-Donations
-==============
-If you found this library useful, please donate some BTC to 1KqAi9N2AjUBySQkMBf8XVboNfoZGpHsV.
-
-libcollections
-==============
+# libcollections
 
 The library, libcollections, is a set of data structures, types, and utility code for C programs. It was designed to be developer friendly, efficient, and versatile.
 
-Supported Data Structures
-==============
+----------
+
+## Donate, if you found this software useful
+
+The development of this software took numerous hours of development and testing.  If you found this useful to you, then please consider making a [donation of bitcoin.](https://bitpay.com/cart/add?itemId=EsmrSz5Us7n6FjTGcDzvg8)
+
+All donations help cover maintenance costs.
+
+## Supported Data Structures
  * Array
  * Binary Heap
  * Bit Set
@@ -22,8 +24,7 @@ Supported Data Structures
  * Tree Map
  * Vector (i.e. growable array)
 
-Supported Types and Utilities
-==============
+## Supported Types and Utilities
  * Bench Marking
  * Common Hash Functions
  * Common Macros
@@ -31,16 +32,14 @@ Supported Types and Utilities
  * Variant Data Type
  * Common Types
 
-OS Support
-==============
+## OS Support
  * Linux
  * Mac OS X
  * iOS
  * Android
- * Microsoft Windows Vista using Visual Studio 2008
+ * Microsoft Windows Vista using Visual Studio 2008 (limited support)
 
-License
-==============
+## License
     Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
