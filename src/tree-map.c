@@ -495,7 +495,7 @@ bool lc_tree_map_remove( lc_tree_map_t *p_map, const void *key )
 	return true;
 }
 
-bool lc_tree_map_find( const lc_tree_map_t *p_map, const void *key, void **value )
+bool lc_tree_map_search( const lc_tree_map_t *p_map, const void *key, void **value )
 {
 	lc_tree_map_node_t *x = p_map->root;
 
@@ -517,6 +517,29 @@ bool lc_tree_map_find( const lc_tree_map_t *p_map, const void *key, void **value
 	}
 
 	return false;
+}
+
+lc_tree_map_iterator_t lc_tree_map_find( const lc_tree_map_t *p_map, const void *key )
+{
+	lc_tree_map_node_t *x = p_map->root;
+
+	while( x != &TREE_MAP_NODE_NIL )
+	{
+		if( p_map->compare( key, x->key ) == 0 )
+		{
+			return x; /* found it */
+		}
+		else if( p_map->compare( key, x->key ) < 0 )
+		{
+			x = x->left;
+		}
+		else
+		{
+			x = x->right;
+		}
+	}
+
+	return (lc_tree_map_node_t *) &TREE_MAP_NODE_NIL;
 }
 
 void lc_tree_map_clear( lc_tree_map_t *p_map )

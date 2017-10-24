@@ -82,10 +82,12 @@ int main( int argc, char *argv[] )
 	for( i = 0; i < MAX; i++ )
 	{
 		const char *ip = ips[ rand() % MAX ];
-		bool *is_sent  = NULL;
 
-		if( lc_tree_map_find( &map, ip, (void **) &is_sent ) )
+		lc_tree_map_iterator_t itr = lc_tree_map_find( &map, ip );
+
+		if( itr != lc_tree_map_end() )
 		{
+			bool* is_sent = (bool*) itr->value;
 
 			if( *is_sent == false )
 			{
@@ -118,7 +120,12 @@ int main( int argc, char *argv[] )
 		const char *ip = ips[ i ];
 		bool *is_sent  = NULL;
 
-		lc_tree_map_find( &map, ip, (void **) &is_sent );
+		lc_tree_map_iterator_t itr = lc_tree_map_find( &map, ip );
+
+		if( itr != lc_tree_map_end() )
+		{
+			is_sent = (bool*) itr->value;
+		}
 
 		printf( "       Removed (%03d): %-16s       (%02ld)   %s", i, ip, lc_tree_map_size(&map), is_sent && *is_sent ? "sent" : "not sent" );
 

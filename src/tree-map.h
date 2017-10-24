@@ -61,7 +61,7 @@ void        lc_tree_map_destroy     ( lc_tree_map_t *p_map );
 void        lc_tree_map_copy        ( lc_tree_map_t const *p_srcTree, lc_tree_map_t *p_dstTree );
 bool        lc_tree_map_insert      ( lc_tree_map_t *p_map, const void *key, const void *value );
 bool        lc_tree_map_remove      ( lc_tree_map_t *p_map, const void *key );
-bool        lc_tree_map_find        ( const lc_tree_map_t *p_map, const void *key, void **value );
+bool        lc_tree_map_search      ( const lc_tree_map_t *p_map, const void *key, void **value ); /* deprecated */
 void        lc_tree_map_clear       ( lc_tree_map_t *p_map );
 bool        lc_tree_map_serialize   ( lc_tree_map_t *p_map, size_t key_size, size_t value_size, FILE *file );
 bool        lc_tree_map_unserialize ( lc_tree_map_t *p_map, size_t key_size, size_t value_size, FILE *file );
@@ -75,6 +75,7 @@ lc_tree_map_node_t* lc_tree_map_node_predecessor ( lc_tree_map_node_t *t );
 
 lc_tree_map_iterator_t lc_tree_map_begin ( const lc_tree_map_t *p_map );
 lc_tree_map_iterator_t lc_tree_map_end   ( );
+lc_tree_map_iterator_t lc_tree_map_find  ( const lc_tree_map_t *p_map, const void *key );
 
 
 #ifdef LC_DEBUG_TREE_MAP
