@@ -35,14 +35,6 @@ bool lc_vector_reserve_capacity( void** array, size_t element_size, size_t capac
 
 	size_t size = lc_vector_size(*array);
 
-#if 0
-	if( *array && size > capacity )
-	{
-		/* Set the new size which at a minimum is the capacity! */
-		lc_vector_s( *array ) = capacity;
-	}
-#endif
-
 	size_t allocation_size = 2 * sizeof(size_t) + element_size * capacity;
 	size_t *new_array = (size_t*) realloc( *array ? lc_vector_raw(*array) : NULL, allocation_size );
 
@@ -60,13 +52,6 @@ bool lc_vector_reserve_capacity( void** array, size_t element_size, size_t capac
 		*array = new_array + 2;
 		result = true;
 	}
-#if 0
-	else if( *array )
-	{
-		/* Resizing failed, so we return the original vector */
-		new_array = lc_vector_raw(*array) + 2;
-	}
-#endif
 
 	return result;
 }
