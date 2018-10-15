@@ -32,6 +32,20 @@
 
 #include "benchmark.h"
 
+static inline char* desc_dup( const char* s )
+{
+	size_t len = strlen( s );
+	char* result = malloc( len + 1 );
+
+	if( result )
+	{
+		strncpy(result, s, len + 1);
+	}
+
+	return result;
+}
+
+
 struct lc_benchmark {
 
 	#if defined(WIN32) || defined(WIN64)
@@ -47,8 +61,25 @@ struct lc_benchmark {
 lc_benchmark_t lc_benchmark_create( const char *description )
 {
 	lc_benchmark_t bm = (lc_benchmark_t) malloc( sizeof(struct lc_benchmark) );
-	bm->description = strdup( description );
+
+	if( !bm )
+	{
+		goto failure;
+	}
+
+	bm->description = desc_dup( description );
+
+	if( !bm->description )
+	{
+		goto failure;
+	}
+
 	return bm;
+
+failure:
+	if( bm && bm->description ) free( (void*) bm->description );
+	if( bm ) free( bm );
+	return NULL;
 }
 
 void lc_benchmark_destroy( lc_benchmark_t bm )
