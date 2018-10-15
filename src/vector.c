@@ -33,8 +33,6 @@ bool lc_vector_reserve_capacity( void** array, size_t element_size, size_t capac
 
 	assert( element_size > 0 );
 
-	size_t size = lc_vector_size(*array);
-
 	size_t allocation_size = 2 * sizeof(size_t) + element_size * capacity;
 	size_t *new_array = (size_t*) realloc( *array ? lc_vector_raw(*array) : NULL, allocation_size );
 
