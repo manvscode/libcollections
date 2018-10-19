@@ -19,8 +19,9 @@ AH_BOTTOM([
 ])
 
 DFLAGS="-DUNICODE"
-#CFLAGS="-std=c99 -Wall -pedantic -g -ggdb -O0 -D_DEBUG_VECTOR -DUNICODE"
-CFLAGS="$DFLAGS $CFLAGS"
+#CFLAGS="-std=c99 -Wall -pedantic -fsanitize=undefined -g -ggdb -O0 -D_DEBUG_VECTOR -DUNICODE"
+CFLAGS="-std=c99 -Wall -pedantic -fsanitize=undefined -O2 -DUNICODE"
+#CFLAGS="$DFLAGS $CFLAGS"
 LDFLAGS="$LDFLAGS"
 
 
