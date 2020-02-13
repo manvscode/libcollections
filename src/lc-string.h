@@ -36,13 +36,15 @@ extern "C" {
 
 
 #if defined(WIN32) || defined(WIN64)
-#if defined(UNICODE)
-	#define wcsncmp     _wcsncmp
-	#define wcscasecmp  _wcsnicmp
-#else
-	#define strcasecmp  _stricmp
-	#define strncasecmp _strnicmp
-#endif
+# if defined(UNICODE)
+#  if !defined(__MINGW32__) && !defined(__MINGW64__) /* wcsncmp() is defined when using MinGW */
+#   define wcsncmp     _wcsncmp
+#  endif
+#  define wcscasecmp  _wcsnicmp
+# else
+#  define strcasecmp  _stricmp
+#  define strncasecmp _strnicmp
+# endif
 #endif
 
 #ifndef wcsdup
@@ -50,77 +52,77 @@ wchar_t* wcsdup( const wchar_t* s );
 #endif
 
 #if defined(UNICODE)
-	typedef wchar_t      lc_char_t;
-	#ifndef TEXT
-	#define TEXT(str)    L##str
-	#endif
-	#define lc_strdup      wcsdup
-	#define lc_strlen      wcslen
-	#define lc_strcmp      wcscmp
-	#define lc_strcoll     wcscoll
-	#define lc_strncmp     wcsncmp
-	#define lc_strcasecmp  wcscasecmp
-	#define lc_strncasecmp wcsncasecmp
-	#define lc_strcpy      wcscpy
-	#define lc_strncpy     wcsncpy
-	#define lc_strcat      wcscat
-	#define lc_strncat     wcsncat
-	#define lc_strspn      wcsspn
-	#define lc_strcspn     wcscspn
-	#define lc_strpbrk     wcspbrk
-	#define lc_strtok      wcstok
-	#define lc_strchr      wcschr
-	#define lc_strstr      wcsstr
-	#define lc_char_lower  towlower
-	#define lc_char_upper  towupper
-	#define lc_printf      wprintf
-	#define lc_fprintf     fwprintf
-	#define lc_sprintf     #error "There is no wide character equivalent to vsprintf"
-	#define lc_snprintf    swprintf
-	#define lc_vprintf     vwprintf
-	#define lc_vfprintf    vfwprintf
-	#define lc_vsprintf    vswprintf
-	#define lc_vsnprintf   vswprintf /* intentionally missing n */
-	#define tmemcpy      wmemcpy
-	#if defined(WIN32)
-		#define _tmain       wmain  /* main() is wmain() */
-	#else
-		#define _tmain       main
-	#endif
+typedef wchar_t      lc_char_t;
+# ifndef TEXT
+#  define TEXT(str)    L##str
+# endif
+# define lc_strdup      wcsdup
+# define lc_strlen      wcslen
+# define lc_strcmp      wcscmp
+# define lc_strcoll     wcscoll
+# define lc_strncmp     wcsncmp
+# define lc_strcasecmp  wcscasecmp
+# define lc_strncasecmp wcsncasecmp
+# define lc_strcpy      wcscpy
+# define lc_strncpy     wcsncpy
+# define lc_strcat      wcscat
+# define lc_strncat     wcsncat
+# define lc_strspn      wcsspn
+# define lc_strcspn     wcscspn
+# define lc_strpbrk     wcspbrk
+# define lc_strtok      wcstok
+# define lc_strchr      wcschr
+# define lc_strstr      wcsstr
+# define lc_char_lower  towlower
+# define lc_char_upper  towupper
+# define lc_printf      wprintf
+# define lc_fprintf     fwprintf
+# define lc_sprintf     #error "There is no wide character equivalent to vsprintf"
+# define lc_snprintf    swprintf
+# define lc_vprintf     vwprintf
+# define lc_vfprintf    vfwprintf
+# define lc_vsprintf    vswprintf
+# define lc_vsnprintf   vswprintf /* intentionally missing n */
+# define tmemcpy      wmemcpy
+# if defined(WIN32)
+#  define _tmain       wmain  /* main() is wmain() */
+# else
+#  define _tmain       main
+# endif
 #else
-	typedef char         lc_char_t;
-	#ifndef TEXT
-	#define TEXT(str)    str
-	#endif
-	#define lc_strdup      strdup
-	#define lc_strlen      strlen
-	#define lc_strcmp      strcmp
-	#define lc_strcoll     strcoll
-	#define lc_strncmp     strncmp
-	#define lc_strcasecmp  strcasecmp
-	#define lc_strncasecmp strncasecmp
-	#define lc_strcpy      strcpy
-	#define lc_strncpy     strncpy
-	#define lc_strcat      strcat
-	#define lc_strncat     strncat
-	#define lc_strspn      strspn
-	#define lc_strcspn     strcspn
-	#define lc_strpbrk     strpbrk
-	#define lc_strtok      strtok
-	#define lc_strchr      strchr
-	#define lc_strstr      strstr
-	#define lc_char_lower  tolower
-	#define lc_char_upper  toupper
-	#define lc_printf      printf
-	#define lc_fprintf     fprintf
-	#define lc_sprintf     sprintf
-	#define lc_snprintf    snprintf
-	#define lc_vprintf     vprintf
-	#define lc_vfprintf    vfprintf
-	#define lc_vsprintf    vsprintf
-	#define lc_vsnprintf   vsnprintf
-	#define tmemcpy      memcpy
-	#define _tmain       main
+typedef char         lc_char_t;
+# ifndef TEXT
+#  define TEXT(str)    str
+# endif
+# define lc_strdup      strdup
+# define lc_strlen      strlen
+# define lc_strcmp      strcmp
+# define lc_strcoll     strcoll
+# define lc_strncmp     strncmp
+# define lc_strcasecmp  strcasecmp
+# define lc_strncasecmp strncasecmp
+# define lc_strcpy      strcpy
+# define lc_strncpy     strncpy
+# define lc_strcat      strcat
+# define lc_strncat     strncat
+# define lc_strspn      strspn
+# define lc_strcspn     strcspn
+# define lc_strpbrk     strpbrk
+# define lc_strtok      strtok
+# define lc_strchr      strchr
+# define lc_strstr      strstr
+# define lc_char_lower  tolower
+# define lc_char_upper  toupper
+# define lc_printf      printf
+# define lc_fprintf     fprintf
+# define lc_sprintf     sprintf
+# define lc_snprintf    snprintf
+# define lc_vprintf     vprintf
+# define lc_vfprintf    vfprintf
+# define lc_vsprintf    vsprintf
+# define lc_vsnprintf   vsnprintf
+# define tmemcpy      memcpy
+# define _tmain       main
 #endif
 
 
@@ -129,7 +131,7 @@ wchar_t* wcsdup( const wchar_t* s );
 #define unicode_to_ascii     wcstombs  /*  wchar_t* to char*  */
 
 #ifndef _T
-#define _T(str)          TEXT(str)
+# define _T(str)          TEXT(str)
 #endif
 #define LC_TERM_BEG(str)    (str[0] = '\0')
 #define LC_TERM_END(str)    (str[sizeof(str) - 1] = '\0')

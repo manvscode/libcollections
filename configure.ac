@@ -1,6 +1,8 @@
 AC_PREREQ(2.67)
-AC_INIT([libcollections], [0.8], [manvscode@gmail.com], [libcollections], [http://www.manvscode.com/])
+AC_INIT([libcollections], [1.0], [manvscode@gmail.com], [libcollections], [http://www.manvscode.com/])
 AM_INIT_AUTOMAKE([1.13 foreign silent-rules -Wall -Werror])
+
+AC_CONFIG_MACRO_DIR([m4])
 
 AM_SILENT_RULES([yes])
 AC_CONFIG_HEADERS([src/libcollections-config.h])
@@ -18,15 +20,53 @@ AH_BOTTOM([
 #endif /* _LIBCOLLECTIONS_CONFIG_H_ */
 ])
 
+# AC_CANONICAL_HOST is needed to access the 'host_os' variable
+AC_CANONICAL_HOST
+
+AM_PROG_AR
+
+
 DFLAGS="-DUNICODE"
 #CFLAGS="-std=c99 -Wall -pedantic -fsanitize=undefined -g -ggdb -O0 -D_DEBUG_VECTOR -DUNICODE"
-CFLAGS="-std=c99 -Wall -pedantic -fsanitize=undefined -O2 -DUNICODE"
-#CFLAGS="$DFLAGS $CFLAGS"
+CFLAGS="$DFLAGS $CFLAGS"
 LDFLAGS="$LDFLAGS"
 
 
-AM_PROG_AR
-LT_INIT([shared static])
+build_linux=no
+build_windows=no
+build_mac=no
+
+# Detect the target system
+case "${host_os}" in
+    linux*)
+        build_linux=yes
+        ;;
+    cygwin*|mingw*)
+        build_windows=yes
+        ;;
+    darwin*)
+        build_mac=yes
+        ;;
+    *)
+        AC_MSG_ERROR(["OS $host_os is not supported"])
+        ;;
+esac
+
+# Pass the conditionals to automake
+AM_CONDITIONAL([LINUX], [test "$build_linux" = "yes"])
+AM_CONDITIONAL([WINDOWS], [test "$build_windows" = "yes"])
+AM_CONDITIONAL([OSX], [test "$build_mac" = "yes"])
+
+LT_INIT([shared static win32-dll])
+
+AS_IF([test "$build_linux" = "yes"], [
+	AC_MSG_NOTICE([Building for Linux.])
+],[test "$build_windows" = "yes"],[
+	AC_MSG_NOTICE([Building for Microsoft Windows.])
+	LDFLAGS="$LDFLAGS -fopenmp -no-undefined"
+],[
+	AC_MSG_NOTICE([Building for MacOS X.])
+])
 
 AC_PROG_LIBTOOL
 AM_PROG_LIBTOOL

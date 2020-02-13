@@ -3,18 +3,17 @@
 libcollections_src = \
 array.c \
 benchmark.c \
-buffer.c \
 bitset.c \
+buffer.c \
 dlist.c \
-flat-db.c \
 hash-functions.c \
 hash-map.c \
 hash-table.c \
+lc-string.c \
 lhash-table.c \
 rbtree.c \
 slist.c \
 tree-map.c \
-lc-string.c \
 variant.c \
 vector.c
 
@@ -23,24 +22,32 @@ libcollections_headers = \
 alloc.h \
 array.h \
 benchmark.h \
-buffer.h \
 binary-heap.h \
 bitset.h \
-libcollections-config.h \
+buffer.h \
 dlist.h \
 hash-functions.h \
 hash-map.h \
 hash-table.h \
 heap.h \
+lc-string.h \
 lhash-table.h \
+libcollections-config.h \
 macros.h \
 pool.h \
 rbtree.h \
 slist.h \
 tree-map.h \
-lc-string.h \
 variant.h \
 vector.h
+
+if WINDOWS
+# Intentionally empty; Flat DB is not supported on Windows yet.
+else # Linux and MacOS X
+    libcollections_src += flat-db.c
+    libcollections_headers += flat-db.h
+endif
+
 
 library_includedir      = $(includedir)/libcollections/
 library_include_HEADERS = $(libcollections_headers)

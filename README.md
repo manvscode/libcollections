@@ -1,14 +1,22 @@
 # libcollections
-
 The library, libcollections, is a set of data structures, types, and utility code for C programs. It was designed to be developer friendly, efficient, and versatile.
 
-----------
+## Building
 
-## Donate, if you found this software useful
+### Linux
+1. `autoreconf -i`
+2. `./configure`
+3. `make`
+4. `make install`
 
-The development of this software took numerous hours of development and testing.  If you found this useful to you, then please consider making a [donation of bitcoin.](https://bitpay.com/cart/add?itemId=EsmrSz5Us7n6FjTGcDzvg8)
+### Cross-compiling for Windows with MinGW
 
-All donations help cover maintenance costs.
+1. `autoreconf -i`
+2. Run the configure script for the host architecture:
+* For x86: `./configure --host=i686-w64-mingw32`
+* For x86_64: `./configure --host=x86_64-w64-mingw32`
+3. `make`
+4. `make install`
 
 ## Supported Data Structures
  * Array
@@ -37,7 +45,7 @@ All donations help cover maintenance costs.
  * Mac OS X
  * iOS
  * Android
- * Microsoft Windows Vista using Visual Studio 2008 (limited support)
+ * Microsoft Windows Vista using Visual Studio 2008 (limited support); later versions are untested.
 
 ## License
     Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
