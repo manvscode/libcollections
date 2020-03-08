@@ -1,6 +1,6 @@
 AC_PREREQ(2.67)
-AC_INIT([libcollections], [1.0], [manvscode@gmail.com], [libcollections], [http://www.manvscode.com/])
-AM_INIT_AUTOMAKE([1.13 foreign silent-rules -Wall -Werror])
+AC_INIT([collections], [1.0.0], [manvscode@gmail.com], [collections], [http://www.manvscode.com/])
+AM_INIT_AUTOMAKE([1.13 foreign silent-rules dist-zip -Wall -Werror])
 
 AC_CONFIG_MACRO_DIR([m4])
 
@@ -8,9 +8,11 @@ AM_SILENT_RULES([yes])
 AC_CONFIG_HEADERS([src/libcollections-config.h])
 
 AC_PROG_CC
+AC_PROG_CC_STDC
 AC_PROG_CC_C99
-AC_C_INLINE
 AC_HEADER_STDC
+AC_C_INLINE
+AC_TYPE_SIZE_T
 
 AH_TOP([
 #ifndef _LIBCOLLECTIONS_CONFIG_H_
@@ -100,20 +102,26 @@ AC_ARG_ENABLE([examples],
 AM_CONDITIONAL([ENABLE_TESTS], [test "$enable_examples" = "yes"])
 # -------------------------------------------------
 
-
 AC_PROG_INSTALL
 
-echo " ------------------------------ "
-echo ""
-echo "  CFLAGS = $CFLAGS"
-echo " LDFLAGS = $LDFLAGS"
-echo ""
-echo " ------------------------------ "
+echo "------------------------------------------------------------------------------"
+if [test -z "$CFLAGS"]; then
+	echo "  CFLAGS: Not set"
+else
+	echo "  CFLAGS: $CFLAGS"
+fi
+if [test -z "$LDFLAGS"]; then
+	echo " LDFLAGS: Not set"
+else
+	echo " LDFLAGS: $LDFLAGS"
+fi
+echo "------------------------------------------------------------------------------"
 
 AC_CONFIG_FILES([
 	Makefile
 	src/Makefile
 	examples/Makefile
+	collections.pc
 ])
 
 AC_OUTPUT

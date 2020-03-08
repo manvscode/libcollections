@@ -11,10 +11,8 @@
 *.dll
 *.exe
 
-
 # Log Files
 *.log
-
 
 # Example Programs
 bin/example-*
@@ -23,21 +21,24 @@ bin/example-*
 Makefile
 Makefile.in
 aclocal.m4
-configure
-libtool
 ar-lib
-compile
-ltmain.sh
 autom4te.cache
+bin/
+collections.pc
+compile
 config.guess
 config.status
 config.sub
-bin/.libs
-bin/.dirstamp
-lib/.libs
-lib/.dirstamp
-src/.deps
-src/stamp-h1
+configure
+depcomp
 examples/.deps
+install-sh
+lib/
+libtool
+ltmain.sh
+m4/
+missing
+src/.deps
 src/libcollections-config.h
 src/libcollections-config.h.in
+src/stamp-h1

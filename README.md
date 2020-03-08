@@ -1,5 +1,5 @@
-# libcollections
-The library, libcollections, is a set of data structures, types, and utility code for C programs. It was designed to be developer friendly, efficient, and versatile.
+# collections
+The collections library is a set of data structures, types, and utility code for C programs. It was designed to be developer friendly, efficient, and versatile.
 
 ## Building
 

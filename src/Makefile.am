@@ -49,7 +49,7 @@ else # Linux and MacOS X
 endif
 
 
-library_includedir      = $(includedir)/libcollections/
+library_includedir      = $(includedir)/@PACKAGE_NAME@-@PACKAGE_VERSION@/collections/
 library_include_HEADERS = $(libcollections_headers)
 
 # Library
