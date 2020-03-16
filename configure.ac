@@ -122,6 +122,7 @@ AC_CONFIG_FILES([
 	src/Makefile
 	examples/Makefile
 	collections.pc
+	collections-static.pc
 ])
 
 AC_OUTPUT

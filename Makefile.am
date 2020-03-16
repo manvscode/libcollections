@@ -2,7 +2,7 @@ ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = src examples
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = collections.pc
+pkgconfig_DATA = collections.pc collections-static.pc
 
 Android.mk: Makefile.am
 	@androgenizer -:PROJECT libcollections \

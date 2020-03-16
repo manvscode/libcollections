@@ -1,0 +1,12 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: @PACKAGE_NAME@
+Description: A library of data structures, types, and utility code for C programs.
+URL: @PACKAGE_URL@
+Version: @PACKAGE_VERSION@
+Requires:
+Libs: -l:lib@PACKAGE_NAME@.a -L${libdir} -lm
+Cflags: -I${includedir}/@PACKAGE_NAME@-@PACKAGE_VERSION@

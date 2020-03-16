@@ -25,6 +25,7 @@ ar-lib
 autom4te.cache
 bin/
 collections.pc
+collections-static.pc
 compile
 config.guess
 config.status
