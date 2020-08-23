@@ -39,7 +39,7 @@ static inline char* desc_dup( const char* s )
 
 	if( result )
 	{
-		strncpy(result, s, len + 1);
+		memcpy( result, s, len + 1 );
 	}
 
 	return result;
