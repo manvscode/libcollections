@@ -1,5 +1,5 @@
 AC_PREREQ(2.67)
-AC_INIT([collections], [1.0.0], [manvscode@gmail.com], [collections], [http://www.manvscode.com/])
+AC_INIT([collections], [1.0.0], [manvscode@gmail.com], [collections], [https://joemarrero.com/])
 AM_INIT_AUTOMAKE([1.13 foreign silent-rules dist-zip -Wall -Werror])
 
 AC_CONFIG_MACRO_DIR([m4])
@@ -30,8 +30,8 @@ AM_PROG_AR
 
 DFLAGS="-DUNICODE"
 #CFLAGS="-std=c99 -Wall -pedantic -fsanitize=undefined -g -ggdb -O0 -D_DEBUG_VECTOR -DUNICODE"
-CFLAGS="$DFLAGS $CFLAGS"
-LDFLAGS="$LDFLAGS"
+#CFLAGS="$DFLAGS $CFLAGS"
+#LDFLAGS="$LDFLAGS"
 
 
 build_linux=no

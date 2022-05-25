@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2014 by Joseph A. Marrero.  http://www.manvscode.com/
+ * Copyright (C) 2010-2022 by Joseph A. Marrero.  https://joemarrero.com/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -83,7 +83,10 @@ int main( int argc, char *argv[] )
 		printf( "   X - Exit\n" );
 		printf( "\n-------------------------\n" );
 		printf( "Selection? " );
-		scanf( "%c", &selection );
+		int r = 0;
+		do {
+			r = scanf( "%c", &selection );
+		} while (r != 1);
 
 		switch( selection )
 		{
@@ -185,7 +188,7 @@ int main( int argc, char *argv[] )
 					lc_strcpy( c.state, _T("Florida") );
 					lc_strcpy( c.postal_code, _T("33020") );
 					lc_strcpy( c.phone1, _T("(954) 803-9157") );
-					lc_strcpy( c.website, _T("http://www.manvscode.com/") );
+					lc_strcpy( c.website, _T("https://joemarrero.com/") );
 					strptime( "06/15/1984", "%D", &time_parts);
 					c.date_of_birth = mktime( &time_parts );
 

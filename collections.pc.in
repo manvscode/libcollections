@@ -8,5 +8,5 @@ Description: A library of data structures, types, and utility code for C program
 URL: @PACKAGE_URL@
 Version: @PACKAGE_VERSION@
 Requires:
-Libs: -l@PACKAGE_NAME@ -L${libdir} -lm
+Libs: -L${libdir} -lm -l@PACKAGE_NAME@
 Cflags: -I${includedir}/@PACKAGE_NAME@-@PACKAGE_VERSION@
