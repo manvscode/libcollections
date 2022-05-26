@@ -65,7 +65,7 @@ AS_IF([test "$build_linux" = "yes"], [
 	AC_MSG_NOTICE([Building for Linux.])
 ],[test "$build_windows" = "yes"],[
 	AC_MSG_NOTICE([Building for Microsoft Windows.])
-	LDFLAGS="$LDFLAGS -fopenmp -no-undefined"
+	LDFLAGS="$LDFLAGS -no-undefined"
 ],[
 	AC_MSG_NOTICE([Building for MacOS X.])
 ])

@@ -2,7 +2,6 @@
 # Add new files in alphabetical order. Thanks.
 libcollections_src = \
 array.c \
-benchmark.c \
 bitset.c \
 buffer.c \
 dlist.c \
@@ -43,8 +42,9 @@ vector.h
 
 if WINDOWS
 # Intentionally empty; Flat DB is not supported on Windows yet.
+    libcollections_src += benchmark-windows.c
 else # Linux and MacOS X
-    libcollections_src += flat-db.c
+    libcollections_src += flat-db.c benchmark-unix.c
     libcollections_headers += flat-db.h
 endif
 
@@ -56,5 +56,5 @@ library_include_HEADERS = $(libcollections_headers)
 lib_LTLIBRARIES                               = $(top_builddir)/lib/libcollections.la
 __top_builddir__lib_libcollections_la_SOURCES = $(libcollections_src)
 __top_builddir__lib_libcollections_la_CFLAGS  = -fPIC
-__top_builddir__lib_libcollections_la_LDFLAGS =
+__top_builddir__lib_libcollections_la_LIBADD  = -lm
 
