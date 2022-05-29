@@ -56,5 +56,6 @@ library_include_HEADERS = $(libcollections_headers)
 lib_LTLIBRARIES                               = $(top_builddir)/lib/libcollections.la
 __top_builddir__lib_libcollections_la_SOURCES = $(libcollections_src)
 __top_builddir__lib_libcollections_la_CFLAGS  = -fPIC
+__top_builddir__lib_libcollections_la_LDFLAGS = --no-undefined
 __top_builddir__lib_libcollections_la_LIBADD  = -lm
 
