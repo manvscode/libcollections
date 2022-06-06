@@ -1,4 +1,4 @@
-if ENABLE_TESTS
+if ENABLE_EXAMPLES
 AM_CFLAGS = -std=c99 -pedantic -g -ggdb -O0 -D_DEBUG -DUNICODE -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED -I ../src/
 LDADD     = -lm $(top_builddir)/lib/.libs/libcollections.a
 

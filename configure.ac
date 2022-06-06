@@ -99,7 +99,7 @@ AC_ARG_ENABLE([examples],
 	[:],
 	[enable_examples=no])
 
-AM_CONDITIONAL([ENABLE_TESTS], [test "$enable_examples" = "yes"])
+AM_CONDITIONAL([ENABLE_EXAMPLES], [test "$enable_examples" = "yes"])
 # -------------------------------------------------
 
 AC_PROG_INSTALL
