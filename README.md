@@ -1,5 +1,12 @@
 # collections
-The collections library is a set of data structures, types, and utility code for C programs. It was designed to be developer friendly, efficient, and versatile.
+The Collections library provides a suite of data structures, types, and utility functions for C programs, designed to be developer-friendly, efficient, and highly versatile.
+
+## Donate, if you found this tool useful
+
+The development of this library took numerous hours of development and testing.  If you found that it
+is useful to you, then please consider making a donation of bitcoin to: **bc1qezh0x9324px8aszr09xmmtxqe7ttd7ftumayhv**
+
+All donations help cover maintenance costs.
 
 ## Building
 
@@ -48,7 +55,7 @@ The collections library is a set of data structures, types, and utility code for
  * Microsoft Windows Vista using Visual Studio 2008 (limited support); later versions are untested.
 
 ## License
-    Copyright (C) 2010-2022 by Joseph A. Marrero.  https://joemarrero.com/
+    Copyright (C) 2010-2025 by Joseph A. Marrero.  https://joemarrero.com/
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
