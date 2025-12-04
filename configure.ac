@@ -1,5 +1,5 @@
-AC_PREREQ(2.67)
-AC_INIT([collections], [1.0.0], [manvscode@gmail.com], [collections], [https://joemarrero.com/])
+AC_PREREQ([2.72])
+AC_INIT([collections],[1.0.0],[manvscode@gmail.com],[collections],[https://joemarrero.com/])
 AM_INIT_AUTOMAKE([1.13 foreign silent-rules dist-zip -Wall -Werror])
 
 AC_CONFIG_MACRO_DIR([m4])
@@ -8,9 +8,7 @@ AM_SILENT_RULES([yes])
 AC_CONFIG_HEADERS([src/libcollections-config.h])
 
 AC_PROG_CC
-AC_PROG_CC_STDC
-AC_PROG_CC_C99
-AC_HEADER_STDC
+
 AC_C_INLINE
 AC_TYPE_SIZE_T
 
@@ -70,8 +68,7 @@ AS_IF([test "$build_linux" = "yes"], [
 	AC_MSG_NOTICE([Building for MacOS X.])
 ])
 
-AC_PROG_LIBTOOL
-AM_PROG_LIBTOOL
+LT_INIT
 
 # -------------------------------------------------
 AC_C_RESTRICT
