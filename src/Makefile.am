@@ -12,6 +12,7 @@ lc-string.c \
 lhash-table.c \
 rbtree.c \
 slist.c \
+textbuffer.c \
 tree-map.c \
 variant.c \
 vector.c
@@ -36,6 +37,7 @@ macros.h \
 pool.h \
 rbtree.h \
 slist.h \
+textbuffer.h \
 tree-map.h \
 variant.h \
 vector.h

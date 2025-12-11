@@ -11,6 +11,19 @@ All donations help cover maintenance costs.
 ## Building
 
 ### Linux
+Assuming you have autotools installed already:
+1. `autoreconf -i`
+2. `./configure`
+3. `make`
+4. `make install`
+
+### MacOs
+Using Home Brew, we must install autotools, m4, libtool, and pkgconf:
+
+`brew install autoconf automake libtool m4 pkgconf pkg-config-wrapper`
+
+Next, we can run these commands:
+
 1. `autoreconf -i`
 2. `./configure`
 3. `make`
@@ -29,13 +42,14 @@ All donations help cover maintenance costs.
  * Array
  * Binary Heap
  * Bit Set
+ * Buffers (i.e. byte arrays)
  * Doubly Linked List
- * Singly Linked List
+ * Hash Map
  * Hash Table
  * Linear Open Addressing Hash Table
- * Hash Map
- * Binary Flat Files
  * Red Black Tree
+ * Singly Linked List
+ * Text Buffers
  * Tree Map
  * Vector (i.e. growable array)
 
